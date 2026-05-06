@@ -1,0 +1,81 @@
+export function rocToISO(rocDate: string): string {
+  const normalized = rocDate.replace(/\//g, '.')
+  const parts = normalized.split('.')
+  if (parts.length < 3 || !parts[0] || !parts[1] || !parts[2]) return ''
+  const year = parseInt(parts[0], 10) + 1911
+  return `${year}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`
+}
+
+export function isoToROC(iso: string): string {
+  const d = new Date(iso)
+  const year = d.getFullYear() - 1911
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}.${month}.${day}`
+}
+
+export function dateToROC(date: Date): string {
+  return isoToROC(date.toISOString().split('T')[0])
+}
+
+export function formatPrice(price: number): string {
+  return price.toFixed(1)
+}
+
+export function formatChange(change: number): string {
+  const sign = change >= 0 ? '+' : ''
+  return `${sign}${change.toFixed(1)}%`
+}
+
+export function formatVolume(kg: number): string {
+  if (kg >= 1000) return `${(kg / 1000).toFixed(1)} 公噸`
+  return `${kg.toFixed(0)} 公斤`
+}
+
+export function formatDate(iso: string): string {
+  const d = new Date(iso)
+  return d.toLocaleDateString('zh-TW', { month: 'short', day: 'numeric' })
+}
+
+export function subtractDays(iso: string, days: number): string {
+  const d = new Date(iso)
+  d.setDate(d.getDate() - days)
+  return d.toISOString().split('T')[0]
+}
+
+export function todayISO(): string {
+  return new Date().toISOString().split('T')[0]
+}
+
+const CROP_EMOJI_MAP: Record<string, string> = {
+  '高麗菜': '🥬', '番茄': '🍅', '牛番茄': '🍅', '洋蔥': '🧅',
+  '胡蘿蔔': '🥕', '白蘿蔔': '🥕', '蘿蔔': '🥕',
+  '蘋果': '🍎', '香蕉': '🍌', '芭樂': '🍈', '鳳梨': '🍍',
+  '芒果': '🥭', '葡萄': '🍇', '西瓜': '🍉', '柳橙': '🍊',
+  '橘子': '🍊', '橙': '🍊', '檸檬': '🍋', '草莓': '🍓',
+  '藍莓': '🫐', '桃子': '🍑', '梨': '🍐', '水梨': '🍐',
+  '青椒': '🫑', '辣椒': '🌶️', '菠菜': '🥬', '青江菜': '🥬',
+  '花椰菜': '🥦', '青花菜': '🥦', '地瓜': '🍠', '馬鈴薯': '🥔',
+  '玉米': '🌽', '南瓜': '🎃', '茄子': '🍆', '小黃瓜': '🥒',
+  '黃瓜': '🥒', '豌豆': '🫛', '毛豆': '🫛', '香菇': '🍄',
+  '金針菇': '🍄', '杏鮑菇': '🍄', '菊花': '🌸', '玫瑰': '🌹',
+  '百合': '💐', '蘭花': '🌺', '薑': '🫚', '蒜頭': '🧄',
+  '青蔥': '🌿', '韭菜': '🌿', '芹菜': '🌿', '空心菜': '🌿',
+  '茼蒿': '🌿', '生菜': '🥬', '萵苣': '🥬',
+}
+
+export function getCropEmoji(cropName: string): string {
+  for (const [key, emoji] of Object.entries(CROP_EMOJI_MAP)) {
+    if (cropName.includes(key)) return emoji
+  }
+  return '🌿'
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function debounce<T extends (...args: any[]) => void>(fn: T, delay: number): (...args: Parameters<T>) => void {
+  let timer: ReturnType<typeof setTimeout>
+  return (...args: Parameters<T>) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn(...args), delay)
+  }
+}

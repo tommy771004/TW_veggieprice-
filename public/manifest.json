@@ -1,0 +1,42 @@
+{
+  "name": "農時價 VeggiePrice TW",
+  "short_name": "農時價",
+  "description": "台灣農產品批發市場即時價格查詢",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#0d631b",
+  "orientation": "portrait-primary",
+  "lang": "zh-TW",
+  "categories": ["food", "finance", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "搜尋菜價",
+      "short_name": "搜尋",
+      "description": "快速搜尋農產品批發價",
+      "url": "/search",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "我的觀察名單",
+      "short_name": "關注",
+      "description": "查看收藏的作物行情",
+      "url": "/watchlist",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }]
+    }
+  ]
+}

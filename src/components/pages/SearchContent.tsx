@@ -1,0 +1,552 @@
+'use client'
+
+import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { TrendChip } from '@/components/ui/TrendChip'
+import { SkeletonList } from '@/components/ui/SkeletonCard'
+import { ProduceRow } from '@/components/ui/ProduceRow'
+import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
+import { formatPrice, formatVolume, debounce, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
+import type {
+  ProducePrice,
+  SearchFilters,
+  MarketTypeOption,
+  MarketRestDay,
+  MarketWeatherRiskSummary,
+} from '@/lib/types'
+import {
+  fetchMarketList,
+  fetchMarketOptions,
+  fetchMarketRestDays,
+  fetchMarketWeatherRisk,
+} from '@/lib/api'
+import { getUserPreferences } from '@/lib/preferences'
+import Link from 'next/link'
+
+type RangeParams =
+  | { kind: 'single'; date: string }
+  | { kind: 'range'; startDate: string; endDate: string }
+
+const DATE_RANGES: ReadonlyArray<{ label: string; value: SearchFilters['dateRange'] }> = [
+  { label: '今日', value: '1d' },
+  { label: '近一週', value: '1w' },
+  { label: '近一月', value: '1m' },
+]
+
+const SORT_OPTIONS: ReadonlyArray<{ label: string; value: SearchFilters['sortBy'] }> = [
+  { label: '預設', value: 'name' },
+  { label: '價格 ↑', value: 'price_asc' },
+  { label: '價格 ↓', value: 'price_desc' },
+  { label: '漲跌幅', value: 'change' },
+]
+
+const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
+  { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
+  { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
+  { value: 'ComVegFruit', label: '綜合蔬果', description: '綜合蔬果交易市場行情' },
+]
+
+const FALLBACK_MARKETS = ['全部市場']
+
+function getRangeDates(range: SearchFilters['dateRange']): RangeParams {
+  const endDate = todayISO()
+
+  if (range === '1w') {
+    return { kind: 'range', startDate: subtractDays(endDate, 6), endDate }
+  }
+
+  if (range === '1m') {
+    return { kind: 'range', startDate: subtractDays(endDate, 29), endDate }
+  }
+
+  return { kind: 'single', date: endDate }
+}
+
+export function SearchContent() {
+  const searchParams = useSearchParams()
+  const initialQuery = searchParams.get('q') || ''
+
+  const [query, setQuery] = useState(initialQuery)
+  const [results, setResults] = useState<ProducePrice[]>([])
+  const [loading, setLoading] = useState(false)
+  const [market, setMarket] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const prefs = getUserPreferences()
+      return searchParams.get('market') || prefs.preferredMarket || '台北一'
+    }
+    return searchParams.get('market') || '台北一'
+  })
+  const [marketType, setMarketType] = useState<MarketTypeOption['value']>('Veg')
+  const [marketTypeOptions, setMarketTypeOptions] = useState<MarketTypeOption[]>([...FALLBACK_MARKET_TYPES])
+  const [marketsByType, setMarketsByType] = useState<Record<string, string[]>>({})
+  const [marketsList, setMarketsList] = useState<string[]>(FALLBACK_MARKETS)
+  const [dateRange, setDateRange] = useState<SearchFilters['dateRange']>('1d')
+  const [sortBy, setSortBy] = useState<SearchFilters['sortBy']>('name')
+  const [autocomplete, setAutocomplete] = useState<string[]>([])
+  const [showPriceFilter, setShowPriceFilter] = useState(false)
+  const [minPrice, setMinPrice] = useState('')
+  const [maxPrice, setMaxPrice] = useState('')
+  const [error, setError] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [nextRestDay, setNextRestDay] = useState<MarketRestDay | null>(null)
+  const [weatherRisk, setWeatherRisk] = useState<MarketWeatherRiskSummary | null>(null)
+
+  const ITEMS_PER_PAGE = 20
+
+  useEffect(() => {
+    let cancelled = false
+
+    fetchMarketOptions().then((meta) => {
+      if (cancelled) return
+
+      setMarketTypeOptions(meta.marketTypes)
+      setMarketsByType(meta.marketsByType)
+
+      const resolvedType = meta.marketTypes.some((option) => option.value === marketType)
+        ? marketType
+        : meta.defaultMarketType
+
+      if (resolvedType !== marketType) {
+        setMarketType(resolvedType)
+      }
+
+      const list = meta.marketsByType[resolvedType] ?? FALLBACK_MARKETS
+      setMarketsList(list)
+
+      if (list.length > 0 && !list.includes(market)) {
+        const preferredMarket = typeof window !== 'undefined' ? getUserPreferences().preferredMarket : ''
+        const nextMarket = (preferredMarket && list.includes(preferredMarket))
+          ? preferredMarket
+          : (list.includes(meta.defaultMarket) ? meta.defaultMarket : (list.find((name) => name !== '全部市場') ?? list[0]))
+        setMarket(nextMarket)
+      }
+    }).catch(console.error)
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    const metaMarkets = marketsByType[marketType]
+    if (metaMarkets && metaMarkets.length > 0) {
+      setMarketsList(metaMarkets)
+      if (!metaMarkets.includes(market)) {
+        setMarket(metaMarkets.includes('台北一') ? '台北一' : metaMarkets[0])
+      }
+      return
+    }
+
+    fetchMarketList(marketType).then((list) => {
+      setMarketsList(list)
+      if (list.length > 0 && !list.includes(market)) {
+        setMarket(list.includes('台北一') ? '台北一' : list[0])
+      }
+    }).catch(console.error)
+  }, [marketType, marketsByType, market])
+
+  useEffect(() => {
+    const today = todayISO()
+    const endDate = (() => {
+      const date = new Date(`${today}T00:00:00`)
+      date.setDate(date.getDate() + 45)
+      return date.toISOString().split('T')[0]
+    })()
+
+    Promise.allSettled([
+      fetchMarketRestDays({ market, startDate: today, endDate }),
+      fetchMarketWeatherRisk(market),
+    ]).then(([restResult, weatherResult]) => {
+      if (restResult.status === 'fulfilled') {
+        const next = restResult.value
+          .filter((item) => item.date >= today)
+          .sort((a, b) => a.date.localeCompare(b.date))[0] ?? null
+        setNextRestDay(next)
+      } else {
+        setNextRestDay(null)
+      }
+
+      if (weatherResult.status === 'fulfilled') {
+        setWeatherRisk(weatherResult.value)
+      } else {
+        setWeatherRisk(null)
+      }
+    })
+  }, [market])
+
+  const doSearch = useCallback(
+    debounce(async (q: string, mkt: string, range: SearchFilters['dateRange']) => {
+      setLoading(true)
+      setError('')
+      try {
+        const params = new URLSearchParams()
+        if (q) params.set('crop', q)
+        if (mkt !== '全部市場') params.set('market', mkt)
+        const dateParams = getRangeDates(range)
+        if (dateParams.kind === 'single') {
+          params.set('date', dateParams.date)
+        } else {
+          params.set('startDate', dateParams.startDate)
+          params.set('endDate', dateParams.endDate)
+        }
+
+        const res = await fetch(`/api/prices?${params}`)
+        const json = await res.json()
+
+        if (!res.ok) {
+          throw new Error(json.error || '暫時無法取得搜尋結果')
+        }
+
+        const data = json as ProducePrice[]
+        setResults(data)
+        if (q.length >= 1) {
+          setAutocomplete([...new Set(data.map((d) => d.cropName).filter((n) => n.includes(q)))].slice(0, 5))
+        } else {
+          setAutocomplete([])
+        }
+      } catch (err) {
+        setResults([])
+        setAutocomplete([])
+        setError(err instanceof Error ? err.message : '暫時無法取得搜尋結果')
+      } finally {
+        setLoading(false)
+      }
+    }, 350),
+    []
+  )
+
+  useEffect(() => { doSearch(query, market, dateRange) }, [query, market, dateRange, doSearch])
+
+  // Reset to page 1 whenever results or sort/filter options change
+  useEffect(() => { setCurrentPage(1) }, [results, minPrice, maxPrice, sortBy])
+
+  const priceFiltered = useMemo(() => results.filter((item) => {
+    const min = parseFloat(minPrice)
+    const max = parseFloat(maxPrice)
+    if (!isNaN(min) && item.avgPrice < min) return false
+    if (!isNaN(max) && item.avgPrice > max) return false
+    return true
+  }), [results, minPrice, maxPrice])
+
+  const sorted = useMemo(() => priceFiltered.toSorted((a, b) => {
+    if (sortBy === 'price_asc') return a.avgPrice - b.avgPrice
+    if (sortBy === 'price_desc') return b.avgPrice - a.avgPrice
+    if (sortBy === 'change') return (b.priceChange ?? 0) - (a.priceChange ?? 0)
+    return a.cropName.localeCompare(b.cropName, 'zh-TW')
+  }), [priceFiltered, sortBy])
+
+  const hasPriceFilter = minPrice !== '' || maxPrice !== ''
+  const pageCount = Math.ceil(sorted.length / ITEMS_PER_PAGE)
+  const paginated = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+  return (
+    <div className="px-section-margin py-6 space-y-4">
+
+      {/* Search Input */}
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <span className="material-symbols-outlined text-outline" style={{ fontSize: '1.375rem' }}>search</span>
+        </div>
+        <input
+          suppressHydrationWarning
+          type="search"
+          value={query}
+          onChange={(e) => { setQuery(e.target.value); setAutocomplete([]) }}
+          placeholder="搜尋作物名稱… (支援注音輸入)"
+          aria-label="搜尋作物"
+          autoComplete="off"
+          className="w-full bg-white/80 border border-white/40 shadow-sm rounded-full py-3 pl-12 pr-12 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-transparent transition-[background-color,box-shadow] backdrop-blur-md"
+        />
+        <button
+          onClick={() => setShowPriceFilter(!showPriceFilter)}
+          className={`absolute inset-y-0 right-0 pr-4 flex items-center transition-colors ${
+            hasPriceFilter ? 'text-primary' : 'text-primary-container'
+          }`}
+          title="價格區間篩選"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: '1.375rem' }}>
+            {hasPriceFilter ? 'filter_alt' : 'tune'}
+          </span>
+        </button>
+
+        {autocomplete.length > 0 && (
+          <div className="absolute top-full mt-2 w-full glass-card-solid rounded-2xl overflow-hidden z-10 shadow-glass">
+            {autocomplete.map((name) => (
+              <button
+                key={name}
+                onClick={() => { setQuery(name); setAutocomplete([]) }}
+                className="w-full text-left px-4 py-3 text-body-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-3"
+              >
+                <span className="text-xl">{getCropEmoji(name)}</span>
+                {name}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Price Range Panel */}
+      {showPriceFilter && (
+        <div className="glass-card rounded-2xl p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-label-bold font-semibold text-on-surface flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary" style={{ fontSize: '1.125rem' }}>price_change</span>
+              價格區間篩選 (元/公斤)
+            </h3>
+            {hasPriceFilter && (
+              <button
+                onClick={() => { setMinPrice(''); setMaxPrice('') }}
+                className="text-label-bold text-outline hover:text-on-surface transition-colors"
+              >
+                清除
+              </button>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex-1">
+              <label htmlFor="min-price" className="text-body-sm text-on-surface-variant mb-1 block">最低價格</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-body-sm">$</span>
+                <input
+                  suppressHydrationWarning
+                  id="min-price"
+                  type="number"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  placeholder="0"
+                  min="0"
+                  className="w-full bg-white/60 border border-outline-variant/40 rounded-xl py-2 pl-7 pr-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 transition-[background-color,box-shadow]"
+                />
+              </div>
+            </div>
+            <span className="text-outline mt-5">—</span>
+            <div className="flex-1">
+              <label htmlFor="max-price" className="text-body-sm text-on-surface-variant mb-1 block">最高價格</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-body-sm">$</span>
+                <input
+                  suppressHydrationWarning
+                  id="max-price"
+                  type="number"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  placeholder="999"
+                  min="0"
+                  className="w-full bg-white/60 border border-outline-variant/40 rounded-xl py-2 pl-7 pr-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 transition-[background-color,box-shadow]"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {[
+              { label: '20 元以下', min: '', max: '20' },
+              { label: '20–50 元', min: '20', max: '50' },
+              { label: '50–100 元', min: '50', max: '100' },
+              { label: '100 元以上', min: '100', max: '' },
+            ].map((preset) => (
+              <button
+                key={preset.label}
+                onClick={() => { setMinPrice(preset.min); setMaxPrice(preset.max) }}
+                className={`text-label-bold px-3 py-1.5 rounded-full border transition-all ${
+                  minPrice === preset.min && maxPrice === preset.max
+                    ? 'bg-primary text-on-primary border-primary shadow-sm ring-1 ring-primary'
+                    : 'bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70'
+                }`}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Filter Chips */}
+      <div className="flex flex-wrap gap-2 pb-1">
+        <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
+          <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>category</span>
+          <select
+            suppressHydrationWarning
+            aria-label="市場類別"
+            value={marketType}
+            onChange={(e) => setMarketType(e.target.value as MarketTypeOption['value'])}
+            className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer w-auto"
+          >
+            {marketTypeOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
+          <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>store</span>
+          <select
+            suppressHydrationWarning
+            aria-label="選擇市場"
+            value={market}
+            onChange={(e) => setMarket(e.target.value)}
+            className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
+          >
+            {marketsList.map((m) => <option key={m}>{m}</option>)}
+          </select>
+        </div>
+
+        {DATE_RANGES.map((d) => (
+          <button
+            key={d.value}
+            onClick={() => setDateRange(d.value)}
+            className={`flex items-center gap-1 px-4 py-2 rounded-full text-label-bold whitespace-nowrap backdrop-blur-sm border transition-colors touch-target ${
+              dateRange === d.value
+                ? 'bg-primary-container/10 border-primary-container/20 text-primary-container'
+                : 'bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/60'
+            }`}
+          >
+            {d.label}
+          </button>
+        ))}
+
+        <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
+          <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>sort</span>
+          <select
+            suppressHydrationWarning
+            aria-label="排序方式"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SearchFilters['sortBy'])}
+            className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
+          >
+            {SORT_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
+      </div>
+
+      {(nextRestDay || weatherRisk) && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="rounded-2xl border border-primary/20 bg-white/70 px-4 py-3">
+            <p className="text-label-bold text-primary">下次休市</p>
+            {nextRestDay ? (
+              <p className="text-body-sm text-on-surface mt-1">
+                {market}：{nextRestDay.date.replace(/-/g, '/')} {nextRestDay.note ? `(${nextRestDay.note})` : ''}
+              </p>
+            ) : (
+              <p className="text-body-sm text-on-surface-variant mt-1">近 45 日暫無休市公告</p>
+            )}
+          </div>
+
+          <WeatherRiskCard weatherRisk={weatherRisk} />
+        </div>
+      )}
+
+      {/* Results Count */}
+      <div className="flex items-center justify-between">
+        <p className="text-body-sm text-on-surface-variant">
+          {loading ? '搜尋中…' : error ? '目前無法載入搜尋結果' : `共 ${sorted.length} 筆結果${pageCount > 1 ? `，第 ${currentPage}/${pageCount} 頁` : ''}`}
+          {hasPriceFilter && !loading && (
+            <span className="ml-2 text-primary font-medium">
+              (${minPrice || '0'} – ${maxPrice || '∞'} 元)
+            </span>
+          )}
+        </p>
+        {query && !loading && (
+          <button
+            onClick={() => { setQuery(''); setAutocomplete([]) }}
+            className="text-label-bold text-outline hover:text-on-surface transition-colors flex items-center gap-1"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>close</span>
+            清除
+          </button>
+        )}
+      </div>
+
+      {/* Results List */}
+      {loading ? (
+        <SkeletonList count={6} />
+      ) : (
+        <div className="space-y-3">
+          {error && (
+            <div className="glass-card-solid rounded-2xl px-4 py-5 text-center text-on-surface-variant">
+              <div className="text-4xl mb-2">🧺</div>
+              <p className="text-body-lg font-semibold text-on-surface">系統維護中或資料暫時無法取得</p>
+              <p className="text-body-sm mt-1">{error}</p>
+              <button
+                onClick={() => doSearch(query, market, dateRange)}
+                className="mt-4 text-primary text-label-bold hover:underline"
+              >
+                重新載入
+              </button>
+            </div>
+          )}
+
+          {paginated.map((item) => (
+            <ProduceRow key={`${item.cropCode}-${item.marketName}`} item={{...item, emoji: getCropEmoji(item.cropName)}} showDetails={true} />
+          ))}
+
+          {/* Pagination */}
+          {pageCount > 1 && (
+            <div className="flex items-center justify-center gap-2 pt-2 pb-1">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="flex items-center gap-1 px-4 py-2 rounded-full text-label-bold border transition-[background-color,opacity] disabled:opacity-30 disabled:cursor-not-allowed bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70"
+              >
+                <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.125rem' }}>chevron_left</span>
+                上一頁
+              </button>
+              <div className="flex gap-1">
+                {Array.from({ length: pageCount }, (_, i) => i + 1)
+                  .filter((p) => p === 1 || p === pageCount || Math.abs(p - currentPage) <= 1)
+                  .reduce<(number | 'ellipsis')[]>((acc, p, idx, arr) => {
+                    if (idx > 0 && p - (arr[idx - 1] as number) > 1) acc.push('ellipsis')
+                    acc.push(p)
+                    return acc
+                  }, [])
+                  .map((p, idx) =>
+                    p === 'ellipsis' ? (
+                      <span key={`e-${idx}`} className="px-2 py-2 text-on-surface-variant">…</span>
+                    ) : (
+                      <button
+                        key={p}
+                        onClick={() => setCurrentPage(p as number)}
+                        className={`w-9 h-9 rounded-full text-label-bold border transition-[background-color,color,border-color] ${
+                          currentPage === p
+                            ? 'bg-primary-container/10 border-primary-container/30 text-primary-container'
+                            : 'bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70'
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    )
+                  )}
+              </div>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(pageCount, p + 1))}
+                disabled={currentPage === pageCount}
+                className="flex items-center gap-1 px-4 py-2 rounded-full text-label-bold border transition-[background-color,opacity] disabled:opacity-30 disabled:cursor-not-allowed bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70"
+              >
+                下一頁
+                <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.125rem' }}>chevron_right</span>
+              </button>
+            </div>
+          )}
+
+          {sorted.length === 0 && !loading && !error && (
+            <div className="text-center py-16 text-on-surface-variant">
+              <span className="material-symbols-outlined text-5xl block mb-3">search_off</span>
+              {query ? (
+                <>
+                  <p className="text-body-lg">找不到「{query}」的相關結果</p>
+                  <p className="text-body-sm mt-1">請嘗試其他關鍵字，或清除篩選條件</p>
+                </>
+              ) : hasPriceFilter ? (
+                <>
+                  <p className="text-body-lg">此價格區間無資料</p>
+                  <p className="text-body-sm mt-1">請調整價格範圍後再試</p>
+                </>
+              ) : (
+                <p className="text-body-lg">輸入關鍵字以搜尋作物</p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}

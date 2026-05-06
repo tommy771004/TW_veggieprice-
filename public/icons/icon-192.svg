@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-labelledby="title desc">
+  <title id="title">農時價 App Icon</title>
+  <desc id="desc">以綠色農田與橘色果實組成的農時價應用程式圖示</desc>
+  <defs>
+    <linearGradient id="bg" x1="24" y1="18" x2="168" y2="174" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7F6E8"/>
+      <stop offset="1" stop-color="#D9F0D0"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="28" y1="40" x2="144" y2="168" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2E7D32"/>
+      <stop offset="1" stop-color="#0D631B"/>
+    </linearGradient>
+    <linearGradient id="fruit" x1="108" y1="68" x2="154" y2="126" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB54A"/>
+      <stop offset="1" stop-color="#F57C00"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="168" height="168" rx="44" fill="url(#bg)"/>
+  <path d="M34 129c9-34 33-53 67-58 22-3 39 2 57 17-5 28-24 50-50 58-30 10-59 3-74-17Z" fill="url(#leaf)"/>
+  <path d="M108 58c5-11 16-19 28-19 7 0 14 3 19 8-11 1-19 5-24 13-6 8-9 19-10 34-8-11-18-18-31-22 5-5 11-10 18-14Z" fill="#1B5E20" opacity=".94"/>
+  <circle cx="126" cy="100" r="26" fill="url(#fruit)"/>
+  <path d="M120 78c7-9 16-12 28-8-8 4-13 11-15 21-5-6-9-10-13-13Z" fill="#FCE3A2" opacity=".7"/>
+  <path d="M64 128h53" stroke="#F7F6E8" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+  <path d="M54 150h40" stroke="#F7F6E8" stroke-width="10" stroke-linecap="round" opacity=".6"/>
+</svg>
