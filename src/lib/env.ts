@@ -13,3 +13,6 @@ const resolvedSiteUrl = _env.NEXT_PUBLIC_SITE_URL
 	?? 'https://veggieprice.tw'
 
 export const SITE_URL: string = normalizeSiteUrl(resolvedSiteUrl)
+
+export const GOOGLE_SITE_VERIFICATION: string | undefined =
+  _env.GOOGLE_SITE_VERIFICATION
