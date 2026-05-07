@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketOverviewTrend } from '@/lib/server/moa'
+import { DEFAULT_MARKET } from '@/lib/constants'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
-  const market = searchParams.get('market') || '台北一'
+  const market = searchParams.get('market') || DEFAULT_MARKET
   const requestedDays = Number(searchParams.get('days') || '7')
   const days = Number.isFinite(requestedDays)
     ? Math.min(Math.max(Math.floor(requestedDays), 1), 30)
