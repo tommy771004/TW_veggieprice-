@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="農時價">
+  <!-- Dark green rounded square background -->
+  <rect width="32" height="32" rx="7" fill="#0D631B"/>
+  <!-- Leaf sweep: diagonal from bottom-left to upper-right -->
+  <path d="M5 27C8 16 17 8 28 6C25 18 15 25 5 27Z" fill="#66BB6A"/>
+  <!-- Orange fruit -->
+  <circle cx="21" cy="13" r="6" fill="#FF9800"/>
+  <!-- Fruit specular highlight -->
+  <circle cx="19" cy="11" r="2.5" fill="#FFE0B2" opacity="0.65"/>
+</svg>
