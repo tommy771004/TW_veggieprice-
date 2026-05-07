@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketWeatherObservations, resolveCountyFromMarketName } from '@/lib/server/moa'
 import type { MarketWeatherRiskSummary } from '@/lib/types'
+import { DEFAULT_MARKET } from '@/lib/constants'
 
 function buildRiskSummary(market: string, county: string, observations: {
   temperatureC: number | null
@@ -90,7 +91,7 @@ function buildRiskSummary(market: string, county: string, observations: {
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
-  const market = searchParams.get('market') || '台北一'
+  const market = searchParams.get('market') || DEFAULT_MARKET
   const county = searchParams.get('county') || resolveCountyFromMarketName(market)
 
   const weatherRes = await fetchMarketWeatherObservations(county, 40)
