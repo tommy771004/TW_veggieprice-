@@ -42,13 +42,18 @@ export const metadata: Metadata = {
     siteName: '農時價 VeggiePrice TW',
     title: '農時價 — 台灣蔬果批發行情即時查詢',
     description: '免費查詢台灣全台批發市場今日菜價、歷史漲跌趨勢與各市場比價',
-    images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: '農時價 VeggiePrice TW' }],
+    images: [{ url: '/api/og', width: 1200, height: 630, alt: '農時價 VeggiePrice TW' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: '農時價 — 台灣蔬果批發行情即時查詢',
     description: '免費查詢台灣全台批發市場今日菜價、歷史漲跌趨勢與各市場比價',
-    images: ['/og-image.svg'],
+    images: ['/api/og'],
+  },
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    shortcut: '/icon.svg',
+    apple: '/icons/icon-192.svg',
   },
   manifest: '/manifest.json',
   alternates: {
