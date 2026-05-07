@@ -244,40 +244,43 @@ function pickCostPerKg(record: Record<string, unknown>): number | null {
 }
 
 async function fetchMOARecords(params: URLSearchParams, maxPages: number = MAX_PAGES): Promise<MOARawRecord[]> {
-  const allRecords: MOARawRecord[] = []
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
 
+  const fetchPage = async (page: number): Promise<{ records: MOARawRecord[]; hasNext: boolean }> => {
+    const pageParams = new URLSearchParams(params)
+    if (page > 1) pageParams.set('page', String(page))
+    const response = await fetch(`${MOA_BASE}?${pageParams}`, {
+      signal: controller.signal,
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+    })
+    if (!response.ok) throw new Error(`MOA returned HTTP ${response.status}`)
+    const json = await response.json() as { Data: MOARawRecord[]; Next: boolean }
+    const records = json.Data ?? []
+    return { records, hasNext: !!(json.Next && records.length > 0) }
+  }
+
   try {
-    for (let page = 1; page <= maxPages; page++) {
-      const pageParams = new URLSearchParams(params)
-      if (page > 1) {
-        pageParams.set('page', String(page))
-      }
+    const { records: firstRecords, hasNext: firstHasNext } = await fetchPage(1)
+    if (!firstHasNext || maxPages <= 1) return firstRecords
 
-      const response = await fetch(`${MOA_BASE}?${pageParams}`, {
-        signal: controller.signal,
-        headers: { Accept: 'application/json' },
-        cache: 'no-store',
-      })
-
-      if (!response.ok) {
-        throw new Error(`MOA returned HTTP ${response.status}`)
-      }
-
-      const json = await response.json() as { Data: MOARawRecord[]; Next: boolean }
-      const records = json.Data ?? []
-      allRecords.push(...records)
-
-      if (!json.Next || records.length === 0) {
-        break
+    const allRecords: MOARawRecord[] = [...firstRecords]
+    const BATCH = 3
+    for (let start = 2; start <= maxPages; start += BATCH) {
+      const end = Math.min(start + BATCH - 1, maxPages)
+      const batch = await Promise.all(
+        Array.from({ length: end - start + 1 }, (_, i) => fetchPage(start + i))
+      )
+      for (const { records, hasNext } of batch) {
+        allRecords.push(...records)
+        if (!hasNext) return allRecords
       }
     }
+    return allRecords
   } finally {
     clearTimeout(timer)
   }
-
-  return allRecords
 }
 
 async function fetchMOAEndpointRecords<T extends object>(
@@ -285,40 +288,43 @@ async function fetchMOAEndpointRecords<T extends object>(
   params: URLSearchParams,
   maxPages: number = MAX_PAGES
 ): Promise<T[]> {
-  const allRecords: T[] = []
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
 
+  const fetchPage = async (page: number): Promise<{ records: T[]; hasNext: boolean }> => {
+    const pageParams = new URLSearchParams(params)
+    if (page > 1) pageParams.set('page', String(page))
+    const response = await fetch(`${MOA_API_ROOT}/${endpoint}/?${pageParams}`, {
+      signal: controller.signal,
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+    })
+    if (!response.ok) throw new Error(`MOA ${endpoint} returned HTTP ${response.status}`)
+    const json = await response.json() as { Data?: T[]; Next?: boolean }
+    const records = json.Data ?? []
+    return { records, hasNext: !!(json.Next && records.length > 0) }
+  }
+
   try {
-    for (let page = 1; page <= maxPages; page++) {
-      const pageParams = new URLSearchParams(params)
-      if (page > 1) {
-        pageParams.set('page', String(page))
-      }
+    const { records: firstRecords, hasNext: firstHasNext } = await fetchPage(1)
+    if (!firstHasNext || maxPages <= 1) return firstRecords
 
-      const response = await fetch(`${MOA_API_ROOT}/${endpoint}/?${pageParams}`, {
-        signal: controller.signal,
-        headers: { Accept: 'application/json' },
-        cache: 'no-store',
-      })
-
-      if (!response.ok) {
-        throw new Error(`MOA ${endpoint} returned HTTP ${response.status}`)
-      }
-
-      const json = await response.json() as { Data?: T[]; Next?: boolean }
-      const records = json.Data ?? []
-      allRecords.push(...records)
-
-      if (!json.Next || records.length === 0) {
-        break
+    const allRecords: T[] = [...firstRecords]
+    const BATCH = 3
+    for (let start = 2; start <= maxPages; start += BATCH) {
+      const end = Math.min(start + BATCH - 1, maxPages)
+      const batch = await Promise.all(
+        Array.from({ length: end - start + 1 }, (_, i) => fetchPage(start + i))
+      )
+      for (const { records, hasNext } of batch) {
+        allRecords.push(...records)
+        if (!hasNext) return allRecords
       }
     }
+    return allRecords
   } finally {
     clearTimeout(timer)
   }
-
-  return allRecords
 }
 
 export interface MOAMarket {
@@ -522,7 +528,13 @@ const fetchTraceabilitySummaryCached = unstable_cache(
       { query: {}, maxPages: 1, fallback: true },
     ]
 
+    // Pre-normalize once — avoids repeated regex + toLowerCase per record in tight loops.
+    const normalizedCropKeyword = cropName.replace(/\s+/g, '').toLowerCase()
+    const matchesCrop = (value: string) =>
+      value.replace(/\s+/g, '').toLowerCase().includes(normalizedCropKeyword)
+
     const records: Array<Record<string, unknown> & { __source?: string }> = []
+    let matchedCount = 0
 
     for (const endpoint of endpoints) {
       for (const variant of variants) {
@@ -541,20 +553,15 @@ const fetchTraceabilitySummaryCached = unstable_cache(
         }
         if (batch.length === 0) continue
 
-        records.push(...batch.map((item) => ({ ...item, __source: endpoint })))
+        for (const item of batch) {
+          const product = readStringField(item, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
+          if (matchesCrop(product)) matchedCount++
+          records.push({ ...item, __source: endpoint })
+        }
 
-        const enough = records.filter((record) => {
-          const product = readStringField(record, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
-          return textContainsKeyword(product, cropName)
-        }).length >= limit
-
-        if (enough) break
+        if (matchedCount >= limit) break
       }
 
-      const matchedCount = records.filter((record) => {
-        const product = readStringField(record, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
-        return textContainsKeyword(product, cropName)
-      }).length
       if (matchedCount >= limit) break
     }
 
@@ -562,7 +569,7 @@ const fetchTraceabilitySummaryCached = unstable_cache(
 
     for (const record of records) {
       const productName = readStringField(record, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
-      if (!textContainsKeyword(productName, cropName)) continue
+      if (!matchesCrop(productName)) continue
 
       const producerName = readStringField(record, ['ProducerName', 'FarmerName', 'Producer', '生產者']) || '未揭露'
       const traceCode = readStringField(record, ['TraceCode', 'TraceabilityCode', 'QRCode', '溯源編號']) || '未揭露'
