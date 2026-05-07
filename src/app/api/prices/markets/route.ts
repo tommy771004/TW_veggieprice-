@@ -19,26 +19,24 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: '查無跨市場比價資料' }, { status: 404 })
   }
 
-  // Pick the two most recent actual trading dates from the result set
-  const tradingDates = [...new Set(allRecords.map(r => r.date))].sort()
-  const latestDate = tradingDates[tradingDates.length - 1]
-  const prevDate = tradingDates.length >= 2 ? tradingDates[tradingDates.length - 2] : null
-
-  const todayRecords = allRecords.filter(r => r.date === latestDate)
-  const yestMap: Record<string, number> = {}
-  if (prevDate) {
-    allRecords
-      .filter(r => r.date === prevDate)
-      .forEach((record) => {
-        if (record.avgPrice > 0) yestMap[record.marketName] = record.avgPrice
-      })
+  // Single pass: find the two most recent trading dates, split into today/yesterday buckets.
+  let latestDate = ''
+  let prevDate = ''
+  for (const r of allRecords) {
+    if (!r.date) continue
+    if (r.date > latestDate) { prevDate = latestDate; latestDate = r.date }
+    else if (r.date !== latestDate && r.date > prevDate) prevDate = r.date
   }
 
-  // Group records by marketName to prevent duplicates when multiple varieties exist
   const todayMap = new Map<string, number>()
-  todayRecords.forEach(r => {
-    if (!todayMap.has(r.marketName)) todayMap.set(r.marketName, r.avgPrice)
-  })
+  const yestMap: Record<string, number> = {}
+  for (const r of allRecords) {
+    if (r.date === latestDate) {
+      if (!todayMap.has(r.marketName)) todayMap.set(r.marketName, r.avgPrice)
+    } else if (r.date === prevDate && r.avgPrice > 0) {
+      yestMap[r.marketName] = r.avgPrice
+    }
+  }
 
   const comparison = Array.from(todayMap.entries()).map(([marketName, todayPrice]) => {
     const yest = yestMap[marketName]
