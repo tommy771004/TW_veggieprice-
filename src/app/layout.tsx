@@ -23,7 +23,7 @@ const notoSansTC = Noto_Sans_TC({
   display: 'swap',
 })
 
-import { SITE_URL } from '@/lib/env'
+import { SITE_URL, GOOGLE_SITE_VERIFICATION } from '@/lib/env'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -56,6 +56,9 @@ export const metadata: Metadata = {
     languages: { 'zh-TW': SITE_URL },
   },
   robots: { index: true, follow: true },
+  ...(GOOGLE_SITE_VERIFICATION && {
+    verification: { google: GOOGLE_SITE_VERIFICATION },
+  }),
 }
 
 export const viewport: Viewport = {
@@ -68,6 +71,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="zh-TW" className={`${workSans.variable} ${notoSansTC.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
