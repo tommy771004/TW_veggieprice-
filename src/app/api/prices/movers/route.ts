@@ -14,28 +14,27 @@ export async function GET() {
     return NextResponse.json({ error: error ?? '查無波動排行資料' }, { status: error ? 502 : 404 })
   }
 
-  // Find the two most recent trading days from the returned data.
-  const tradingDates = [...new Set(allRecords.map((r) => r.date))]
-    .filter(Boolean)
-    .sort((a, b) => b.localeCompare(a))
+  // Single pass: find the two most recent trading dates and split records into buckets.
+  let latestDate = ''
+  let prevDate = ''
+  for (const r of allRecords) {
+    if (!r.date) continue
+    if (r.date > latestDate) { prevDate = latestDate; latestDate = r.date }
+    else if (r.date !== latestDate && r.date > prevDate) prevDate = r.date
+  }
 
-  if (tradingDates.length === 0) {
+  if (!latestDate) {
     return NextResponse.json({ error: '查無波動排行資料' }, { status: 404 })
   }
 
-  const latestDate = tradingDates[0]
-  const prevDate = tradingDates[1] ?? null
-
-  const latestRecords = allRecords.filter((r) => r.date === latestDate)
+  const latestRecords: typeof allRecords = []
   const yestMap: Record<string, number> = {}
-  if (prevDate) {
-    allRecords
-      .filter((r) => r.date === prevDate)
-      .forEach((record) => {
-        if (record.avgPrice > 0) {
-          yestMap[`${record.cropName}_${record.marketName}`] = record.avgPrice
-        }
-      })
+  for (const record of allRecords) {
+    if (record.date === latestDate) {
+      latestRecords.push(record)
+    } else if (record.date === prevDate && record.avgPrice > 0) {
+      yestMap[`${record.cropName}_${record.marketName}`] = record.avgPrice
+    }
   }
 
   const movers = latestRecords
