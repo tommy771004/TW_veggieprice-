@@ -13,10 +13,11 @@ import type {
   ProductCostInsight,
   MarketWeatherRiskSummary,
 } from './types'
+import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from './constants'
 
 const BASE = '/api'
 
-export async function fetchMarketOverview(date?: string, market = '台北一'): Promise<MarketOverview> {
+export async function fetchMarketOverview(date?: string, market = DEFAULT_MARKET): Promise<MarketOverview> {
   const params = new URLSearchParams({ market })
   if (date) params.set('date', date)
   const res = await fetch(`${BASE}/prices/overview?${params}`)
@@ -42,7 +43,7 @@ export async function fetchPrices(params: {
 }): Promise<ProducePrice[]> {
   const query = new URLSearchParams()
   if (params.cropName) query.set('crop', params.cropName)
-  if (params.market && params.market !== '全部市場') query.set('market', params.market)
+  if (params.market && params.market !== ALL_MARKET_SENTINEL) query.set('market', params.market)
   if (params.date) query.set('date', params.date)
   if (params.startDate) query.set('startDate', params.startDate)
   if (params.endDate) query.set('endDate', params.endDate)
