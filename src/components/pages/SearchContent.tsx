@@ -21,6 +21,7 @@ import {
   fetchMarketWeatherRisk,
 } from '@/lib/api'
 import { getUserPreferences } from '@/lib/preferences'
+import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from '@/lib/constants'
 import Link from 'next/link'
 
 type RangeParams =
@@ -46,7 +47,7 @@ const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
   { value: 'ComVegFruit', label: '綜合蔬果', description: '綜合蔬果交易市場行情' },
 ]
 
-const FALLBACK_MARKETS = ['全部市場']
+const FALLBACK_MARKETS = [ALL_MARKET_SENTINEL]
 
 function getRangeDates(range: SearchFilters['dateRange']): RangeParams {
   const endDate = todayISO()
@@ -72,9 +73,9 @@ export function SearchContent() {
   const [market, setMarket] = useState(() => {
     if (typeof window !== 'undefined') {
       const prefs = getUserPreferences()
-      return searchParams.get('market') || prefs.preferredMarket || '台北一'
+      return searchParams.get('market') || prefs.preferredMarket || DEFAULT_MARKET
     }
-    return searchParams.get('market') || '台北一'
+    return searchParams.get('market') || DEFAULT_MARKET
   })
   const [marketType, setMarketType] = useState<MarketTypeOption['value']>('Veg')
   const [marketTypeOptions, setMarketTypeOptions] = useState<MarketTypeOption[]>([...FALLBACK_MARKET_TYPES])
@@ -132,7 +133,7 @@ export function SearchContent() {
     if (metaMarkets && metaMarkets.length > 0) {
       setMarketsList(metaMarkets)
       if (!metaMarkets.includes(market)) {
-        setMarket(metaMarkets.includes('台北一') ? '台北一' : metaMarkets[0])
+        setMarket(metaMarkets.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : metaMarkets[0])
       }
       return
     }
@@ -140,7 +141,7 @@ export function SearchContent() {
     fetchMarketList(marketType).then((list) => {
       setMarketsList(list)
       if (list.length > 0 && !list.includes(market)) {
-        setMarket(list.includes('台北一') ? '台北一' : list[0])
+        setMarket(list.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : list[0])
       }
     }).catch(console.error)
   }, [marketType, marketsByType, market])
