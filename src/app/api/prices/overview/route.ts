@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketOverviewTrend } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
+import { DEFAULT_MARKET } from '@/lib/constants'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
-  const market = searchParams.get('market') || '台北一'
+  const market = searchParams.get('market') || DEFAULT_MARKET
   const date = searchParams.get('date') || todayISO()
 
   const trendRes = await fetchMarketOverviewTrend(market, 7, date)
