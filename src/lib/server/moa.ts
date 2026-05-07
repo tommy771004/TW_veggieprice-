@@ -13,10 +13,11 @@ import { getCropEmoji } from '@/lib/utils'
 import {
   resolveCountyFromMarketName as resolveCountyFromMarketDataset,
 } from '@/lib/server/marketCountyMap'
+import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from '@/lib/constants'
 
 const MOA_BASE = process.env.MOA_API_BASE_URL ?? 'https://data.moa.gov.tw/api/v1/AgriProductsTransType/'
 const MOA_API_ROOT = process.env.MOA_API_ROOT_URL ?? 'https://data.moa.gov.tw/api/v1'
-const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? '30000')
+const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? '10000')
 
 const MARKET_TYPE_OPTIONS = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
@@ -362,10 +363,10 @@ const fetchMarketOptionsCached = unstable_cache(
     )
 
     const marketsByType = Object.fromEntries(entries) as Record<MarketType, string[]>
-    const vegMarkets = marketsByType.Veg ?? ['全部市場']
-    const defaultMarket = vegMarkets.includes('台北一')
-      ? '台北一'
-      : (vegMarkets.find((market) => market !== '全部市場') ?? '全部市場')
+    const vegMarkets = marketsByType.Veg ?? [ALL_MARKET_SENTINEL]
+    const defaultMarket = vegMarkets.includes(DEFAULT_MARKET)
+      ? DEFAULT_MARKET
+      : (vegMarkets.find((market) => market !== ALL_MARKET_SENTINEL) ?? ALL_MARKET_SENTINEL)
 
     return {
       marketTypes: [...MARKET_TYPE_OPTIONS],
