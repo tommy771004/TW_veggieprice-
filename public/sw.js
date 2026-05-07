@@ -1,8 +1,9 @@
-const CACHE_NAME = 'veggieprice-static-v2'
-const RUNTIME_CACHE = 'veggieprice-runtime-v2'
+const CACHE_NAME = 'veggieprice-static-v3'
+const RUNTIME_CACHE = 'veggieprice-runtime-v3'
 const APP_SHELL = [
   '/',
   '/search',
+  '/seasonal',
   '/watchlist',
   '/settings',
   '/manifest.json',
