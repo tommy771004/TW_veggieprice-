@@ -7,10 +7,33 @@ export function WebAppJsonLd() {
     name: '農時價 VeggiePrice TW',
     url: SITE_URL,
     description: '台灣農產品批發市場即時價格查詢，支援歷史走勢圖表與各市場比價',
-    applicationCategory: 'FinanceApplication',
+    applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any',
     inLanguage: 'zh-TW',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function BreadcrumbListJsonLd({
+  items,
+}: {
+  items: Array<{ name: string; url: string }>
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
   }
   return (
     <script
