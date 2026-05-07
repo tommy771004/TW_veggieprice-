@@ -7,6 +7,7 @@ import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
 import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
 import { ExploreSection } from '@/components/ui/ExploreSection'
+import { AboutSection } from '@/components/ui/AboutSection'
 import { DataSourceBadge } from '@/components/ui/DataSourceBadge'
 import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
@@ -697,6 +698,9 @@ export function HomeClient() {
 
       {/* ── Explore Features ──────────────────────────── */}
       <ExploreSection />
+
+      {/* ── About + FAQ ───────────────────────────────── */}
+      <AboutSection />
 
       {/* ── Data Source Attribution ───────────────────── */}
       <DataSourceBadge />
