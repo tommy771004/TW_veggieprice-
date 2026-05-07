@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/c/Users/FH2133/AppData/Roaming/npm/npm install *)",
+      "Read(//d//**)",
+      "Read(//c//**)",
+      "Read(//c/Users/FH2133/AppData/Roaming/**)"
+    ]
+  }
+}
