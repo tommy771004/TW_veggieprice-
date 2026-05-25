@@ -256,8 +256,11 @@ async function fetchMOARecords(params: URLSearchParams, maxPages: number = MAX_P
       headers: { Accept: 'application/json' },
       cache: 'no-store',
     })
+    console.log(`[MOA] Fetching ${MOA_BASE}?${pageParams} => ${response.status}`)
     if (!response.ok) throw new Error(`MOA returned HTTP ${response.status}`)
-    const json = await response.json() as { Data: MOARawRecord[]; Next: boolean }
+    const text = await response.text()
+    if (!text.startsWith('{')) { console.log('[MOA] Unexpected response:', text.substring(0, 100)) }
+    const json = JSON.parse(text) as { Data: MOARawRecord[]; Next: boolean }
     const records = json.Data ?? []
     return { records, hasNext: !!(json.Next && records.length > 0) }
   }
@@ -747,11 +750,79 @@ export async function fetchProductCostInsight(
   }
 }
 
+interface OpenDataRecord {
+  交易日期: string
+  種類代碼: string
+  作物代號: string
+  作物名稱: string
+  市場代號: string
+  市場名稱: string
+  上價: number
+  中價: number
+  下價: number
+  平均價: number
+  交易量: number
+}
+
+async function fetchRecentOpenData(): Promise<OpenDataRecord[]> {
+  const url = 'https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx'
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 25000)
+  try {
+    const res = await fetch(url, { signal: controller.signal, cache: 'no-store' })
+    if (!res.ok) throw new Error(`OpenData HTTP ${res.status}`)
+    const data = await res.json() as OpenDataRecord[]
+    return data
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ records: NormalizedPriceRecord[]; error?: string }> {
   const date = options.date ?? todayISO()
+  const startDate = options.startDate ?? date
+  const endDate = options.endDate ?? date
+
+  // If querying "全部市場" and we don't have a specific crop name, we are doing a bulk market query.
+  // The MOA v1 API now restricts non-members to 1000 records per query (Page 1 only), dropping most data.
+  // We can use the OpenData endpoint which returns the latest ~4 days of all markets and crops.
+  // Check if the requested range falls entirely within the recent 4 days from today.
+  const today = todayISO()
+  const latestOpenDataDate = subtractDays(today, 5) // buffer
+  if ((options.market === '全部市場' || !options.market) && !options.cropName && startDate >= latestOpenDataDate) {
+    try {
+      const allRecordsRaw = await fetchRecentOpenData()
+      let filteredData = allRecordsRaw
+      if (options.marketType) {
+        if (options.marketType === 'Veg') filteredData = filteredData.filter(d => d.種類代碼 === 'N04')
+        else if (options.marketType === 'Fruit') filteredData = filteredData.filter(d => d.種類代碼 === 'N05')
+        else if (options.marketType === 'Flower') filteredData = filteredData.filter(d => d.種類代碼 === 'N06')
+      }
+      let filtered = filteredData.map(d => ({
+        cropCode: d.作物代號 ?? '',
+        cropName: d.作物名稱 ?? '',
+        marketName: d.市場名稱 ?? '',
+        grade: '一般',
+        upperPrice: d.上價 || 0,
+        middlePrice: d.中價 || 0,
+        lowerPrice: d.下價 || 0,
+        avgPrice: d.平均價 || 0,
+        transWeight: d.交易量 || 0,
+        date: rocToISO(d.交易日期 ?? ''),
+      })).filter(r => r.date >= startDate && r.date <= endDate)
+      if (options.market && options.market !== '全部市場') {
+         filtered = filtered.filter(r => r.marketName === options.market)
+      }
+      return { records: filtered }
+    } catch (error) {
+      console.warn('fetchRecentOpenData failed:', error)
+      // fallback to v1 API
+    }
+  }
+
   const params = new URLSearchParams({
-    Start_time: isoToROC(options.startDate ?? date),
-    End_time: isoToROC(options.endDate ?? date),
+    Start_time: isoToROC(startDate),
+    End_time: isoToROC(endDate),
   })
 
   if (options.market && options.market !== '全部市場') {
@@ -786,17 +857,18 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
 export async function fetchMarketWindowRecords(
   market: string,
   startDate: string,
-  endDate: string
+  endDate: string,
+  marketType?: string
 ): Promise<{ records: NormalizedPriceRecord[]; error?: string }> {
   const cachedFn = unstable_cache(
     async (): Promise<{ records: NormalizedPriceRecord[]; error?: string }> => {
-      const result = await fetchPriceRecords({ market, startDate, endDate })
+      const result = await fetchPriceRecords({ market, startDate, endDate, marketType })
       if (result.error) {
         return { records: [], error: result.error }
       }
       return { records: result.records }
     },
-    ['moa-market-window-records-v1', market, startDate, endDate],
+    ['moa-market-window-records-v3', market, startDate, endDate, marketType ?? 'all'],
     { revalidate: 120 }
   )
 

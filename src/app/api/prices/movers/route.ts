@@ -11,12 +11,11 @@ export async function GET() {
   const today = todayISO()
 
   // Query the last 7 calendar days individually in parallel.
-  // A single 7-day bulk query for all markets exceeds MAX_PAGES (50): at ~5000+ records per day
-  // across all markets and crop types, 50 pages only covers ~1 day, leaving the 3-day VWAP
-  // baseline completely empty and producing no movers. Per-day queries stay within the page cap.
+  // We specify 'Veg' here to prevent highly volatile flower prices from
+  // dominating the movers board.
   const candidateDates = Array.from({ length: 7 }, (_, i) => subtractDays(today, i))
   const dayResults = await Promise.allSettled(
-    candidateDates.map((date) => fetchMarketWindowRecords('全部市場', date, date)),
+    candidateDates.map((date) => fetchMarketWindowRecords('全部市場', date, date, 'Veg')),
   )
 
   const allRecords = dayResults.flatMap((result) =>
