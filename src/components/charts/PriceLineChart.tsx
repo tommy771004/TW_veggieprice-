@@ -13,9 +13,10 @@ import {
 import type { PriceHistoryPoint } from '@/lib/types'
 
 interface PriceLineChartProps {
-  data:        PriceHistoryPoint[]
-  closedDays?: string[]
-  height?:     number
+  data:             PriceHistoryPoint[]
+  closedDays?:      string[]
+  height?:          number
+  showPriceRange?:  boolean
 }
 
 // ─── Custom Tooltip ───────────────────────────────────────────────────────────
@@ -83,8 +84,11 @@ function selectTicks(data: PriceHistoryPoint[]): string[] {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function PriceLineChart({ data, closedDays = [], height = 180 }: PriceLineChartProps) {
+export function PriceLineChart({ data, closedDays = [], height = 180, showPriceRange = false }: PriceLineChartProps) {
   const ticks = selectTicks(data)
+
+  // Whether the dataset includes upper / lower price columns
+  const hasRangeData = data.some((d) => d.upperPrice != null && d.lowerPrice != null)
 
   // Find the average price to draw a reference line
   const validPrices = data.map((d) => d.avgPrice).filter((p): p is number => p !== null)
@@ -171,16 +175,60 @@ export function PriceLineChart({ data, closedDays = [], height = 180 }: PriceLin
               connectNulls
               activeDot={{ r: 5, fill: '#0d631b', strokeWidth: 0 }}
             />
+
+            {/* Upper / lower price range lines — rendered above avgPrice fill */}
+            {showPriceRange && hasRangeData && (
+              <>
+                <Area
+                  type="monotone"
+                  dataKey="upperPrice"
+                  stroke="#66bb6a"
+                  strokeWidth={1.5}
+                  strokeDasharray="5 3"
+                  fillOpacity={0}
+                  dot={false}
+                  connectNulls
+                  activeDot={false}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="lowerPrice"
+                  stroke="#ffa726"
+                  strokeWidth={1.5}
+                  strokeDasharray="5 3"
+                  fillOpacity={0}
+                  dot={false}
+                  connectNulls
+                  activeDot={false}
+                />
+              </>
+            )}
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Closed day legend (only show when there are closed days) */}
-      {closedDays.length > 0 && (
-        <p className="text-[0.6875rem] text-outline mt-2 text-right">
-          <span className="inline-block w-3 border-t border-dashed border-outline mr-1 align-middle" />
-          均價線 · 休市日 {closedDays.length} 天（曲線自動跨越）
-        </p>
+      {/* Legend row */}
+      {(closedDays.length > 0 || (showPriceRange && hasRangeData)) && (
+        <div className="flex flex-wrap justify-end items-center gap-x-3 gap-y-1 mt-2">
+          {showPriceRange && hasRangeData && (
+            <>
+              <span className="text-[0.6875rem] flex items-center gap-1 text-[#4caf50]">
+                <span className="inline-block w-4 border-t-2 border-dashed border-[#66bb6a] align-middle" />
+                上價
+              </span>
+              <span className="text-[0.6875rem] flex items-center gap-1 text-[#fb8c00]">
+                <span className="inline-block w-4 border-t-2 border-dashed border-[#ffa726] align-middle" />
+                下價
+              </span>
+            </>
+          )}
+          {closedDays.length > 0 && (
+            <span className="text-[0.6875rem] text-outline flex items-center gap-1">
+              <span className="inline-block w-4 border-t border-dashed border-outline align-middle" />
+              均價線 · 休市日 {closedDays.length} 天（曲線自動跨越）
+            </span>
+          )}
+        </div>
       )}
     </div>
   )
