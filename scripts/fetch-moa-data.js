@@ -116,9 +116,9 @@ async function main() {
           console.log(`      Found ${data.Data.length} records.`);
         }
         
-        if (!data || !data.Next || !data.Data || data.Data.length === 0) {
+        if (!data || !data.Data || data.Data.length < 1000) {
           console.log(`   ✅ Finished for date ${isoDate}.`);
-          break; // No more pages
+          break; // No more pages or last page
         }
         
         skip += 1000;
