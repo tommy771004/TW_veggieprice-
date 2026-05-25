@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { TrendChip } from '@/components/ui/TrendChip'
 import { SkeletonList } from '@/components/ui/SkeletonCard'
@@ -91,6 +91,11 @@ export function SearchContent() {
   const [currentPage, setCurrentPage] = useState(1)
   const [nextRestDay, setNextRestDay] = useState<MarketRestDay | null>(null)
   const [weatherRisk, setWeatherRisk] = useState<MarketWeatherRiskSummary | null>(null)
+  const [isHydrating, setIsHydrating] = useState(false)
+  const [hasMoreServerData, setHasMoreServerData] = useState(false)
+  const [hydrationParams, setHydrationParams] = useState<string>('')
+  
+  const lastSearchId = useRef(0)
 
   const ITEMS_PER_PAGE = 20
 
@@ -217,6 +222,7 @@ export function SearchContent() {
     debounce(async (q: string, mkt: string, mktType: string, range: SearchFilters['dateRange']) => {
       setLoading(true)
       setError('')
+      const searchId = ++lastSearchId.current
       try {
         const params = new URLSearchParams()
         if (q) params.set('crop', q)
@@ -230,30 +236,61 @@ export function SearchContent() {
           params.set('endDate', dateParams.endDate)
         }
 
-        const res = await fetch(`/api/prices?${params}`)
+        const page1Params = new URLSearchParams(params)
+        page1Params.set('page', '1')
+        page1Params.set('limit', '20')
+
+        const res = await fetch(`/api/prices?${page1Params}`)
         const json = await res.json()
 
         if (!res.ok) {
           throw new Error(json.error || '暫時無法取得搜尋結果')
         }
 
-        const data = json as ProducePrice[]
+        const data = (json.data || json) as ProducePrice[]
         setResults(data)
         if (q.length >= 1) {
           setAutocomplete([...new Set(data.map((d) => d.cropName).filter((n) => n.includes(q)))].slice(0, 5))
         } else {
           setAutocomplete([])
         }
-      } catch (err) {
-        setResults([])
-        setAutocomplete([])
-        setError(err instanceof Error ? err.message : '暫時無法取得搜尋結果')
-      } finally {
         setLoading(false)
+
+        if (json.hasNextPage) {
+          setHasMoreServerData(true)
+          setHydrationParams(params.toString())
+        } else {
+          setHasMoreServerData(false)
+        }
+      } catch (err) {
+        if (searchId === lastSearchId.current) {
+          setResults([])
+          setAutocomplete([])
+          setError(err instanceof Error ? err.message : '暫時無法取得搜尋結果')
+          setLoading(false)
+        }
       }
     }, 350),
     []
   )
+
+  const loadRemainingData = async () => {
+    if (!hydrationParams) return
+    setIsHydrating(true)
+    try {
+      const searchId = lastSearchId.current
+      const r = await fetch(`/api/prices?${hydrationParams}`)
+      const fullData = await r.json()
+      if (searchId === lastSearchId.current && Array.isArray(fullData)) {
+        setResults(fullData)
+        setHasMoreServerData(false)
+      }
+    } catch(err) {
+      console.error(err)
+    } finally {
+      setIsHydrating(false)
+    }
+  }
 
   useEffect(() => { doSearch(query, market, marketType, dateRange) }, [query, market, marketType, dateRange, doSearch])
 
@@ -563,6 +600,28 @@ export function SearchContent() {
               >
                 下一頁
                 <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.125rem' }}>chevron_right</span>
+              </button>
+            </div>
+          )}
+
+          {hasMoreServerData && (
+            <div className="flex justify-center pt-4 pb-2">
+              <button
+                onClick={loadRemainingData}
+                disabled={isHydrating}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full text-label-bold bg-primary/10 text-primary hover:bg-primary/20 transition-colors disabled:opacity-50"
+              >
+                {isHydrating ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin block"></span>
+                    正在載入全部資料…
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>download</span>
+                    載入其餘相符資料
+                  </>
+                )}
               </button>
             </div>
           )}

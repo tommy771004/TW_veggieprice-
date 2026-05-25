@@ -30,23 +30,71 @@ function formatROCDate(dateStr) {
 }
 
 // Convert ISO string to format expected
-function getPastDateStrings(days) {
+function getDatesToFetch(latestExistingIsoDate) {
+  const today = new Date(new Date().getTime() + 8 * 3600 * 1000);
+  const todayIso = today.toISOString().split('T')[0];
+
+  let fetchStartDate = new Date(today.getTime());
+
+  if (latestExistingIsoDate) {
+    fetchStartDate = new Date(latestExistingIsoDate);
+    fetchStartDate.setDate(fetchStartDate.getDate() + 1);
+  } else {
+    // defaults to last 7 days if no existing data
+    fetchStartDate.setDate(fetchStartDate.getDate() - 7);
+  }
+
   const dates = [];
-  for (let i = 0; i < days; i++) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    // Taipei time approximate
-    const iso = new Date(d.getTime() + 8 * 3600 * 1000).toISOString().split('T')[0];
-    dates.push(iso);
+  let current = new Date(fetchStartDate);
+  while (current <= today) {
+    dates.push(current.toISOString().split('T')[0]);
+    current.setDate(current.getDate() + 1);
   }
   return dates;
 }
 
+function parseRocDate(rocDateStr) {
+  const [y, m, d] = rocDateStr.split('.');
+  return `${parseInt(y) + 1911}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+}
+
 async function main() {
-  const dates = getPastDateStrings(7); // Fetch last 7 days
-  let allRecords = [];
+  const publicDataDir = path.join(__dirname, '..', 'public', 'data');
+  const filePath = path.join(publicDataDir, 'latest-opendata.json');
+
+  let existingData = [];
+  let latestExistingIsoDate = null;
+
+  if (fs.existsSync(filePath)) {
+    try {
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const parsed = JSON.parse(fileContent);
+      existingData = parsed.data || [];
+
+      for (const record of existingData) {
+        if (record.TransDate) {
+          const isoDate = parseRocDate(record.TransDate);
+          if (!latestExistingIsoDate || isoDate > latestExistingIsoDate) {
+            latestExistingIsoDate = isoDate;
+          }
+        }
+      }
+      console.log(`Found existing data with ${existingData.length} records. Latest date: ${latestExistingIsoDate}`);
+    } catch (e) {
+      console.warn('Failed to parse existing JSON, starting fresh.', e);
+    }
+  }
+
+  const dates = getDatesToFetch(latestExistingIsoDate);
   
-  console.log('🚀 Starting daily fetch of MOA data using Loop Search...');
+  if (dates.length === 0 || (dates.length === 1 && dates[0] < latestExistingIsoDate)) {
+    console.log('✅ Data is already up-to-date.');
+    return;
+  }
+
+  let allRecords = [...existingData];
+  
+  console.log(`🚀 Starting fetch of MOA data for ${dates.length} days using Loop Search...`);
   
   for (const isoDate of dates) {
     const rocDate = formatROCDate(isoDate);
@@ -65,7 +113,7 @@ async function main() {
           console.log(`      Found ${data.Data.length} records.`);
         }
         
-        if (!data || !data.Next) {
+        if (!data || !data.Next || !data.Data || data.Data.length === 0) {
           console.log(`   ✅ Finished for date ${isoDate}.`);
           break; // No more pages
         }
@@ -79,7 +127,17 @@ async function main() {
       }
     }
   }
-  
+
+  // Remove records older than ~95 days to prevent infinite growth
+  const cutoffDate = new Date(new Date().getTime() + 8 * 3600 * 1000);
+  cutoffDate.setDate(cutoffDate.getDate() - 95);
+  const cutoffIso = cutoffDate.toISOString().split('T')[0];
+
+  allRecords = allRecords.filter(record => {
+    if (!record.TransDate) return true;
+    return parseRocDate(record.TransDate) >= cutoffIso;
+  });
+
   const publicDataDir = path.join(__dirname, '..', 'public', 'data');
   if (!fs.existsSync(publicDataDir)) {
     fs.mkdirSync(publicDataDir, { recursive: true });
@@ -96,6 +154,25 @@ async function main() {
   const filePath = path.join(publicDataDir, 'latest-opendata.json');
   fs.writeFileSync(filePath, JSON.stringify(payload), 'utf-8');
   console.log(`\n🎉 Successfully saved ${allRecords.length} total records to ${filePath}`);
+
+  // Revalidate tags on the live app
+  const appUrl = process.env.APP_URL || 'http://localhost:3000';
+  const uniqueCrops = [...new Set(allRecords.map(r => r.CropName).filter(Boolean))];
+  console.log(`\n🔄 Triggering cache revalidation for ${uniqueCrops.length} crops at ${appUrl}...`);
+  let revalidated = 0;
+  for (const crop of uniqueCrops) {
+    try {
+      // Pass the Date header to trigger our custom Tag-based revalidation in the Route Handler
+      await fetch(`${appUrl}/api/prices/history?crop=${encodeURIComponent(crop)}`, {
+        method: 'GET',
+        headers: { 'Date': new Date().toUTCString() }
+      });
+      revalidated++;
+    } catch (e) {
+      console.warn(`⚠️ Failed to revalidate ${crop}`, e.message);
+    }
+  }
+  console.log(`✅ Cache revalidation complete (${revalidated}/${uniqueCrops.length} successful)`);
 }
 
 main().catch(err => {

@@ -1081,7 +1081,7 @@ export async function fetchMarketData(cropName: string, market: string, period: 
       return processRawRecordsToResult(rawRecords, startDate, endDate)
     },
     ['moa-market-data-v1', cropName, market, period, endDate],
-    { revalidate: 120 }
+    { revalidate: 120, tags: [`history-${cropName}`] }
   )
 
   return cachedFn()
@@ -1120,7 +1120,7 @@ export async function fetchMarketDataByDates(
       return processRawRecordsToResult(rawRecords, startDate, endDate)
     },
     ['moa-market-data-range-v1', cropName, market, startDate, endDate],
-    { revalidate: 120 }
+    { revalidate: 120, tags: [`history-${cropName}`] }
   )
 
   return cachedFn()

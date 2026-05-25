@@ -11,6 +11,8 @@ export async function GET(req: NextRequest) {
   const date = searchParams.get('date') || new Date().toISOString().split('T')[0]
   const startDate = searchParams.get('startDate') || date
   const endDate = searchParams.get('endDate') || date
+  const pageParam = searchParams.get('page')
+  const limitParam = searchParams.get('limit') || '20'
 
   const { records, error } = await fetchSearchRecords({
     cropName: crop,
@@ -25,6 +27,21 @@ export async function GET(req: NextRequest) {
     // Distinguish a genuine upstream failure (502) from a not-found query (404).
     const status = error.includes('查無') ? 404 : 502
     return NextResponse.json({ error }, { status })
+  }
+
+  if (pageParam) {
+    const page = parseInt(pageParam, 10)
+    const limit = parseInt(limitParam, 10)
+    if (!isNaN(page) && page > 0) {
+      const startIndex = (page - 1) * limit
+      const paginatedData = records.slice(startIndex, startIndex + limit)
+      return NextResponse.json({
+        data: paginatedData,
+        total: records.length,
+        page,
+        hasNextPage: startIndex + limit < records.length
+      })
+    }
   }
 
   return NextResponse.json(records)
