@@ -35,7 +35,12 @@ export default async function SeasonalPage() {
                 <p className="text-body-lg font-semibold text-on-surface">{item.cropName}</p>
                 <p className="text-body-sm text-primary-container mt-1">{item.reason}</p>
                 <p className="text-body-sm text-on-surface-variant mt-2">{item.note}</p>
-                <Link href={`/search?q=${encodeURIComponent(item.cropName)}`} className="inline-block mt-3 text-primary text-label-bold hover:underline">
+                <Link
+                  href={`/search?q=${encodeURIComponent(item.cropName)}&type=${
+                    item.category === 'fruit' ? 'Fruit' : item.category === 'flower' ? 'Flower' : 'Veg'
+                  }`}
+                  className="inline-block mt-3 text-primary text-label-bold hover:underline"
+                >
                   查看行情
                 </Link>
               </div>

@@ -1,5 +1,8 @@
 {
-  "name": "",
-  "description": "",
-  "requestFramePermissions": []
+  "name": "TW VeggiePrice",
+  "description": "台灣蔬果批發行情即時查詢",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

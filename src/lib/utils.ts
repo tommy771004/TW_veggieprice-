@@ -79,3 +79,41 @@ export function debounce<T extends (...args: any[]) => void>(fn: T, delay: numbe
     timer = setTimeout(() => fn(...args), delay)
   }
 }
+
+export function cleanErrorMessage(err: unknown, fallback = '無法取得資料'): string {
+  if (!err) return fallback
+  
+  let msg = ''
+  if (err instanceof Error) {
+    msg = err.message
+  } else if (typeof err === 'string') {
+    msg = err
+  } else if (typeof err === 'object' && err !== null && 'message' in err) {
+    msg = String((err as { message: unknown }).message)
+  } else {
+    msg = String(err)
+  }
+
+  const lowercase = msg.toLowerCase()
+  if (
+    lowercase.includes('failed to fetch') || 
+    lowercase.includes('fetch failed') || 
+    lowercase.includes('networkerror') || 
+    lowercase.includes('abort') || 
+    lowercase.includes('timeout') ||
+    lowercase.includes('connection')
+  ) {
+    return '無法連線至農業部統計資料庫，請檢查您的網路或稍後再試。'
+  }
+  
+  if (lowercase.includes('http') || lowercase.includes('status')) {
+    return '資料服務器回應異常，請稍後再試。'
+  }
+
+  if (lowercase.includes('json') || lowercase.includes('parse')) {
+    return '資料處理異常，請稍後再試。'
+  }
+
+  return msg || fallback
+}
+

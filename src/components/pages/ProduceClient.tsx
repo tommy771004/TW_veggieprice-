@@ -9,6 +9,7 @@ import { VolumeBarChart } from '@/components/charts/VolumeBarChart'
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { formatPrice, getCropEmoji } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
+import { getProduceCategory } from '@/lib/produce'
 import type {
   PricePeriod,
   MarketComparison,
@@ -49,6 +50,10 @@ export function ProduceClient({ cropName }: { cropName: string }) {
   const [costLoading, setCostLoading] = useState(true)
   const [infoLoading, setInfoLoading] = useState(true)
 
+  const [streamingStatus, setStreamingStatus] = useState<'idle' | 'loading_chunks' | 'complete'>('idle')
+  const [streamingProgress, setStreamingProgress] = useState(0)
+  const [streamingTotal, setStreamingTotal] = useState(0)
+
   const [updatedAt, setUpdatedAt] = useState<string>('')
   const [inWatchlist, setInWatchlist] = useState(false)
   const [historyError, setHistoryError] = useState('')
@@ -67,33 +72,196 @@ export function ProduceClient({ cropName }: { cropName: string }) {
 
   // Fetch History
   useEffect(() => {
+    let active = true
+
     async function loadHistory() {
       setHistoryLoading(true)
       setHistoryError('')
+      setStreamingStatus('idle')
+      setStreamingProgress(0)
+      setStreamingTotal(0)
+
+      function getDaysAgoISO(days: number): string {
+        const d = new Date()
+        d.setDate(d.getDate() - days)
+        return d.toISOString().split('T')[0]
+      }
+
+      const todayStr = getDaysAgoISO(0)
+
       try {
-        const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&period=${period}`)
-        const historyJson = await hRes.json()
-        if (hRes.ok) {
-          const json = historyJson as HistoryApiResponse
-          setHistory(json.data ?? [])
-          setClosedDays(json.closedDays ?? [])
+        if (period === '1W') {
+          const startStr = getDaysAgoISO(7)
+          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr}&endDate=${todayStr}`)
+          if (!active) return
+          const json = await hRes.json()
+          if (!active) return
+          if (hRes.ok) {
+            setHistory(json.data ?? [])
+            setClosedDays(json.closedDays ?? [])
+            if (json.updatedAt) setUpdatedAt(json.updatedAt)
+            setStreamingStatus('complete')
+          } else {
+            throw new Error(json.error || '查無此作物的歷史資料')
+          }
+        } else if (period === '1M') {
+          const startStr = getDaysAgoISO(30)
+          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr}&endDate=${todayStr}`)
+          if (!active) return
+          const json = await hRes.json()
+          if (!active) return
+          if (hRes.ok) {
+            setHistory(json.data ?? [])
+            setClosedDays(json.closedDays ?? [])
+            if (json.updatedAt) setUpdatedAt(json.updatedAt)
+            setStreamingStatus('complete')
+          } else {
+            throw new Error(json.error || '查無此作物的歷史資料')
+          }
+        } else if (period === '3M') {
+          // Stage 1: Load 1 Month instant data
+          const startStr30 = getDaysAgoISO(30)
+          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr30}&endDate=${todayStr}`)
+          if (!active) return
+          const json = await hRes.json()
+          if (!active) return
+
+          if (!hRes.ok) {
+            throw new Error(json.error || '查無此作物的歷史資料')
+          }
+
+          let mergedData = [...(json.data ?? [])]
+          let mergedClosed = [...(json.closedDays ?? [])]
+          setHistory(mergedData)
+          setClosedDays(mergedClosed)
           if (json.updatedAt) setUpdatedAt(json.updatedAt)
-        } else {
+
+          // We loaded the first segment. loader disappears!
+          setHistoryLoading(false)
+
+          // Stage 2: Background fetch the remaining 60 days
+          setStreamingStatus('loading_chunks')
+          setStreamingTotal(1)
+          setStreamingProgress(0)
+
+          const startStrRemaining = getDaysAgoISO(90)
+          const endStrRemaining = getDaysAgoISO(31)
+
+          try {
+            const hRes2 = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStrRemaining}&endDate=${endStrRemaining}`)
+            if (!active) return
+            const json2 = await hRes2.json()
+            if (!active) return
+
+            if (hRes2.ok) {
+              const prevPoints = json2.data ?? []
+              const prevClosed = json2.closedDays ?? []
+
+              // Merge and sort
+              const uniqueDataMap = new Map<string, PriceHistoryPoint>()
+              mergedData.concat(prevPoints).forEach(item => {
+                uniqueDataMap.set(item.date, item)
+              })
+              const finalData = Array.from(uniqueDataMap.values()).sort((a, b) => a.date.localeCompare(b.date))
+              const finalClosed = Array.from(new Set([...mergedClosed, ...prevClosed])).sort()
+
+              setHistory(finalData)
+              setClosedDays(finalClosed)
+              setStreamingProgress(1)
+            }
+          } catch (e) {
+            console.error('Failed to stream 3M chunk', e)
+          } finally {
+            if (active) setStreamingStatus('complete')
+          }
+        } else if (period === '1Y') {
+          // Stage 1: Load 1 Month instant data
+          const startStr30 = getDaysAgoISO(30)
+          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr30}&endDate=${todayStr}`)
+          if (!active) return
+          const json = await hRes.json()
+          if (!active) return
+
+          if (!hRes.ok) {
+            throw new Error(json.error || '查無此作物的歷史資料')
+          }
+
+          let mergedData = [...(json.data ?? [])]
+          let mergedClosed = [...(json.closedDays ?? [])]
+          setHistory(mergedData)
+          setClosedDays(mergedClosed)
+          if (json.updatedAt) setUpdatedAt(json.updatedAt)
+
+          // Loader disappears!
+          setHistoryLoading(false)
+
+          // Stage 2: Background fetch of 3 quarters
+          setStreamingStatus('loading_chunks')
+          setStreamingTotal(3)
+          setStreamingProgress(0)
+
+          // Define chunks: [startRangeDays, endRangeDays]
+          const chunks = [
+            { start: 120, end: 31 },
+            { start: 240, end: 121 },
+            { start: 365, end: 241 },
+          ]
+
+          let currentProgress = 0
+          for (const chunk of chunks) {
+            try {
+              const startStr = getDaysAgoISO(chunk.start)
+              const endStr = getDaysAgoISO(chunk.end)
+              const chunkRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr}&endDate=${endStr}`)
+              if (!active) return
+              const chunkJson = await chunkRes.json()
+              if (!active) return
+
+              if (chunkRes.ok) {
+                const chunkPoints = chunkJson.data ?? []
+                const chunkClosed = chunkJson.closedDays ?? []
+
+                mergedData = mergedData.concat(chunkPoints)
+                mergedClosed = mergedClosed.concat(chunkClosed)
+
+                const uniqueDataMap = new Map<string, PriceHistoryPoint>()
+                mergedData.forEach(item => {
+                  uniqueDataMap.set(item.date, item)
+                })
+                const finalData = Array.from(uniqueDataMap.values()).sort((a, b) => a.date.localeCompare(b.date))
+                const finalClosed = Array.from(new Set(mergedClosed)).sort()
+
+                setHistory(finalData)
+                setClosedDays(finalClosed)
+              }
+            } catch (err) {
+              console.error(`Failed to stream 1Y chunk ${chunk.start}-${chunk.end}`, err)
+            } finally {
+              if (active) {
+                currentProgress++
+                setStreamingProgress(currentProgress)
+              }
+            }
+          }
+          if (active) setStreamingStatus('complete')
+        }
+      } catch (err: any) {
+        if (active) {
           setHistory([])
           setClosedDays([])
           setUpdatedAt('')
-          setHistoryError(historyJson.error || '查無此作物的歷史資料')
+          setHistoryError(err.message || '目前無法取得歷史走勢資料')
         }
-      } catch {
-        setHistory([])
-        setClosedDays([])
-        setUpdatedAt('')
-        setHistoryError('目前無法取得歷史走勢資料')
       } finally {
-        setHistoryLoading(false)
+        if (active) setHistoryLoading(false)
       }
     }
+
     loadHistory()
+
+    return () => {
+      active = false
+    }
   }, [cropName, period, reloadKey])
 
   // Fetch Markets
@@ -225,6 +393,10 @@ export function ProduceClient({ cropName }: { cropName: string }) {
   const costGap = avgCost !== null && latestPrice > 0 ? latestPrice - avgCost : null
   const compareMax = Math.max(latestPrice, avgCost ?? 0, 1)
 
+  // Whether the loaded history dataset includes upper/lower price columns
+  const hasHistoryRangeData = history.some((d) => d.upperPrice != null)
+  const [showPriceRange, setShowPriceRange] = useState(false)
+
   function handleToggleWatchlist() {
     const added = toggleWatchlist({ cropCode, cropName, emoji })
     setInWatchlist(added)
@@ -286,9 +458,32 @@ export function ProduceClient({ cropName }: { cropName: string }) {
 
         {/* Price Chart */}
         <GlassCard className="rounded-3xl p-container-padding">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-headline-md font-semibold text-on-surface">價格趨勢</h3>
-            <div className="flex bg-surface-container-high rounded-full p-1 gap-0.5">
+          <div className="flex justify-between items-start sm:items-center flex-col sm:flex-row gap-4 mb-6">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-headline-md font-semibold text-on-surface">價格趨勢</h3>
+              {streamingStatus === 'loading_chunks' && (
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[0.6875rem] font-medium animate-pulse self-start transition-opacity duration-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <span>串流載入歷史中... ({streamingProgress}/{streamingTotal})</span>
+                </div>
+              )}
+              {hasHistoryRangeData && (
+                <button
+                  onClick={() => setShowPriceRange((v) => !v)}
+                  className={`inline-flex items-center gap-1 self-start px-2.5 py-0.5 rounded-full text-[0.6875rem] font-medium transition-colors ${
+                    showPriceRange
+                      ? 'bg-primary/12 text-primary border border-primary/30'
+                      : 'bg-surface-container text-on-surface-variant border border-outline-variant/40 hover:bg-surface-container-high'
+                  }`}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '13px', lineHeight: 1 }}>
+                    {showPriceRange ? 'visibility' : 'visibility_off'}
+                  </span>
+                  上/下價區間
+                </button>
+              )}
+            </div>
+            <div className="flex bg-surface-container-high rounded-full p-1 gap-0.5 self-end sm:self-auto">
               {PERIODS.map((p) => (
                 <button
                   key={p}
@@ -319,7 +514,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
               </button>
             </div>
           ) : (
-            <PriceLineChart data={history} closedDays={closedDays} height={180} />
+            <PriceLineChart data={history} closedDays={closedDays} height={180} showPriceRange={showPriceRange} />
           )}
         </GlassCard>
 
@@ -519,7 +714,12 @@ export function ProduceClient({ cropName }: { cropName: string }) {
               {markets.map((m) => (
                 <li key={m.marketName} className="border-b border-surface-variant last:border-0 hover:bg-white/40 transition-colors">
                   <Link 
-                    href={`/search?q=${encodeURIComponent(cropName)}&market=${encodeURIComponent(m.marketName)}`}
+                    href={`/search?q=${encodeURIComponent(cropName)}&market=${encodeURIComponent(m.marketName)}&type=${
+                      (() => {
+                        const cat = getProduceCategory(cropName)
+                        return cat === 'fruit' ? 'Fruit' : cat === 'flower' ? 'Flower' : 'Veg'
+                      })()
+                    }`}
                     className="flex justify-between items-center py-2.5 px-2 block"
                   >
                     <span className="text-body-lg text-on-surface hover:text-primary transition-colors">{m.marketName}</span>

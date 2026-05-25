@@ -44,7 +44,7 @@ const SORT_OPTIONS: ReadonlyArray<{ label: string; value: SearchFilters['sortBy'
 const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
   { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
-  { value: 'ComVegFruit', label: '綜合蔬果', description: '綜合蔬果交易市場行情' },
+  { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
 ]
 
 const FALLBACK_MARKETS = [ALL_MARKET_SENTINEL]
@@ -97,29 +97,52 @@ export function SearchContent() {
   useEffect(() => {
     let cancelled = false
 
+    const prefs = getUserPreferences()
+    const urlMarket = searchParams.get('market')
+    const urlType = searchParams.get('type')
+    const preferredMarket = prefs.preferredMarket
+    const preferredMarketType = prefs.preferredMarketType
+
     fetchMarketOptions().then((meta) => {
       if (cancelled) return
 
       setMarketTypeOptions(meta.marketTypes)
       setMarketsByType(meta.marketsByType)
 
-      const resolvedType = meta.marketTypes.some((option) => option.value === marketType)
-        ? marketType
-        : meta.defaultMarketType
+      // Determine starting market
+      const initialMarket = urlMarket || preferredMarket || DEFAULT_MARKET
 
-      if (resolvedType !== marketType) {
-        setMarketType(resolvedType)
+      // Find which marketType contains initialMarket, prioritizing urlType or preferredMarketType if set
+      let resolvedType: MarketTypeOption['value'] | null = null
+      if (urlType && (urlType === 'Veg' || urlType === 'Fruit' || urlType === 'Flower')) {
+        resolvedType = urlType
+      } else if (preferredMarketType && meta.marketsByType[preferredMarketType]?.includes(initialMarket)) {
+        resolvedType = preferredMarketType
+      } else {
+        for (const [mType, list] of Object.entries(meta.marketsByType)) {
+          if (list.includes(initialMarket)) {
+            resolvedType = mType as MarketTypeOption['value']
+            break
+          }
+        }
       }
+
+      if (!resolvedType) {
+        resolvedType = (preferredMarketType && meta.marketTypes.some((option) => option.value === preferredMarketType))
+          ? preferredMarketType
+          : meta.defaultMarketType
+      }
+
+      setMarketType(resolvedType)
 
       const list = meta.marketsByType[resolvedType] ?? FALLBACK_MARKETS
       setMarketsList(list)
 
-      if (list.length > 0 && !list.includes(market)) {
-        const preferredMarket = typeof window !== 'undefined' ? getUserPreferences().preferredMarket : ''
-        const nextMarket = (preferredMarket && list.includes(preferredMarket))
-          ? preferredMarket
-          : (list.includes(meta.defaultMarket) ? meta.defaultMarket : (list.find((name) => name !== '全部市場') ?? list[0]))
-        setMarket(nextMarket)
+      if (list.includes(initialMarket)) {
+        setMarket(initialMarket)
+      } else {
+        const fallback = list.includes(meta.defaultMarket) ? meta.defaultMarket : (list.find((name) => name !== '全部市場') ?? list[0] ?? DEFAULT_MARKET)
+        setMarket(fallback)
       }
     }).catch(console.error)
 
@@ -129,21 +152,36 @@ export function SearchContent() {
   }, [])
 
   useEffect(() => {
+    let active = true
     const metaMarkets = marketsByType[marketType]
+    const prefs = typeof window !== 'undefined' ? getUserPreferences() : null
+    const preferredMarket = prefs?.preferredMarket
+
     if (metaMarkets && metaMarkets.length > 0) {
       setMarketsList(metaMarkets)
       if (!metaMarkets.includes(market)) {
-        setMarket(metaMarkets.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : metaMarkets[0])
+        const nextMarket = (preferredMarket && metaMarkets.includes(preferredMarket))
+          ? preferredMarket
+          : (metaMarkets.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : metaMarkets[0])
+        setMarket(nextMarket)
       }
       return
     }
 
     fetchMarketList(marketType).then((list) => {
+      if (!active) return
       setMarketsList(list)
       if (list.length > 0 && !list.includes(market)) {
-        setMarket(list.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : list[0])
+        const nextMarket = (preferredMarket && list.includes(preferredMarket))
+          ? preferredMarket
+          : (list.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : list[0])
+        setMarket(nextMarket)
       }
     }).catch(console.error)
+
+    return () => {
+      active = false
+    }
   }, [marketType, marketsByType, market])
 
   useEffect(() => {
@@ -176,13 +214,14 @@ export function SearchContent() {
   }, [market])
 
   const doSearch = useCallback(
-    debounce(async (q: string, mkt: string, range: SearchFilters['dateRange']) => {
+    debounce(async (q: string, mkt: string, mktType: string, range: SearchFilters['dateRange']) => {
       setLoading(true)
       setError('')
       try {
         const params = new URLSearchParams()
         if (q) params.set('crop', q)
         if (mkt !== '全部市場') params.set('market', mkt)
+        if (mktType) params.set('type', mktType)
         const dateParams = getRangeDates(range)
         if (dateParams.kind === 'single') {
           params.set('date', dateParams.date)
@@ -216,7 +255,7 @@ export function SearchContent() {
     []
   )
 
-  useEffect(() => { doSearch(query, market, dateRange) }, [query, market, dateRange, doSearch])
+  useEffect(() => { doSearch(query, market, marketType, dateRange) }, [query, market, marketType, dateRange, doSearch])
 
   // Reset to page 1 whenever results or sort/filter options change
   useEffect(() => { setCurrentPage(1) }, [results, minPrice, maxPrice, sortBy])
@@ -468,7 +507,7 @@ export function SearchContent() {
               <p className="text-body-lg font-semibold text-on-surface">系統維護中或資料暫時無法取得</p>
               <p className="text-body-sm mt-1">{error}</p>
               <button
-                onClick={() => doSearch(query, market, dateRange)}
+                onClick={() => doSearch(query, market, marketType, dateRange)}
                 className="mt-4 text-primary text-label-bold hover:underline"
               >
                 重新載入

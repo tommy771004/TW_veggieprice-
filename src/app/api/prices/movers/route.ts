@@ -3,6 +3,10 @@ import { getCropEmoji } from '@/lib/utils'
 import { fetchMarketWindowRecords } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
+// Minimum transaction weight (kg) required both today and in the 3-day baseline
+// to prevent low-volume outliers from dominating the movers list.
+const MIN_WEIGHT = 100
+
 export async function GET() {
   const today = todayISO()
   const rangeStart = subtractDays(today, 7)
@@ -14,35 +18,49 @@ export async function GET() {
     return NextResponse.json({ error: error ?? '查無波動排行資料' }, { status: error ? 502 : 404 })
   }
 
-  // Single pass: find the two most recent trading dates and split records into buckets.
-  let latestDate = ''
-  let prevDate = ''
-  for (const r of allRecords) {
-    if (!r.date) continue
-    if (r.date > latestDate) { prevDate = latestDate; latestDate = r.date }
-    else if (r.date !== latestDate && r.date > prevDate) prevDate = r.date
-  }
+  // Collect distinct trading dates in descending order.
+  const tradingDates = [...new Set(allRecords.map((r) => r.date).filter(Boolean))].sort().reverse()
+  const latestDate = tradingDates[0] ?? ''
 
   if (!latestDate) {
     return NextResponse.json({ error: '查無波動排行資料' }, { status: 404 })
   }
 
+  // Use up to 3 prior trading days as the baseline window.
+  // A 3-day VWAP (volume-weighted average price) smooths single-day anomalies and
+  // holiday gaps better than a direct yesterday-vs-today comparison.
+  const baselineDates = new Set(tradingDates.slice(1, 4))
+
   const latestRecords: typeof allRecords = []
-  const yestMap: Record<string, number> = {}
+  // key = cropName_marketName_grade for exact matching (avoids grade mixing)
+  const baselineAccum: Record<string, { sumPriceVol: number; sumVol: number }> = {}
+
   for (const record of allRecords) {
     if (record.date === latestDate) {
       latestRecords.push(record)
-    } else if (record.date === prevDate && record.avgPrice > 0) {
-      yestMap[`${record.cropName}_${record.marketName}`] = record.avgPrice
+    } else if (baselineDates.has(record.date) && record.avgPrice > 0 && record.transWeight > 0) {
+      const key = `${record.cropName}_${record.marketName}_${record.grade}`
+      const acc = baselineAccum[key] ?? (baselineAccum[key] = { sumPriceVol: 0, sumVol: 0 })
+      acc.sumPriceVol += record.avgPrice * record.transWeight
+      acc.sumVol += record.transWeight
+    }
+  }
+
+  // Compute final VWAP baseline; require minimum cumulative volume for stability.
+  const baselineMap: Record<string, number> = {}
+  for (const [key, { sumPriceVol, sumVol }] of Object.entries(baselineAccum)) {
+    if (sumVol >= MIN_WEIGHT) {
+      baselineMap[key] = sumPriceVol / sumVol
     }
   }
 
   const movers = latestRecords
     .map((record) => {
-      const key = `${record.cropName}_${record.marketName}`
+      const key = `${record.cropName}_${record.marketName}_${record.grade}`
       const currentPrice = record.avgPrice || 0
-      const yest = yestMap[key]
-      const change = yest && yest > 0 ? ((currentPrice - yest) / yest) * 100 : 0
+      const baselinePrice = baselineMap[key]
+      if (baselinePrice === undefined) return null
+      const change = baselinePrice > 0 ? ((currentPrice - baselinePrice) / baselinePrice) * 100 : 0
       return {
         cropCode: record.cropCode,
         cropName: record.cropName,
@@ -51,9 +69,13 @@ export async function GET() {
         currentPrice,
         priceChange: Math.round(change * 10) / 10,
         emoji: getCropEmoji(record.cropName),
+        transWeight: record.transWeight,
       }
     })
-    .filter((m) => m.currentPrice > 0)
+    .filter(
+      (m): m is NonNullable<typeof m> =>
+        m !== null && m.currentPrice >= 3 && m.transWeight >= MIN_WEIGHT,
+    )
     .sort((a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange))
     .slice(0, 6)
 

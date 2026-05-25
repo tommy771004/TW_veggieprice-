@@ -23,6 +23,7 @@ export function normalizeCountyNameForCompare(value: string): string {
 }
 
 const MARKET_COUNTY_ENTRIES: MarketCountyEntry[] = [
+  { market: '台北市場', county: '臺北市' },
   { market: '台北一', county: '臺北市' },
   { market: '台北二', county: '臺北市' },
   { market: '第一果菜批發市場', county: '臺北市' },

@@ -1,8 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const runtime = 'edge'
-
-// Module-level cache — persists across requests within the same edge isolate
+// Module-level cache — persists across requests within the same process
 let fontCache: ArrayBuffer | null = null
 
 async function loadNotoSansTCFont(): Promise<ArrayBuffer | null> {

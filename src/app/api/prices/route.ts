@@ -7,6 +7,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const crop = searchParams.get('crop') || ''
   const market = searchParams.get('market') || ''
+  const type = searchParams.get('type') || ''
   const date = searchParams.get('date') || new Date().toISOString().split('T')[0]
   const startDate = searchParams.get('startDate') || date
   const endDate = searchParams.get('endDate') || date
@@ -17,6 +18,7 @@ export async function GET(req: NextRequest) {
     date,
     startDate,
     endDate,
+    marketType: type,
   })
 
   if (error) {

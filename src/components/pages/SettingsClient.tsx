@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { DEFAULT_MARKETS } from '@/lib/constants'
-import { fetchMarketList } from '@/lib/api'
+import { fetchMarketOptions } from '@/lib/api'
+import { resolveCountyFromMarketName } from '@/lib/server/marketCountyMap'
 import {
   DEFAULT_USER_PREFERENCES,
   type FontSize,
@@ -16,17 +17,83 @@ import {
 export function SettingsClient() {
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_USER_PREFERENCES)
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default')
-  const [markets, setMarkets] = useState<string[]>(DEFAULT_MARKETS)
+  const [marketsByType, setMarketsByType] = useState<Record<string, string[]>>({})
+  const [selectedType, setSelectedType] = useState<'Veg' | 'Fruit' | 'Flower'>('Veg')
+  const [selectedCounty, setSelectedCounty] = useState<string>('全部地區')
 
   useEffect(() => {
     const next = getUserPreferences()
     setPreferences(next)
-    fetchMarketList('Veg').then(setMarkets).catch(console.error)
+    
+    const initialType = next.preferredMarketType ?? 'Veg'
+    setSelectedType(initialType)
+    
+    const initialMarket = next.preferredMarket
+    if (initialMarket) {
+      const county = resolveCountyFromMarketName(initialMarket)
+      if (county) {
+        setSelectedCounty(county)
+      }
+    }
+
+    fetchMarketOptions().then((meta) => {
+      setMarketsByType(meta.marketsByType)
+    }).catch(console.error)
 
     if (typeof Notification !== 'undefined') {
       setNotificationPermission(Notification.permission)
     }
   }, [])
+
+  const marketsForType = marketsByType[selectedType] ?? []
+
+  const countiesForType = useMemo(() => {
+    const set = new Set<string>()
+    marketsForType.forEach((m) => {
+      if (m === '全部市場') return
+      const county = resolveCountyFromMarketName(m)
+      if (county) {
+        set.add(county)
+      }
+    })
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'zh-TW'))
+  }, [marketsForType])
+
+  const filteredMarkets = useMemo(() => {
+    return marketsForType.filter((m) => {
+      if (m === '全部市場') return false
+      if (selectedCounty === '全部地區') return true
+      return resolveCountyFromMarketName(m) === selectedCounty
+    })
+  }, [marketsForType, selectedCounty])
+
+  function handleTypeChange(type: 'Veg' | 'Fruit' | 'Flower') {
+    setSelectedType(type)
+    setSelectedCounty('全部地區')
+    
+    const list = marketsByType[type] ?? []
+    const available = list.filter((m) => m !== '全部市場')
+    if (available.length > 0) {
+      const firstMarket = available[0]
+      persist({ preferredMarketType: type, preferredMarket: firstMarket })
+    }
+  }
+
+  function handleCountyChange(county: string) {
+    setSelectedCounty(county)
+    const list = marketsByType[selectedType] ?? []
+    const available = list.filter((m) => {
+      if (m === '全部市場') return false
+      if (county === '全部地區') return true
+      return resolveCountyFromMarketName(m) === county
+    })
+    
+    if (available.length > 0) {
+      if (!available.includes(preferences.preferredMarket)) {
+        persist({ preferredMarket: available[0] })
+      }
+    }
+  }
 
   function persist(partial: Partial<UserPreferences>) {
     const next = updateUserPreferences(partial)
@@ -144,17 +211,69 @@ export function SettingsClient() {
           <span className="material-symbols-outlined text-primary" style={{ fontSize: '1.25rem', fontVariationSettings: "'FILL' 1" }}>store</span>
           預設市場 (Preferred Market)
         </h3>
-        
-        <select
-          suppressHydrationWarning
-          value={preferences.preferredMarket}
-          onChange={(event) => persist({ preferredMarket: event.target.value })}
-          className="w-full bg-white/70 border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30"
-        >
-          {markets.filter((market) => market !== '全部市場').map((market) => (
-            <option key={market} value={market}>{market}</option>
-          ))}
-        </select>
+
+        <div className="space-y-4">
+          <div className="space-y-1">
+            <p className="text-body-sm text-on-surface-variant font-medium">市場類別 (Market Category)</p>
+            <div className="grid grid-cols-3 gap-1.5 bg-surface-container rounded-lg p-1">
+              {([
+                { value: 'Veg', label: '蔬菜' },
+                { value: 'Fruit', label: '水果' },
+                { value: 'Flower', label: '花卉' },
+              ] as const).map((typeOption) => (
+                <button
+                  key={typeOption.value}
+                  type="button"
+                  onClick={() => handleTypeChange(typeOption.value)}
+                  className={`py-1.5 text-center rounded-md text-body-sm transition-all touch-target ${
+                    selectedType === typeOption.value
+                      ? 'bg-white shadow-sm text-primary font-medium border border-primary/10'
+                      : 'text-on-surface-variant hover:bg-surface-container-high'
+                  }`}
+                >
+                  {typeOption.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label htmlFor="county-filter" className="text-body-sm text-on-surface-variant block font-medium">縣市地區 (Region)</label>
+              <select
+                suppressHydrationWarning
+                id="county-filter"
+                value={selectedCounty}
+                onChange={(e) => handleCountyChange(e.target.value)}
+                className="w-full bg-white/70 border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30"
+              >
+                <option value="全部地區">全部地區</option>
+                {countiesForType.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="preferred-market" className="text-body-sm text-on-surface-variant block font-medium">指定市場 (Market)</label>
+              <select
+                suppressHydrationWarning
+                id="preferred-market"
+                value={preferences.preferredMarket}
+                onChange={(event) => persist({ preferredMarket: event.target.value })}
+                className="w-full bg-white/70 border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30"
+              >
+                {filteredMarkets.length > 0 ? (
+                  filteredMarkets.map((market) => (
+                    <option key={market} value={market}>{market}</option>
+                  ))
+                ) : (
+                  <option disabled value="">此地區無可用市場</option>
+                )}
+              </select>
+            </div>
+          </div>
+        </div>
       </GlassCard>
 
       <GlassCard className="p-container-padding shadow-glass-sm flex justify-between items-center">

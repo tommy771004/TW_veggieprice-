@@ -22,7 +22,7 @@ const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? '10000')
 const MARKET_TYPE_OPTIONS = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
   { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
-  { value: 'ComVegFruit', label: '綜合蔬果', description: '綜合蔬果交易市場行情' },
+  { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
 ] as const
 
 type MarketType = (typeof MARKET_TYPE_OPTIONS)[number]['value']
@@ -147,6 +147,7 @@ interface PriceQueryOptions {
   date?: string
   startDate?: string
   endDate?: string
+  marketType?: string
 }
 
 function parseRecord(record: MOARawRecord): NormalizedPriceRecord {
@@ -249,7 +250,7 @@ async function fetchMOARecords(params: URLSearchParams, maxPages: number = MAX_P
 
   const fetchPage = async (page: number): Promise<{ records: MOARawRecord[]; hasNext: boolean }> => {
     const pageParams = new URLSearchParams(params)
-    if (page > 1) pageParams.set('page', String(page))
+    if (page > 1) pageParams.set('Page', String(page))
     const response = await fetch(`${MOA_BASE}?${pageParams}`, {
       signal: controller.signal,
       headers: { Accept: 'application/json' },
@@ -293,7 +294,7 @@ async function fetchMOAEndpointRecords<T extends object>(
 
   const fetchPage = async (page: number): Promise<{ records: T[]; hasNext: boolean }> => {
     const pageParams = new URLSearchParams(params)
-    if (page > 1) pageParams.set('page', String(page))
+    if (page > 1) pageParams.set('Page', String(page))
     const response = await fetch(`${MOA_API_ROOT}/${endpoint}/?${pageParams}`, {
       signal: controller.signal,
       headers: { Accept: 'application/json' },
@@ -327,34 +328,92 @@ async function fetchMOAEndpointRecords<T extends object>(
   }
 }
 
+const FALLBACK_VEG_MARKETS = [
+  '全部市場',
+  '台北市場',
+  '台北一',
+  '台北二',
+  '板橋區',
+  '三重區',
+  '宜蘭地區',
+  '台中市',
+  '南投市',
+  '埔里鎮',
+  '溪湖鎮',
+  '西螺鎮',
+  '高雄市',
+  '鳳山區',
+  '屏東市',
+  '台東市',
+  '花蓮市'
+]
+
+const FALLBACK_FRUIT_MARKETS = [
+  '全部市場',
+  '台北市場',
+  '台北一',
+  '台北二',
+  '板橋區',
+  '三重區',
+  '宜蘭地區',
+  '東勢鎮',
+  '台中市',
+  '嘉義市',
+  '高雄市',
+  '鳳山區',
+  '屏東市',
+  '台東市',
+  '花蓮市',
+  '豐原區',
+  '員林鎮'
+]
+
+const FALLBACK_FLOWER_MARKETS = [
+  '全部市場',
+  '台北花市',
+  '台中市',
+  '彰化地區',
+  '台南市',
+  '高雄市'
+]
+
 export interface MOAMarket {
   MarketCode: string;
   MarketName: string;
 }
 
-const fetchMarketsCached = unstable_cache(
-  async (type: string): Promise<string[]> => {
-    const allMarkets = new Set<string>()
-    allMarkets.add('全部市場')
-    const normalizedType = normalizeMarketType(type)
-    const params = new URLSearchParams({ CropMarketType: normalizedType })
-    const records = await fetchMOAEndpointRecords<MOAMarket>('CropMarketType', params, 2)
-    for (const record of records) {
-      if (record.MarketName) {
-        allMarkets.add(record.MarketName)
-      }
-    }
-    return Array.from(allMarkets)
-  },
-  ['moa-markets-list-v1'],
-  { revalidate: 3600 }
-)
-
 export async function fetchMarkets(type: string = 'Veg'): Promise<string[]> {
+  const normalizedType = normalizeMarketType(type)
+  const cachedFn = unstable_cache(
+    async (): Promise<string[]> => {
+      const allMarkets = new Set<string>()
+      allMarkets.add('全部市場')
+      const params = new URLSearchParams({ CropMarketType: normalizedType })
+      const records = await fetchMOAEndpointRecords<MOAMarket>('CropMarketType', params, 2)
+      for (const record of records) {
+        if (record.MarketName) {
+          allMarkets.add(record.MarketName)
+        }
+      }
+      return Array.from(allMarkets)
+    },
+    ['moa-markets-list-v4', normalizedType],
+    { revalidate: 3600 }
+  )
+
   try {
-    return await fetchMarketsCached(type)
+    const list = await cachedFn()
+    if (list.length <= 1) {
+      if (normalizedType === 'Veg') return FALLBACK_VEG_MARKETS
+      if (normalizedType === 'Fruit') return FALLBACK_FRUIT_MARKETS
+      if (normalizedType === 'Flower') return FALLBACK_FLOWER_MARKETS
+    }
+    return list
   } catch (error) {
     console.error('Failed to fetch markets', error)
+    if (normalizedType === 'Veg') return FALLBACK_VEG_MARKETS
+    if (normalizedType === 'Fruit') return FALLBACK_FRUIT_MARKETS
+    if (normalizedType === 'Flower') return FALLBACK_FLOWER_MARKETS
     return ['全部市場']
   }
 }
@@ -389,7 +448,7 @@ const fetchMarketOptionsCached = unstable_cache(
       updatedAt: new Date().toISOString(),
     }
   },
-  ['moa-market-options-v1'],
+  ['moa-market-options-v4'],
   { revalidate: 3600 }
 )
 
@@ -402,7 +461,7 @@ export async function fetchMarketOptions(): Promise<MarketOptionsResult> {
       marketsByType: {
         Veg: ['全部市場'],
         Fruit: ['全部市場'],
-        ComVegFruit: ['全部市場'],
+        Flower: ['全部市場'],
       },
       defaultMarketType: 'Veg',
       defaultMarket: '全部市場',
@@ -475,34 +534,32 @@ function parseWeatherRecord(record: Record<string, unknown>, rainfallOnly: boole
   }
 }
 
-// Fetches weather + dedicated rainfall station data for a specific county.
-// Filtered at the API level (CITY param) instead of post-fetching all stations globally.
-const fetchWeatherObservationsByCountyCached = unstable_cache(
-  async (county: string): Promise<MarketWeatherObservation[]> => {
-    const params = new URLSearchParams()
-    if (county) params.set('CITY', county)
-
-    const [weatherRecords, rainfallRecords] = await Promise.all([
-      fetchMOAEndpointRecords<Record<string, unknown>>('AutoWeatherStationType', params, 2),
-      fetchMOAEndpointRecords<Record<string, unknown>>('AutoRainfallStationType', params, 2),
-    ])
-
-    return [
-      ...weatherRecords.map((r) => parseWeatherRecord(r, false)),
-      ...rainfallRecords.map((r) => parseWeatherRecord(r, true)),
-    ].filter((item) => item.stationName)
-  },
-  ['moa-weather-by-county-v2'],
-  { revalidate: 900 }
-)
-
 export async function fetchMarketWeatherObservations(
   county: string,
   limit: number = 20
 ): Promise<MarketWeatherObservationResult> {
+  const normalizedLimit = Math.max(1, Math.min(Math.floor(limit), 100))
+  const cachedFn = unstable_cache(
+    async (): Promise<MarketWeatherObservation[]> => {
+      const params = new URLSearchParams()
+      if (county) params.set('CITY', county)
+
+      const [weatherRecords, rainfallRecords] = await Promise.all([
+        fetchMOAEndpointRecords<Record<string, unknown>>('AutoWeatherStationType', params, 2),
+        fetchMOAEndpointRecords<Record<string, unknown>>('AutoRainfallStationType', params, 2),
+      ])
+
+      return [
+        ...weatherRecords.map((r) => parseWeatherRecord(r, false)),
+        ...rainfallRecords.map((r) => parseWeatherRecord(r, true)),
+      ].filter((item) => item.stationName)
+    },
+    ['moa-weather-by-county-v2', county],
+    { revalidate: 900 }
+  )
+
   try {
-    const normalizedLimit = Math.max(1, Math.min(Math.floor(limit), 100))
-    const items = await fetchWeatherObservationsByCountyCached(county)
+    const items = await cachedFn()
     return { items: items.slice(0, normalizedLimit) }
   } catch (error) {
     return {
@@ -516,95 +573,96 @@ export function resolveCountyFromMarketName(marketName: string): string {
   return resolveCountyFromMarketDataset(marketName)
 }
 
-const fetchTraceabilitySummaryCached = unstable_cache(
-  async (cropName: string, limit: number): Promise<TraceabilitySummaryItem[]> => {
-    const endpoints = ['TWAgriProductsTraceabilityType_ProductInfo', 'AgriProductsTraceabilityType']
-    const variants: Array<{ query: Record<string, string>; maxPages: number; fallback?: boolean }> = [
-      { query: { Product: cropName }, maxPages: 2 },
-      { query: { ProductName: cropName }, maxPages: 2 },
-      { query: { CropName: cropName }, maxPages: 2 },
-      { query: { Keyword: cropName }, maxPages: 2 },
-      // Unfiltered fallback can be expensive. Only use it as a last resort.
-      { query: {}, maxPages: 1, fallback: true },
-    ]
-
-    // Pre-normalize once — avoids repeated regex + toLowerCase per record in tight loops.
-    const normalizedCropKeyword = cropName.replace(/\s+/g, '').toLowerCase()
-    const matchesCrop = (value: string) =>
-      value.replace(/\s+/g, '').toLowerCase().includes(normalizedCropKeyword)
-
-    const records: Array<Record<string, unknown> & { __source?: string }> = []
-    let matchedCount = 0
-
-    for (const endpoint of endpoints) {
-      for (const variant of variants) {
-        if (variant.fallback && records.length > 0) {
-          continue
-        }
-
-        const params = new URLSearchParams()
-        Object.entries(variant.query).forEach(([key, value]) => params.set(key, value))
-        let batch: Record<string, unknown>[] = []
-        try {
-          batch = await fetchMOAEndpointRecords<Record<string, unknown>>(endpoint, params, variant.maxPages)
-        } catch {
-          // Keep trying other endpoints/parameter variants instead of failing whole API.
-          continue
-        }
-        if (batch.length === 0) continue
-
-        for (const item of batch) {
-          const product = readStringField(item, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
-          if (matchesCrop(product)) matchedCount++
-          records.push({ ...item, __source: endpoint })
-        }
-
-        if (matchedCount >= limit) break
-      }
-
-      if (matchedCount >= limit) break
-    }
-
-    const dedup = new Map<string, TraceabilitySummaryItem>()
-
-    for (const record of records) {
-      const productName = readStringField(record, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
-      if (!matchesCrop(productName)) continue
-
-      const producerName = readStringField(record, ['ProducerName', 'FarmerName', 'Producer', '生產者']) || '未揭露'
-      const traceCode = readStringField(record, ['TraceCode', 'TraceabilityCode', 'QRCode', '溯源編號']) || '未揭露'
-      const county = readStringField(record, ['Place', 'CountyName', 'County', 'City', '縣市']) || '未知'
-      const mark = readStringField(record, ['Mark', '認驗證', '標章']) || undefined
-      const sourceSystem = record.__source ?? 'MOA Traceability'
-
-      const key = `${productName}_${producerName}_${traceCode}`
-      if (dedup.has(key)) continue
-
-      dedup.set(key, {
-        productName,
-        producerName,
-        traceCode,
-        county,
-        sourceSystem,
-        mark,
-      })
-
-      if (dedup.size >= limit) break
-    }
-
-    return Array.from(dedup.values())
-  },
-  ['moa-traceability-summary-v2'],
-  { revalidate: 21600 }
-)
-
 export async function fetchTraceabilitySummary(
   cropName: string,
   limit: number = 5
 ): Promise<{ items: TraceabilitySummaryItem[]; error?: string }> {
+  const normalizedLimit = Math.max(1, Math.min(Math.floor(limit), 10))
+
+  const cachedFn = unstable_cache(
+    async (): Promise<TraceabilitySummaryItem[]> => {
+      const endpoints = ['TWAgriProductsTraceabilityType_ProductInfo', 'AgriProductsTraceabilityType']
+      const variants: Array<{ query: Record<string, string>; maxPages: number; fallback?: boolean }> = [
+        { query: { Product: cropName }, maxPages: 2 },
+        { query: { ProductName: cropName }, maxPages: 2 },
+        { query: { CropName: cropName }, maxPages: 2 },
+        { query: { Keyword: cropName }, maxPages: 2 },
+        // Unfiltered fallback can be expensive. Only use it as a last resort.
+        { query: {}, maxPages: 1, fallback: true },
+      ]
+
+      // Pre-normalize once — avoids repeated regex + toLowerCase per record in tight loops.
+      const normalizedCropKeyword = cropName.replace(/\s+/g, '').toLowerCase()
+      const matchesCrop = (value: string) =>
+        value.replace(/\s+/g, '').toLowerCase().includes(normalizedCropKeyword)
+
+      const records: Array<Record<string, unknown> & { __source?: string }> = []
+      let matchedCount = 0
+
+      for (const endpoint of endpoints) {
+        for (const variant of variants) {
+          if (variant.fallback && records.length > 0) {
+            continue
+          }
+
+          const params = new URLSearchParams()
+          Object.entries(variant.query).forEach(([key, value]) => params.set(key, value))
+          let batch: Record<string, unknown>[] = []
+          try {
+            batch = await fetchMOAEndpointRecords<Record<string, unknown>>(endpoint, params, variant.maxPages)
+          } catch {
+            // Keep trying other endpoints/parameter variants instead of failing whole API.
+            continue
+          }
+          if (batch.length === 0) continue
+
+          for (const item of batch) {
+            const product = readStringField(item, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
+            if (matchesCrop(product)) matchedCount++
+            records.push({ ...item, __source: endpoint })
+          }
+
+          if (matchedCount >= normalizedLimit) break
+        }
+
+        if (matchedCount >= normalizedLimit) break
+      }
+
+      const dedup = new Map<string, TraceabilitySummaryItem>()
+
+      for (const record of records) {
+        const productName = readStringField(record, ['Product', 'ProductName', 'CropName', '品名', '作物名稱'])
+        if (!matchesCrop(productName)) continue
+
+        const producerName = readStringField(record, ['ProducerName', 'FarmerName', 'Producer', '生產者']) || '未揭露'
+        const traceCode = readStringField(record, ['TraceCode', 'TraceabilityCode', 'QRCode', '溯源編號']) || '未揭露'
+        const county = readStringField(record, ['Place', 'CountyName', 'County', 'City', '縣市']) || '未知'
+        const mark = readStringField(record, ['Mark', '認驗證', '標章']) || undefined
+        const sourceSystem = record.__source ?? 'MOA Traceability'
+
+        const key = `${productName}_${producerName}_${traceCode}`
+        if (dedup.has(key)) continue
+
+        dedup.set(key, {
+          productName,
+          producerName,
+          traceCode,
+          county,
+          sourceSystem,
+          mark,
+        })
+
+        if (dedup.size >= normalizedLimit) break
+      }
+
+      return Array.from(dedup.values())
+    },
+    ['moa-traceability-summary-v2', cropName, String(normalizedLimit)],
+    { revalidate: 21600 }
+  )
+
   try {
-    const normalizedLimit = Math.max(1, Math.min(Math.floor(limit), 10))
-    const items = await fetchTraceabilitySummaryCached(cropName, normalizedLimit)
+    const items = await cachedFn()
     return { items }
   } catch (error) {
     return {
@@ -614,72 +672,72 @@ export async function fetchTraceabilitySummary(
   }
 }
 
-const fetchProductCostInsightCached = unstable_cache(
-  async (cropName: string): Promise<ProductCostInsight | null> => {
-    const variants = [
-      { CropName: cropName },
-      { ProductName: cropName },
-      { Keyword: cropName },
-      {},
-    ]
-
-    let rows: Record<string, unknown>[] = []
-    for (const variant of variants) {
-      const params = new URLSearchParams()
-      Object.entries(variant).forEach(([key, value]) => params.set(key, value))
-      rows = await fetchMOAEndpointRecords<Record<string, unknown>>('ProductCost', params, 3)
-      if (rows.length > 0) break
-    }
-
-    const samples: number[] = []
-    const costFiles: CostSurveyFile[] = []
-
-    for (const row of rows) {
-      const productName = readStringField(row, ['CropName', 'ProductName', '品名', '作物名稱'])
-      if (productName && !textContainsKeyword(productName, cropName)) continue
-
-      const cost = pickCostPerKg(row)
-      if (cost !== null) {
-        samples.push(cost)
-      }
-
-      // Collect PDF links from ProductCost API
-      const pdfUrl = readStringField(row, ['成本檔URL', 'CostFileUrl', 'FileUrl', 'Url'])
-      const yearStr = readStringField(row, ['年度', 'Year'])
-      const year = yearStr ? parseInt(yearStr, 10) : 0
-      const group = readStringField(row, ['群組', 'Group', 'GroupName']) || ''
-      if (pdfUrl && year > 0) {
-        costFiles.push({ cropName: productName || cropName, year, pdfUrl, group })
-      }
-    }
-
-    if (samples.length === 0 && costFiles.length === 0) {
-      return null
-    }
-
-    const avg = samples.length > 0 ? samples.reduce((sum, v) => sum + v, 0) / samples.length : null
-    const min = samples.length > 0 ? Math.min(...samples) : null
-    const max = samples.length > 0 ? Math.max(...samples) : null
-
-    return {
-      cropName,
-      avgCostPerKg: avg !== null ? Math.round(avg * 10) / 10 : null,
-      minCostPerKg: min !== null ? Math.round(min * 10) / 10 : null,
-      maxCostPerKg: max !== null ? Math.round(max * 10) / 10 : null,
-      sampleSize: samples.length,
-      unit: '元/公斤',
-      costFiles: costFiles.length > 0 ? costFiles : undefined,
-    }
-  },
-  ['moa-product-cost-insight-v2'],
-  { revalidate: 21600 }
-)
-
 export async function fetchProductCostInsight(
   cropName: string
 ): Promise<{ insight: ProductCostInsight | null; error?: string }> {
+  const cachedFn = unstable_cache(
+    async (): Promise<ProductCostInsight | null> => {
+      const variants = [
+        { CropName: cropName },
+        { ProductName: cropName },
+        { Keyword: cropName },
+        {},
+      ]
+
+      let rows: Record<string, unknown>[] = []
+      for (const variant of variants) {
+        const params = new URLSearchParams()
+        Object.entries(variant).forEach(([key, value]) => params.set(key, value))
+        rows = await fetchMOAEndpointRecords<Record<string, unknown>>('ProductCost', params, 3)
+        if (rows.length > 0) break
+      }
+
+      const samples: number[] = []
+      const costFiles: CostSurveyFile[] = []
+
+      for (const row of rows) {
+        const productName = readStringField(row, ['CropName', 'ProductName', '品名', '作物名稱'])
+        if (productName && !textContainsKeyword(productName, cropName)) continue
+
+        const cost = pickCostPerKg(row)
+        if (cost !== null) {
+          samples.push(cost)
+        }
+
+        // Collect PDF links from ProductCost API
+        const pdfUrl = readStringField(row, ['成本檔URL', 'CostFileUrl', 'FileUrl', 'Url'])
+        const yearStr = readStringField(row, ['年度', 'Year'])
+        const year = yearStr ? parseInt(yearStr, 10) : 0
+        const group = readStringField(row, ['群組', 'Group', 'GroupName']) || ''
+        if (pdfUrl && year > 0) {
+          costFiles.push({ cropName: productName || cropName, year, pdfUrl, group })
+        }
+      }
+
+      if (samples.length === 0 && costFiles.length === 0) {
+        return null
+      }
+
+      const avg = samples.length > 0 ? samples.reduce((sum, v) => sum + v, 0) / samples.length : null
+      const min = samples.length > 0 ? Math.min(...samples) : null
+      const max = samples.length > 0 ? Math.max(...samples) : null
+
+      return {
+        cropName,
+        avgCostPerKg: avg !== null ? Math.round(avg * 10) / 10 : null,
+        minCostPerKg: min !== null ? Math.round(min * 10) / 10 : null,
+        maxCostPerKg: max !== null ? Math.round(max * 10) / 10 : null,
+        sampleSize: samples.length,
+        unit: '元/公斤',
+        costFiles: costFiles.length > 0 ? costFiles : undefined,
+      }
+    },
+    ['moa-product-cost-insight-v2', cropName],
+    { revalidate: 21600 }
+  )
+
   try {
-    const insight = await fetchProductCostInsightCached(cropName)
+    const insight = await cachedFn()
     return { insight }
   } catch (error) {
     return {
@@ -700,6 +758,16 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
     params.set('MarketName', options.market)
   }
 
+  if (options.marketType) {
+    if (options.marketType === 'Veg') {
+      params.set('TcType', 'N04')
+    } else if (options.marketType === 'Fruit') {
+      params.set('TcType', 'N05')
+    } else if (options.marketType === 'Flower') {
+      params.set('TcType', 'N06')
+    }
+  }
+
   if (options.cropName) {
     params.set('CropName', options.cropName)
   }
@@ -715,26 +783,25 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
   }
 }
 
-const fetchMarketWindowRecordsCached = unstable_cache(
-  async (market: string, startDate: string, endDate: string): Promise<NormalizedPriceRecord[]> => {
-    const result = await fetchPriceRecords({ market, startDate, endDate })
-    if (result.error) {
-      throw new Error(result.error)
-    }
-    return result.records
-  },
-  ['moa-market-window-records-v1'],
-  { revalidate: 120 }
-)
-
 export async function fetchMarketWindowRecords(
   market: string,
   startDate: string,
   endDate: string
 ): Promise<{ records: NormalizedPriceRecord[]; error?: string }> {
+  const cachedFn = unstable_cache(
+    async (): Promise<{ records: NormalizedPriceRecord[]; error?: string }> => {
+      const result = await fetchPriceRecords({ market, startDate, endDate })
+      if (result.error) {
+        return { records: [], error: result.error }
+      }
+      return { records: result.records }
+    },
+    ['moa-market-window-records-v1', market, startDate, endDate],
+    { revalidate: 120 }
+  )
+
   try {
-    const records = await fetchMarketWindowRecordsCached(market, startDate, endDate)
-    return { records }
+    return await cachedFn()
   } catch (error) {
     return {
       records: [],
@@ -743,100 +810,208 @@ export async function fetchMarketWindowRecords(
   }
 }
 
-const fetchMarketDataCached = unstable_cache(
-  async (cropName: string, market: string, period: string, endDate: string): Promise<FetchMarketDataResult> => {
-    const startDate = subtractDays(endDate, periodToDays(period))
-    const params = new URLSearchParams({
-      Start_time: isoToROC(startDate),
-      End_time: isoToROC(endDate),
-      CropName: cropName,
-    })
+function processRawRecordsToResult(rawRecords: MOARawRecord[], startDate: string, endDate: string): FetchMarketDataResult {
+  if (!rawRecords.length) {
+    return {
+      data: [],
+      closedDays: [],
+      error: '查無此作物的交易資料',
+    }
+  }
 
-    if (market && market !== '全部市場') {
-      params.set('MarketName', market)
+  const byDate = new Map<string, { sumPrice: number; sumVolume: number; upper: number; lower: number; count: number }>()
+
+  for (const raw of rawRecords) {
+    const record = parseRecord(raw)
+    if (!record.date || record.avgPrice <= 0) {
+      continue
     }
 
-    let rawRecords: MOARawRecord[]
-
-    try {
-      rawRecords = await fetchMOARecords(params)
-    } catch (error) {
-      return {
-        data: [],
-        closedDays: [],
-        error: error instanceof Error ? error.message : 'Unknown MOA fetch error',
-      }
+    const current = byDate.get(record.date) ?? {
+      sumPrice: 0,
+      sumVolume: 0,
+      upper: 0,
+      lower: 0,
+      count: 0,
     }
 
-    if (!rawRecords.length) {
-      return {
-        data: [],
-        closedDays: [],
-        error: '查無此作物的交易資料',
-      }
-    }
+    current.sumPrice += record.avgPrice
+    current.sumVolume += record.transWeight
+    current.upper = current.upper ? Math.max(current.upper, record.upperPrice) : record.upperPrice
+    current.lower = current.lower ? Math.min(current.lower, record.lowerPrice) : record.lowerPrice
+    current.count += 1
+    byDate.set(record.date, current)
+  }
 
-    const byDate = new Map<string, { sumPrice: number; sumVolume: number; upper: number; lower: number; count: number }>()
+  const closedDays: string[] = []
+  const initialData = dateRange(startDate, endDate).map((date) => {
+    const current = byDate.get(date)
 
-    for (const raw of rawRecords) {
-      const record = parseRecord(raw)
-      if (!record.date || record.avgPrice <= 0) {
-        continue
-      }
-
-      const current = byDate.get(record.date) ?? {
-        sumPrice: 0,
-        sumVolume: 0,
-        upper: 0,
-        lower: 0,
-        count: 0,
-      }
-
-      current.sumPrice += record.avgPrice
-      current.sumVolume += record.transWeight
-      current.upper = current.upper ? Math.max(current.upper, record.upperPrice) : record.upperPrice
-      current.lower = current.lower ? Math.min(current.lower, record.lowerPrice) : record.lowerPrice
-      current.count += 1
-      byDate.set(record.date, current)
-    }
-
-    const closedDays: string[] = []
-    const data = dateRange(startDate, endDate).map((date) => {
-      const current = byDate.get(date)
-
-      if (!current || current.count === 0) {
-        closedDays.push(date)
-        return {
-          date,
-          label: dateLabel(date),
-          avgPrice: null,
-          upperPrice: null,
-          lowerPrice: null,
-          volume: null,
-          isClosed: true,
-        }
-      }
-
+    if (!current || current.count === 0) {
+      closedDays.push(date)
       return {
         date,
         label: dateLabel(date),
-        avgPrice: Math.round((current.sumPrice / current.count) * 10) / 10,
-        upperPrice: Math.round(current.upper * 10) / 10,
-        lowerPrice: Math.round(current.lower * 10) / 10,
-        volume: Math.round(current.sumVolume),
-        isClosed: false,
+        avgPrice: null,
+        upperPrice: null,
+        lowerPrice: null,
+        volume: null,
+        isClosed: true,
       }
-    })
+    }
 
-    return { data, closedDays }
-  },
-  ['moa-market-data-v1'],
-  { revalidate: 120 }
-)
+    return {
+      date,
+      label: dateLabel(date),
+      avgPrice: Math.round((current.sumPrice / current.count) * 10) / 10,
+      upperPrice: Math.round(current.upper * 10) / 10,
+      lowerPrice: Math.round(current.lower * 10) / 10,
+      volume: Math.round(current.sumVolume),
+      isClosed: false,
+    }
+  })
+
+  // ─── Linear Interpolation for Closed/Rest Days ───────────────────────────
+  const data = initialData.map((item, index) => {
+    if (!item.isClosed) return item
+
+    // Find nearest preceding trading day index
+    let prevIdx = -1
+    for (let i = index - 1; i >= 0; i--) {
+      if (!initialData[i].isClosed) {
+        prevIdx = i
+        break
+      }
+    }
+
+    // Find nearest succeeding trading day index
+    let nextIdx = -1
+    for (let i = index + 1; i < initialData.length; i++) {
+      if (!initialData[i].isClosed) {
+        nextIdx = i
+        break
+      }
+    }
+
+    let avgPrice: number | null = null
+    let upperPrice: number | null = null
+    let lowerPrice: number | null = null
+
+    if (prevIdx !== -1 && nextIdx !== -1) {
+      // Linear interpolation
+      const p1 = initialData[prevIdx]
+      const p2 = initialData[nextIdx]
+      const dist = nextIdx - prevIdx
+      const fraction = (index - prevIdx) / dist
+
+      if (p1.avgPrice !== null && p2.avgPrice !== null) {
+        avgPrice = Math.round((p1.avgPrice + (p2.avgPrice - p1.avgPrice) * fraction) * 10) / 10
+      }
+      if (p1.upperPrice !== null && p2.upperPrice !== null) {
+        upperPrice = Math.round((p1.upperPrice + (p2.upperPrice - p1.upperPrice) * fraction) * 10) / 10
+      }
+      if (p1.lowerPrice !== null && p2.lowerPrice !== null) {
+        lowerPrice = Math.round((p1.lowerPrice + (p2.lowerPrice - p1.lowerPrice) * fraction) * 10) / 10
+      }
+    } else if (prevIdx !== -1) {
+      // Carry forward (replication)
+      const p1 = initialData[prevIdx]
+      avgPrice = p1.avgPrice
+      upperPrice = p1.upperPrice
+      lowerPrice = p1.lowerPrice
+    } else if (nextIdx !== -1) {
+      // Carry backward (replication)
+      const p2 = initialData[nextIdx]
+      avgPrice = p2.avgPrice
+      upperPrice = p2.upperPrice
+      lowerPrice = p2.lowerPrice
+    }
+
+    return {
+      ...item,
+      avgPrice,
+      upperPrice,
+      lowerPrice,
+    }
+  })
+
+  return { data, closedDays }
+}
 
 export async function fetchMarketData(cropName: string, market: string, period: string): Promise<FetchMarketDataResult> {
   const endDate = todayISO()
-  return fetchMarketDataCached(cropName, market, period, endDate)
+  const startDate = subtractDays(endDate, periodToDays(period))
+
+  const cachedFn = unstable_cache(
+    async (): Promise<FetchMarketDataResult> => {
+      const params = new URLSearchParams({
+        Start_time: isoToROC(startDate),
+        End_time: isoToROC(endDate),
+        CropName: cropName,
+      })
+
+      if (market && market !== '全部市場') {
+        params.set('MarketName', market)
+      }
+
+      let rawRecords: MOARawRecord[]
+
+      try {
+        rawRecords = await fetchMOARecords(params)
+      } catch (error) {
+        return {
+          data: [],
+          closedDays: [],
+          error: error instanceof Error ? error.message : 'Unknown MOA fetch error',
+        }
+      }
+
+      return processRawRecordsToResult(rawRecords, startDate, endDate)
+    },
+    ['moa-market-data-v1', cropName, market, period, endDate],
+    { revalidate: 120 }
+  )
+
+  return cachedFn()
+}
+
+export async function fetchMarketDataByDates(
+  cropName: string,
+  market: string,
+  startDate: string,
+  endDate: string
+): Promise<FetchMarketDataResult> {
+  const cachedFn = unstable_cache(
+    async (): Promise<FetchMarketDataResult> => {
+      const params = new URLSearchParams({
+        Start_time: isoToROC(startDate),
+        End_time: isoToROC(endDate),
+        CropName: cropName,
+      })
+
+      if (market && market !== '全部市場') {
+        params.set('MarketName', market)
+      }
+
+      let rawRecords: MOARawRecord[]
+
+      try {
+        rawRecords = await fetchMOARecords(params)
+      } catch (error) {
+        return {
+          data: [],
+          closedDays: [],
+          error: error instanceof Error ? error.message : 'Unknown MOA fetch error',
+        }
+      }
+
+      return processRawRecordsToResult(rawRecords, startDate, endDate)
+    },
+    ['moa-market-data-range-v1', cropName, market, startDate, endDate],
+    { revalidate: 120 }
+  )
+
+  return cachedFn()
 }
 
 export async function fetchSearchRecords(options: PriceQueryOptions): Promise<SearchRecordsResult> {
@@ -850,7 +1025,8 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
     cropName: options.cropName,
     market: options.market,
     startDate: previousDate,
-    endDate: endDate
+    endDate: endDate,
+    marketType: options.marketType,
   })
 
   if (bulkRes.error) {
@@ -879,9 +1055,40 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
   }
 
   if (records.length === 0) {
-    // Empty result is not an upstream error — return empty list so callers render
-    // an empty state rather than showing a generic "502 gateway" error.
-    return { records: [] }
+    // No records in the exact requested range — this commonly happens when today's
+    // market data has not been published yet (e.g. queried before markets close).
+    // Fall back to the most recent available trading day in the look-back window.
+    let mostRecentAvailable = ''
+    for (const record of bulkRes.records) {
+      if (record.date && record.date < startDate && record.date > mostRecentAvailable) {
+        mostRecentAvailable = record.date
+      }
+    }
+
+    if (!mostRecentAvailable) {
+      // Truly no data in the look-back window either — return empty gracefully.
+      return { records: [] }
+    }
+
+    // Re-partition: records before mostRecentAvailable are the baseline;
+    // records on mostRecentAvailable become the current period.
+    prePriceTracker.clear()
+    for (const record of bulkRes.records) {
+      if (!record.date) continue
+      if (record.date < mostRecentAvailable) {
+        const key = `${record.cropCode}_${record.marketName}`
+        const existing = prePriceTracker.get(key)
+        if (!existing || record.date > existing.date) {
+          prePriceTracker.set(key, { date: record.date, price: record.avgPrice })
+        }
+      } else if (record.date === mostRecentAvailable) {
+        records.push(record)
+      }
+    }
+
+    if (records.length === 0) {
+      return { records: [] }
+    }
   }
 
   const previousPriceMap = new Map<string, number>()
@@ -901,6 +1108,10 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
     count: number
     latestDate: string
     latestAvgPrice: number
+    latestUpperPrice: number
+    latestMiddlePrice: number
+    latestLowerPrice: number
+    latestTransWeight: number
   }>()
 
   records.forEach((record) => {
@@ -917,6 +1128,10 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
       count: 0,
       latestDate: record.date,
       latestAvgPrice: record.avgPrice,
+      latestUpperPrice: record.upperPrice,
+      latestMiddlePrice: record.middlePrice,
+      latestLowerPrice: record.lowerPrice,
+      latestTransWeight: record.transWeight,
     }
 
     current.upperPrice = Math.max(current.upperPrice, record.upperPrice)
@@ -929,6 +1144,10 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
     if (record.date >= current.latestDate) {
       current.latestDate = record.date
       current.latestAvgPrice = record.avgPrice
+      current.latestUpperPrice = record.upperPrice
+      current.latestMiddlePrice = record.middlePrice
+      current.latestLowerPrice = record.lowerPrice
+      current.latestTransWeight = record.transWeight
     }
 
     grouped.set(key, current)
@@ -945,11 +1164,11 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
         cropCode: group.cropCode,
         cropName: group.cropName,
         marketName: group.marketName,
-        upperPrice: Math.round(group.upperPrice * 10) / 10,
-        middlePrice: Math.round((group.middlePriceSum / group.count) * 10) / 10,
-        lowerPrice: Math.round(group.lowerPrice * 10) / 10,
-        avgPrice: Math.round((group.avgPriceSum / group.count) * 10) / 10,
-        transWeight: Math.round(group.transWeight),
+        upperPrice: Math.round(group.latestUpperPrice * 10) / 10,
+        middlePrice: Math.round(group.latestMiddlePrice * 10) / 10,
+        lowerPrice: Math.round(group.latestLowerPrice * 10) / 10,
+        avgPrice: Math.round(group.latestAvgPrice * 10) / 10,
+        transWeight: Math.round(group.latestTransWeight),
         date: group.latestDate,
         priceChange: Math.round(priceChange * 10) / 10,
       }
@@ -985,46 +1204,6 @@ function aggregateMarketByDate(records: NormalizedPriceRecord[]): Map<string, Ma
   return grouped
 }
 
-const fetchMarketOverviewTrendCached = unstable_cache(
-  async (market: string, days: number, endDate: string): Promise<MarketOverviewTrendPoint[]> => {
-    const startDate = subtractDays(endDate, Math.max(days - 1, 0))
-    const bulkRes = await fetchMarketWindowRecords(market, startDate, endDate)
-
-    if (bulkRes.error) {
-      throw new Error(bulkRes.error)
-    }
-
-    if (bulkRes.records.length === 0) {
-      return []
-    }
-
-    const grouped = aggregateMarketByDate(bulkRes.records)
-
-    return dateRange(startDate, endDate).map((date) => {
-      const current = grouped.get(date)
-      if (!current || current.recordCount === 0) {
-        return {
-          date,
-          label: dateLabel(date),
-          avgPrice: null,
-          volume: null,
-        }
-      }
-
-      return {
-        date,
-        label: dateLabel(date),
-        avgPrice: current.priceCount > 0
-          ? Math.round((current.priceSum / current.priceCount) * 10) / 10
-          : null,
-        volume: Math.round(current.volumeSum),
-      }
-    })
-  },
-  ['moa-market-overview-trend-v2'],
-  { revalidate: 120 }
-)
-
 export async function fetchMarketOverviewTrend(
   market: string,
   days: number,
@@ -1032,12 +1211,57 @@ export async function fetchMarketOverviewTrend(
 ): Promise<MarketOverviewTrendResult> {
   const normalizedDays = Math.min(Math.max(Math.floor(days), 1), 30)
 
+  const cachedFn = unstable_cache(
+    async (): Promise<{ points: MarketOverviewTrendPoint[]; error?: string }> => {
+      const startDate = subtractDays(endDate, Math.max(normalizedDays - 1, 0))
+      const bulkRes = await fetchMarketWindowRecords(market, startDate, endDate)
+
+      if (bulkRes.error) {
+        return { points: [], error: bulkRes.error }
+      }
+
+      if (bulkRes.records.length === 0) {
+        return { points: [] }
+      }
+
+      const grouped = aggregateMarketByDate(bulkRes.records)
+
+      const points = dateRange(startDate, endDate).map((date) => {
+        const current = grouped.get(date)
+        if (!current || current.recordCount === 0) {
+          return {
+            date,
+            label: dateLabel(date),
+            avgPrice: null,
+            volume: null,
+          }
+        }
+
+        return {
+          date,
+          label: dateLabel(date),
+          avgPrice: current.priceCount > 0
+            ? Math.round((current.priceSum / current.priceCount) * 10) / 10
+            : null,
+          volume: Math.round(current.volumeSum),
+        }
+      })
+
+      return { points }
+    },
+    ['moa-market-overview-trend-v2', market, String(normalizedDays), endDate],
+    { revalidate: 120 }
+  )
+
   try {
-    const points = await fetchMarketOverviewTrendCached(market, normalizedDays, endDate)
-    if (points.length === 0) {
+    const res = await cachedFn()
+    if (res.error) {
+      return { points: [], error: res.error }
+    }
+    if (res.points.length === 0) {
       return { points: [], error: '查無市場趨勢資料' }
     }
-    return { points }
+    return { points: res.points }
   } catch (error) {
     return {
       points: [],
@@ -1154,55 +1378,56 @@ export async function fetchLivestockPrices(): Promise<LivestockPrices> {
 
 // Returns the top-3 crops by total trading volume over the last 7 days.
 // Uses a 5-page cap (vs global MAX_PAGES=50) to stay within Vercel function budgets.
-const fetchSeasonalCropsCached = unstable_cache(
-  async (dateKey: string): Promise<{ crops: SeasonalItem[]; error?: string }> => {
-    const endDate = dateKey
-    const startDate = subtractDays(endDate, 7)
-    const params = new URLSearchParams({
-      Start_time: isoToROC(startDate),
-      End_time: isoToROC(endDate),
-    })
-
-    let rawRecords: MOARawRecord[]
-    try {
-      rawRecords = await fetchMOARecords(params, 5)
-    } catch (error) {
-      return { crops: [], error: error instanceof Error ? error.message : 'MOA fetch error' }
-    }
-
-    if (rawRecords.length === 0) return { crops: [], error: '查無近期交易資料' }
-
-    const volumeMap = new Map<string, number>()
-    for (const raw of rawRecords) {
-      const record = parseRecord(raw)
-      if (!record.cropName || record.transWeight <= 0) continue
-      volumeMap.set(record.cropName, (volumeMap.get(record.cropName) ?? 0) + record.transWeight)
-    }
-
-    const crops = [...volumeMap.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([cropName]) => {
-        const desc = CROP_DESCRIPTIONS[cropName]
-        return {
-          cropName,
-          emoji: getCropEmoji(cropName),
-          category: getProduceCategory(cropName),
-          reason: desc?.reason ?? '近期交易量排行',
-          note: desc?.note ?? `${cropName}近期交易活躍，可留意行情動態。`,
-        }
-      })
-
-    return { crops }
-  },
-  ['moa-seasonal-crops-v2'],
-  { revalidate: 1800 }
-)
-
 export async function fetchSeasonalCrops(): Promise<{ crops: SeasonalItem[]; error?: string }> {
   const dateKey = todayISO()
+
+  const cachedFn = unstable_cache(
+    async (): Promise<{ crops: SeasonalItem[]; error?: string }> => {
+      const endDate = dateKey
+      const startDate = subtractDays(endDate, 7)
+      const params = new URLSearchParams({
+        Start_time: isoToROC(startDate),
+        End_time: isoToROC(endDate),
+      })
+
+      let rawRecords: MOARawRecord[]
+      try {
+        rawRecords = await fetchMOARecords(params, 5)
+      } catch (error) {
+        return { crops: [], error: error instanceof Error ? error.message : 'MOA fetch error' }
+      }
+
+      if (rawRecords.length === 0) return { crops: [], error: '查無近期交易資料' }
+
+      const volumeMap = new Map<string, number>()
+      for (const raw of rawRecords) {
+        const record = parseRecord(raw)
+        if (!record.cropName || record.transWeight <= 0) continue
+        volumeMap.set(record.cropName, (volumeMap.get(record.cropName) ?? 0) + record.transWeight)
+      }
+
+      const crops = [...volumeMap.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([cropName]) => {
+          const desc = CROP_DESCRIPTIONS[cropName]
+          return {
+            cropName,
+            emoji: getCropEmoji(cropName),
+            category: getProduceCategory(cropName),
+            reason: desc?.reason ?? '近期交易量排行',
+            note: desc?.note ?? `${cropName}近期交易活躍，可留意行情動態。`,
+          }
+        })
+
+      return { crops }
+    },
+    ['moa-seasonal-crops-v2', dateKey],
+    { revalidate: 1800 }
+  )
+
   try {
-    return await fetchSeasonalCropsCached(dateKey)
+    return await cachedFn()
   } catch (error) {
     return { crops: [], error: error instanceof Error ? error.message : 'Unknown error' }
   }

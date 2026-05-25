@@ -7,6 +7,7 @@ export interface UserPreferences {
   fontSize: FontSize
   theme: Theme
   preferredMarket: string
+  preferredMarketType: 'Veg' | 'Fruit' | 'Flower'
   priceAlert: boolean
   dailySummary: boolean
   locale: 'zh-TW'
@@ -25,6 +26,7 @@ export const DEFAULT_USER_PREFERENCES: UserPreferences = {
   fontSize: 'medium',
   theme: 'light',
   preferredMarket: DEFAULT_MARKET,
+  preferredMarketType: 'Veg',
   priceAlert: true,
   dailySummary: false,
   locale: 'zh-TW',

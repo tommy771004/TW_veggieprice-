@@ -39,9 +39,18 @@ function CustomTooltip({
 
   if (point.isClosed) {
     return (
-      <div className="glass-card-solid rounded-xl px-3 py-2 text-sm shadow-glass-sm text-center">
-        <p className="text-on-surface-variant text-[0.75rem]">{label}</p>
-        <p className="text-outline font-medium mt-0.5">休市日</p>
+      <div className="glass-card-solid rounded-xl px-3 py-2.5 text-sm shadow-glass-sm">
+        <p className="text-on-surface-variant text-[0.75rem] mb-1">{label}</p>
+        <div className="inline-flex items-center gap-1.5 bg-outline-variant/20 border border-outline-variant/40 text-on-surface-variant text-[0.6875rem] px-2.5 py-0.5 rounded-full font-medium mb-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-outline-variant/80" />
+          休市 / 無交易日
+        </div>
+        {point.avgPrice != null && (
+          <div className="border-t border-outline-variant/10 pt-1.5 mt-1">
+            <p className="text-on-surface-variant text-[0.6875rem]">估算均價 (插值結果)</p>
+            <p className="text-on-surface-variant font-semibold text-sm mt-0.5">${point.avgPrice.toFixed(1)}</p>
+          </div>
+        )}
       </div>
     )
   }
@@ -135,6 +144,21 @@ export function PriceLineChart({ data, closedDays = [], height = 180 }: PriceLin
                 }}
               />
             )}
+
+            {/* Subtle vertical bars indicating closed/rest days */}
+            {data.map((point, index) => {
+              if (point.isClosed) {
+                return (
+                  <ReferenceLine
+                    key={`rest-day-${point.date}-${index}`}
+                    x={point.label}
+                    stroke="rgba(112, 122, 108, 0.08)"
+                    strokeWidth={12}
+                  />
+                )
+              }
+              return null
+            })}
 
             {/* connectNulls bridges across closed-market days (Part 2 Stage 3) */}
             <Area

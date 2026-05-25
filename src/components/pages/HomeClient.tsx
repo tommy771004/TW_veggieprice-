@@ -9,7 +9,7 @@ import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
 import { ExploreSection } from '@/components/ui/ExploreSection'
 import { AboutSection } from '@/components/ui/AboutSection'
 import { DataSourceBadge } from '@/components/ui/DataSourceBadge'
-import { formatPrice } from '@/lib/utils'
+import { formatPrice, cleanErrorMessage } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
 import { getProduceCategory, getSeasonalGuide, type ProduceCategory } from '@/lib/produce'
@@ -95,20 +95,25 @@ export function HomeClient() {
   const [isClosedToday, setIsClosedToday] = useState(false)
   const [weatherRisk, setWeatherRisk] = useState<MarketWeatherRiskSummary | null>(null)
   const [preferences, setPreferences] = useState(DEFAULT_USER_PREFERENCES)
+  const [alertDismissed, setAlertDismissed] = useState(false)
 
   const loading = loadingMovers
 
   useEffect(() => {
-    const prefs = getUserPreferences()
-    setPreferences(prefs)
-    if (prefs.preferredMarket) {
-      setSelectedMarket(prefs.preferredMarket)
-    }
-  }, [])
+    setAlertDismissed(false)
+  }, [selectedMarket])
 
   useEffect(() => {
-    fetchMarketList('Veg').then((list) => {
-      setMarkets(list.filter(m => m !== '全部市場'))
+    const prefs = getUserPreferences()
+    setPreferences(prefs)
+    
+    const marketType = prefs.preferredMarketType ?? 'Veg'
+    const marketName = prefs.preferredMarket ?? DEFAULT_MARKET
+    
+    setSelectedMarket(marketName)
+
+    fetchMarketList(marketType).then((list) => {
+      setMarkets(list.filter((m) => m !== '全部市場'))
     }).catch(console.error)
   }, [])
 
@@ -351,7 +356,9 @@ export function HomeClient() {
               transition={{ type: 'spring', stiffness: 280, damping: 24 }}
             >
               <Link
-                href={`/search?market=${encodeURIComponent(selectedMarket)}`}
+                href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
+                  activeCategory === 'fruit' ? 'Fruit' : activeCategory === 'flower' ? 'Flower' : 'Veg'
+                }`}
                 className="block home-hero-card rounded-3xl overflow-hidden card-lift"
               >
                 <div className={`px-6 pt-6 pb-4 relative ${isClosedToday ? 'opacity-60 grayscale transition-all' : ''}`}>
@@ -461,7 +468,12 @@ export function HomeClient() {
       <section>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-headline-md font-bold text-on-surface">價格波動榜</h2>
-          <Link href="/search" className="text-primary text-label-bold hover:underline flex items-center gap-0.5">
+          <Link
+            href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
+              activeCategory === 'fruit' ? 'Fruit' : activeCategory === 'flower' ? 'Flower' : 'Veg'
+            }`}
+            className="text-primary text-label-bold hover:underline flex items-center gap-0.5"
+          >
             查看全部
             <span className="material-symbols-outlined" style={{ fontSize: '1.125rem' }}>chevron_right</span>
           </Link>
@@ -675,7 +687,9 @@ export function HomeClient() {
                     transition={{ delay: i * 0.07, type: 'spring', stiffness: 300, damping: 25 }}
                   >
                     <Link
-                      href={`/search?q=${encodeURIComponent(item.cropName)}`}
+                      href={`/search?q=${encodeURIComponent(item.cropName)}&type=${
+                        item.category === 'fruit' ? 'Fruit' : item.category === 'flower' ? 'Flower' : 'Veg'
+                      }`}
                       className="shrink-0 w-48 rounded-3xl glass-card p-4 hover:bg-white transition-all shadow-glass-sm hover:shadow-glass flex flex-col snap-start border border-white/40 group card-lift block"
                     >
                       <div className="flex items-center justify-between mb-2">
@@ -704,6 +718,39 @@ export function HomeClient() {
 
       {/* ── Data Source Attribution ───────────────────── */}
       <DataSourceBadge />
+
+      {/* ── Floating Price Alert (Glassmorphism) ───────── */}
+      <AnimatePresence>
+        {overview && !loadingOverview && !alertDismissed && Math.abs(overview.priceChange) >= 10 && (
+          <motion.div
+            initial={{ opacity: 0, y: 36, scale: 0.95, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
+            exit={{ opacity: 0, y: 24, scale: 0.95, x: '-50%' }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-[5.25rem] md:bottom-6 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2.5 px-4.5 py-2.5 rounded-full glass-card border border-white/45 dark:bg-zinc-900/90 dark:border-zinc-700/50 shadow-glass-md dark:shadow-black/60 text-zinc-900 dark:text-zinc-100 text-body-sm font-medium w-max max-w-[calc(100vw-2.5rem)] text-ellipsis overflow-hidden"
+          >
+            <div className="flex items-center gap-1.5 min-w-0 truncate">
+              <span className="text-base leading-none shrink-0" aria-hidden="true">
+                {overview.priceChange >= 0 ? '📈' : '📉'}
+              </span>
+              <span className="text-secondary dark:text-orange-300 font-extrabold tracking-tight shrink-0 text-xs sm:text-sm">【波動警報】</span>
+              <span className="text-zinc-800 dark:text-zinc-100 text-xs sm:text-sm truncate">
+                {overview.marketName} 今日均價 ${formatPrice(overview.avgPrice)}，較昨日{overview.priceChange >= 0 ? '上漲' : '下跌'}{' '}
+                <span className={`font-black ${overview.priceChange >= 0 ? 'text-error dark:text-red-400' : 'text-primary dark:text-emerald-400'}`}>
+                  {Math.abs(overview.priceChange).toFixed(1)}%
+                </span>
+              </span>
+            </div>
+            <button
+              onClick={() => setAlertDismissed(true)}
+              className="w-5 h-5 rounded-full flex items-center justify-center bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/15 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 leading-none text-xs flex-shrink-0 transition-colors"
+              aria-label="關閉警報"
+            >
+              ×
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
