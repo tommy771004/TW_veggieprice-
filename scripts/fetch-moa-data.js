@@ -141,7 +141,6 @@ async function main() {
     return parseRocDate(record.TransDate) >= cutoffIso;
   });
 
-  const publicDataDir = path.join(__dirname, '..', 'public', 'data');
   if (!fs.existsSync(publicDataDir)) {
     fs.mkdirSync(publicDataDir, { recursive: true });
   }
@@ -154,7 +153,6 @@ async function main() {
     data: allRecords
   };
   
-  const filePath = path.join(publicDataDir, 'latest-opendata.json');
   fs.writeFileSync(filePath, JSON.stringify(payload), 'utf-8');
   console.log(`\n🎉 Successfully saved ${allRecords.length} total records to ${filePath}`);
 
