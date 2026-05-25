@@ -47,7 +47,6 @@ export function periodToDays(period: string): number {
     '1W': 7,
     '1M': 30,
     '3M': 90,
-    '1Y': 365,
   }
 
   return map[period] ?? 30

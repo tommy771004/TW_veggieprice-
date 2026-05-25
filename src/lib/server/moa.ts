@@ -1,4 +1,6 @@
 import { unstable_cache } from 'next/cache'
+import fs from 'fs'
+import path from 'path'
 import { dateLabel, dateRange, isoToROC, periodToDays, rocToISO, subtractDays, todayISO } from '@/lib/server/dateUtils'
 import type {
   ProducePrice,
@@ -764,7 +766,41 @@ interface OpenDataRecord {
   交易量: number
 }
 
-async function fetchRecentOpenData(): Promise<OpenDataRecord[]> {
+async function fetchRecentOpenData(): Promise<(NormalizedPriceRecord & { _typeCode?: string })[]> {
+  try {
+    const filePath = path.join(process.cwd(), 'public', 'data', 'latest-opendata.json')
+    if (fs.existsSync(filePath)) {
+      const content = await fs.promises.readFile(filePath, 'utf-8')
+      const parsed = JSON.parse(content)
+      
+      if (parsed.metadata && parsed.metadata.lastUpdated) {
+        const lastUpdatedDate = parsed.metadata.lastUpdated.split('T')[0]
+        const today = todayISO()
+        
+        if (lastUpdatedDate >= today) {
+          console.log('Using fresh local JSON data:', lastUpdatedDate)
+          return parsed.data.map((d: any) => ({
+            cropCode: d.CropCode ?? '',
+            cropName: d.CropName ?? '',
+            marketName: d.MarketName ?? '',
+            grade: '一般',
+            upperPrice: d.Upper_Price || 0,
+            middlePrice: d.Middle_Price || 0,
+            lowerPrice: d.Lower_Price || 0,
+            avgPrice: d.Avg_Price || 0,
+            transWeight: d.Trans_Quantity || 0,
+            date: rocToISO(d.TransDate ?? ''),
+            _typeCode: d.TcType 
+          }))
+        } else {
+          console.log(`Local JSON is old (${lastUpdatedDate}), falling back to live API`)
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to read local latest-opendata.json:', err)
+  }
+
   const url = 'https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx'
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), 25000)
@@ -772,7 +808,19 @@ async function fetchRecentOpenData(): Promise<OpenDataRecord[]> {
     const res = await fetch(url, { signal: controller.signal, cache: 'no-store' })
     if (!res.ok) throw new Error(`OpenData HTTP ${res.status}`)
     const data = await res.json() as OpenDataRecord[]
-    return data
+    return data.map(d => ({
+      cropCode: d.作物代號 ?? '',
+      cropName: d.作物名稱 ?? '',
+      marketName: d.市場名稱 ?? '',
+      grade: '一般',
+      upperPrice: d.上價 || 0,
+      middlePrice: d.中價 || 0,
+      lowerPrice: d.下價 || 0,
+      avgPrice: d.平均價 || 0,
+      transWeight: d.交易量 || 0,
+      date: rocToISO(d.交易日期 ?? ''),
+      _typeCode: d.種類代碼
+    }))
   } finally {
     clearTimeout(timer)
   }
@@ -794,22 +842,14 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
       const allRecordsRaw = await fetchRecentOpenData()
       let filteredData = allRecordsRaw
       if (options.marketType) {
-        if (options.marketType === 'Veg') filteredData = filteredData.filter(d => d.種類代碼 === 'N04')
-        else if (options.marketType === 'Fruit') filteredData = filteredData.filter(d => d.種類代碼 === 'N05')
-        else if (options.marketType === 'Flower') filteredData = filteredData.filter(d => d.種類代碼 === 'N06')
+        if (options.marketType === 'Veg') filteredData = filteredData.filter(d => d._typeCode === 'N04')
+        else if (options.marketType === 'Fruit') filteredData = filteredData.filter(d => d._typeCode === 'N05')
+        else if (options.marketType === 'Flower') filteredData = filteredData.filter(d => d._typeCode === 'N06')
       }
-      let filtered = filteredData.map(d => ({
-        cropCode: d.作物代號 ?? '',
-        cropName: d.作物名稱 ?? '',
-        marketName: d.市場名稱 ?? '',
-        grade: '一般',
-        upperPrice: d.上價 || 0,
-        middlePrice: d.中價 || 0,
-        lowerPrice: d.下價 || 0,
-        avgPrice: d.平均價 || 0,
-        transWeight: d.交易量 || 0,
-        date: rocToISO(d.交易日期 ?? ''),
-      })).filter(r => r.date >= startDate && r.date <= endDate)
+      let filtered = filteredData.filter(r => r.date >= startDate && r.date <= endDate).map(r => {
+        const { _typeCode, ...rest } = r
+        return rest
+      })
       if (options.market && options.market !== '全部市場') {
          filtered = filtered.filter(r => r.marketName === options.market)
       }

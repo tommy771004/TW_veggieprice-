@@ -22,7 +22,7 @@ import type {
 } from '@/lib/types'
 import Link from 'next/link'
 
-const PERIODS: PricePeriod[] = ['1W', '1M', '3M', '1Y']
+const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
 
 export function ProduceClient({ cropName }: { cropName: string }) {
   const router = useRouter()
@@ -174,76 +174,6 @@ export function ProduceClient({ cropName }: { cropName: string }) {
           } finally {
             if (active) setStreamingStatus('complete')
           }
-        } else if (period === '1Y') {
-          // Stage 1: Load 1 Month instant data
-          const startStr30 = getDaysAgoISO(30)
-          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr30}&endDate=${todayStr}`)
-          if (!active) return
-          const json = await hRes.json()
-          if (!active) return
-
-          if (!hRes.ok) {
-            throw new Error(json.error || '查無此作物的歷史資料')
-          }
-
-          let mergedData = [...(json.data ?? [])]
-          let mergedClosed = [...(json.closedDays ?? [])]
-          setHistory(mergedData)
-          setClosedDays(mergedClosed)
-          if (json.updatedAt) setUpdatedAt(json.updatedAt)
-
-          // Loader disappears!
-          setHistoryLoading(false)
-
-          // Stage 2: Background fetch of 3 quarters
-          setStreamingStatus('loading_chunks')
-          setStreamingTotal(3)
-          setStreamingProgress(0)
-
-          // Define chunks: [startRangeDays, endRangeDays]
-          const chunks = [
-            { start: 120, end: 31 },
-            { start: 240, end: 121 },
-            { start: 365, end: 241 },
-          ]
-
-          let currentProgress = 0
-          for (const chunk of chunks) {
-            try {
-              const startStr = getDaysAgoISO(chunk.start)
-              const endStr = getDaysAgoISO(chunk.end)
-              const chunkRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr}&endDate=${endStr}`)
-              if (!active) return
-              const chunkJson = await chunkRes.json()
-              if (!active) return
-
-              if (chunkRes.ok) {
-                const chunkPoints = chunkJson.data ?? []
-                const chunkClosed = chunkJson.closedDays ?? []
-
-                mergedData = mergedData.concat(chunkPoints)
-                mergedClosed = mergedClosed.concat(chunkClosed)
-
-                const uniqueDataMap = new Map<string, PriceHistoryPoint>()
-                mergedData.forEach(item => {
-                  uniqueDataMap.set(item.date, item)
-                })
-                const finalData = Array.from(uniqueDataMap.values()).sort((a, b) => a.date.localeCompare(b.date))
-                const finalClosed = Array.from(new Set(mergedClosed)).sort()
-
-                setHistory(finalData)
-                setClosedDays(finalClosed)
-              }
-            } catch (err) {
-              console.error(`Failed to stream 1Y chunk ${chunk.start}-${chunk.end}`, err)
-            } finally {
-              if (active) {
-                currentProgress++
-                setStreamingProgress(currentProgress)
-              }
-            }
-          }
-          if (active) setStreamingStatus('complete')
         }
       } catch (err: any) {
         if (active) {

@@ -69,7 +69,7 @@ export interface SearchFilters {
   category: 'all' | 'vegetable' | 'fruit' | 'flower' | 'mushroom'
 }
 
-export type PricePeriod = '1W' | '1M' | '3M' | '1Y'
+export type PricePeriod = '1W' | '1M' | '3M'
 
 export interface SeasonalItem {
   cropName: string

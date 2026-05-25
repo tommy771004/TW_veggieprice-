@@ -168,8 +168,8 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
           >
             <defs>
               <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#2e7d32" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#2e7d32" stopOpacity={0}    />
+                <stop offset="5%"  stopColor="#1b5e20" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#1b5e20" stopOpacity={0}    />
               </linearGradient>
             </defs>
 
@@ -233,12 +233,12 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
             <Area
               type="monotone"
               dataKey="avgPrice"
-              stroke="#0d631b"
+              stroke="#1b5e20"
               strokeWidth={2}
               fill="url(#priceGradient)"
               dot={false}
               connectNulls
-              activeDot={{ r: 5, fill: '#0d631b', strokeWidth: 0 }}
+              activeDot={{ r: 5, fill: '#1b5e20', strokeWidth: 0 }}
             />
 
             {/* Upper / lower price range lines — rendered above avgPrice fill */}
@@ -247,9 +247,9 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 <Area
                   type="monotone"
                   dataKey="upperPrice"
-                  stroke="#66bb6a"
+                  stroke="#43a047"
                   strokeWidth={1.5}
-                  strokeDasharray="5 3"
+                  strokeDasharray="4 2"
                   fillOpacity={0}
                   dot={false}
                   connectNulls
@@ -258,9 +258,9 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 <Area
                   type="monotone"
                   dataKey="lowerPrice"
-                  stroke="#ffa726"
+                  stroke="#f57c00"
                   strokeWidth={1.5}
-                  strokeDasharray="5 3"
+                  strokeDasharray="4 2"
                   fillOpacity={0}
                   dot={false}
                   connectNulls
@@ -277,12 +277,12 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
         <div className="flex flex-wrap justify-end items-center gap-x-3 gap-y-1 mt-2">
           {showPriceRange && hasRangeData && (
             <>
-              <span className="text-[0.6875rem] flex items-center gap-1 text-[#4caf50]">
-                <span className="inline-block w-4 border-t-2 border-dashed border-[#66bb6a] align-middle" />
+              <span className="text-[0.6875rem] flex items-center gap-1 text-[#43a047]">
+                <span className="inline-block w-4 border-t-2 border-dashed border-[#43a047] align-middle" />
                 上價
               </span>
-              <span className="text-[0.6875rem] flex items-center gap-1 text-[#fb8c00]">
-                <span className="inline-block w-4 border-t-2 border-dashed border-[#ffa726] align-middle" />
+              <span className="text-[0.6875rem] flex items-center gap-1 text-[#f57c00]">
+                <span className="inline-block w-4 border-t-2 border-dashed border-[#f57c00] align-middle" />
                 下價
               </span>
             </>
@@ -341,7 +341,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 <div className="grid grid-cols-3 gap-2">
                   <div className="bg-surface-container p-3 rounded-2xl text-center">
                     <p className="text-on-surface-variant text-[0.6875rem] mb-1">上價</p>
-                    <p className="text-[#4caf50] font-semibold text-base sm:text-lg">{longPressedPoint.upperPrice != null ? `$${longPressedPoint.upperPrice.toFixed(1)}` : '-'}</p>
+                    <p className="text-[#43a047] font-semibold text-base sm:text-lg">{longPressedPoint.upperPrice != null ? `$${longPressedPoint.upperPrice.toFixed(1)}` : '-'}</p>
                   </div>
                   <div className="bg-primary/10 border border-primary/20 p-3 rounded-2xl text-center relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1 h-full bg-primary rounded-l-full"></div>
@@ -350,7 +350,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                   </div>
                   <div className="bg-surface-container p-3 rounded-2xl text-center">
                     <p className="text-on-surface-variant text-[0.6875rem] mb-1">下價</p>
-                    <p className="text-[#fb8c00] font-semibold text-base sm:text-lg">{longPressedPoint.lowerPrice != null ? `$${longPressedPoint.lowerPrice.toFixed(1)}` : '-'}</p>
+                    <p className="text-[#f57c00] font-semibold text-base sm:text-lg">{longPressedPoint.lowerPrice != null ? `$${longPressedPoint.lowerPrice.toFixed(1)}` : '-'}</p>
                   </div>
                 </div>
 

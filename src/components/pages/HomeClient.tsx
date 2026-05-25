@@ -8,6 +8,7 @@ import { TrendChip } from '@/components/ui/TrendChip'
 import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
 import { ExploreSection } from '@/components/ui/ExploreSection'
 import { AboutSection } from '@/components/ui/AboutSection'
+import { RecommendedLinks } from '@/components/ui/RecommendedLinks'
 import { DataSourceBadge } from '@/components/ui/DataSourceBadge'
 import { formatPrice, cleanErrorMessage } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
@@ -444,6 +445,9 @@ export function HomeClient() {
           ) : null}
         </AnimatePresence>
       </motion.section>
+
+      {/* ── Other Projects ────────────────────────────── */}
+      <RecommendedLinks />
 
       {/* ── Category Filter ───────────────────────────── */}
       <section className="-mx-section-margin px-section-margin overflow-x-auto hide-scrollbar">
