@@ -40,8 +40,8 @@ function getDatesToFetch(latestExistingIsoDate) {
     fetchStartDate = new Date(latestExistingIsoDate);
     fetchStartDate.setDate(fetchStartDate.getDate() + 1);
   } else {
-    // defaults to last 7 days if no existing data
-    fetchStartDate.setDate(fetchStartDate.getDate() - 7);
+    // defaults to last 90 days if no existing data
+    fetchStartDate.setDate(fetchStartDate.getDate() - 90);
   }
 
   const dates = [];
@@ -101,7 +101,10 @@ async function main() {
     console.log(`\n📅 Fetching data for date: ${isoDate} (ROC: ${rocDate})`);
     
     let skip = 0;
-    while (true) {
+    let pageCount = 0;
+    const maxPages = 50; // Safety net for infinite loop (50 * 1000 = 50,000 records per day max)
+    while (pageCount < maxPages) {
+      pageCount++;
       const url = `https://data.moa.gov.tw/api/v1/AgriProductsTransType/?Start_time=${rocDate}&End_time=${rocDate}&$top=1000&$skip=${skip}`;
       console.log(`   ➔ Fetching skip=${skip}...`);
       
