@@ -831,10 +831,22 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
   const startDate = options.startDate ?? date
   const endDate = options.endDate ?? date
 
-  // If querying "全部市場" and we don't have a specific crop name, we are doing a bulk market query.
-  // The MOA v1 API now restricts non-members to 1000 records per query (Page 1 only), dropping most data.
-  // We can use the OpenData endpoint which returns the latest ~4 days of all markets and crops.
-  // Check if the requested range falls entirely within the recent 4 days from today.
+  // 1. Check if we can satisfy the query completely using our structured daily JSON files.
+  // The daily files contain ALL markets and ALL crops.
+  // By using this, we bypass the MOA API v1 limit of 1000 records.
+  try {
+    const dailyRecords = await fetchLocalDailyData(startDate, endDate, options.cropName, options.market, options.marketType)
+    if (dailyRecords && dailyRecords.length > 0) {
+      // If we found records in our daily files, return them.
+      // We assume if daily files exist for the range, they are complete.
+      return { records: dailyRecords }
+    }
+  } catch (err) {
+    console.warn('fetchLocalDailyData failed:', err)
+  }
+
+  // 2. If daily files weren't available or returned empty (maybe dates are from today and not synced yet),
+  // fallback to the recent OpenData JSON (covers latest 4~7 days) if applicable.
   const today = todayISO()
   const latestOpenDataDate = subtractDays(today, 5) // buffer
   if ((options.market === '全部市場' || !options.market) && !options.cropName && startDate >= latestOpenDataDate) {
@@ -860,6 +872,7 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
     }
   }
 
+  // 3. Ultimate Fallback: MOA v1 API requests.
   const params = new URLSearchParams({
     Start_time: isoToROC(startDate),
     End_time: isoToROC(endDate),
@@ -892,6 +905,61 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
       error: error instanceof Error ? error.message : 'Unknown MOA fetch error',
     }
   }
+}
+
+async function fetchLocalDailyData(startDate: string, endDate: string, cropName?: string, market?: string, marketType?: string): Promise<NormalizedPriceRecord[] | null> {
+  const records: NormalizedPriceRecord[] = [];
+  const dailyDir = path.join(process.cwd(), 'public', 'data', 'daily'); // Assuming running in Next.js environment
+  
+  if (!fs.existsSync(dailyDir)) return null;
+
+  let current = new Date(startDate);
+  const end = new Date(endDate);
+  let checkedAny = false;
+  let foundAnyFile = false;
+
+  while (current <= end) {
+    checkedAny = true;
+    const isoDate = current.toISOString().split('T')[0];
+    const filePath = path.join(dailyDir, `${isoDate}.json`);
+    
+    if (fs.existsSync(filePath)) {
+      foundAnyFile = true;
+      try {
+        const content = await fs.promises.readFile(filePath, 'utf-8');
+        const parsed = JSON.parse(content);
+        for (const d of parsed) {
+          if (cropName && d.CropName !== cropName) continue;
+          if (market && market !== '全部市場' && d.MarketName !== market) continue;
+          if (marketType) {
+             if (marketType === 'Veg' && d.TcType !== 'N04') continue;
+             if (marketType === 'Fruit' && d.TcType !== 'N05') continue;
+             if (marketType === 'Flower' && d.TcType !== 'N06') continue;
+          }
+          
+          records.push({
+            cropCode: d.CropCode ?? '',
+            cropName: d.CropName ?? '',
+            marketName: d.MarketName ?? '',
+            grade: '一般',
+            upperPrice: d.Upper_Price || 0,
+            middlePrice: d.Middle_Price || 0,
+            lowerPrice: d.Lower_Price || 0,
+            avgPrice: d.Avg_Price || 0,
+            transWeight: d.Trans_Quantity || 0,
+            date: rocToISO(d.TransDate ?? ''),
+          });
+        }
+      } catch (err) {
+        console.warn(`Failed to read daily file ${isoDate}.json`, err);
+      }
+    }
+    
+    current.setDate(current.getDate() + 1);
+  }
+
+  if (checkedAny && !foundAnyFile) return null; // If no files existed for the requested range, return null to trigger fallback
+  return records;
 }
 
 export async function fetchMarketWindowRecords(
