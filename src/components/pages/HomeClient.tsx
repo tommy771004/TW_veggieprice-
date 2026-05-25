@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
@@ -201,30 +201,65 @@ export function HomeClient() {
     loadOverviewAndTrend()
   }, [selectedMarket, reloadKey])
 
-  const filteredMovers = movers.filter((item) => getProduceCategory(item.cropName) === activeCategory)
-  const trendSeries = marketTrend
-  const trendPoints = trendSeries.filter((point) => point.avgPrice !== null)
-  let maxTrend = 1
-  let minTrend = Infinity
-  for (const p of trendPoints) {
-    const v = p.avgPrice ?? 0
-    if (v > maxTrend) maxTrend = v
-    if (v < minTrend) minTrend = v
-  }
-  if (minTrend === Infinity) minTrend = maxTrend
-  const trendRange = Math.max(maxTrend - minTrend, 1)
-  const trendChange = trendPoints.length > 1
-    ? (((trendPoints[trendPoints.length - 1].avgPrice ?? 0) - (trendPoints[0].avgPrice ?? 0)) / Math.max(trendPoints[0].avgPrice ?? 1, 1)) * 100
-    : 0
+  const filteredMovers = useMemo(
+    () => movers.filter((item) => getProduceCategory(item.cropName) === activeCategory),
+    [activeCategory, movers]
+  )
 
-  const heroLinePoints = trendPoints.length > 1
-    ? trendPoints.map((p, i) => {
-        const v = p.avgPrice ?? 0
-        const x = (i / (trendPoints.length - 1)) * 400
-        const y = 40 - ((v - minTrend) / trendRange) * 32 - 4
-        return `${x.toFixed(1)},${y.toFixed(1)}`
-      }).join(' ')
-    : ''
+  const trendMetrics = useMemo(() => {
+    const trendSeries = marketTrend
+    const trendPoints = trendSeries.filter((point) => point.avgPrice !== null)
+    let maxTrend = 1
+    let minTrend = Infinity
+
+    for (const point of trendPoints) {
+      const value = point.avgPrice ?? 0
+      if (value > maxTrend) maxTrend = value
+      if (value < minTrend) minTrend = value
+    }
+
+    if (minTrend === Infinity) minTrend = maxTrend
+
+    const trendRange = Math.max(maxTrend - minTrend, 1)
+    const trendChange = trendPoints.length > 1
+      ? (((trendPoints[trendPoints.length - 1].avgPrice ?? 0) - (trendPoints[0].avgPrice ?? 0)) / Math.max(trendPoints[0].avgPrice ?? 1, 1)) * 100
+      : 0
+
+    const heroLinePoints = trendPoints.length > 1
+      ? trendPoints.map((point, index) => {
+          const value = point.avgPrice ?? 0
+          const x = (index / (trendPoints.length - 1)) * 400
+          const y = 40 - ((value - minTrend) / trendRange) * 32 - 4
+          return `${x.toFixed(1)},${y.toFixed(1)}`
+        }).join(' ')
+      : ''
+
+    return { trendSeries, trendPoints, minTrend, trendRange, trendChange, heroLinePoints }
+  }, [marketTrend])
+
+  const { trendSeries, trendPoints, minTrend, trendRange, trendChange, heroLinePoints } = trendMetrics
+
+  const marketPulseCards = useMemo(() => {
+    if (!overview) return []
+
+    return [
+      {
+        label: '今日均價',
+        value: `$${formatPrice(overview.avgPrice)}`,
+        meta: `${overview.marketName}`,
+      },
+      {
+        label: '交易量',
+        value: `${(overview.totalVolume / 1000).toFixed(0)}`,
+        meta: '公噸',
+      },
+      {
+        label: '近週走勢',
+        value: `${trendChange >= 0 ? '+' : ''}${trendChange.toFixed(1)}%`,
+        meta: trendSeries.length > 0 ? `${trendSeries.length} 日樣本` : '等待資料',
+      },
+    ]
+  }, [overview, trendChange, trendSeries.length])
 
   const showErrorCard = !loadingOverview && !loadingMovers && overviewError !== '' && moversError !== ''
   const combinedError = overviewError || moversError
@@ -236,13 +271,26 @@ export function HomeClient() {
       : 'bg-primary text-white'
 
   return (
-    <div className="px-section-margin py-6 space-y-section-margin">
+    <div className="home-dashboard-shell px-section-margin py-6 space-y-section-margin">
 
       {/* ── Market Overview Hero ───────────────────────── */}
-      <motion.section variants={fadeUp} initial="hidden" animate="show">
-        <div className="flex items-start justify-between mb-3">
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        animate="show"
+        className="home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 py-4 md:py-5"
+      >
+        <div className="market-signal-tape mb-4" aria-hidden="true">
+          <span>MOA OPEN DATA</span>
+          <span>WHOLESALE MARKET</span>
+          <span>TAIWAN PRODUCE</span>
+          <span>LIVE PRICE PULSE</span>
+        </div>
+
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-headline-md font-bold text-on-surface">今日市場概況</h2>
+            <p className="text-label-sm font-bold text-primary tracking-[0.18em] uppercase mb-1">Market pulse</p>
+            <h2 className="text-headline-lg font-black text-on-surface">今日市場概況</h2>
             {overview?.updatedAt && (
               <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
                 <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>update</span>
@@ -252,15 +300,33 @@ export function HomeClient() {
               </p>
             )}
           </div>
-          <select
-            suppressHydrationWarning
-            value={selectedMarket}
-            onChange={(e) => setSelectedMarket(e.target.value)}
-            className="bg-white/60 border border-outline-variant/40 rounded-full px-3 py-1.5 text-label-bold text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 backdrop-blur-sm"
-          >
-            {markets.map((m) => <option key={m} value={m}>{m}</option>)}
-          </select>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-white/55 border border-white/50 px-3 py-2 text-label-sm font-semibold text-on-surface-variant backdrop-blur-sm">
+              <span className="material-symbols-outlined text-primary" style={{ fontSize: '1rem' }}>storefront</span>
+              批發市場
+            </span>
+            <select
+              suppressHydrationWarning
+              value={selectedMarket}
+              onChange={(e) => setSelectedMarket(e.target.value)}
+              className="bg-white/70 border border-outline-variant/40 rounded-full px-3 py-2 text-label-bold text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 backdrop-blur-sm shadow-sm"
+            >
+              {markets.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </div>
         </div>
+
+        {marketPulseCards.length > 0 && (
+          <div className="grid grid-cols-3 gap-2 mb-3">
+            {marketPulseCards.map((card) => (
+              <div key={card.label} className="market-pulse-chip">
+                <span>{card.label}</span>
+                <strong>{card.value}</strong>
+                <small>{card.meta}</small>
+              </div>
+            ))}
+          </div>
+        )}
 
         {(nextRestDay || weatherRisk) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">

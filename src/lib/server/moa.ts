@@ -16,6 +16,7 @@ import {
   resolveCountyFromMarketName as resolveCountyFromMarketDataset,
 } from '@/lib/server/marketCountyMap'
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from '@/lib/constants'
+import { buildInterpolatedHistory } from '@/lib/server/historyAggregation'
 
 const MOA_BASE = process.env.MOA_API_BASE_URL ?? 'https://data.moa.gov.tw/api/v1/AgriProductsTransType/'
 const MOA_API_ROOT = process.env.MOA_API_ROOT_URL ?? 'https://data.moa.gov.tw/api/v1'
@@ -999,123 +1000,11 @@ function processRawRecordsToResult(rawRecords: MOARawRecord[], startDate: string
     }
   }
 
-  const byDate = new Map<string, { sumPrice: number; sumVolume: number; upper: number; lower: number; count: number }>()
-
-  for (const raw of rawRecords) {
-    const record = parseRecord(raw)
-    if (!record.date || record.avgPrice <= 0) {
-      continue
-    }
-
-    const current = byDate.get(record.date) ?? {
-      sumPrice: 0,
-      sumVolume: 0,
-      upper: 0,
-      lower: 0,
-      count: 0,
-    }
-
-    current.sumPrice += record.avgPrice
-    current.sumVolume += record.transWeight
-    current.upper = current.upper ? Math.max(current.upper, record.upperPrice) : record.upperPrice
-    current.lower = current.lower ? Math.min(current.lower, record.lowerPrice) : record.lowerPrice
-    current.count += 1
-    byDate.set(record.date, current)
-  }
-
-  const closedDays: string[] = []
-  const initialData = dateRange(startDate, endDate).map((date) => {
-    const current = byDate.get(date)
-
-    if (!current || current.count === 0) {
-      closedDays.push(date)
-      return {
-        date,
-        label: dateLabel(date),
-        avgPrice: null,
-        upperPrice: null,
-        lowerPrice: null,
-        volume: null,
-        isClosed: true,
-      }
-    }
-
-    return {
-      date,
-      label: dateLabel(date),
-      avgPrice: Math.round((current.sumPrice / current.count) * 10) / 10,
-      upperPrice: Math.round(current.upper * 10) / 10,
-      lowerPrice: Math.round(current.lower * 10) / 10,
-      volume: Math.round(current.sumVolume),
-      isClosed: false,
-    }
+  return buildInterpolatedHistory({
+    records: rawRecords.map(parseRecord),
+    dates: dateRange(startDate, endDate),
+    labelForDate: dateLabel,
   })
-
-  // ─── Linear Interpolation for Closed/Rest Days ───────────────────────────
-  const data = initialData.map((item, index) => {
-    if (!item.isClosed) return item
-
-    // Find nearest preceding trading day index
-    let prevIdx = -1
-    for (let i = index - 1; i >= 0; i--) {
-      if (!initialData[i].isClosed) {
-        prevIdx = i
-        break
-      }
-    }
-
-    // Find nearest succeeding trading day index
-    let nextIdx = -1
-    for (let i = index + 1; i < initialData.length; i++) {
-      if (!initialData[i].isClosed) {
-        nextIdx = i
-        break
-      }
-    }
-
-    let avgPrice: number | null = null
-    let upperPrice: number | null = null
-    let lowerPrice: number | null = null
-
-    if (prevIdx !== -1 && nextIdx !== -1) {
-      // Linear interpolation
-      const p1 = initialData[prevIdx]
-      const p2 = initialData[nextIdx]
-      const dist = nextIdx - prevIdx
-      const fraction = (index - prevIdx) / dist
-
-      if (p1.avgPrice !== null && p2.avgPrice !== null) {
-        avgPrice = Math.round((p1.avgPrice + (p2.avgPrice - p1.avgPrice) * fraction) * 10) / 10
-      }
-      if (p1.upperPrice !== null && p2.upperPrice !== null) {
-        upperPrice = Math.round((p1.upperPrice + (p2.upperPrice - p1.upperPrice) * fraction) * 10) / 10
-      }
-      if (p1.lowerPrice !== null && p2.lowerPrice !== null) {
-        lowerPrice = Math.round((p1.lowerPrice + (p2.lowerPrice - p1.lowerPrice) * fraction) * 10) / 10
-      }
-    } else if (prevIdx !== -1) {
-      // Carry forward (replication)
-      const p1 = initialData[prevIdx]
-      avgPrice = p1.avgPrice
-      upperPrice = p1.upperPrice
-      lowerPrice = p1.lowerPrice
-    } else if (nextIdx !== -1) {
-      // Carry backward (replication)
-      const p2 = initialData[nextIdx]
-      avgPrice = p2.avgPrice
-      upperPrice = p2.upperPrice
-      lowerPrice = p2.lowerPrice
-    }
-
-    return {
-      ...item,
-      avgPrice,
-      upperPrice,
-      lowerPrice,
-    }
-  })
-
-  return { data, closedDays }
 }
 
 export async function fetchMarketData(cropName: string, market: string, period: string): Promise<FetchMarketDataResult> {
