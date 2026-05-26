@@ -647,7 +647,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                     href={`/search?q=${encodeURIComponent(cropName)}&market=${encodeURIComponent(m.marketName)}&type=${
                       (() => {
                         const cat = getProduceCategory(cropName)
-                        return cat === 'fruit' ? 'Fruit' : cat === 'flower' ? 'Flower' : 'Veg'
+                        return cat === 'fruit' ? 'Fruit' : 'Veg'
                       })()
                     }`}
                     className="flex justify-between items-center py-2.5 px-2 block"
