@@ -36,7 +36,7 @@ import { getUserPreferences, DEFAULT_USER_PREFERENCES } from '@/lib/preferences'
 const CATEGORIES: ReadonlyArray<{ label: string; value: ProduceCategory }> = [
   { label: '🥬 蔬菜類', value: 'vegetable' },
   { label: '🍎 水果類', value: 'fruit' },
-  { label: '🌸 花卉類', value: 'flower' },
+  // { label: '🌸 花卉類', value: 'flower' },
   { label: '🍄 菇類', value: 'mushroom' },
 ]
 
@@ -170,7 +170,9 @@ export function HomeClient() {
         setOverview(ovResult.value.json as MarketOverview)
       } else {
         const json = ovResult.status === 'fulfilled' ? (ovResult.value.json as { error?: string }) : null
-        setOverviewError(json?.error || '暫時無法取得市場概況')
+        let errStr = json?.error || (ovResult.status === 'rejected' ? ovResult.reason.message : '暫時無法取得市場概況')
+        if (errStr.includes('fetch')) errStr = '連線至伺服器失敗，請檢查網路狀態或稍後再試'
+        setOverviewError(errStr)
       }
 
       if (trendResult.status === 'fulfilled' && trendResult.value.ok) {
@@ -424,7 +426,7 @@ export function HomeClient() {
             >
               <Link
                 href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
-                  activeCategory === 'fruit' ? 'Fruit' : activeCategory === 'flower' ? 'Flower' : 'Veg'
+                  activeCategory === 'fruit' ? 'Fruit' : 'Veg'
                 }`}
                 className="block home-hero-card rounded-3xl overflow-hidden card-lift"
               >
@@ -435,17 +437,17 @@ export function HomeClient() {
                       本日休市
                     </div>
                   )}
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 sm:gap-4">
                     <div className="min-w-0">
                       <p
                         className="text-[0.6875rem] tracking-[0.16em] uppercase font-semibold mb-2"
-                        style={{ color: 'rgba(255,255,255,0.38)' }}
+                        style={{ color: 'rgba(255,255,255,0.48)' }}
                       >
                         均價 · 元 / 公斤
                       </p>
                       <div className="flex items-end gap-3 flex-wrap">
                         <motion.span
-                          className="text-[3.25rem] leading-none font-black tabular-nums tracking-tight"
+                          className="text-[2.75rem] sm:text-[3.25rem] leading-none font-black tabular-nums tracking-tight"
                           style={{ color: '#fcd34d' }}
                           initial={{ opacity: 0, scale: 0.85 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -453,20 +455,22 @@ export function HomeClient() {
                         >
                           ${formatPrice(overview.avgPrice)}
                         </motion.span>
-                        <div className="pb-1.5 shrink-0">
+                        <div className="pb-1 sm:pb-1.5 shrink-0">
                           <TrendChip change={overview.priceChange} />
                         </div>
                       </div>
                     </div>
-                    <div className="text-right shrink-0 mt-1">
-                      <p className="text-[0.6875rem] tracking-[0.12em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.38)' }}>
-                        交易量
-                      </p>
-                      <p className="text-xl font-bold tabular-nums" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                        {(overview.totalVolume / 1000).toFixed(0)}
-                        <span className="text-sm font-normal ml-0.5" style={{ color: 'rgba(255,255,255,0.42)' }}>公噸</span>
-                      </p>
-                      <div className="mt-1">
+                    <div className="flex flex-row sm:flex-col justify-between items-center sm:items-end text-left sm:text-right shrink-0 mt-1 sm:mt-1 pt-3 sm:pt-0 border-t border-white/10 sm:border-0 w-full sm:w-auto">
+                      <div>
+                        <p className="text-[0.625rem] sm:text-[0.6875rem] tracking-[0.12em] uppercase mb-0.5 sm:mb-1" style={{ color: 'rgba(255,255,255,0.48)' }}>
+                          交易量
+                        </p>
+                        <p className="text-lg sm:text-xl font-bold tabular-nums" style={{ color: 'rgba(255,255,255,0.95)' }}>
+                          {(overview.totalVolume / 1000).toFixed(0)}
+                          <span className="text-[0.8rem] font-normal ml-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>公噸</span>
+                        </p>
+                      </div>
+                      <div className="mt-0 sm:mt-1">
                         <TrendChip change={overview.volumeChange} size="sm" />
                       </div>
                     </div>
@@ -512,9 +516,6 @@ export function HomeClient() {
         </AnimatePresence>
       </motion.section>
 
-      {/* ── Other Projects ────────────────────────────── */}
-      <RecommendedLinks />
-
       {/* ── Category Filter ───────────────────────────── */}
       <section className="-mx-section-margin px-section-margin overflow-x-auto hide-scrollbar">
         <div className="flex gap-2 w-max pb-1">
@@ -540,7 +541,7 @@ export function HomeClient() {
           <h2 className="text-headline-md font-bold text-on-surface">價格波動榜</h2>
           <Link
             href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
-              activeCategory === 'fruit' ? 'Fruit' : activeCategory === 'flower' ? 'Flower' : 'Veg'
+              activeCategory === 'fruit' ? 'Fruit' : 'Veg'
             }`}
             className="text-primary text-label-bold hover:underline flex items-center gap-0.5"
           >
@@ -561,7 +562,7 @@ export function HomeClient() {
               animate="show"
             >
               {filteredMovers.length > 0 ? filteredMovers.map((item, i) => (
-                <motion.div key={item.cropCode} variants={moverVariant}>
+                <motion.div key={`${item.cropCode}_${item.marketName}_${i}`} variants={moverVariant} className="mover-entry" style={{ animationDelay: `${i * 0.05}s` }}>
                   <Link
                     href={`/produce/${encodeURIComponent(item.cropName)}`}
                     className="glass-card card-lift rounded-2xl flex items-center justify-between p-3.5 hover:bg-white/60 transition-colors touch-target block"
@@ -571,19 +572,19 @@ export function HomeClient() {
                         <div className="w-11 h-11 rounded-xl bg-white/60 border border-white/50 flex items-center justify-center text-2xl shadow-sm">
                           {item.emoji}
                         </div>
-                        <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary-container text-white text-[0.625rem] font-black rounded-full flex items-center justify-center leading-none shadow-sm">
+                        <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-on-primary text-[0.625rem] font-black rounded-full flex items-center justify-center leading-none shadow-sm">
                           {i + 1}
                         </span>
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-body-lg font-semibold text-on-surface truncate">{item.cropName}</h3>
-                        <p className="text-body-sm text-on-surface-variant truncate">
+                        <h3 className="text-body-lg font-bold text-gray-900 truncate">{item.cropName}</h3>
+                        <p className="text-body-sm text-gray-600 truncate font-medium">
                           {item.marketName}<span className="opacity-40 mx-1">·</span>{item.grade}
                         </p>
                       </div>
                     </div>
                     <div className="text-right shrink-0 ml-3">
-                      <div className="text-headline-md font-black text-on-surface tabular-nums">${formatPrice(item.currentPrice)}</div>
+                      <div className="text-headline-md font-black text-gray-900 tabular-nums">${formatPrice(item.currentPrice)}</div>
                       <div className="mt-1">
                         <TrendChip change={item.priceChange} size="sm" />
                       </div>
@@ -758,7 +759,7 @@ export function HomeClient() {
                   >
                     <Link
                       href={`/search?q=${encodeURIComponent(item.cropName)}&type=${
-                        item.category === 'fruit' ? 'Fruit' : item.category === 'flower' ? 'Flower' : 'Veg'
+                        item.category === 'fruit' ? 'Fruit' : 'Veg'
                       }`}
                       className="shrink-0 w-48 rounded-3xl glass-card p-4 hover:bg-white transition-all shadow-glass-sm hover:shadow-glass flex flex-col snap-start border border-white/40 group card-lift block"
                     >
@@ -788,6 +789,9 @@ export function HomeClient() {
 
       {/* ── Data Source Attribution ───────────────────── */}
       <DataSourceBadge />
+
+      {/* ── Other Projects ────────────────────────────── */}
+      <RecommendedLinks />
 
       {/* ── Floating Price Alert (Glassmorphism) ───────── */}
       <AnimatePresence>
