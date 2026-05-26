@@ -7,7 +7,7 @@ export interface UserPreferences {
   fontSize: FontSize
   theme: Theme
   preferredMarket: string
-  preferredMarketType: 'Veg' | 'Fruit' | 'Flower'
+  preferredMarketType: 'Veg' | 'Fruit' // | 'Flower'
   priceAlert: boolean
   dailySummary: boolean
   locale: 'zh-TW'
