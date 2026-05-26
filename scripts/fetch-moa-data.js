@@ -49,30 +49,18 @@ async function main() {
     existingFiles = fs.readdirSync(dailyDataDir).filter(f => f.endsWith('.json'));
   }
 
+  const existingFileNames = new Set(existingFiles.map(f => f.replace('.json', '')));
   const datesToSync = [];
 
-  if (existingFiles.length === 0) {
-    console.log('📌 [初始化] 發現 public/data/daily 為空，準備從最近 3 個月 (90天) 前開始抓資料...');
-    for (let i = 0; i <= 90; i++) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      datesToSync.push(d.toISOString().split('T')[0]);
-    }
-  } else {
-    existingFiles.sort();
-    const latestDateStr = existingFiles[existingFiles.length - 1].replace('.json', '');
-    console.log(`📌 [增量更新] 本地已有資料，最新日期為: ${latestDateStr}`);
+  for (let i = 0; i <= 90; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const iso = d.toISOString().split('T')[0];
     
-    let currentDate = new Date(today);
-    let iterations = 0;
-    while (iterations < 400) { // Safety limit
-      const iso = currentDate.toISOString().split('T')[0];
-      datesToSync.push(iso);
-      if (iso <= latestDateStr) {
-        break; 
-      }
-      currentDate.setDate(currentDate.getDate() - 1);
-      iterations++;
+    // Check if it's recent (last 3 days should always be checked for late updates)
+    // or if it's missing entirely
+    if (i <= 3 || !existingFileNames.has(iso)) {
+       datesToSync.push(iso);
     }
   }
   
@@ -107,44 +95,44 @@ async function main() {
     
     let dailyRecords = [];
 
-    // Fetch sequentially by categories
-    for (const category of categories) {
-      console.log(`   ➔ 目錄: ${category === 'N04' ? '蔬菜 (N04)' : '水果 (N05)'}`);
-      let skip = 0;
-      let pageCount = 0;
-      const maxPages = 30; // Safety net for infinite loop (30 * 1000 = 30,000 records per category per day max)
-
-      while (pageCount < maxPages) {
-        pageCount++;
-        const url = `https://data.moa.gov.tw/api/v1/AgriProductsTransType/?Start_time=${rocDate}&End_time=${rocDate}&TcType=${category}&$top=1000&$skip=${skip}`;
-        process.stdout.write(`      ➔ 第 ${pageCount} 頁 (skip=${skip})... `);
+    const url = `https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx?StartDate=${rocDate}&EndDate=${rocDate}`;
+    console.log(`   ➔ 取得農產品交易資料: ${url}`);
+    
+    try {
+      const startTime = Date.now();
+      const data = await fetchWithRetry(url);
+      const duration = Date.now() - startTime;
+      
+      if (Array.isArray(data) && data.length > 0) {
+        // Filter N04 (Vegetable) and N05 (Fruit)
+        const relevantData = data.filter(item => item['種類代碼'] === 'N04' || item['種類代碼'] === 'N05');
         
-        try {
-          const startTime = Date.now();
-          const data = await fetchWithRetry(url);
-          const duration = Date.now() - startTime;
-          
-          if (data && data.Data && data.Data.length > 0) {
-            dailyRecords.push(...data.Data);
-            process.stdout.write(`成功! 取得 ${data.Data.length} 筆資料 (${duration}ms)\n`);
-          } else {
-            process.stdout.write(`沒有更多資料 (${duration}ms)\n`);
-          }
-          
-          if (!data || !data.Data || data.Data.length < 1000) {
-            break; // No more pages or last page
-          }
-          
-          skip += 1000;
-          await new Promise(resolve => setTimeout(resolve, 300)); // Interval 0.3s
-        } catch (err) {
-          console.error(`\n      ❌ 擷取資料失敗:`, err.message);
-          break;
-        }
+        // Map Chinese keys to English keys to maintain compatibility with existing system
+        dailyRecords = relevantData.map(item => ({
+          TransDate: item['交易日期'],
+          TcType: item['種類代碼'],
+          CropCode: item['作物代號'],
+          CropName: item['作物名稱'],
+          MarketCode: item['市場代號'],
+          MarketName: item['市場名稱'],
+          Upper_Price: item['上價'],
+          Middle_Price: item['中價'],
+          Lower_Price: item['下價'],
+          Avg_Price: item['平均價'],
+          Trans_Quantity: item['交易量']
+        }));
+        
+        console.log(`   ✅ 取得 ${dailyRecords.length} 筆資料 (過濾前: ${data.length} 筆) (${duration}ms)`);
+      } else {
+        console.log(`   ⚠️ 沒有資料 (${duration}ms)`);
       }
+      
+      await new Promise(resolve => setTimeout(resolve, 300)); // Interval 0.3s
+    } catch (err) {
+      console.error(`\n      ❌ 擷取資料失敗:`, err.message);
     }
     
-    console.log(`   ✅ [${isoDate}] 完成擷取. 總計: ${dailyRecords.length} 筆`);
+    console.log(`   ✅ [${isoDate}] 完成處理. 總計: ${dailyRecords.length} 筆`);
     
     if (dailyRecords.length > 0) {
       const tempDailyPath = dailyPath + '.tmp';
