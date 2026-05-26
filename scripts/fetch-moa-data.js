@@ -40,46 +40,76 @@ async function main() {
     fs.mkdirSync(dailyDataDir, { recursive: true });
   }
 
-  // 1. Determine dates to fetch (last 95 days)
+  // 1. Determine dates to fetch
   const today = new Date(new Date().getTime() + 8 * 3600 * 1000);
-  const datesToSync = [];
+  const todayStr = today.toISOString().split('T')[0];
   
-  for (let i = 0; i <= 7; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    datesToSync.push(d.toISOString().split('T')[0]);
+  let existingFiles = [];
+  if (fs.existsSync(dailyDataDir)) {
+    existingFiles = fs.readdirSync(dailyDataDir).filter(f => f.endsWith('.json'));
+  }
+
+  const datesToSync = [];
+
+  if (existingFiles.length === 0) {
+    console.log('📌 [初始化] 發現 public/data/daily 為空，準備從最近 3 個月 (90天) 前開始抓資料...');
+    for (let i = 0; i <= 90; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      datesToSync.push(d.toISOString().split('T')[0]);
+    }
+  } else {
+    existingFiles.sort();
+    const latestDateStr = existingFiles[existingFiles.length - 1].replace('.json', '');
+    console.log(`📌 [增量更新] 本地已有資料，最新日期為: ${latestDateStr}`);
+    
+    let currentDate = new Date(today);
+    let iterations = 0;
+    while (iterations < 400) { // Safety limit
+      const iso = currentDate.toISOString().split('T')[0];
+      datesToSync.push(iso);
+      if (iso <= latestDateStr) {
+        break; 
+      }
+      currentDate.setDate(currentDate.getDate() - 1);
+      iterations++;
+    }
   }
   
   // Sort oldest to newest
   datesToSync.reverse();
 
+  console.log(`📋 總計有 ${datesToSync.length} 天的資料待確認與更新。`);
+
   let fetchedAny = false;
   let revalidateCrops = new Set();
   
-  // N04: 蔬菜, N05: 水果, (N06: 花卉 已隱藏)
-  // const categories = ['N04', 'N05', 'N06'];
+  // N04: 蔬菜, N05: 水果
   const categories = ['N04', 'N05'];
 
   for (const isoDate of datesToSync) {
     const dailyPath = path.join(dailyDataDir, `${isoDate}.json`);
     
-    // Check if we already have data for this date
-    // Note: Re-fetch if it's the current or previous day to handle late arriving data
-    const isRecent = today.toISOString().split('T')[0] === isoDate || 
+    // 如果當前已有這個日期的檔案，我們只需要「最近一兩天」進行重新抓取(以防晚到的資料)
+    const isRecent = todayStr === isoDate || 
       new Date(today.getTime() - 24*3600*1000).toISOString().split('T')[0] === isoDate;
       
-    if (fs.existsSync(dailyPath) && !isRecent) {
+    // 若不是最近的日期，且檔案已存在，就跳過
+    if (fs.existsSync(dailyPath) && !isRecent && existingFiles.length > 0) {
+      if (datesToSync.length < 10) {
+        console.log(`⏭️  跳過已存在且無需更新的日期: ${isoDate}`);
+      }
       continue;
     }
 
     const rocDate = formatROCDate(isoDate);
-    console.log(`\n📅 Fetching data for date: ${isoDate} (ROC: ${rocDate})`);
+    console.log(`\n📅 [${isoDate}] 開始擷取 (民國: ${rocDate})`);
     
     let dailyRecords = [];
 
     // Fetch sequentially by categories
     for (const category of categories) {
-      console.log(`   ➔ Fetching Category: ${category}`);
+      console.log(`   ➔ 目錄: ${category === 'N04' ? '蔬菜 (N04)' : '水果 (N05)'}`);
       let skip = 0;
       let pageCount = 0;
       const maxPages = 30; // Safety net for infinite loop (30 * 1000 = 30,000 records per category per day max)
@@ -87,16 +117,18 @@ async function main() {
       while (pageCount < maxPages) {
         pageCount++;
         const url = `https://data.moa.gov.tw/api/v1/AgriProductsTransType/?Start_time=${rocDate}&End_time=${rocDate}&TcType=${category}&$top=1000&$skip=${skip}`;
-        process.stdout.write(`      ➔ skip=${skip}... `);
+        process.stdout.write(`      ➔ 第 ${pageCount} 頁 (skip=${skip})... `);
         
         try {
+          const startTime = Date.now();
           const data = await fetchWithRetry(url);
+          const duration = Date.now() - startTime;
           
           if (data && data.Data && data.Data.length > 0) {
             dailyRecords.push(...data.Data);
-            process.stdout.write(`Found ${data.Data.length} records.\n`);
+            process.stdout.write(`成功! 取得 ${data.Data.length} 筆資料 (${duration}ms)\n`);
           } else {
-             process.stdout.write(`No records.\n`);
+            process.stdout.write(`沒有更多資料 (${duration}ms)\n`);
           }
           
           if (!data || !data.Data || data.Data.length < 1000) {
@@ -104,15 +136,15 @@ async function main() {
           }
           
           skip += 1000;
-          await new Promise(resolve => setTimeout(resolve, 500)); 
+          await new Promise(resolve => setTimeout(resolve, 300)); // Interval 0.3s
         } catch (err) {
-          console.error(`\n      ❌ Failed to fetch data:`, err.message);
+          console.error(`\n      ❌ 擷取資料失敗:`, err.message);
           break;
         }
       }
     }
     
-    console.log(`   ✅ Finished for date ${isoDate}. Total: ${dailyRecords.length}`);
+    console.log(`   ✅ [${isoDate}] 完成擷取. 總計: ${dailyRecords.length} 筆`);
     
     if (dailyRecords.length > 0) {
       const tempDailyPath = dailyPath + '.tmp';
@@ -122,6 +154,14 @@ async function main() {
       dailyRecords.forEach(r => {
         if (r.CropName) revalidateCrops.add(r.CropName);
       });
+    } else if (isRecent) {
+       console.log(`   ⚠️ [${isoDate}] 未收到任何資料，可能今日尚未開始交易。`);
+    } else {
+       // 如果不是最近一天也沒有資料，可能是休市或者舊天數，我們保存空陣列避免之後一直重複查詢
+       console.log(`   ⚠️ [${isoDate}] 無資料(可能是休市日)，寫入空陣列以防重複查詢。`);
+       const tempDailyPath = dailyPath + '.tmp';
+       fs.writeFileSync(tempDailyPath, JSON.stringify([]), 'utf-8');
+       fs.renameSync(tempDailyPath, dailyPath);
     }
   }
 
