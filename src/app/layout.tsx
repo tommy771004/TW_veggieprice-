@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     default: '農時價 — 台灣蔬果批發行情即時查詢',
     template: '%s | 農時價',
   },
-  description: '免費查詢台灣全台批發市場今日菜價、歷史漲跌趨勢與各市場比價，蔬菜、水果、花卉行情一站掌握。',
+  description: '免費查詢台灣全台批發市場今日菜價、歷史漲跌趨勢與各市場比價，蔬菜、水果行情一站掌握。',
   keywords: ['台灣菜價', '批發市場行情', '今日菜價查詢', '農產品歷史價格', '蔬菜價格', '水果價格', '批發價'],
   authors: [{ name: '農時價 VeggiePrice TW' }],
   creator: '農時價 VeggiePrice TW',
