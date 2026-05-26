@@ -20,14 +20,19 @@ export function TopAppBar() {
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [focused, setFocused] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const notificationRef = useRef<HTMLDivElement>(null)
 
   // Close dropdown on outside click
   useEffect(() => {
     function handler(e: MouseEvent) {
       if (!containerRef.current?.contains(e.target as Node)) {
         setFocused(false)
+      }
+      if (!notificationRef.current?.contains(e.target as Node)) {
+        setShowNotifications(false)
       }
     }
     document.addEventListener('mousedown', handler)
@@ -151,13 +156,35 @@ export function TopAppBar() {
       </nav>
 
       {/* Notifications */}
-      <Link
-        href="/settings"
-        aria-label="前往通知與偏好設定"
-        className="touch-target flex-shrink-0 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-primary"
-      >
-        <span className="material-symbols-outlined" style={{ fontSize: '1.5rem' }}>notifications</span>
-      </Link>
+      <div className="relative" ref={notificationRef}>
+        <button
+          onClick={() => setShowNotifications(!showNotifications)}
+          aria-label="最新通知"
+          className="touch-target flex-shrink-0 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-primary"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: '1.5rem' }}>notifications</span>
+        </button>
+
+        {showNotifications && (
+          <div className="absolute right-0 top-full mt-2 w-72 glass-card-solid rounded-2xl overflow-hidden shadow-glass z-50">
+            <div className="p-4 border-b border-white/20">
+              <h3 className="text-label-bold font-semibold text-primary">最新通知</h3>
+            </div>
+            <div className="p-4 text-center text-body-md text-on-surface-variant">
+              目前沒有新通知
+            </div>
+            <div className="p-3 border-t border-white/20 bg-white/30 text-center">
+              <Link
+                href="/settings#notifications"
+                onClick={() => setShowNotifications(false)}
+                className="text-primary hover:underline text-body-sm font-medium"
+              >
+                前往通知設定
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   )
 }
