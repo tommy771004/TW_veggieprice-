@@ -1359,13 +1359,18 @@ const fetchLivestockPricesCached = unstable_cache(
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
 
     try {
-    // Pass a 30-day window to the egg API to guarantee we get multiple dates for comparison
     const endISO = todayISO()
     const startISO = subtractDays(endISO, 30)
+    
     // Egg API expects Gregorian slash format: "YYYY/MM/DD"
     const eggParams = new URLSearchParams({
       Start_time: startISO.replace(/-/g, '/'),
       End_time: endISO.replace(/-/g, '/'),
+    })
+
+    const porkParams = new URLSearchParams({
+      Start_time: isoToROC(startISO),
+      End_time: isoToROC(endISO),
     })
 
     const [eggRes, porkRes] = await Promise.all([
@@ -1377,7 +1382,7 @@ const fetchLivestockPricesCached = unstable_cache(
         },
         cache: 'no-store',
       }),
-      fetch('https://data.moa.gov.tw/api/v1/PorkTransType/', {
+      fetch(`https://data.moa.gov.tw/api/v1/PorkTransType/?${porkParams}`, {
         signal: controller.signal,
         headers: { 
           'Accept': 'application/json',

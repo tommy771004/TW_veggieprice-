@@ -90,6 +90,7 @@ export function HomeClient() {
   const [summaryDismissed, setSummaryDismissed] = useState(false)
   const [livestock, setLivestock] = useState<LivestockPrices | null>(null)
   const [loadingLivestock, setLoadingLivestock] = useState(true)
+  const [livestockError, setLivestockError] = useState('')
   const [seasonalGuide, setSeasonalGuide] = useState<SeasonalItem[]>([])
   const [loadingSeasonal, setLoadingSeasonal] = useState(true)
   const [nextRestDay, setNextRestDay] = useState<MarketRestDay | null>(null)
@@ -107,16 +108,31 @@ export function HomeClient() {
   useEffect(() => {
     const prefs = getUserPreferences()
     setPreferences(prefs)
-    
-    const marketType = prefs.preferredMarketType ?? 'Veg'
-    const marketName = prefs.preferredMarket ?? DEFAULT_MARKET
-    
-    setSelectedMarket(marketName)
-
-    fetchMarketList(marketType).then((list) => {
-      setMarkets(list.filter((m) => m !== '全部市場'))
-    }).catch(console.error)
+    if (prefs.preferredMarketType === 'Fruit') {
+      setActiveCategory('fruit')
+    }
   }, [])
+
+  useEffect(() => {
+    const marketType = activeCategory === 'fruit' ? 'Fruit' : 'Veg'
+    
+    fetchMarketList(marketType).then((list) => {
+      const filtered = list.filter((m) => m !== '全部市場')
+      setMarkets(filtered)
+      
+      // If the current market is not in this new list, fallback to preferred or first
+      if (filtered.length > 0 && !filtered.includes(selectedMarket)) {
+        const prefs = getUserPreferences()
+        if (filtered.includes(prefs.preferredMarket)) {
+          setSelectedMarket(prefs.preferredMarket)
+        } else if (filtered.includes('台北一')) {
+          setSelectedMarket('台北一')
+        } else {
+          setSelectedMarket(filtered[0])
+        }
+      }
+    }).catch(console.error)
+  }, [activeCategory])
 
   useEffect(() => {
     setLoadingMovers(true)
@@ -128,11 +144,16 @@ export function HomeClient() {
   }, [])
 
   useEffect(() => {
+    setLoadingLivestock(true)
+    setLivestockError('')
     fetchLivestock()
       .then(setLivestock)
-      .catch(() => setLivestock(null))
+      .catch((e) => {
+        setLivestock(null)
+        setLivestockError(e.message || '暫停服務或查無資料')
+      })
       .finally(() => setLoadingLivestock(false))
-  }, [])
+  }, [reloadKey])
 
   useEffect(() => {
     fetchSeasonal()
@@ -301,20 +322,6 @@ export function HomeClient() {
                 })}
               </p>
             )}
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-white/55 border border-white/50 px-3 py-2 text-label-sm font-semibold text-on-surface-variant backdrop-blur-sm">
-              <span className="material-symbols-outlined text-primary" style={{ fontSize: '1rem' }}>storefront</span>
-              批發市場
-            </span>
-            <select
-              suppressHydrationWarning
-              value={selectedMarket}
-              onChange={(e) => setSelectedMarket(e.target.value)}
-              className="bg-white/70 border border-outline-variant/40 rounded-full px-3 py-2 text-label-bold text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 backdrop-blur-sm shadow-sm"
-            >
-              {markets.map((m) => <option key={m} value={m}>{m}</option>)}
-            </select>
           </div>
         </div>
 
@@ -516,9 +523,18 @@ export function HomeClient() {
         </AnimatePresence>
       </motion.section>
 
-      {/* ── Category Filter ───────────────────────────── */}
+      {/* ── Category Filter & Market Select ───────────────────────────── */}
       <section className="-mx-section-margin px-section-margin overflow-x-auto hide-scrollbar">
-        <div className="flex gap-2 w-max pb-1">
+        <div className="flex gap-2 w-max pb-1 items-center">
+          <select
+            suppressHydrationWarning
+            value={selectedMarket}
+            onChange={(e) => setSelectedMarket(e.target.value)}
+            className="bg-white border border-outline-variant/40 rounded-full px-4 py-2 text-label-bold text-sm text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 shadow-sm touch-target shrink-0"
+          >
+            {markets.map((m) => <option key={m} value={m}>{m}</option>)}
+          </select>
+          <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
@@ -619,6 +635,16 @@ export function HomeClient() {
               <SkeletonCard />
               <SkeletonCard />
             </>
+          ) : livestockError ? (
+            <GlassCard className="p-container-padding text-center sm:col-span-2">
+              <p className="text-body-sm text-on-surface-variant">無法取得民生物資資料 ({livestockError})</p>
+              <button
+                onClick={() => setReloadKey((v) => v + 1)}
+                className="mt-2 text-primary text-label-bold hover:underline"
+              >
+                重新載入
+              </button>
+            </GlassCard>
           ) : (
             <>
               <motion.div variants={cardVariant}>
