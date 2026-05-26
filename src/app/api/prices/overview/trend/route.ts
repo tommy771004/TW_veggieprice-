@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketOverviewTrend } from '@/lib/server/moa'
 import { DEFAULT_MARKET } from '@/lib/constants'
 
+export const maxDuration = 60;
+
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const market = searchParams.get('market') || DEFAULT_MARKET
