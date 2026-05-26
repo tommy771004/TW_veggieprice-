@@ -18,7 +18,7 @@ export function SettingsClient() {
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_USER_PREFERENCES)
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default')
   const [marketsByType, setMarketsByType] = useState<Record<string, string[]>>({})
-  const [selectedType, setSelectedType] = useState<'Veg' | 'Fruit' | 'Flower'>('Veg')
+  const [selectedType, setSelectedType] = useState<'Veg' | 'Fruit'>('Veg')
   const [selectedCounty, setSelectedCounty] = useState<string>('全部地區')
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function SettingsClient() {
     })
   }, [marketsForType, selectedCounty])
 
-  function handleTypeChange(type: 'Veg' | 'Fruit' | 'Flower') {
+  function handleTypeChange(type: 'Veg' | 'Fruit') {
     setSelectedType(type)
     setSelectedCounty('全部地區')
     
@@ -166,7 +166,7 @@ export function SettingsClient() {
         </div>
       </GlassCard>
 
-      <GlassCard className="p-container-padding space-y-4 shadow-glass-sm">
+      <GlassCard id="notifications" className="p-container-padding space-y-4 shadow-glass-sm scroll-mt-24">
         <h3 className="text-label-bold font-semibold text-primary flex items-center gap-2">
           <span className="material-symbols-outlined text-primary" style={{ fontSize: '1.25rem', fontVariationSettings: "'FILL' 1" }}>notifications_active</span>
           通知設定 (Notifications)
@@ -215,11 +215,11 @@ export function SettingsClient() {
         <div className="space-y-4">
           <div className="space-y-1">
             <p className="text-body-sm text-on-surface-variant font-medium">市場類別 (Market Category)</p>
-            <div className="grid grid-cols-3 gap-1.5 bg-surface-container rounded-lg p-1">
+            <div className="grid grid-cols-2 gap-1.5 bg-surface-container rounded-lg p-1">
               {([
                 { value: 'Veg', label: '蔬菜' },
                 { value: 'Fruit', label: '水果' },
-                { value: 'Flower', label: '花卉' },
+                // { value: 'Flower', label: '花卉' },
               ] as const).map((typeOption) => (
                 <button
                   key={typeOption.value}
