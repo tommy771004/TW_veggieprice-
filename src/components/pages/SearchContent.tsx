@@ -318,23 +318,7 @@ export function SearchContent() {
   const averageVisiblePrice = sorted.length > 0
     ? sorted.reduce((sum, item) => sum + item.avgPrice, 0) / sorted.length
     : null
-  const searchSummaryCards = [
-    {
-      label: '搜尋範圍',
-      value: market,
-      meta: `${activeMarketTypeLabel} · ${activeDateLabel}`,
-    },
-    {
-      label: '目前結果',
-      value: loading ? '搜尋中' : `${sorted.length} 筆`,
-      meta: hasPriceFilter ? '已套用價格條件' : '可再加上價格條件',
-    },
-    {
-      label: '均價帶',
-      value: averageVisiblePrice !== null ? `$${formatPrice(averageVisiblePrice)}` : '—',
-      meta: averageVisiblePrice !== null ? '當前結果平均值' : '等待查詢結果',
-    },
-  ]
+
 
   return (
     <div className="px-section-margin py-6 space-y-4">
@@ -342,17 +326,7 @@ export function SearchContent() {
       <section className="section-shell space-y-4">
         <div className="section-heading-row gap-3">
           <div>
-            <p className="section-kicker">Search desk</p>
             <h1 className="text-headline-lg font-black text-on-surface">作物行情搜尋台</h1>
-            <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
-              先選市場與時間，再往下挑作物、價格帶與排序方式，節奏會比一筆一筆翻更快。
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <span className="market-status-chip">{activeMarketTypeLabel}</span>
-            <span className="market-status-chip">{market}</span>
-            <span className="market-status-chip">{activeDateLabel}</span>
-            {hasPriceFilter && <span className="market-status-chip market-status-chip--warm">價格已篩選</span>}
           </div>
         </div>
 
@@ -397,15 +371,6 @@ export function SearchContent() {
                 ))}
               </div>
             )}
-          </div>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1">
-            {searchSummaryCards.map((card) => (
-              <div key={card.label} className="market-pulse-chip">
-                <span>{card.label}</span>
-                <strong>{card.value}</strong>
-                <small>{card.meta}</small>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -542,23 +507,6 @@ export function SearchContent() {
           </select>
         </div>
       </div>
-
-      {(nextRestDay || weatherRisk) && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <div className="rounded-2xl border border-primary/20 bg-white/70 px-4 py-3">
-            <p className="text-label-bold text-primary">下次休市</p>
-            {nextRestDay ? (
-              <p className="text-body-sm text-on-surface mt-1">
-                {market}：{nextRestDay.date.replace(/-/g, '/')} {nextRestDay.note ? `(${nextRestDay.note})` : ''}
-              </p>
-            ) : (
-              <p className="text-body-sm text-on-surface-variant mt-1">近 45 日暫無休市公告</p>
-            )}
-          </div>
-
-          <WeatherRiskCard weatherRisk={weatherRisk} />
-        </div>
-      )}
 
       {/* Results Count */}
       <div className="result-meta-bar">
