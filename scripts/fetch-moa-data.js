@@ -44,7 +44,7 @@ async function main() {
   const today = new Date(new Date().getTime() + 8 * 3600 * 1000);
   const datesToSync = [];
   
-  for (let i = 0; i <= 95; i++) {
+  for (let i = 0; i <= 7; i++) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
     datesToSync.push(d.toISOString().split('T')[0]);
@@ -56,8 +56,9 @@ async function main() {
   let fetchedAny = false;
   let revalidateCrops = new Set();
   
-  // N04: 蔬菜, N05: 水果, N06: 花卉
-  const categories = ['N04', 'N05', 'N06'];
+  // N04: 蔬菜, N05: 水果, (N06: 花卉 已隱藏)
+  // const categories = ['N04', 'N05', 'N06'];
+  const categories = ['N04', 'N05'];
 
   for (const isoDate of datesToSync) {
     const dailyPath = path.join(dailyDataDir, `${isoDate}.json`);
@@ -114,7 +115,9 @@ async function main() {
     console.log(`   ✅ Finished for date ${isoDate}. Total: ${dailyRecords.length}`);
     
     if (dailyRecords.length > 0) {
-      fs.writeFileSync(dailyPath, JSON.stringify(dailyRecords), 'utf-8');
+      const tempDailyPath = dailyPath + '.tmp';
+      fs.writeFileSync(tempDailyPath, JSON.stringify(dailyRecords), 'utf-8');
+      fs.renameSync(tempDailyPath, dailyPath);
       fetchedAny = true;
       dailyRecords.forEach(r => {
         if (r.CropName) revalidateCrops.add(r.CropName);
@@ -140,6 +143,7 @@ async function main() {
   }
   
   const filePath = path.join(publicDataDir, 'latest-opendata.json');
+  const tempFilePath = filePath + '.tmp';
   const payload = {
     metadata: {
       lastUpdated: new Date().toISOString(),
@@ -147,7 +151,8 @@ async function main() {
     },
     data: latestRecords
   };
-  fs.writeFileSync(filePath, JSON.stringify(payload), 'utf-8');
+  fs.writeFileSync(tempFilePath, JSON.stringify(payload), 'utf-8');
+  fs.renameSync(tempFilePath, filePath);
   console.log(`🎉 Successfully saved ${latestRecords.length} recent records to ${filePath}`);
   
   if (fetchedAny) {
