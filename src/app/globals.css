@@ -6,17 +6,16 @@
   html {
     font-family: 'Work Sans', 'Noto Sans TC', sans-serif;
     -webkit-font-smoothing: antialiased;
-    --font-scale: 1;
-    font-size: calc(16px * var(--font-scale));
+    font-size: 16px;
     color-scheme: light;
   }
 
   html[data-font-size='small'] {
-    --font-scale: 0.94;
+    font-size: 15px;
   }
 
   html[data-font-size='large'] {
-    --font-scale: 1.08;
+    font-size: 17.5px;
   }
 
   html.dark {
@@ -37,39 +36,39 @@
   }
 
   .text-display-price {
-    font-size: calc(48px * var(--font-scale));
-    line-height: calc(56px * var(--font-scale));
+    font-size: 3rem;
+    line-height: 3.5rem;
   }
 
   .text-headline-lg {
-    font-size: calc(24px * var(--font-scale));
-    line-height: calc(32px * var(--font-scale));
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 
   .text-headline-md {
-    font-size: calc(20px * var(--font-scale));
-    line-height: calc(28px * var(--font-scale));
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 
   .text-body-lg {
-    font-size: calc(18px * var(--font-scale));
-    line-height: calc(26px * var(--font-scale));
+    font-size: 1.125rem;
+    line-height: 1.625rem;
   }
 
   .text-body-md,
   .text-label-bold {
-    font-size: calc(16px * var(--font-scale));
-    line-height: calc(24px * var(--font-scale));
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .text-body-sm {
-    font-size: calc(14px * var(--font-scale));
-    line-height: calc(20px * var(--font-scale));
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   .text-label-sm {
-    font-size: calc(11px * var(--font-scale));
-    line-height: calc(16px * var(--font-scale));
+    font-size: 0.6875rem;
+    line-height: 1rem;
   }
 
   html.dark body {

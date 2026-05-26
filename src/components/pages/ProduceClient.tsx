@@ -515,53 +515,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                 </div>
               </div>
 
-              <div className="hero-info-card">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="section-kicker text-white/65">Field notes</p>
-                    <h2 className="text-body-lg font-bold text-white">作物檔案</h2>
-                  </div>
-                  <span className="material-symbols-outlined text-white/55" style={{ fontSize: '1.25rem' }}>
-                    inventory_2
-                  </span>
-                </div>
-
-                <div className="relative group/notes mt-4">
-                  <button
-                    onClick={(e) => { e.preventDefault(); scrollFieldNotes('left') }}
-                    className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/notes:bg-black/20 sm:group-hover/notes:text-white/80 lg:hidden border border-white/5"
-                    aria-label="Scroll left"
-                  >
-                    <span className="material-symbols-outlined text-[1.125rem]">chevron_left</span>
-                  </button>
-
-                  <div
-                    ref={fieldNotesScrollRef}
-                    className="flex overflow-x-auto snap-x snap-mandatory lg:grid lg:gap-3 lg:overflow-visible hide-scrollbar gap-2.5 -mx-1 px-1 lg:mx-0 lg:px-0"
-                  >
-                    {fieldNoteRows.map((row) => (
-                      <div key={row.label} className="hero-insight-item shrink-0 w-[82%] snap-center lg:w-auto lg:snap-align-none">
-                        <div className="hero-inline-stat">
-                          <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-white/48">
-                            {row.label}
-                          </span>
-                        </div>
-                        <p className="mt-2 text-body-sm text-white/82 leading-relaxed">
-                          {row.value}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={(e) => { e.preventDefault(); scrollFieldNotes('right') }}
-                    className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/notes:bg-black/20 sm:group-hover/notes:text-white/80 lg:hidden border border-white/5"
-                    aria-label="Scroll right"
-                  >
-                    <span className="material-symbols-outlined text-[1.125rem]">chevron_right</span>
-                  </button>
-                </div>
-              </div>
+              
             </div>
           </div>
         </section>
