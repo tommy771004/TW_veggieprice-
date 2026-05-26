@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
@@ -10,7 +10,7 @@ import { ExploreSection } from '@/components/ui/ExploreSection'
 import { AboutSection } from '@/components/ui/AboutSection'
 import { RecommendedLinks } from '@/components/ui/RecommendedLinks'
 import { DataSourceBadge } from '@/components/ui/DataSourceBadge'
-import { formatPrice, cleanErrorMessage } from '@/lib/utils'
+import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
 import { getProduceCategory, getSeasonalGuide, type ProduceCategory } from '@/lib/produce'
@@ -99,7 +99,28 @@ export function HomeClient() {
   const [preferences, setPreferences] = useState(DEFAULT_USER_PREFERENCES)
   const [alertDismissed, setAlertDismissed] = useState(false)
 
+  const pulseScrollRef = useRef<HTMLDivElement>(null)
+  const insightsScrollRef = useRef<HTMLDivElement>(null)
+
+  const scrollPulse = (dir: 'left' | 'right') => {
+    if (pulseScrollRef.current) {
+      const scrollAmount = dir === 'left' ? -280 : 280
+      pulseScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    }
+  }
+
+  const scrollInsights = (dir: 'left' | 'right') => {
+    if (insightsScrollRef.current) {
+      const scrollAmount = dir === 'left' ? -260 : 260
+      insightsScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    }
+  }
+
   const loading = loadingMovers
+  const activeCategoryLabel = useMemo(
+    () => CATEGORIES.find((item) => item.value === activeCategory)?.label.split(' ').at(-1) ?? '蔬菜類',
+    [activeCategory]
+  )
 
   useEffect(() => {
     setAlertDismissed(false)
@@ -261,6 +282,11 @@ export function HomeClient() {
   }, [marketTrend])
 
   const { trendSeries, trendPoints, minTrend, trendRange, trendChange, heroLinePoints } = trendMetrics
+  const weatherRiskLevelLabel = weatherRisk?.level === 'high'
+    ? '高風險'
+    : weatherRisk?.level === 'medium'
+      ? '中風險'
+      : '低風險'
 
   const marketPulseCards = useMemo(() => {
     if (!overview) return []
@@ -283,6 +309,49 @@ export function HomeClient() {
       },
     ]
   }, [overview, trendChange, trendSeries.length])
+
+  const heroStatusChips = useMemo(() => {
+    const chips: Array<{ label: string; tone?: 'critical' | 'warm' }> = [
+      { label: selectedMarket },
+      { label: activeCategoryLabel },
+      { label: isClosedToday ? '今日休市' : '正常交易' },
+    ]
+
+    if (weatherRisk) {
+      chips.push({
+        label: `天氣${weatherRisk.score}分`,
+        tone: weatherRisk.level === 'high' ? 'critical' : weatherRisk.level === 'medium' ? 'warm' : undefined,
+      })
+    }
+
+    return chips
+  }, [activeCategoryLabel, isClosedToday, selectedMarket, weatherRisk])
+
+  const heroInsightCards = useMemo(() => {
+    if (!overview) return []
+
+    return [
+      {
+        label: '量能變化',
+        value: `${overview.volumeChange >= 0 ? '+' : ''}${overview.volumeChange.toFixed(1)}%`,
+        meta: '相較昨日交易量',
+      },
+      {
+        label: '市場節奏',
+        value: isClosedToday ? '今日休市' : '正常交易',
+        meta: nextRestDay
+          ? `下次休市 ${nextRestDay.date.replace(/-/g, '/')}${nextRestDay.note ? ` · ${nextRestDay.note}` : ''}`
+          : '近 45 日暫無休市公告',
+      },
+      {
+        label: weatherRisk ? '天氣風險' : '近週走勢',
+        value: weatherRisk ? `${weatherRisk.score} 分` : `${trendChange >= 0 ? '+' : ''}${trendChange.toFixed(1)}%`,
+        meta: weatherRisk
+          ? `${weatherRiskLevelLabel} · ${weatherRisk.reasons[0] ?? '近期天氣條件平穩'}`
+          : `${trendSeries.length || trendPoints.length} 日樣本`,
+      },
+    ]
+  }, [isClosedToday, nextRestDay, overview, trendChange, trendPoints.length, trendSeries.length, weatherRisk, weatherRiskLevelLabel])
 
   const showErrorCard = !loadingOverview && !loadingMovers && overviewError !== '' && moversError !== ''
   const combinedError = overviewError || moversError
@@ -310,10 +379,13 @@ export function HomeClient() {
           <span>LIVE PRICE PULSE</span>
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-4">
+        <div className="section-heading-row mb-4">
           <div>
-            <p className="text-label-sm font-bold text-primary tracking-[0.18em] uppercase mb-1">Market pulse</p>
+            <p className="section-kicker">Market pulse</p>
             <h2 className="text-headline-lg font-black text-on-surface">今日市場概況</h2>
+            <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
+              用均價、量能與近週節奏，快速讀懂 {selectedMarket} 今天的批發行情。
+            </p>
             {overview?.updatedAt && (
               <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
                 <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>update</span>
@@ -323,19 +395,24 @@ export function HomeClient() {
               </p>
             )}
           </div>
-        </div>
-
-        {marketPulseCards.length > 0 && (
-          <div className="grid grid-cols-3 gap-2 mb-3">
-            {marketPulseCards.map((card) => (
-              <div key={card.label} className="market-pulse-chip">
-                <span>{card.label}</span>
-                <strong>{card.value}</strong>
-                <small>{card.meta}</small>
-              </div>
+          <div className="flex flex-wrap gap-2">
+            {heroStatusChips.map((chip) => (
+              <span
+                key={chip.label}
+                className={[
+                  'market-status-chip',
+                  chip.tone === 'critical'
+                    ? 'market-status-chip--critical'
+                    : chip.tone === 'warm'
+                      ? 'market-status-chip--warm'
+                      : '',
+                ].join(' ').trim()}
+              >
+                {chip.label}
+              </span>
             ))}
           </div>
-        )}
+        </div>
 
         {(nextRestDay || weatherRisk) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
@@ -437,50 +514,89 @@ export function HomeClient() {
                 }`}
                 className="block home-hero-card rounded-3xl overflow-hidden card-lift"
               >
-                <div className={`px-6 pt-6 pb-4 relative ${isClosedToday ? 'opacity-60 grayscale transition-all' : ''}`}>
+                <div className={`px-6 pt-6 pb-5 relative ${isClosedToday ? 'opacity-60 grayscale transition-all' : ''}`}>
                   {isClosedToday && (
                     <div className="absolute top-4 right-6 bg-surface-variant/90 text-on-surface-variant px-2 py-1 rounded text-xs font-bold ring-1 ring-outline/20 backdrop-blur-md flex items-center gap-1 z-10 shadow-sm">
                       <span className="material-symbols-outlined text-[14px]">event_busy</span>
                       本日休市
                     </div>
                   )}
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 sm:gap-4">
-                    <div className="min-w-0">
-                      <p
-                        className="text-[0.6875rem] tracking-[0.16em] uppercase font-semibold mb-2"
-                        style={{ color: 'rgba(255,255,255,0.48)' }}
-                      >
-                        均價 · 元 / 公斤
-                      </p>
-                      <div className="flex items-end gap-3 flex-wrap">
-                        <motion.span
-                          className="text-[2.75rem] sm:text-[3.25rem] leading-none font-black tabular-nums tracking-tight"
-                          style={{ color: '#fcd34d' }}
-                          initial={{ opacity: 0, scale: 0.85 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.1 }}
+                  <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_19rem]">
+                    <div className="min-w-0 space-y-5">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="market-status-chip market-status-chip--hero">
+                          {overview.marketName}
+                        </span>
+                        <span className="market-status-chip market-status-chip--hero">
+                          {activeCategoryLabel}
+                        </span>
+                      </div>
+
+                      <div className="min-w-0">
+                        <p
+                          className="text-[0.6875rem] tracking-[0.16em] uppercase font-semibold mb-2"
+                          style={{ color: 'rgba(255,255,255,0.48)' }}
                         >
-                          ${formatPrice(overview.avgPrice)}
-                        </motion.span>
-                        <div className="pb-1 sm:pb-1.5 shrink-0">
-                          <TrendChip change={overview.priceChange} />
+                          均價 · 元 / 公斤
+                        </p>
+                        <div className="flex items-end gap-3 flex-wrap">
+                          <motion.span
+                            className="text-[2.75rem] sm:text-[3.4rem] leading-none font-black tabular-nums tracking-tight"
+                            style={{ color: '#fcd34d' }}
+                            initial={{ opacity: 0, scale: 0.85 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.1 }}
+                          >
+                            ${formatPrice(overview.avgPrice)}
+                          </motion.span>
+                          <div className="pb-1 sm:pb-1.5 shrink-0">
+                            <TrendChip change={overview.priceChange} />
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-row sm:flex-col justify-between items-center sm:items-end text-left sm:text-right shrink-0 mt-1 sm:mt-1 pt-3 sm:pt-0 border-t border-white/10 sm:border-0 w-full sm:w-auto">
-                      <div>
-                        <p className="text-[0.625rem] sm:text-[0.6875rem] tracking-[0.12em] uppercase mb-0.5 sm:mb-1" style={{ color: 'rgba(255,255,255,0.48)' }}>
-                          交易量
-                        </p>
-                        <p className="text-lg sm:text-xl font-bold tabular-nums" style={{ color: 'rgba(255,255,255,0.95)' }}>
-                          {(overview.totalVolume / 1000).toFixed(0)}
-                          <span className="text-[0.8rem] font-normal ml-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>公噸</span>
+                        <p className="mt-3 text-body-sm text-white/70 max-w-xl">
+                          點進搜尋頁可延伸查看 {selectedMarket} 的完整清單、不同時間範圍與價格區間。
                         </p>
                       </div>
-                      <div className="mt-0 sm:mt-1">
-                        <TrendChip change={overview.volumeChange} size="sm" />
-                      </div>
+
+                      {marketPulseCards.length > 0 && (
+                        <div className="relative group/scroller">
+                          {/* Scroll buttons for mobile/touch-enhanced feeling */}
+                          <button
+                            onClick={(e) => { e.preventDefault(); scrollPulse('left') }}
+                            className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
+                            aria-label="Scroll left"
+                          >
+                            <span className="material-symbols-outlined text-[1.25rem]">chevron_left</span>
+                          </button>
+                          
+                          <div
+                            ref={pulseScrollRef}
+                            className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-2.5 sm:grid sm:grid-cols-3 sm:overflow-visible sm:gap-2.5 -mx-2 px-2 sm:mx-0 sm:px-0"
+                          >
+                            {marketPulseCards.map((card) => (
+                              <div
+                                key={card.label}
+                                className="market-pulse-chip market-pulse-chip--hero shrink-0 w-[85%] snap-center sm:w-auto sm:snap-align-none"
+                              >
+                                <span>{card.label}</span>
+                                <strong>{card.value}</strong>
+                                <small>{card.meta}</small>
+                              </div>
+                            ))}
+                          </div>
+
+                          <button
+                            onClick={(e) => { e.preventDefault(); scrollPulse('right') }}
+                            className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
+                            aria-label="Scroll right"
+                          >
+                            <span className="material-symbols-outlined text-[1.25rem]">chevron_right</span>
+                          </button>
+                        </div>
+                      )}
                     </div>
+
+                   
                   </div>
                 </div>
 
@@ -504,7 +620,7 @@ export function HomeClient() {
                         opacity="0.8"
                       />
                     </svg>
-                    <div className="flex justify-between px-0.5" style={{ marginTop: '2px' }}>
+                    <div className="hero-chart-caption" style={{ marginTop: '2px' }}>
                       <span style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,0.28)' }}>
                         {trendPoints[0]?.date.slice(5).replace('-', '/')}
                       </span>

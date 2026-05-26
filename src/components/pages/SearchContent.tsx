@@ -2,11 +2,10 @@
 
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { TrendChip } from '@/components/ui/TrendChip'
 import { SkeletonList } from '@/components/ui/SkeletonCard'
 import { ProduceRow } from '@/components/ui/ProduceRow'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
-import { formatPrice, formatVolume, debounce, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
+import { formatPrice, debounce, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import type {
   ProducePrice,
   SearchFilters,
@@ -22,7 +21,6 @@ import {
 } from '@/lib/api'
 import { getUserPreferences } from '@/lib/preferences'
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from '@/lib/constants'
-import Link from 'next/link'
 
 type RangeParams =
   | { kind: 'single'; date: string }
@@ -315,52 +313,102 @@ export function SearchContent() {
   const hasPriceFilter = minPrice !== '' || maxPrice !== ''
   const pageCount = Math.ceil(sorted.length / ITEMS_PER_PAGE)
   const paginated = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+  const activeDateLabel = DATE_RANGES.find((item) => item.value === dateRange)?.label ?? '今日'
+  const activeMarketTypeLabel = marketTypeOptions.find((item) => item.value === marketType)?.label ?? '蔬菜市場'
+  const averageVisiblePrice = sorted.length > 0
+    ? sorted.reduce((sum, item) => sum + item.avgPrice, 0) / sorted.length
+    : null
+  const searchSummaryCards = [
+    {
+      label: '搜尋範圍',
+      value: market,
+      meta: `${activeMarketTypeLabel} · ${activeDateLabel}`,
+    },
+    {
+      label: '目前結果',
+      value: loading ? '搜尋中' : `${sorted.length} 筆`,
+      meta: hasPriceFilter ? '已套用價格條件' : '可再加上價格條件',
+    },
+    {
+      label: '均價帶',
+      value: averageVisiblePrice !== null ? `$${formatPrice(averageVisiblePrice)}` : '—',
+      meta: averageVisiblePrice !== null ? '當前結果平均值' : '等待查詢結果',
+    },
+  ]
 
   return (
     <div className="px-section-margin py-6 space-y-4">
 
-      {/* Search Input */}
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <span className="material-symbols-outlined text-outline" style={{ fontSize: '1.375rem' }}>search</span>
+      <section className="section-shell space-y-4">
+        <div className="section-heading-row gap-3">
+          <div>
+            <p className="section-kicker">Search desk</p>
+            <h1 className="text-headline-lg font-black text-on-surface">作物行情搜尋台</h1>
+            <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
+              先選市場與時間，再往下挑作物、價格帶與排序方式，節奏會比一筆一筆翻更快。
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="market-status-chip">{activeMarketTypeLabel}</span>
+            <span className="market-status-chip">{market}</span>
+            <span className="market-status-chip">{activeDateLabel}</span>
+            {hasPriceFilter && <span className="market-status-chip market-status-chip--warm">價格已篩選</span>}
+          </div>
         </div>
-        <input
-          suppressHydrationWarning
-          type="search"
-          value={query}
-          onChange={(e) => { setQuery(e.target.value); setAutocomplete([]) }}
-          placeholder="搜尋作物名稱… (支援注音輸入)"
-          aria-label="搜尋作物"
-          autoComplete="off"
-          className="w-full bg-white/80 border border-white/40 shadow-sm rounded-full py-3 pl-12 pr-12 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-transparent transition-[background-color,box-shadow] backdrop-blur-md"
-        />
-        <button
-          onClick={() => setShowPriceFilter(!showPriceFilter)}
-          className={`absolute inset-y-0 right-0 pr-4 flex items-center transition-colors ${
-            hasPriceFilter ? 'text-primary' : 'text-primary-container'
-          }`}
-          title="價格區間篩選"
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: '1.375rem' }}>
-            {hasPriceFilter ? 'filter_alt' : 'tune'}
-          </span>
-        </button>
 
-        {autocomplete.length > 0 && (
-          <div className="absolute top-full mt-2 w-full glass-card-solid rounded-2xl overflow-hidden z-10 shadow-glass">
-            {autocomplete.map((name) => (
-              <button
-                key={name}
-                onClick={() => { setQuery(name); setAutocomplete([]) }}
-                className="w-full text-left px-4 py-3 text-body-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-3"
-              >
-                <span className="text-xl">{getCropEmoji(name)}</span>
-                {name}
-              </button>
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_18rem]">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span className="material-symbols-outlined text-outline" style={{ fontSize: '1.375rem' }}>search</span>
+            </div>
+            <input
+              suppressHydrationWarning
+              type="search"
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setAutocomplete([]) }}
+              placeholder="搜尋作物名稱… (支援注音輸入)"
+              aria-label="搜尋作物"
+              autoComplete="off"
+              className="w-full bg-white/80 border border-white/40 shadow-sm rounded-full py-3 pl-12 pr-12 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-transparent transition-[background-color,box-shadow] backdrop-blur-md"
+            />
+            <button
+              onClick={() => setShowPriceFilter(!showPriceFilter)}
+              className={`absolute inset-y-0 right-0 pr-4 flex items-center transition-colors ${
+                hasPriceFilter ? 'text-primary' : 'text-primary-container'
+              }`}
+              title="價格區間篩選"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '1.375rem' }}>
+                {hasPriceFilter ? 'filter_alt' : 'tune'}
+              </span>
+            </button>
+
+            {autocomplete.length > 0 && (
+              <div className="absolute top-full mt-2 w-full glass-card-solid rounded-2xl overflow-hidden z-10 shadow-glass">
+                {autocomplete.map((name) => (
+                  <button
+                    key={name}
+                    onClick={() => { setQuery(name); setAutocomplete([]) }}
+                    className="w-full text-left px-4 py-3 text-body-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-xl">{getCropEmoji(name)}</span>
+                    {name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1">
+            {searchSummaryCards.map((card) => (
+              <div key={card.label} className="market-pulse-chip">
+                <span>{card.label}</span>
+                <strong>{card.value}</strong>
+                <small>{card.meta}</small>
+              </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      </section>
 
       {/* Price Range Panel */}
       {showPriceFilter && (
@@ -438,7 +486,7 @@ export function SearchContent() {
       )}
 
       {/* Filter Chips */}
-      <div className="flex flex-wrap gap-2 pb-1">
+      <div className="section-shell flex flex-wrap gap-2 pb-1">
         <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
           <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>category</span>
           <select
@@ -513,7 +561,7 @@ export function SearchContent() {
       )}
 
       {/* Results Count */}
-      <div className="flex items-center justify-between">
+      <div className="result-meta-bar">
         <p className="text-body-sm text-on-surface-variant">
           {loading ? '搜尋中…' : error ? '目前無法載入搜尋結果' : `共 ${sorted.length} 筆結果${pageCount > 1 ? `，第 ${currentPage}/${pageCount} 頁` : ''}`}
           {hasPriceFilter && !loading && (

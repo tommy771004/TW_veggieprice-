@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
 import { formatPrice } from '@/lib/utils'
 import { getWatchlist, removeFromWatchlist } from '@/lib/watchlist'
@@ -15,7 +14,7 @@ interface WatchlistSnapshot {
   error?: string
 }
 
-function Sparkline({ data, isUp }: { data: number[]; isUp: boolean }) {
+function Sparkline({ data, isUp, id }: { data: number[]; isUp: boolean; id: string }) {
   const normalizedData = data.length > 1 ? data : [data[0], data[0]]
   const max = Math.max(...normalizedData)
   const min = Math.min(...normalizedData)
@@ -28,7 +27,7 @@ function Sparkline({ data, isUp }: { data: number[]; isUp: boolean }) {
   }).join(' ')
 
   const color = isUp ? '#ba1a1a' : '#0d631b'
-  const gradId = `spark-${isUp ? 'up' : 'down'}`
+  const gradId = `spark-${id}-${isUp ? 'up' : 'down'}`
 
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-24 h-6" preserveAspectRatio="none">
@@ -117,81 +116,305 @@ export function WatchlistClient() {
     setItems(getWatchlist())
   }
 
+  const latestAddedItem = useMemo(() => (
+    items.reduce<WatchlistItem | null>((latest, item) => {
+      if (!latest) return item
+      return new Date(item.addedAt).getTime() > new Date(latest.addedAt).getTime() ? item : latest
+    }, null)
+  ), [items])
+
+  const readySnapshots = useMemo(
+    () => items
+      .map((item) => snapshots[item.cropCode])
+      .filter((snapshot): snapshot is WatchlistSnapshot => Boolean(snapshot) && !snapshot.error && snapshot.price > 0),
+    [items, snapshots]
+  )
+
+  const risingCount = readySnapshots.filter((snapshot) => snapshot.change > 0).length
+  const softCount = readySnapshots.filter((snapshot) => snapshot.change < 0).length
+  const averageTrackedPrice = readySnapshots.length > 0
+    ? readySnapshots.reduce((sum, snapshot) => sum + snapshot.price, 0) / readySnapshots.length
+    : null
+  const syncedCount = items.filter((item) => snapshots[item.cropCode] && !snapshots[item.cropCode].error).length
+
+  const summaryCards = [
+    {
+      label: '追蹤項目',
+      value: `${items.length} 項`,
+      meta: items.length === 0 ? '先從搜尋加入常買作物' : '你的日常觀察清單',
+    },
+    {
+      label: '同步狀態',
+      value: loading ? '同步中' : `${syncedCount}/${items.length || 0}`,
+      meta: loading ? '正在抓取最新行情' : '已取得即時快照',
+    },
+    {
+      label: '平均均價',
+      value: averageTrackedPrice === null ? '—' : `$${formatPrice(averageTrackedPrice)}`,
+      meta: averageTrackedPrice === null ? '等待資料' : '每公斤均價',
+    },
+  ]
+
+  const deskNotes = [
+    {
+      label: '上漲項目',
+      value: items.length === 0 ? '—' : `${risingCount} 項`,
+      meta: '快速找出今天變熱的作物',
+    },
+    {
+      label: '回穩項目',
+      value: items.length === 0 ? '—' : `${softCount} 項`,
+      meta: '適合回頭看進貨節奏',
+    },
+    {
+      label: '最近加入',
+      value: latestAddedItem?.cropName ?? '尚未加入',
+      meta: latestAddedItem ? `加入於 ${new Date(latestAddedItem.addedAt).toLocaleDateString('zh-TW')}` : '從搜尋頁開始建立名單',
+    },
+  ]
+
   if (!mounted) return null
 
   return (
-    <div className="px-section-margin py-section-margin max-w-2xl mx-auto">
-      <div className="mb-section-margin flex justify-between items-end">
-        <div>
-          <h2 className="text-headline-lg font-bold text-on-surface">我的觀察名單</h2>
-          <p className="text-body-md text-on-surface-variant mt-1">即時追蹤您最關心的農產品價格動態</p>
-        </div>
-        <span className="text-label-bold text-outline">共 {items.length} 項</span>
-      </div>
+    <div className="home-dashboard-shell pb-8">
+      <div className="px-section-margin py-4 md:py-6 space-y-section-margin">
+        <section className="home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 py-2 md:py-3">
+          <div className="market-signal-tape mb-4" aria-hidden="true">
+            <span>WATCHLIST DESK</span>
+            <span>QUICK BUY CUES</span>
+            <span>PRICE SNAPSHOT</span>
+            <span>MOBILE READY</span>
+          </div>
 
-      {items.length === 0 ? (
-        <div className="text-center py-20">
-          <span className="text-6xl block mb-4">🌿</span>
-          <p className="text-body-lg text-on-surface font-semibold">尚無收藏項目</p>
-          <p className="text-body-md text-on-surface-variant mt-2">在作物詳情頁點擊愛心即可加入追蹤</p>
-          <Link
-            href="/search"
-            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-primary text-white rounded-full font-semibold hover:bg-primary/90 transition-colors"
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>search</span>
-            搜尋作物
-          </Link>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {items.map((item, index) => {
-            const data = snapshots[item.cropCode]
-            const isUp = (data?.change ?? 0) > 0
-            return (
-              <GlassCard key={`${item.cropCode}-${index}`} className="rounded-xl px-4 py-3">
-                <div className="flex justify-between items-start">
-                  <Link href={`/produce/${encodeURIComponent(item.cropName)}`} className="flex items-center gap-3 flex-1">
-                    <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-lg shadow-sm border border-white/60 flex-shrink-0">
-                      {item.emoji}
+          <div className="section-heading-row mb-4">
+            <div>
+              <p className="section-kicker">Watchlist desk</p>
+              <h1 className="text-headline-lg font-black text-on-surface">我的觀察名單</h1>
+              <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
+                把常買作物收成一個可以快速掃讀的桌面，通勤、採買前或手機臨場比價都能直接看重點。
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className="market-status-chip">共 {items.length} 項</span>
+              <span className={`market-status-chip ${loading ? 'market-status-chip--warm' : ''}`}>
+                {loading ? '同步中' : '快照完成'}
+              </span>
+              {latestAddedItem ? <span className="market-status-chip">最近加入 {latestAddedItem.cropName}</span> : null}
+            </div>
+          </div>
+
+          <div className="home-hero-card rounded-3xl overflow-hidden">
+            <div className="px-5 sm:px-6 pt-6 pb-5 grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_18rem]">
+              <div className="min-w-0 space-y-5">
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <span className="market-status-chip market-status-chip--hero">Mobile first</span>
+                    <span className="market-status-chip market-status-chip--hero">Quick compare</span>
+                    <span className="market-status-chip market-status-chip--hero">Daily routine</span>
+                  </div>
+                  <p className="text-[0.6875rem] tracking-[0.16em] uppercase font-semibold mb-2 text-white/48">
+                    收藏作物即時快照
+                  </p>
+                  <div className="flex items-end gap-3 flex-wrap">
+                    <span className="text-[2.6rem] sm:text-[3.25rem] leading-none font-black tabular-nums tracking-tight text-[#fcd34d]">
+                      {items.length}
+                    </span>
+                    <span className="pb-1.5 text-body-sm text-white/70">個觀察項目</span>
+                  </div>
+                  <p className="mt-3 text-body-sm text-white/70 max-w-xl">
+                    先看哪些作物今天變熱、哪些回穩，再決定要不要進單品頁看完整走勢、產地和跨市場比價。
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+                  {summaryCards.map((card) => (
+                    <div key={card.label} className="market-pulse-chip market-pulse-chip--hero">
+                      <span>{card.label}</span>
+                      <strong>{card.value}</strong>
+                      <small>{card.meta}</small>
                     </div>
-                    <div>
-                      <h3 className="text-on-surface text-base font-semibold leading-tight">{item.cropName}</h3>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-xs text-on-surface-variant">每公斤</span>
-                        <TrendChip change={data?.change ?? 0} size="sm" />
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-2.5">
+                  <Link
+                    href="/search"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-primary px-4 py-3 text-body-sm font-bold shadow-lg shadow-black/10"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: '1.1rem' }}>search</span>
+                    新增作物
+                  </Link>
+                  <Link
+                    href="/seasonal"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-3 text-body-sm font-semibold text-white/86"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: '1.1rem' }}>calendar_month</span>
+                    看當季建議
+                  </Link>
+                </div>
+              </div>
+
+              <div className="hero-info-card">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="section-kicker text-white/65">Desk notes</p>
+                    <h2 className="text-body-lg font-bold text-white">觀察提示</h2>
+                  </div>
+                  <span className="material-symbols-outlined text-white/55" style={{ fontSize: '1.25rem' }}>
+                    monitoring
+                  </span>
+                </div>
+
+                <div className="hero-insight-list mt-4">
+                  {deskNotes.map((note) => (
+                    <div key={note.label} className="hero-insight-item">
+                      <div className="hero-inline-stat">
+                        <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-white/48">
+                          {note.label}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-body-sm font-semibold text-white">{note.value}</p>
+                      <p className="mt-1 text-body-sm text-white/70 leading-relaxed">{note.meta}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {items.length === 0 ? (
+          <section className="section-shell text-center py-12 sm:py-16">
+            <span className="text-6xl block mb-4">🌿</span>
+            <p className="text-body-lg font-semibold text-on-surface">尚無收藏項目</p>
+            <p className="text-body-sm text-on-surface-variant mt-2 max-w-md mx-auto">
+              在作物詳情頁點愛心，或直接從搜尋頁開始，先收進你最常買、最常看的作物。
+            </p>
+            <div className="mt-6 flex flex-col sm:flex-row gap-2.5 justify-center">
+              <Link
+                href="/search"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-5 py-3 text-body-sm font-bold"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '1.1rem' }}>search</span>
+                搜尋作物
+              </Link>
+              <Link
+                href="/seasonal"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/40 bg-white/55 px-5 py-3 text-body-sm font-semibold text-on-surface"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '1.1rem' }}>spa</span>
+                看當季推薦
+              </Link>
+            </div>
+          </section>
+        ) : (
+          <section className="section-shell">
+            <div className="section-heading-row mb-5">
+              <div>
+                <p className="section-kicker">Tracked crops</p>
+                <h2 className="text-headline-md font-semibold text-on-surface">即時行情卡片</h2>
+                <p className="text-body-sm text-on-surface-variant mt-1">
+                  卡片先給你價格、漲跌與近 7 日節奏；手機上保留單手可掃讀的密度。
+                </p>
+              </div>
+              <div className="result-meta-bar w-full md:w-auto md:min-w-[16rem]">
+                <span className="text-body-sm text-on-surface">已同步 {syncedCount} / {items.length} 項</span>
+                <span className="text-label-bold text-outline">上漲 {risingCount} 項</span>
+              </div>
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+              {items.map((item, index) => {
+                const data = snapshots[item.cropCode]
+                const isUp = (data?.change ?? 0) > 0
+                const addedLabel = new Date(item.addedAt).toLocaleDateString('zh-TW', {
+                  month: 'numeric',
+                  day: 'numeric',
+                })
+
+                return (
+                  <article
+                    key={`${item.cropCode}-${index}`}
+                    className="glass-card rounded-3xl p-4 sm:p-5 flex flex-col gap-4 min-h-[15.5rem]"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <Link href={`/produce/${encodeURIComponent(item.cropName)}`} className="flex items-start gap-3 min-w-0 flex-1">
+                        <div className="w-11 h-11 rounded-full bg-white/80 border border-white/60 flex items-center justify-center text-xl shadow-sm flex-shrink-0">
+                          {item.emoji}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-on-surface text-body-lg font-semibold leading-tight truncate">{item.cropName}</h3>
+                          <div className="flex flex-wrap items-center gap-2 mt-1">
+                            <span className="text-label-sm text-on-surface-variant">加入於 {addedLabel}</span>
+                            <TrendChip change={data?.change ?? 0} size="sm" />
+                          </div>
+                        </div>
+                      </Link>
+                      <button
+                        onClick={() => handleRemove(item.cropCode)}
+                        className="touch-target flex items-center justify-center w-11 h-11 rounded-full border border-error/20 bg-white/45 text-error/85 hover:text-error hover:bg-white/70 transition-colors"
+                        aria-label={`移除 ${item.cropName}`}
+                      >
+                        <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          favorite
+                        </span>
+                      </button>
+                    </div>
+
+                    <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_6.5rem] sm:items-end">
+                      <div>
+                        <p className="text-label-sm uppercase tracking-[0.12em] text-on-surface-variant">今日均價 · 元 / 公斤</p>
+                        <div className="flex items-end gap-2 mt-1 flex-wrap">
+                          <span className={`font-black text-[2rem] leading-none ${isUp ? 'text-error' : 'text-primary'}`}>
+                            {loading && !data ? '...' : data && data.price > 0 ? `$${formatPrice(data.price)}` : '--'}
+                          </span>
+                          <span className="text-body-sm text-on-surface-variant pb-0.5">
+                            {data?.change === 0 ? '持平' : data?.change ? `${data.change > 0 ? '+' : ''}${formatPrice(Math.abs(data.change))}` : '等待資料'}
+                          </span>
+                        </div>
+                        {data?.error ? (
+                          <p className="text-body-sm text-on-surface-variant mt-2">{data.error}</p>
+                        ) : (
+                          <p className="text-body-sm text-on-surface-variant mt-2">近 7 日快照已整理，可直接進單品頁看完整脈絡。</p>
+                        )}
+                      </div>
+
+                      <div className="sm:justify-self-end">
+                        {data && data.history.every((point) => point > 0) ? (
+                          <div className="rounded-2xl border border-white/50 bg-white/45 px-3 py-2">
+                            <Sparkline data={data.history} isUp={isUp} id={item.cropCode} />
+                          </div>
+                        ) : (
+                          <div className="rounded-2xl border border-white/50 bg-white/35 px-3 py-3 text-center text-body-sm text-on-surface-variant">
+                            暫無走勢
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </Link>
-                  <button
-                    onClick={() => handleRemove(item.cropCode)}
-                    className="text-error/80 hover:text-error transition-colors p-1 touch-target flex items-center justify-center"
-                    aria-label="移除收藏"
-                  >
-                    <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      favorite
-                    </span>
-                  </button>
-                </div>
-                <div className="flex items-end justify-between mt-2">
-                  <div>
-                    <span className={`font-bold text-xl ${isUp ? 'text-error' : 'text-primary'}`}>
-                      {loading && !data ? '載入中…' : data && data.price > 0 ? `$${formatPrice(data.price)}` : '--'}
-                    </span>
-                    {data?.error && (
-                      <p className="text-body-sm text-on-surface-variant mt-1">{data.error}</p>
-                    )}
-                  </div>
-                  {data && data.history.every((point) => point > 0) ? (
-                    <Sparkline data={data.history} isUp={isUp} />
-                  ) : (
-                    <span className="text-body-sm text-on-surface-variant">暫無走勢</span>
-                  )}
-                </div>
-              </GlassCard>
-            )
-          })}
-        </div>
-      )}
+
+                    <div className="mt-auto flex flex-wrap gap-2">
+                      <span className={`market-status-chip ${isUp ? 'market-status-chip--critical' : data && data.change < 0 ? '' : 'market-status-chip--warm'}`}>
+                        {data?.change === 0 ? '價格持平' : isUp ? '價格偏熱' : data && data.change < 0 ? '價格回落' : '等待同步'}
+                      </span>
+                      <span className="market-status-chip">手機快速查看</span>
+                    </div>
+
+                    <div className="pt-1">
+                      <Link
+                        href={`/produce/${encodeURIComponent(item.cropName)}`}
+                        className="inline-flex items-center gap-2 text-body-sm font-semibold text-primary"
+                      >
+                        進入單品詳情
+                        <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_forward</span>
+                      </Link>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   )
 }

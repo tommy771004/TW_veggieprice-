@@ -7,12 +7,37 @@ import { usePathname, useRouter } from 'next/navigation'
 import { getCropEmoji, debounce } from '@/lib/utils'
 
 const NAV_LINKS = [
-  { href: '/', label: '首頁' },
-  { href: '/search', label: '搜尋' },
-  { href: '/seasonal', label: '當季' },
-  { href: '/watchlist', label: '關注' },
-  { href: '/settings', label: '設定' },
+  { href: '/', label: '首頁', icon: 'dashboard' },
+  { href: '/search', label: '搜尋', icon: 'search' },
+  { href: '/seasonal', label: '當季', icon: 'local_florist' },
+  { href: '/watchlist', label: '關注', icon: 'monitoring' },
+  { href: '/settings', label: '設定', icon: 'settings' },
 ]
+
+function isNavActive(pathname: string, href: string) {
+  if (href === '/') return pathname === '/'
+  if (href === '/search') return pathname === '/search' || pathname.startsWith('/produce/')
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
+function getRouteMeta(pathname: string) {
+  if (pathname.startsWith('/produce/')) {
+    return { kicker: 'Produce detail', label: '單品行情' }
+  }
+  if (pathname.startsWith('/search')) {
+    return { kicker: 'Search desk', label: '作物搜尋' }
+  }
+  if (pathname.startsWith('/seasonal')) {
+    return { kicker: 'Seasonal guide', label: '當季盛產' }
+  }
+  if (pathname.startsWith('/watchlist')) {
+    return { kicker: 'Watchlist', label: '追蹤清單' }
+  }
+  if (pathname.startsWith('/settings')) {
+    return { kicker: 'Preferences', label: '使用設定' }
+  }
+  return { kicker: 'Market pulse', label: '首頁總覽' }
+}
 
 export function TopAppBar() {
   const pathname = usePathname()
@@ -84,30 +109,44 @@ export function TopAppBar() {
   }
 
   const showSuggestions = focused && suggestions.length > 0
+  const routeMeta = getRouteMeta(pathname)
 
   return (
-    <header className="glass-header sticky top-0 z-50 flex items-center gap-3 px-4 md:px-6 py-3">
+    <header className="glass-header app-shell-header sticky top-0 z-50 flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3">
+      <div className="flex items-center gap-3 md:gap-4">
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-        <span className="material-symbols-outlined text-primary" style={{ fontSize: '1.5rem' }}>eco</span>
-        <span className="hidden sm:block text-lg font-black text-primary-container tracking-tighter whitespace-nowrap">
-          農時價 VeggiePrice
-        </span>
-      </Link>
+        <Link href="/" className="flex items-center gap-3 flex-shrink-0 min-w-0">
+          <span className="app-shell-brand-mark material-symbols-outlined text-primary" style={{ fontSize: '1.4rem' }}>eco</span>
+          <span className="min-w-0">
+            <span className="block text-[0.6875rem] font-extrabold tracking-[0.18em] uppercase text-primary/80">
+              VeggiePrice
+            </span>
+            <span className="block text-sm sm:text-base font-black text-primary-container tracking-tight whitespace-nowrap">
+              農時價
+            </span>
+          </span>
+        </Link>
+
+        <div className="hidden lg:flex flex-col min-w-0">
+          <span className="section-kicker !text-[0.625rem]">{routeMeta.kicker}</span>
+          <span className="text-body-sm font-semibold text-on-surface whitespace-nowrap">{routeMeta.label}</span>
+        </div>
+      </div>
 
       {/* Desktop Nav (Centered) */}
-      <div className="hidden md:flex flex-1 justify-center items-center px-2 md:px-8">
-        <nav className="flex items-center gap-1">
+      <div className="hidden md:flex flex-1 justify-center items-center px-2 md:px-5">
+        <nav className="app-shell-nav-rail flex items-center gap-1">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`px-4 py-2 rounded-full text-label-bold font-medium transition-colors whitespace-nowrap ${
-                pathname === link.href
+              className={`app-shell-nav-link px-3.5 py-2 rounded-full text-label-bold font-medium transition-colors whitespace-nowrap ${
+                isNavActive(pathname, link.href)
                   ? 'bg-primary/10 text-primary'
                   : 'text-on-surface-variant hover:bg-surface-container'
               }`}
             >
+              <span className="material-symbols-outlined text-[1rem]" aria-hidden="true">{link.icon}</span>
               {link.label}
             </Link>
           ))}
@@ -117,9 +156,9 @@ export function TopAppBar() {
       {/* Right Actions: Search + Notifications */}
       <div className="flex flex-1 md:flex-none items-center justify-end gap-1 md:gap-3">
         {/* Global Search Box */}
-        <div ref={containerRef} className="relative w-full md:w-[200px] lg:w-[280px]">
+        <div ref={containerRef} className="relative w-full md:w-[240px] lg:w-[320px]">
           <form onSubmit={handleSubmit} suppressHydrationWarning>
-            <div className="relative">
+            <div className="app-shell-search-dock relative">
               <span
                 className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none"
                 style={{ fontSize: '1.25rem' }}
@@ -137,7 +176,7 @@ export function TopAppBar() {
                 placeholder="搜尋作物…"
                 aria-label="搜尋作物"
                 autoComplete="off"
-                className="w-full bg-white/70 border border-white/40 rounded-full py-2 pl-10 pr-4 text-body-md text-on-surface placeholder-outline focus:outline-none focus:ring-2 focus:ring-primary/30 focus:bg-white/90 transition-[background-color,box-shadow] backdrop-blur-sm"
+                className="w-full bg-transparent rounded-full py-2.5 pl-10 pr-4 text-body-md text-on-surface placeholder-outline focus:outline-none"
               />
             </div>
           </form>
@@ -164,7 +203,7 @@ export function TopAppBar() {
           <button
             onClick={() => setShowNotifications(!showNotifications)}
             aria-label="最新通知"
-            className="touch-target flex-shrink-0 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-primary"
+            className="app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
           >
             <span className="material-symbols-outlined" style={{ fontSize: '1.5rem' }}>notifications</span>
           </button>
