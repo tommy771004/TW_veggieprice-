@@ -44,7 +44,7 @@ const SORT_OPTIONS: ReadonlyArray<{ label: string; value: SearchFilters['sortBy'
 const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
   { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
-  { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
+  // { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
 ]
 
 const FALLBACK_MARKETS = [ALL_MARKET_SENTINEL]
@@ -119,7 +119,7 @@ export function SearchContent() {
 
       // Find which marketType contains initialMarket, prioritizing urlType or preferredMarketType if set
       let resolvedType: MarketTypeOption['value'] | null = null
-      if (urlType && (urlType === 'Veg' || urlType === 'Fruit' || urlType === 'Flower')) {
+      if (urlType && (urlType === 'Veg' || urlType === 'Fruit')) {
         resolvedType = urlType
       } else if (preferredMarketType && meta.marketsByType[preferredMarketType]?.includes(initialMarket)) {
         resolvedType = preferredMarketType
@@ -552,8 +552,8 @@ export function SearchContent() {
             </div>
           )}
 
-          {paginated.map((item) => (
-            <ProduceRow key={`${item.cropCode}-${item.marketName}`} item={{...item, emoji: getCropEmoji(item.cropName)}} showDetails={true} />
+          {paginated.map((item, index) => (
+            <ProduceRow key={`${item.cropCode}-${item.marketName}-${item.date}-${index}`} item={{...item, emoji: getCropEmoji(item.cropName)}} showDetails={true} />
           ))}
 
           {/* Pagination */}
