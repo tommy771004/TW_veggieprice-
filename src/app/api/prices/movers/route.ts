@@ -3,6 +3,8 @@ import { getCropEmoji } from '@/lib/utils'
 import { fetchMarketWindowRecords } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
+export const maxDuration = 60;
+
 // Minimum transaction weight (kg) required both today and in the 3-day baseline
 // to prevent low-volume outliers from dominating the movers list.
 const MIN_WEIGHT = 100
