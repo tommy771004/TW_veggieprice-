@@ -37,7 +37,7 @@ export default async function SeasonalPage() {
                 <p className="text-body-sm text-on-surface-variant mt-2">{item.note}</p>
                 <Link
                   href={`/search?q=${encodeURIComponent(item.cropName)}&type=${
-                    item.category === 'fruit' ? 'Fruit' : item.category === 'flower' ? 'Flower' : 'Veg'
+                    item.category === 'fruit' ? 'Fruit' : 'Veg'
                   }`}
                   className="inline-block mt-3 text-primary text-label-bold hover:underline"
                 >
