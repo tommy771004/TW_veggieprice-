@@ -144,11 +144,11 @@ export function WatchlistClient() {
         </div>
       ) : (
         <div className="space-y-3">
-          {items.map((item) => {
+          {items.map((item, index) => {
             const data = snapshots[item.cropCode]
             const isUp = (data?.change ?? 0) > 0
             return (
-              <GlassCard key={item.cropCode} className="rounded-xl px-4 py-3">
+              <GlassCard key={`${item.cropCode}-${index}`} className="rounded-xl px-4 py-3">
                 <div className="flex justify-between items-start">
                   <Link href={`/produce/${encodeURIComponent(item.cropName)}`} className="flex items-center gap-3 flex-1">
                     <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-lg shadow-sm border border-white/60 flex-shrink-0">
