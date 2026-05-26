@@ -9,7 +9,7 @@ const FEATURES = [
     icon: 'search',
     emoji: '🔍',
     title: '全品項搜尋',
-    desc: '蔬果花卉 × 市場 × 日期多維度篩選，快速比價',
+    desc: '蔬果 × 市場 × 日期多維度篩選，快速比價',
     gradient: 'from-emerald-500/10 to-green-400/5',
     accent: 'text-emerald-700',
   },
