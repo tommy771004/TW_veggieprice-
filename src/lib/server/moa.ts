@@ -25,7 +25,7 @@ const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? '10000')
 const MARKET_TYPE_OPTIONS = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
   { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
-  { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
+  // { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
 ] as const
 
 type MarketType = (typeof MARKET_TYPE_OPTIONS)[number]['value']
@@ -412,14 +412,14 @@ export async function fetchMarkets(type: string = 'Veg'): Promise<string[]> {
     if (list.length <= 1) {
       if (normalizedType === 'Veg') return FALLBACK_VEG_MARKETS
       if (normalizedType === 'Fruit') return FALLBACK_FRUIT_MARKETS
-      if (normalizedType === 'Flower') return FALLBACK_FLOWER_MARKETS
+      // if (normalizedType === 'Flower') return FALLBACK_FLOWER_MARKETS
     }
     return list
   } catch (error) {
     console.error('Failed to fetch markets', error)
     if (normalizedType === 'Veg') return FALLBACK_VEG_MARKETS
     if (normalizedType === 'Fruit') return FALLBACK_FRUIT_MARKETS
-    if (normalizedType === 'Flower') return FALLBACK_FLOWER_MARKETS
+    // if (normalizedType === 'Flower') return FALLBACK_FLOWER_MARKETS
     return ['全部市場']
   }
 }
@@ -467,7 +467,7 @@ export async function fetchMarketOptions(): Promise<MarketOptionsResult> {
       marketsByType: {
         Veg: ['全部市場'],
         Fruit: ['全部市場'],
-        Flower: ['全部市場'],
+      // Flower: ['全部市場'],
       },
       defaultMarketType: 'Veg',
       defaultMarket: '全部市場',
@@ -799,29 +799,35 @@ async function fetchRecentOpenData(): Promise<(NormalizedPriceRecord & { _typeCo
       }
     }
   } catch (err) {
-    console.warn('Failed to read local latest-opendata.json:', err)
+    console.warn('Failed to read local latest-opendata.json:', err instanceof Error ? err.message : String(err))
   }
 
   const url = 'https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx'
+  const timeoutMs = process.env.MOA_FETCH_TIMEOUT_MS ? parseInt(process.env.MOA_FETCH_TIMEOUT_MS, 10) : 10000
   const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), 25000)
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
     const res = await fetch(url, { signal: controller.signal, cache: 'no-store' })
     if (!res.ok) throw new Error(`OpenData HTTP ${res.status}`)
-    const data = await res.json() as OpenDataRecord[]
-    return data.map(d => ({
-      cropCode: d.作物代號 ?? '',
-      cropName: d.作物名稱 ?? '',
-      marketName: d.市場名稱 ?? '',
-      grade: '一般',
-      upperPrice: d.上價 || 0,
-      middlePrice: d.中價 || 0,
-      lowerPrice: d.下價 || 0,
-      avgPrice: d.平均價 || 0,
-      transWeight: d.交易量 || 0,
-      date: rocToISO(d.交易日期 ?? ''),
-      _typeCode: d.種類代碼
-    }))
+    const text = await res.text()
+    try {
+      const data = JSON.parse(text) as OpenDataRecord[]
+      return data.map(d => ({
+        cropCode: d.作物代號 ?? '',
+        cropName: d.作物名稱 ?? '',
+        marketName: d.市場名稱 ?? '',
+        grade: '一般',
+        upperPrice: d.上價 || 0,
+        middlePrice: d.中價 || 0,
+        lowerPrice: d.下價 || 0,
+        avgPrice: d.平均價 || 0,
+        transWeight: d.交易量 || 0,
+        date: rocToISO(d.交易日期 ?? ''),
+        _typeCode: d.種類代碼
+      }))
+    } catch (parseError) {
+      throw new Error(`OpenData Parse Error`)
+    }
   } finally {
     clearTimeout(timer)
   }
@@ -843,21 +849,21 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
       return { records: dailyRecords }
     }
   } catch (err) {
-    console.warn('fetchLocalDailyData failed:', err)
+    console.warn('fetchLocalDailyData failed:', err instanceof Error ? err.message : String(err))
   }
 
   // 2. If daily files weren't available or returned empty (maybe dates are from today and not synced yet),
   // fallback to the recent OpenData JSON (covers latest 4~7 days) if applicable.
   const today = todayISO()
   const latestOpenDataDate = subtractDays(today, 5) // buffer
-  if ((options.market === '全部市場' || !options.market) && !options.cropName && startDate >= latestOpenDataDate) {
+  if (startDate >= latestOpenDataDate) {
     try {
       const allRecordsRaw = await fetchRecentOpenData()
       let filteredData = allRecordsRaw
       if (options.marketType) {
         if (options.marketType === 'Veg') filteredData = filteredData.filter(d => d._typeCode === 'N04')
         else if (options.marketType === 'Fruit') filteredData = filteredData.filter(d => d._typeCode === 'N05')
-        else if (options.marketType === 'Flower') filteredData = filteredData.filter(d => d._typeCode === 'N06')
+        // else if (options.marketType === 'Flower') filteredData = filteredData.filter(d => d._typeCode === 'N06')
       }
       let filtered = filteredData.filter(r => r.date >= startDate && r.date <= endDate).map(r => {
         const { _typeCode, ...rest } = r
@@ -868,7 +874,11 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
       }
       return { records: filtered }
     } catch (error) {
-      console.warn('fetchRecentOpenData failed:', error)
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.log(`fetchRecentOpenData: timeout (${process.env.MOA_FETCH_TIMEOUT_MS || 10000}ms), falling back to v1`)
+      } else {
+        console.warn('fetchRecentOpenData failed:', error instanceof Error ? error.message : String(error))
+      }
       // fallback to v1 API
     }
   }
@@ -888,8 +898,8 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
       params.set('TcType', 'N04')
     } else if (options.marketType === 'Fruit') {
       params.set('TcType', 'N05')
-    } else if (options.marketType === 'Flower') {
-      params.set('TcType', 'N06')
+    // } else if (options.marketType === 'Flower' as __type) {
+    //   params.set('TcType', 'N06')
     }
   }
 
@@ -917,7 +927,7 @@ async function fetchLocalDailyData(startDate: string, endDate: string, cropName?
   let current = new Date(startDate);
   const end = new Date(endDate);
   let checkedAny = false;
-  let foundAnyFile = false;
+  let missingAnyFile = false;
 
   while (current <= end) {
     checkedAny = true;
@@ -925,7 +935,6 @@ async function fetchLocalDailyData(startDate: string, endDate: string, cropName?
     const filePath = path.join(dailyDir, `${isoDate}.json`);
     
     if (fs.existsSync(filePath)) {
-      foundAnyFile = true;
       try {
         const content = await fs.promises.readFile(filePath, 'utf-8');
         const parsed = JSON.parse(content);
@@ -935,7 +944,7 @@ async function fetchLocalDailyData(startDate: string, endDate: string, cropName?
           if (marketType) {
              if (marketType === 'Veg' && d.TcType !== 'N04') continue;
              if (marketType === 'Fruit' && d.TcType !== 'N05') continue;
-             if (marketType === 'Flower' && d.TcType !== 'N06') continue;
+             // if (marketType === 'Flower' && d.TcType !== 'N06') continue;
           }
           
           records.push({
@@ -952,14 +961,17 @@ async function fetchLocalDailyData(startDate: string, endDate: string, cropName?
           });
         }
       } catch (err) {
-        console.warn(`Failed to read daily file ${isoDate}.json`, err);
+        console.warn(`Failed to read daily file ${isoDate}.json`, err instanceof Error ? err.message : String(err));
+        missingAnyFile = true;
       }
+    } else {
+      missingAnyFile = true;
     }
     
     current.setDate(current.getDate() + 1);
   }
 
-  if (checkedAny && !foundAnyFile) return null; // If no files existed for the requested range, return null to trigger fallback
+  if (checkedAny && missingAnyFile) return null; // If missing any file in the requested range, fallback to API
   return records;
 }
 
@@ -969,26 +981,8 @@ export async function fetchMarketWindowRecords(
   endDate: string,
   marketType?: string
 ): Promise<{ records: NormalizedPriceRecord[]; error?: string }> {
-  const cachedFn = unstable_cache(
-    async (): Promise<{ records: NormalizedPriceRecord[]; error?: string }> => {
-      const result = await fetchPriceRecords({ market, startDate, endDate, marketType })
-      if (result.error) {
-        return { records: [], error: result.error }
-      }
-      return { records: result.records }
-    },
-    ['moa-market-window-records-v3', market, startDate, endDate, marketType ?? 'all'],
-    { revalidate: 120 }
-  )
-
-  try {
-    return await cachedFn()
-  } catch (error) {
-    return {
-      records: [],
-      error: error instanceof Error ? error.message : 'Unknown MOA fetch error',
-    }
-  }
+  const result = await fetchPriceRecords({ market, startDate, endDate, marketType })
+  return { records: result.records, error: result.error }
 }
 
 function processRawRecordsToResult(rawRecords: MOARawRecord[], startDate: string, endDate: string): FetchMarketDataResult {
@@ -1281,12 +1275,12 @@ export async function fetchMarketOverviewTrend(
   const normalizedDays = Math.min(Math.max(Math.floor(days), 1), 30)
 
   const cachedFn = unstable_cache(
-    async (): Promise<{ points: MarketOverviewTrendPoint[]; error?: string }> => {
+    async (): Promise<{ points: MarketOverviewTrendPoint[] }> => {
       const startDate = subtractDays(endDate, Math.max(normalizedDays - 1, 0))
       const bulkRes = await fetchMarketWindowRecords(market, startDate, endDate)
 
       if (bulkRes.error) {
-        return { points: [], error: bulkRes.error }
+        throw new Error(bulkRes.error)
       }
 
       if (bulkRes.records.length === 0) {
@@ -1324,9 +1318,6 @@ export async function fetchMarketOverviewTrend(
 
   try {
     const res = await cachedFn()
-    if (res.error) {
-      return { points: [], error: res.error }
-    }
     if (res.points.length === 0) {
       return { points: [], error: '查無市場趨勢資料' }
     }
@@ -1451,7 +1442,7 @@ export async function fetchSeasonalCrops(): Promise<{ crops: SeasonalItem[]; err
   const dateKey = todayISO()
 
   const cachedFn = unstable_cache(
-    async (): Promise<{ crops: SeasonalItem[]; error?: string }> => {
+    async (): Promise<{ crops: SeasonalItem[] }> => {
       const endDate = dateKey
       const startDate = subtractDays(endDate, 7)
       const params = new URLSearchParams({
@@ -1463,10 +1454,10 @@ export async function fetchSeasonalCrops(): Promise<{ crops: SeasonalItem[]; err
       try {
         rawRecords = await fetchMOARecords(params, 5)
       } catch (error) {
-        return { crops: [], error: error instanceof Error ? error.message : 'MOA fetch error' }
+        throw new Error(error instanceof Error ? error.message : 'MOA fetch error')
       }
 
-      if (rawRecords.length === 0) return { crops: [], error: '查無近期交易資料' }
+      if (rawRecords.length === 0) return { crops: [] }
 
       const volumeMap = new Map<string, number>()
       for (const raw of rawRecords) {
