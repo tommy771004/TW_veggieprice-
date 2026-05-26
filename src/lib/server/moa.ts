@@ -342,7 +342,6 @@ async function fetchMOAEndpointRecords<T extends object>(
 
 const FALLBACK_VEG_MARKETS = [
   '全部市場',
-  '台北市場',
   '台北一',
   '台北二',
   '板橋區',
@@ -362,7 +361,6 @@ const FALLBACK_VEG_MARKETS = [
 
 const FALLBACK_FRUIT_MARKETS = [
   '全部市場',
-  '台北市場',
   '台北一',
   '台北二',
   '板橋區',
