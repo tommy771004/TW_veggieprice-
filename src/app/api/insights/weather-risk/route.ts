@@ -3,6 +3,8 @@ import { fetchMarketWeatherObservations, resolveCountyFromMarketName } from '@/l
 import type { MarketWeatherRiskSummary } from '@/lib/types'
 import { DEFAULT_MARKET } from '@/lib/constants'
 
+export const maxDuration = 60;
+
 function buildRiskSummary(market: string, county: string, observations: {
   temperatureC: number | null
   rainfallMm: number | null
