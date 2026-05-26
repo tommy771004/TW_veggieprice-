@@ -118,17 +118,17 @@ export function TopAppBar() {
         <Link href="/" className="flex items-center gap-3 flex-shrink-0 min-w-0">
           <span className="app-shell-brand-mark material-symbols-outlined text-primary" style={{ fontSize: '1.4rem' }}>eco</span>
           <span className="min-w-0">
-            <span className="block text-[0.6875rem] font-extrabold tracking-[0.18em] uppercase text-primary/80">
+            <span className="block text-label-sm font-extrabold tracking-[0.18em] uppercase text-primary/80">
               VeggiePrice
             </span>
-            <span className="block text-sm sm:text-base font-black text-primary-container tracking-tight whitespace-nowrap">
+            <span className="block text-body-md sm:text-body-lg font-black text-primary-container tracking-tight whitespace-nowrap">
               農時價
             </span>
           </span>
         </Link>
 
         <div className="hidden lg:flex flex-col min-w-0">
-          <span className="section-kicker !text-[0.625rem]">{routeMeta.kicker}</span>
+          <span className="section-kicker">{routeMeta.kicker}</span>
           <span className="text-body-sm font-semibold text-on-surface whitespace-nowrap">{routeMeta.label}</span>
         </div>
       </div>
@@ -146,7 +146,7 @@ export function TopAppBar() {
                   : 'text-on-surface-variant hover:bg-surface-container'
               }`}
             >
-              <span className="material-symbols-outlined text-[1rem]" aria-hidden="true">{link.icon}</span>
+              <span className="material-symbols-outlined text-base" aria-hidden="true">{link.icon}</span>
               {link.label}
             </Link>
           ))}

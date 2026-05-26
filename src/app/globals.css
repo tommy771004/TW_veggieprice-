@@ -6,16 +6,17 @@
   html {
     font-family: 'Work Sans', 'Noto Sans TC', sans-serif;
     -webkit-font-smoothing: antialiased;
-    font-size: 16px;
+    --font-scale: 1;
+    font-size: calc(16px * var(--font-scale));
     color-scheme: light;
   }
 
   html[data-font-size='small'] {
-    font-size: 15px;
+    --font-scale: 0.94;
   }
 
   html[data-font-size='large'] {
-    font-size: 17.5px;
+    --font-scale: 1.08;
   }
 
   html.dark {
@@ -33,42 +34,6 @@
   select,
   label {
     touch-action: manipulation;
-  }
-
-  .text-display-price {
-    font-size: 3rem;
-    line-height: 3.5rem;
-  }
-
-  .text-headline-lg {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-
-  .text-headline-md {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
-
-  .text-body-lg {
-    font-size: 1.125rem;
-    line-height: 1.625rem;
-  }
-
-  .text-body-md,
-  .text-label-bold {
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
-
-  .text-body-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-  }
-
-  .text-label-sm {
-    font-size: 0.6875rem;
-    line-height: 1rem;
   }
 
   html.dark body {
@@ -230,7 +195,7 @@
 
   .market-pulse-chip span {
     color: #40493d;
-    font-size: 0.6875rem;
+    font-size: calc(11px * var(--font-scale));
     font-weight: 700;
   }
 
@@ -238,7 +203,7 @@
     display: block;
     margin-top: 0.1rem;
     color: #191c1d;
-    font-size: 1.05rem;
+    font-size: calc(17px * var(--font-scale));
     line-height: 1.1;
     font-weight: 900;
     letter-spacing: 0;
@@ -248,7 +213,7 @@
   .market-pulse-chip small {
     margin-top: 0.1rem;
     color: #707a6c;
-    font-size: 0.625rem;
+    font-size: calc(10px * var(--font-scale));
     font-weight: 600;
   }
 
@@ -278,7 +243,7 @@
 
   .section-kicker {
     color: #0d631b;
-    font-size: 0.6875rem;
+    font-size: calc(11px * var(--font-scale));
     font-weight: 800;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -293,7 +258,7 @@
     background: rgba(255, 255, 255, 0.68);
     padding: 0.35rem 0.8rem;
     color: #0d631b;
-    font-size: 0.75rem;
+    font-size: calc(12px * var(--font-scale));
     font-weight: 700;
     letter-spacing: 0;
     box-shadow:

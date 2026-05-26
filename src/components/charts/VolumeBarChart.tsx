@@ -36,7 +36,7 @@ function CustomTooltip({
   if (point.isClosed || point.volume == null) {
     return (
       <div className="glass-card-solid rounded-xl px-3 py-2 text-sm shadow-lg text-center">
-        <p className="text-on-surface-variant text-[0.75rem]">{label}</p>
+        <p className="text-on-surface-variant text-xs">{label}</p>
         <p className="text-outline font-medium mt-0.5">休市日</p>
       </div>
     )
@@ -46,7 +46,7 @@ function CustomTooltip({
   const display = vol >= 1000 ? `${(vol / 1000).toFixed(1)} 公噸` : `${vol} 公斤`
   return (
     <div className="glass-card-solid rounded-xl px-3 py-2 text-sm shadow-lg">
-      <p className="text-on-surface-variant text-[0.75rem]">{label}</p>
+      <p className="text-on-surface-variant text-xs">{label}</p>
       <p className="text-primary-container font-bold">{display}</p>
     </div>
   )

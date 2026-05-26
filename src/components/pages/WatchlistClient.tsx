@@ -261,7 +261,7 @@ export function WatchlistClient() {
                       <div>
                         <p className="text-label-sm uppercase tracking-[0.12em] text-on-surface-variant">今日均價 · 元 / 公斤</p>
                         <div className="flex items-end gap-2 mt-1 flex-wrap">
-                          <span className={`font-black text-[2rem] leading-none ${isUp ? 'text-error' : 'text-primary'}`}>
+                          <span className={`font-black text-4xl leading-none ${isUp ? 'text-error' : 'text-primary'}`}>
                             {loading && !data ? '...' : data && data.price > 0 ? `$${formatPrice(data.price)}` : '--'}
                           </span>
                           <span className="text-body-sm text-on-surface-variant pb-0.5">

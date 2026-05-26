@@ -45,7 +45,7 @@ export function BottomNav() {
             >
               {item.icon}
             </span>
-            <span className={`text-[0.6875rem] font-medium mt-1 relative z-10 ${active ? 'font-bold' : ''}`}>{item.label}</span>
+            <span className={`text-label-sm font-medium mt-1 relative z-10 ${active ? 'font-bold' : ''}`}>{item.label}</span>
           </Link>
         )
       })}

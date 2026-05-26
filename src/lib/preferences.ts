@@ -16,6 +16,12 @@ export interface UserPreferences {
 const STORAGE_KEY = 'veggieprice_preferences:v1'
 const STORAGE_KEY_LEGACY = 'veggieprice_preferences'
 
+const FONT_SCALE: Record<FontSize, string> = {
+  small: '0.94',
+  medium: '1',
+  large: '1.08',
+}
+
 export const DEFAULT_USER_PREFERENCES: UserPreferences = {
   fontSize: 'medium',
   theme: 'light',
@@ -77,6 +83,7 @@ export function applyUserPreferences(preferences: UserPreferences) {
   const root = document.documentElement
   const resolvedTheme = resolveTheme(preferences.theme)
 
+  root.style.setProperty('--font-scale', FONT_SCALE[preferences.fontSize])
   root.dataset.fontSize = preferences.fontSize
   root.dataset.theme = preferences.theme
   root.classList.toggle('dark', resolvedTheme === 'dark')

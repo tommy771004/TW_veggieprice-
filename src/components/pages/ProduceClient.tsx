@@ -405,7 +405,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
               className={`market-status-chip transition-colors ${inWatchlist ? 'market-status-chip--critical' : ''}`}
             >
               <span
-                className="material-symbols-outlined text-[1rem]"
+                className="material-symbols-outlined text-base"
                 style={{ fontVariationSettings: inWatchlist ? "'FILL' 1" : "'FILL' 0" }}
               >
                 favorite
@@ -460,11 +460,11 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                       <span className="market-status-chip market-status-chip--hero">{cropCategoryLabel}</span>
                       <span className="market-status-chip market-status-chip--hero">{displayAlias}</span>
                     </div>
-                    <p className="text-[0.6875rem] tracking-[0.16em] uppercase font-semibold mb-2 text-white/48">
+                    <p className="text-label-sm tracking-[0.16em] uppercase font-semibold mb-2 text-white/48">
                       今日批發均價 · 元 / 公斤
                     </p>
                     <div className="flex items-end gap-3 flex-wrap">
-                      <span className="text-[2.85rem] sm:text-[3.5rem] leading-none font-black tabular-nums tracking-tight text-[#fcd34d]">
+                      <span className="text-5xl sm:text-6xl leading-none font-black tabular-nums tracking-tight text-[#fcd34d]">
                         {latestPrice > 0 ? `$${formatPrice(latestPrice)}` : '--'}
                       </span>
                       {latestPrice > 0 ? (
@@ -486,7 +486,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                     className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
                     aria-label="Scroll left"
                   >
-                    <span className="material-symbols-outlined text-[1.25rem]">chevron_left</span>
+                    <span className="material-symbols-outlined text-xl">chevron_left</span>
                   </button>
 
                   <div
@@ -510,7 +510,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                     className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
                     aria-label="Scroll right"
                   >
-                    <span className="material-symbols-outlined text-[1.25rem]">chevron_right</span>
+                    <span className="material-symbols-outlined text-xl">chevron_right</span>
                   </button>
                 </div>
               </div>
@@ -530,7 +530,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                   觀察 {cropName} 在 {historyWindowLabel} 的均價變化與休市補點。
                 </p>
                 {streamingStatus === 'loading_chunks' && (
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[0.6875rem] font-medium animate-pulse self-start transition-opacity duration-300">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-label-sm font-medium animate-pulse self-start transition-opacity duration-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                     <span>串流載入歷史中... ({streamingProgress}/{streamingTotal})</span>
                   </div>
@@ -538,7 +538,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                 {hasHistoryRangeData && (
                   <button
                     onClick={() => setShowPriceRange((v) => !v)}
-                    className={`inline-flex items-center gap-1 self-start px-2.5 py-0.5 rounded-full text-[0.6875rem] font-medium transition-colors ${
+                    className={`inline-flex items-center gap-1 self-start px-2.5 py-0.5 rounded-full text-label-sm font-medium transition-colors ${
                       showPriceRange
                         ? 'bg-primary/12 text-primary border border-primary/30'
                         : 'bg-surface-container text-on-surface-variant border border-outline-variant/40 hover:bg-surface-container-high'
@@ -664,7 +664,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                   ].map((item) => (
                     <div key={item.label} className="market-pulse-chip">
                       <span className="inline-flex items-center gap-1">
-                        <span className="material-symbols-outlined text-primary text-[1rem]">{item.icon}</span>
+                        <span className="material-symbols-outlined text-primary text-base">{item.icon}</span>
                         {item.label}
                       </span>
                       <strong>{item.value}</strong>

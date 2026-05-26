@@ -42,14 +42,14 @@ function CustomTooltip({
   if (point.isClosed) {
     return (
       <div className="glass-card-solid rounded-xl px-3 py-2.5 text-sm shadow-glass-sm">
-        <p className="text-on-surface-variant text-[0.75rem] mb-1">{label}</p>
-        <div className="inline-flex items-center gap-1.5 bg-outline-variant/20 border border-outline-variant/40 text-on-surface-variant text-[0.6875rem] px-2.5 py-0.5 rounded-full font-medium mb-1.5">
+        <p className="text-on-surface-variant text-xs mb-1">{label}</p>
+        <div className="inline-flex items-center gap-1.5 bg-outline-variant/20 border border-outline-variant/40 text-on-surface-variant text-label-sm px-2.5 py-0.5 rounded-full font-medium mb-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-outline-variant/80" />
           休市 / 無交易日
         </div>
         {point.avgPrice != null && (
           <div className="border-t border-outline-variant/10 pt-1.5 mt-1">
-            <p className="text-on-surface-variant text-[0.6875rem]">估算均價 (插值結果)</p>
+            <p className="text-on-surface-variant text-label-sm">估算均價 (插值結果)</p>
             <p className="text-on-surface-variant font-semibold text-sm mt-0.5">${point.avgPrice.toFixed(1)}</p>
           </div>
         )}
@@ -59,10 +59,10 @@ function CustomTooltip({
 
   return (
     <div className="glass-card-solid rounded-xl px-3 py-2 text-sm shadow-glass-sm">
-      <p className="text-on-surface-variant text-[0.75rem] mb-1">{label}</p>
+      <p className="text-on-surface-variant text-xs mb-1">{label}</p>
       <p className="text-primary font-bold text-base">${point.avgPrice?.toFixed(1)}</p>
       {point.upperPrice != null && (
-        <div className="text-[0.6875rem] text-on-surface-variant mt-1 space-y-0.5">
+        <div className="text-label-sm text-on-surface-variant mt-1 space-y-0.5">
           <div>上價 ${point.upperPrice.toFixed(1)}</div>
           <div>下價 ${point.lowerPrice?.toFixed(1)}</div>
         </div>
@@ -277,18 +277,18 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
         <div className="flex flex-wrap justify-end items-center gap-x-3 gap-y-1 mt-2">
           {showPriceRange && hasRangeData && (
             <>
-              <span className="text-[0.6875rem] flex items-center gap-1 text-[#43a047]">
+              <span className="text-label-sm flex items-center gap-1 text-[#43a047]">
                 <span className="inline-block w-4 border-t-2 border-dashed border-[#43a047] align-middle" />
                 上價
               </span>
-              <span className="text-[0.6875rem] flex items-center gap-1 text-[#f57c00]">
+              <span className="text-label-sm flex items-center gap-1 text-[#f57c00]">
                 <span className="inline-block w-4 border-t-2 border-dashed border-[#f57c00] align-middle" />
                 下價
               </span>
             </>
           )}
           {closedDays.length > 0 && (
-            <span className="text-[0.6875rem] text-outline flex items-center gap-1">
+            <span className="text-label-sm text-outline flex items-center gap-1">
               <span className="inline-block w-4 border-t border-dashed border-outline align-middle" />
               均價線 · 休市日 {closedDays.length} 天（曲線自動跨越）
             </span>
@@ -308,7 +308,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
               <div>
                 <h3 className="text-lg font-semibold text-on-surface">{longPressedPoint.date} 行情明細</h3>
                 <p className="text-sm text-on-surface-variant flex items-center gap-1.5 mt-0.5">
-                  <span className="material-symbols-outlined text-[1rem]">calendar_today</span>
+                  <span className="material-symbols-outlined text-base">calendar_today</span>
                   {longPressedPoint.label}
                 </p>
               </div>
@@ -317,7 +317,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 className="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container-highest hover:bg-surface-container text-on-surface-variant transition-colors"
                 aria-label="關閉明細"
               >
-                <span className="material-symbols-outlined text-[1.125rem]">close</span>
+                <span className="material-symbols-outlined text-lg">close</span>
               </button>
             </div>
 
@@ -330,7 +330,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 </div>
                 {longPressedPoint.avgPrice != null && (
                   <div className="mt-3 w-full border-t border-outline-variant/20 pt-3">
-                    <p className="text-on-surface-variant text-[0.8125rem]">圖表延續之估算均價</p>
+                    <p className="text-on-surface-variant text-sm">圖表延續之估算均價</p>
                     <p className="text-on-surface font-semibold text-lg">${longPressedPoint.avgPrice.toFixed(1)}</p>
                   </div>
                 )}
@@ -340,16 +340,16 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 {/* 價格區間 (Upper/Avg/Lower) */}
                 <div className="grid grid-cols-3 gap-2">
                   <div className="bg-surface-container p-3 rounded-2xl text-center">
-                    <p className="text-on-surface-variant text-[0.6875rem] mb-1">上價</p>
+                    <p className="text-on-surface-variant text-label-sm mb-1">上價</p>
                     <p className="text-[#43a047] font-semibold text-base sm:text-lg">{longPressedPoint.upperPrice != null ? `$${longPressedPoint.upperPrice.toFixed(1)}` : '-'}</p>
                   </div>
                   <div className="bg-primary/10 border border-primary/20 p-3 rounded-2xl text-center relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1 h-full bg-primary rounded-l-full"></div>
-                    <p className="text-primary text-[0.6875rem] mb-1 font-medium">中價</p>
+                    <p className="text-primary text-label-sm mb-1 font-medium">中價</p>
                     <p className="text-primary font-bold text-lg sm:text-xl">{longPressedPoint.avgPrice != null ? `$${longPressedPoint.avgPrice.toFixed(1)}` : '-'}</p>
                   </div>
                   <div className="bg-surface-container p-3 rounded-2xl text-center">
-                    <p className="text-on-surface-variant text-[0.6875rem] mb-1">下價</p>
+                    <p className="text-on-surface-variant text-label-sm mb-1">下價</p>
                     <p className="text-[#f57c00] font-semibold text-base sm:text-lg">{longPressedPoint.lowerPrice != null ? `$${longPressedPoint.lowerPrice.toFixed(1)}` : '-'}</p>
                   </div>
                 </div>
@@ -358,7 +358,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 {longPressedPoint.volume != null && (
                   <div className="bg-surface-container px-4 py-3 rounded-2xl flex items-center justify-between">
                     <div className="flex items-center gap-2 text-on-surface-variant">
-                      <span className="material-symbols-outlined text-[1.125rem]">weight</span>
+                      <span className="material-symbols-outlined text-lg">weight</span>
                       <span className="text-sm font-medium">交易量</span>
                     </div>
                     <p className="text-on-surface font-semibold">{longPressedPoint.volume.toLocaleString()} 公斤</p>
@@ -366,7 +366,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                 )}
               </div>
             )}
-            <p className="text-center text-[0.6875rem] text-outline mt-4">
+            <p className="text-center text-label-sm text-outline mt-4">
               可繼續在圖表上滑動來切換日期
             </p>
           </div>

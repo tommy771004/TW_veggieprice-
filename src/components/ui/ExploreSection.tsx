@@ -73,7 +73,7 @@ export function ExploreSection() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-3xl leading-none">{f.emoji}</span>
-                <span className="material-symbols-outlined text-outline/50 text-[20px] group-hover:text-primary transition-colors">
+                <span className="material-symbols-outlined text-outline/50 text-xl group-hover:text-primary transition-colors">
                   arrow_forward
                 </span>
               </div>

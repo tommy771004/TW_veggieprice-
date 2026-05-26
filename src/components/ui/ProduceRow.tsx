@@ -24,14 +24,14 @@ export function ProduceRow({ item, showDetails = false }: ProduceRowProps) {
         <div className="flex flex-col justify-center flex-grow min-w-0 pr-2">
           <h3 className="text-headline-md font-semibold text-on-surface leading-tight truncate">{item.cropName}</h3>
           <p className="text-body-sm text-on-surface-variant flex items-center gap-1 mt-1 opacity-90 truncate">
-            <span className="material-symbols-outlined text-[0.875rem] opacity-70 shrink-0">storefront</span>
+            <span className="material-symbols-outlined text-sm opacity-70 shrink-0">storefront</span>
             <span className="truncate">{item.marketName}</span>
             <span className="mx-0.5 opacity-50 shrink-0">·</span>
-            <span className="material-symbols-outlined text-[0.875rem] opacity-70 shrink-0">monitor_weight</span>
+            <span className="material-symbols-outlined text-sm opacity-70 shrink-0">monitor_weight</span>
             <span className="truncate">{formatVolume(item.transWeight)}</span>
           </p>
           {showDetails && (
-            <p className="hidden md:block text-[0.75rem] text-on-surface-variant mt-0.5 opacity-80 truncate">
+            <p className="hidden md:block text-xs text-on-surface-variant mt-0.5 opacity-80 truncate">
               上 ${formatPrice(item.upperPrice)} ／ 中 ${formatPrice(item.middlePrice)} ／ 下 ${formatPrice(item.lowerPrice)}
             </p>
           )}

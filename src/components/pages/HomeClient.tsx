@@ -517,7 +517,7 @@ export function HomeClient() {
                 <div className={`px-6 pt-6 pb-5 relative ${isClosedToday ? 'opacity-60 grayscale transition-all' : ''}`}>
                   {isClosedToday && (
                     <div className="absolute top-4 right-6 bg-surface-variant/90 text-on-surface-variant px-2 py-1 rounded text-xs font-bold ring-1 ring-outline/20 backdrop-blur-md flex items-center gap-1 z-10 shadow-sm">
-                      <span className="material-symbols-outlined text-[14px]">event_busy</span>
+                      <span className="material-symbols-outlined text-sm">event_busy</span>
                       本日休市
                     </div>
                   )}
@@ -534,14 +534,14 @@ export function HomeClient() {
 
                       <div className="min-w-0">
                         <p
-                          className="text-[0.6875rem] tracking-[0.16em] uppercase font-semibold mb-2"
+                          className="text-label-sm tracking-[0.16em] uppercase font-semibold mb-2"
                           style={{ color: 'rgba(255,255,255,0.48)' }}
                         >
                           均價 · 元 / 公斤
                         </p>
                         <div className="flex items-end gap-3 flex-wrap">
                           <motion.span
-                            className="text-[2.75rem] sm:text-[3.4rem] leading-none font-black tabular-nums tracking-tight"
+                            className="text-5xl sm:text-6xl leading-none font-black tabular-nums tracking-tight"
                             style={{ color: '#fcd34d' }}
                             initial={{ opacity: 0, scale: 0.85 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -566,7 +566,7 @@ export function HomeClient() {
                             className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
                             aria-label="Scroll left"
                           >
-                            <span className="material-symbols-outlined text-[1.25rem]">chevron_left</span>
+                            <span className="material-symbols-outlined text-xl">chevron_left</span>
                           </button>
                           
                           <div
@@ -590,7 +590,7 @@ export function HomeClient() {
                             className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
                             aria-label="Scroll right"
                           >
-                            <span className="material-symbols-outlined text-[1.25rem]">chevron_right</span>
+                            <span className="material-symbols-outlined text-xl">chevron_right</span>
                           </button>
                         </div>
                       )}
@@ -704,7 +704,7 @@ export function HomeClient() {
                         <div className="w-11 h-11 rounded-xl bg-white/60 border border-white/50 flex items-center justify-center text-2xl shadow-sm">
                           {item.emoji}
                         </div>
-                        <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-on-primary text-[0.625rem] font-black rounded-full flex items-center justify-center leading-none shadow-sm">
+                        <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-on-primary text-2xs font-black rounded-full flex items-center justify-center leading-none shadow-sm">
                           {i + 1}
                         </span>
                       </div>
@@ -847,17 +847,17 @@ export function HomeClient() {
                       }}
                     >
                       {isClosedDay && (
-                        <span className="absolute -top-5 left-1/2 -translate-x-1/2 bg-surface-container text-outline text-[0.625rem] font-semibold px-1.5 py-0.5 rounded border border-outline-variant/40 whitespace-nowrap">
+                        <span className="absolute -top-5 left-1/2 -translate-x-1/2 bg-surface-container text-outline text-2xs font-semibold px-1.5 py-0.5 rounded border border-outline-variant/40 whitespace-nowrap">
                           休
                         </span>
                       )}
                       {i === trendSeries.length - 1 && (
-                        <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-white text-primary text-[0.625rem] font-bold px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap">
+                        <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-white text-primary text-2xs font-bold px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap">
                           今日
                         </span>
                       )}
                       {i === trendSeries.length - 1 && weatherRisk && (
-                        <span className={`absolute -top-12 left-1/2 -translate-x-1/2 text-[0.625rem] font-bold px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap ${weatherMarkerTone}`}>
+                        <span className={`absolute -top-12 left-1/2 -translate-x-1/2 text-2xs font-bold px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap ${weatherMarkerTone}`}>
                           風險 {weatherRisk.score}
                         </span>
                       )}
@@ -907,12 +907,12 @@ export function HomeClient() {
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-3xl leading-none transition-transform group-hover:scale-110">{item.emoji}</span>
-                        <span className="material-symbols-outlined text-primary/40 text-[18px] group-hover:text-primary transition-colors">arrow_forward</span>
+                        <span className="material-symbols-outlined text-primary/40 text-lg group-hover:text-primary transition-colors">arrow_forward</span>
                       </div>
                       <h3 className="text-body-lg font-bold text-on-surface mb-1 truncate">{item.cropName}</h3>
                       <p className="text-label-sm text-primary line-clamp-2 leading-relaxed">{item.reason}</p>
                       {item.note && (
-                        <p className="text-[10px] text-on-surface-variant mt-2 opacity-70 truncate">{item.note}</p>
+                        <p className="text-2xs text-on-surface-variant mt-2 opacity-70 truncate">{item.note}</p>
                       )}
                     </Link>
                   </motion.div>

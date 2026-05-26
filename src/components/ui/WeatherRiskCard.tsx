@@ -26,7 +26,7 @@ export function WeatherRiskCard({ weatherRisk }: { weatherRisk: MarketWeatherRis
       <div className="flex justify-between items-start mb-2">
         <p className="text-label-bold flex items-center gap-1">
           天氣波動風險 (選定市場)
-          <span className={`text-[10px] px-1.5 py-0.5 rounded-sm ${weatherRisk.level === 'high' ? 'bg-error/20 text-error' : weatherRisk.level === 'medium' ? 'bg-amber-500/20 text-amber-800' : 'bg-primary/20 text-primary'}`}>
+          <span className={`text-2xs px-1.5 py-0.5 rounded-sm ${weatherRisk.level === 'high' ? 'bg-error/20 text-error' : weatherRisk.level === 'medium' ? 'bg-amber-500/20 text-amber-800' : 'bg-primary/20 text-primary'}`}>
             {levelText}
           </span>
         </p>
@@ -42,28 +42,28 @@ export function WeatherRiskCard({ weatherRisk }: { weatherRisk: MarketWeatherRis
       {/* Metrics Row */}
       <div className="flex justify-between items-center bg-white/50 rounded-xl p-2.5 border border-outline-variant/30 mt-2">
         <div className="flex flex-col items-center flex-1">
-          <span className="text-[10px] text-on-surface-variant mb-0.5">最高溫</span>
+          <span className="text-2xs text-on-surface-variant mb-0.5">最高溫</span>
           <span className="text-label-bold text-on-surface">
             {weatherRisk.metrics.maxTemperatureC !== null ? `${Math.round(weatherRisk.metrics.maxTemperatureC)}°C` : '--'}
           </span>
         </div>
         <div className="w-px h-6 bg-outline-variant/50 mx-1"></div>
         <div className="flex flex-col items-center flex-1">
-          <span className="text-[10px] text-on-surface-variant mb-0.5">最低溫</span>
+          <span className="text-2xs text-on-surface-variant mb-0.5">最低溫</span>
           <span className="text-label-bold text-on-surface">
             {weatherRisk.metrics.minTemperatureC !== null ? `${Math.round(weatherRisk.metrics.minTemperatureC)}°C` : '--'}
           </span>
         </div>
         <div className="w-px h-6 bg-outline-variant/50 mx-1"></div>
         <div className="flex flex-col items-center flex-1">
-          <span className="text-[10px] text-on-surface-variant mb-0.5">強降雨</span>
+          <span className="text-2xs text-on-surface-variant mb-0.5">強降雨</span>
           <span className="text-label-bold text-on-surface">
             {weatherRisk.metrics.maxRainfallMm !== null ? `${weatherRisk.metrics.maxRainfallMm}mm` : '--'}
           </span>
         </div>
         <div className="w-px h-6 bg-outline-variant/50 mx-1"></div>
         <div className="flex flex-col items-center flex-1">
-          <span className="text-[10px] text-on-surface-variant mb-0.5">均濕度</span>
+          <span className="text-2xs text-on-surface-variant mb-0.5">均濕度</span>
           <span className="text-label-bold text-on-surface">
             {weatherRisk.metrics.avgHumidityPct !== null ? `${Math.round(weatherRisk.metrics.avgHumidityPct)}%` : '--'}
           </span>

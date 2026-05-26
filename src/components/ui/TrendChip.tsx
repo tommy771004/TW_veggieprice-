@@ -15,7 +15,7 @@ export function TrendChip({ change, size = 'md' }: TrendChipProps) {
   return (
     <span
       className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full font-semibold ${cls} ${
-        size === 'sm' ? 'text-[0.6875rem]' : 'text-[0.75rem]'
+        size === 'sm' ? 'text-label-sm' : 'text-xs'
       }`}
     >
       <span className="material-symbols-outlined" style={{ fontSize: size === 'sm' ? '0.75rem' : '0.875rem' }}>
