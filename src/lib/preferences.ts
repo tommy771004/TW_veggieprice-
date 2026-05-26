@@ -41,13 +41,21 @@ export function getUserPreferences(): UserPreferences {
     const v1Raw = window.localStorage.getItem(STORAGE_KEY)
     if (v1Raw) {
       const parsed = JSON.parse(v1Raw) as Partial<UserPreferences>
-      return { ...DEFAULT_USER_PREFERENCES, ...parsed }
+      const prefs = { ...DEFAULT_USER_PREFERENCES, ...parsed }
+      if (prefs.preferredMarket === '台北市場') {
+        prefs.preferredMarket = '台北一'
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs))
+      }
+      return prefs
     }
     // One-time migration from legacy key (no version suffix)
     const legacyRaw = window.localStorage.getItem(STORAGE_KEY_LEGACY)
     if (legacyRaw) {
       const parsed = JSON.parse(legacyRaw) as Partial<UserPreferences>
       const prefs = { ...DEFAULT_USER_PREFERENCES, ...parsed }
+      if (prefs.preferredMarket === '台北市場') {
+        prefs.preferredMarket = '台北一'
+      }
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs))
       window.localStorage.removeItem(STORAGE_KEY_LEGACY)
       return prefs
