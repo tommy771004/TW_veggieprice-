@@ -20,7 +20,7 @@ import { buildInterpolatedHistory } from '@/lib/server/historyAggregation'
 
 const MOA_BASE = process.env.MOA_API_BASE_URL ?? 'https://data.moa.gov.tw/api/v1/AgriProductsTransType/'
 const MOA_API_ROOT = process.env.MOA_API_ROOT_URL ?? 'https://data.moa.gov.tw/api/v1'
-const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? '10000')
+const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? '25000')
 
 const MARKET_TYPE_OPTIONS = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
@@ -256,7 +256,10 @@ async function fetchMOARecords(params: URLSearchParams, maxPages: number = MAX_P
     if (page > 1) pageParams.set('Page', String(page))
     const response = await fetch(`${MOA_BASE}?${pageParams}`, {
       signal: controller.signal,
-      headers: { Accept: 'application/json' },
+      headers: { 
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+      },
       cache: 'no-store',
     })
     console.log(`[MOA] Fetching ${MOA_BASE}?${pageParams} => ${response.status}`)
@@ -303,7 +306,10 @@ async function fetchMOAEndpointRecords<T extends object>(
     if (page > 1) pageParams.set('Page', String(page))
     const response = await fetch(`${MOA_API_ROOT}/${endpoint}/?${pageParams}`, {
       signal: controller.signal,
-      headers: { Accept: 'application/json' },
+      headers: { 
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+      },
       cache: 'no-store',
     })
     if (!response.ok) throw new Error(`MOA ${endpoint} returned HTTP ${response.status}`)
@@ -803,11 +809,17 @@ async function fetchRecentOpenData(): Promise<(NormalizedPriceRecord & { _typeCo
   }
 
   const url = 'https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx'
-  const timeoutMs = process.env.MOA_FETCH_TIMEOUT_MS ? parseInt(process.env.MOA_FETCH_TIMEOUT_MS, 10) : 10000
+  const timeoutMs = process.env.MOA_FETCH_TIMEOUT_MS ? parseInt(process.env.MOA_FETCH_TIMEOUT_MS, 10) : 25000
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   try {
-    const res = await fetch(url, { signal: controller.signal, cache: 'no-store' })
+    const res = await fetch(url, { 
+      signal: controller.signal, 
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+      },
+      cache: 'no-store' 
+    })
     if (!res.ok) throw new Error(`OpenData HTTP ${res.status}`)
     const text = await res.text()
     try {
@@ -1361,12 +1373,18 @@ const fetchLivestockPricesCached = unstable_cache(
     const [eggRes, porkRes] = await Promise.all([
       fetch(`https://data.moa.gov.tw/api/v1/PoultryTransType_BoiledChicken_Eggs/?${eggParams}`, {
         signal: controller.signal,
-        headers: { Accept: 'application/json' },
+        headers: { 
+          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+        },
         cache: 'no-store',
       }),
       fetch('https://data.moa.gov.tw/api/v1/PorkTransType/', {
         signal: controller.signal,
-        headers: { Accept: 'application/json' },
+        headers: { 
+          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+        },
         cache: 'no-store',
       }),
     ])
