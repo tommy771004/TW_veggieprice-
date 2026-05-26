@@ -92,15 +92,15 @@ export interface LivestockPrices {
 }
 
 export interface MarketTypeOption {
-  value: 'Veg' | 'Fruit' | 'Flower'
+  value: 'Veg' | 'Fruit' // | 'Flower'
   label: string
   description: string
 }
 
 export interface MarketOptionsResponse {
   marketTypes: MarketTypeOption[]
-  marketsByType: Record<'Veg' | 'Fruit' | 'Flower', string[]>
-  defaultMarketType: 'Veg' | 'Fruit' | 'Flower'
+  marketsByType: Record<'Veg' | 'Fruit', string[]> // | 'Flower'
+  defaultMarketType: 'Veg' | 'Fruit' // | 'Flower'
   defaultMarket: string
   dateRanges: Array<{ label: string; value: SearchFilters['dateRange'] }>
   pricePeriods: Array<PricePeriod>
