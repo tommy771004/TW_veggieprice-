@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { memo } from 'react'
 import { TrendChip } from './TrendChip'
 import { formatPrice, formatVolume } from '@/lib/utils'
 import type { ProducePrice } from '@/lib/types'
@@ -8,14 +9,15 @@ interface ProduceRowProps {
   showDetails?: boolean
 }
 
-export function ProduceRow({ item, showDetails = false }: ProduceRowProps) {
+export const ProduceRow = memo(function ProduceRow({ item, showDetails = false }: ProduceRowProps) {
   const emoji = item.emoji || '🌿'
   const change = item.priceChange ?? 0
 
   return (
     <Link
       href={`/produce/${encodeURIComponent(item.cropName)}`}
-      className="group bg-white/60 backdrop-blur-md border border-white/50 hover:border-primary/30 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:bg-white/90 transition-all duration-300 relative overflow-hidden block mb-4"
+      prefetch={false}
+      className="group glass-card rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:bg-white/90 dark:hover:bg-zinc-800/50 transition-all duration-300 relative overflow-hidden block"
     >
       <div className="flex items-center gap-4 relative z-10 w-full overflow-hidden">
         <div className="w-14 h-14 bg-white/80 border border-white rounded-full flex items-center justify-center text-2xl shadow-sm shrink-0 group-hover:scale-105 transition-transform duration-300">
@@ -47,4 +49,4 @@ export function ProduceRow({ item, showDetails = false }: ProduceRowProps) {
       </div>
     </Link>
   )
-}
+})
