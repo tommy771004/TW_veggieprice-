@@ -1018,6 +1018,9 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
       if (options.market && options.market !== '全部市場') {
          filtered = filtered.filter(r => r.marketName === options.market)
       }
+      if (options.cropName) {
+         filtered = filtered.filter(r => r.cropName === options.cropName || r.cropName.includes(options.cropName!))
+      }
       return { records: filtered }
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
