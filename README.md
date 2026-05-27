@@ -58,3 +58,4 @@ npm run dev
 
 - `docs/architecture/vercel-architecture.md`: Vercel 版部署拓樸、資料流、錯誤處理策略
 - `.env.example`: 最小部署環境變數範本
+- 
