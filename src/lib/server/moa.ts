@@ -1272,11 +1272,11 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
               cropName: '毛豬',
               marketName: p.MarketName,
               grade: '中平',
-              upperPrice: p.TransNum_AvgPrice || 0,
-              middlePrice: p.TransNum_AvgPrice || 0,
-              lowerPrice: p.TransNum_AvgPrice || 0,
-              avgPrice: p.TransNum_AvgPrice || 0,
-              transWeight: p.TransNum_Total || 0,
+              upperPrice: Number(p.TransNum_AvgPrice) || 0,
+              middlePrice: Number(p.TransNum_AvgPrice) || 0,
+              lowerPrice: Number(p.TransNum_AvgPrice) || 0,
+              avgPrice: Number(p.TransNum_AvgPrice) || 0,
+              transWeight: Number(p.TransNum_Total) || 0,
               date: p.TransDate ? rocToISO(p.TransDate) : todayISO()
             });
           }
