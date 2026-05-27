@@ -1,5 +1,5 @@
 // Thin wrapper so server files can read NEXT_PUBLIC_* without requiring @types/node
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line
 const _env: Record<string, string | undefined> = (globalThis as any).process?.env ?? {}
 
 function normalizeSiteUrl(url: string): string {
