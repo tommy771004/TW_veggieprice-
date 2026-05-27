@@ -87,6 +87,19 @@ export interface LivestockPrices {
   eggProducerPrice: number | null
   /** 毛豬全國加權均價 (元/公斤) */
   porkAvgPrice: number | null
+  
+  // -- 新增加的家禽/畜產擴充 --
+  /** 白肉雞價 (元/台斤) */
+  chickenPrice?: number | null
+  /** 紅羽土雞 (元/台斤) */
+  redFeatherChickenPrice?: number | null
+  /** 鵝價 (元/台斤) */
+  goosePrice?: number | null
+  /** 鴨價 (元/台斤) */
+  duckPrice?: number | null
+  /** 羊隻拍賣均價 (元/公斤) */
+  sheepAvgPrice?: number | null
+
   eggPriceChange: number | null
   porkPriceChange: number | null
 }

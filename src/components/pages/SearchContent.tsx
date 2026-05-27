@@ -117,8 +117,8 @@ export function SearchContent() {
 
       // Find which marketType contains initialMarket, prioritizing urlType or preferredMarketType if set
       let resolvedType: MarketTypeOption['value'] | null = null
-      if (urlType && (urlType === 'Veg' || urlType === 'Fruit')) {
-        resolvedType = urlType
+      if (urlType && meta.marketsByType[urlType as MarketTypeOption['value']]) {
+        resolvedType = urlType as MarketTypeOption['value']
       } else if (preferredMarketType && meta.marketsByType[preferredMarketType]?.includes(initialMarket)) {
         resolvedType = preferredMarketType
       } else {
@@ -154,38 +154,6 @@ export function SearchContent() {
     }
   }, [])
 
-  useEffect(() => {
-    let active = true
-    const metaMarkets = marketsByType[marketType]
-    const prefs = typeof window !== 'undefined' ? getUserPreferences() : null
-    const preferredMarket = prefs?.preferredMarket
-
-    if (metaMarkets && metaMarkets.length > 0) {
-      setMarketsList(metaMarkets)
-      if (!metaMarkets.includes(market)) {
-        const nextMarket = (preferredMarket && metaMarkets.includes(preferredMarket))
-          ? preferredMarket
-          : (metaMarkets.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : metaMarkets[0])
-        setMarket(nextMarket)
-      }
-      return
-    }
-
-    fetchMarketList(marketType).then((list) => {
-      if (!active) return
-      setMarketsList(list)
-      if (list.length > 0 && !list.includes(market)) {
-        const nextMarket = (preferredMarket && list.includes(preferredMarket))
-          ? preferredMarket
-          : (list.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : list[0])
-        setMarket(nextMarket)
-      }
-    }).catch(console.error)
-
-    return () => {
-      active = false
-    }
-  }, [marketType, marketsByType, market])
 
   useEffect(() => {
     const today = todayISO()
@@ -343,7 +311,7 @@ export function SearchContent() {
               placeholder="搜尋作物名稱… (支援注音輸入)"
               aria-label="搜尋作物"
               autoComplete="off"
-              className="w-full bg-white/80 border border-white/40 shadow-sm rounded-full py-3 pl-12 pr-12 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-transparent transition-[background-color,box-shadow] backdrop-blur-md"
+              className="w-full bg-white/80 dark:bg-zinc-800/85 dark:text-zinc-100 dark:border-zinc-700/80 border border-white/40 shadow-sm rounded-full py-3 pl-12 pr-12 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-transparent transition-[background-color,box-shadow] backdrop-blur-md"
             />
             <button
               onClick={() => setShowPriceFilter(!showPriceFilter)}
@@ -405,7 +373,7 @@ export function SearchContent() {
                   onChange={(e) => setMinPrice(e.target.value)}
                   placeholder="0"
                   min="0"
-                  className="w-full bg-white/60 border border-outline-variant/40 rounded-xl py-2 pl-7 pr-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 transition-[background-color,box-shadow]"
+                  className="w-full bg-white/60 dark:bg-zinc-800/80 dark:text-zinc-100 dark:border-zinc-700/80 border border-outline-variant/40 rounded-xl py-2 pl-7 pr-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 transition-[background-color,box-shadow]"
                 />
               </div>
             </div>
@@ -422,7 +390,7 @@ export function SearchContent() {
                   onChange={(e) => setMaxPrice(e.target.value)}
                   placeholder="999"
                   min="0"
-                  className="w-full bg-white/60 border border-outline-variant/40 rounded-xl py-2 pl-7 pr-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 transition-[background-color,box-shadow]"
+                  className="w-full bg-white/60 dark:bg-zinc-800/80 dark:text-zinc-100 dark:border-zinc-700/80 border border-outline-variant/40 rounded-xl py-2 pl-7 pr-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 transition-[background-color,box-shadow]"
                 />
               </div>
             </div>
@@ -440,7 +408,7 @@ export function SearchContent() {
                 className={`text-label-bold px-3 py-1.5 rounded-full border transition-all ${
                   minPrice === preset.min && maxPrice === preset.max
                     ? 'bg-primary text-on-primary border-primary shadow-sm ring-1 ring-primary'
-                    : 'bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70'
+                    : 'bg-white/50 dark:bg-zinc-800/50 dark:text-zinc-300 dark:border-zinc-700/60 border-outline-variant/30 text-on-surface-variant hover:bg-white/70 dark:hover:bg-zinc-700/80'
                 }`}
               >
                 {preset.label}
@@ -451,36 +419,53 @@ export function SearchContent() {
       )}
 
       {/* Filter Chips */}
-      <div className="section-shell flex flex-wrap gap-2 pb-1">
-        <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
-          <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>category</span>
-          <select
-            suppressHydrationWarning
-            aria-label="市場類別"
-            value={marketType}
-            onChange={(e) => setMarketType(e.target.value as MarketTypeOption['value'])}
-            className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer w-auto"
-          >
-            {marketTypeOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </div>
+      <div className="section-shell flex !overflow-x-auto no-scrollbar pb-2">
+        <div className="flex gap-2 w-max items-center">
+          {marketTypeOptions.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => {
+                const nextType = opt.value as MarketTypeOption['value']
+                setMarketType(nextType)
+                const metaMarkets = marketsByType[nextType]
+                if (metaMarkets) {
+                  setMarketsList(metaMarkets)
+                  if (!metaMarkets.includes(market)) {
+                    const prefs = typeof window !== 'undefined' ? getUserPreferences() : null
+                    const preferredMarket = prefs?.preferredMarket
+                    const nextMarket = (preferredMarket && metaMarkets.includes(preferredMarket))
+                      ? preferredMarket
+                      : (metaMarkets.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : metaMarkets[0])
+                    setMarket(nextMarket)
+                  }
+                }
+              }}
+              className={`px-5 py-2.5 rounded-full text-label-bold whitespace-nowrap flex items-center gap-2 transition-all duration-200 touch-target ${
+                marketType === opt.value
+                  ? 'bg-primary text-white shadow-md scale-[1.03]'
+                  : 'glass-chip text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              {opt.label === '蔬菜市場' ? '🥬 蔬菜類' : opt.label === '水果市場' ? '🍎 水果類' : opt.label === '肉品家禽' ? '🐖 肉品家禽' : '🐟 漁產市場'}
+            </button>
+          ))}
+          <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
+          <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
+            <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>store</span>
+            <select
+              suppressHydrationWarning
+              aria-label="選擇市場"
+              value={market}
+              onChange={(e) => setMarket(e.target.value)}
+              className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
+            >
+              {marketsList.map((m) => <option key={m}>{m}</option>)}
+            </select>
+          </div>
 
-        <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
-          <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>store</span>
-          <select
-            suppressHydrationWarning
-            aria-label="選擇市場"
-            value={market}
-            onChange={(e) => setMarket(e.target.value)}
-            className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
-          >
-            {marketsList.map((m) => <option key={m}>{m}</option>)}
-          </select>
-        </div>
+          <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
 
-        {DATE_RANGES.map((d) => (
+          {DATE_RANGES.map((d) => (
           <button
             key={d.value}
             onClick={() => setDateRange(d.value)}
@@ -505,6 +490,7 @@ export function SearchContent() {
           >
             {SORT_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
           </select>
+        </div>
         </div>
       </div>
 
@@ -531,11 +517,11 @@ export function SearchContent() {
 
       {/* Results List */}
       {loading ? (
-        <SkeletonList count={6} />
+        <SkeletonList count={6} className="grid grid-cols-1 md:grid-cols-2 gap-3" />
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {error && (
-            <div className="glass-card-solid rounded-2xl px-4 py-5 text-center text-on-surface-variant">
+            <div className="glass-card-solid rounded-2xl px-4 py-5 text-center text-on-surface-variant md:col-span-2">
               <div className="text-4xl mb-2">🧺</div>
               <p className="text-body-lg font-semibold text-on-surface">系統維護中或資料暫時無法取得</p>
               <p className="text-body-sm mt-1">{error}</p>
@@ -554,7 +540,7 @@ export function SearchContent() {
 
           {/* Pagination */}
           {pageCount > 1 && (
-            <div className="flex items-center justify-center gap-2 pt-2 pb-1">
+            <div className="flex items-center justify-center gap-2 pt-2 pb-1 md:col-span-2">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
@@ -580,8 +566,8 @@ export function SearchContent() {
                         onClick={() => setCurrentPage(p as number)}
                         className={`w-9 h-9 rounded-full text-label-bold border transition-[background-color,color,border-color] ${
                           currentPage === p
-                            ? 'bg-primary-container/10 border-primary-container/30 text-primary-container'
-                            : 'bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70'
+                             ? 'bg-primary-container/10 border-primary-container/30 text-primary-container'
+                             : 'bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70'
                         }`}
                       >
                         {p}
@@ -601,7 +587,7 @@ export function SearchContent() {
           )}
 
           {hasMoreServerData && (
-            <div className="flex justify-center pt-4 pb-2">
+            <div className="flex justify-center pt-4 pb-2 md:col-span-2">
               <button
                 onClick={loadRemainingData}
                 disabled={isHydrating}

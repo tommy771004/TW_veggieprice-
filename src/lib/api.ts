@@ -36,9 +36,10 @@ export async function fetchMarketOverview(date?: string, market = DEFAULT_MARKET
   return res.json()
 }
 
-export async function fetchTopMovers(date?: string): Promise<TopMover[]> {
+export async function fetchTopMovers(date?: string, category?: string): Promise<TopMover[]> {
   const params = new URLSearchParams()
   if (date) params.set('date', date)
+  if (category) params.set('category', category)
   const res = await safeFetch(`${BASE}/prices/movers?${params}`)
   const json = await res.json()
   if (!res.ok) {

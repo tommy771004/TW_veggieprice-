@@ -799,6 +799,10 @@
       flex-direction: row;
       align-items: flex-end;
     }
+    .section-shell {
+      padding: 1.5rem;
+      border-radius: 2rem;
+    }
   }
 
   @media (max-width: 767px) {

@@ -26,9 +26,9 @@ export function SkeletonRow() {
   )
 }
 
-export function SkeletonList({ count = 5 }: { count?: number }) {
+export function SkeletonList({ count = 5, className = 'space-y-3' }: { count?: number; className?: string }) {
   return (
-    <div className="space-y-3">
+    <div className={className}>
       {Array.from({ length: count }).map((_, i) => (
         <SkeletonRow key={i} />
       ))}

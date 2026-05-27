@@ -37,7 +37,9 @@ const CATEGORIES: ReadonlyArray<{ label: string; value: ProduceCategory }> = [
   { label: '🥬 蔬菜類', value: 'vegetable' },
   { label: '🍎 水果類', value: 'fruit' },
   // { label: '🌸 花卉類', value: 'flower' },
-  { label: '🍄 菇類', value: 'mushroom' },
+  //{ label: '🍄 菇類', value: 'mushroom' },
+  { label: '🐖 肉品家禽', value: 'meat' },
+  { label: '🐟 漁產', value: 'seafood' },
 ]
 
 // ── Shared animation variants ──────────────────────────────────
@@ -135,7 +137,10 @@ export function HomeClient() {
   }, [])
 
   useEffect(() => {
-    const marketType = activeCategory === 'fruit' ? 'Fruit' : 'Veg'
+    let marketType = 'Veg'
+    if (activeCategory === 'fruit') marketType = 'Fruit'
+    else if (activeCategory === 'meat') marketType = 'meat'
+    else if (activeCategory === 'seafood') marketType = 'seafood'
     
     fetchMarketList(marketType).then((list) => {
       const filtered = list.filter((m) => m !== '全部市場')
@@ -158,11 +163,11 @@ export function HomeClient() {
   useEffect(() => {
     setLoadingMovers(true)
     setMoversError('')
-    fetchTopMovers()
+    fetchTopMovers(undefined, activeCategory)
       .then(setMovers)
       .catch((err) => setMoversError(err instanceof Error ? err.message : '暫時無法取得波動排行'))
       .finally(() => setLoadingMovers(false))
-  }, [])
+  }, [activeCategory])
 
   useEffect(() => {
     setLoadingLivestock(true)
@@ -196,9 +201,9 @@ export function HomeClient() {
 
       const today = new Date().toISOString().split('T')[0]
       const [ovResult, trendResult, restResult, weatherResult] = await Promise.allSettled([
-        fetch(`/api/prices/overview?market=${encodeURIComponent(selectedMarket)}`)
+        fetch(`/api/prices/overview?market=${encodeURIComponent(selectedMarket)}&category=${activeCategory}`)
           .then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
-        fetch(`/api/prices/overview/trend?market=${encodeURIComponent(selectedMarket)}&days=7`)
+        fetch(`/api/prices/overview/trend?market=${encodeURIComponent(selectedMarket)}&days=7&category=${activeCategory}`)
           .then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
         fetchMarketRestDays({
           market: selectedMarket,
@@ -243,7 +248,7 @@ export function HomeClient() {
       setLoadingOverview(false)
     }
     loadOverviewAndTrend()
-  }, [selectedMarket, reloadKey])
+  }, [selectedMarket, reloadKey, activeCategory])
 
   const filteredMovers = useMemo(
     () => movers.filter((item) => getProduceCategory(item.cropName) === activeCategory),
@@ -381,7 +386,6 @@ export function HomeClient() {
 
         <div className="section-heading-row mb-4">
           <div>
-            <p className="section-kicker">Market pulse</p>
             <h2 className="text-headline-lg font-black text-on-surface">今日市場概況</h2>
             <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
               用均價、量能與近週節奏，快速讀懂 {selectedMarket} 今天的批發行情。
@@ -427,6 +431,26 @@ export function HomeClient() {
               )}
             </div>
             <WeatherRiskCard weatherRisk={weatherRisk} />
+          </div>
+        )}
+
+        {/* Pulse Marquee */}
+        {marketPulseCards.length > 0 && (
+          <div className="mb-4 overflow-hidden bg-surface/60 backdrop-blur-md border border-outline/20 rounded-2xl flex items-center shadow-glass-sm py-2 group/marquee cursor-default relative">
+            <motion.div
+              className="flex whitespace-nowrap"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, ease: "linear", duration: 15 }}
+              style={{ width: "fit-content" }}
+            >
+              {[...marketPulseCards, ...marketPulseCards].map((card, i) => (
+                <div key={`${card.label}-${i}`} className="inline-flex items-center gap-3 px-8 shrink-0 relative after:content-[''] after:absolute after:right-0 after:-translate-y-1/2 after:top-1/2 after:w-1 after:h-1 after:rounded-full after:bg-outline/50 last:after:hidden">
+                  <span className="text-label-sm font-bold text-primary/80 uppercase tracking-widest">{card.label}</span>
+                  <strong className="text-body-md font-black text-on-surface tabular-nums">{card.value}</strong>
+                  <small className="text-xs font-medium text-on-surface-variant bg-surface-variant/50 px-2 py-0.5 rounded-md">{card.meta}</small>
+                </div>
+              ))}
+            </motion.div>
           </div>
         )}
 
@@ -510,7 +534,7 @@ export function HomeClient() {
             >
               <Link
                 href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
-                  activeCategory === 'fruit' ? 'Fruit' : 'Veg'
+                  activeCategory === 'fruit' ? 'Fruit' : activeCategory === 'meat' ? 'meat' : activeCategory === 'seafood' ? 'seafood' : 'Veg'
                 }`}
                 className="block home-hero-card rounded-3xl overflow-hidden card-lift"
               >
@@ -558,45 +582,9 @@ export function HomeClient() {
                         </p>
                       </div>
 
-                      {marketPulseCards.length > 0 && (
-                        <div className="relative group/scroller">
-                          {/* Scroll buttons for mobile/touch-enhanced feeling */}
-                          <button
-                            onClick={(e) => { e.preventDefault(); scrollPulse('left') }}
-                            className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
-                            aria-label="Scroll left"
-                          >
-                            <span className="material-symbols-outlined text-xl">chevron_left</span>
-                          </button>
-                          
-                          <div
-                            ref={pulseScrollRef}
-                            className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-2.5 sm:grid sm:grid-cols-3 sm:overflow-visible sm:gap-2.5 -mx-2 px-2 sm:mx-0 sm:px-0"
-                          >
-                            {marketPulseCards.map((card) => (
-                              <div
-                                key={card.label}
-                                className="market-pulse-chip market-pulse-chip--hero shrink-0 w-[85%] snap-center sm:w-auto sm:snap-align-none"
-                              >
-                                <span>{card.label}</span>
-                                <strong>{card.value}</strong>
-                                <small>{card.meta}</small>
-                              </div>
-                            ))}
-                          </div>
 
-                          <button
-                            onClick={(e) => { e.preventDefault(); scrollPulse('right') }}
-                            className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
-                            aria-label="Scroll right"
-                          >
-                            <span className="material-symbols-outlined text-xl">chevron_right</span>
-                          </button>
-                        </div>
-                      )}
                     </div>
-
-                   
+                    
                   </div>
                 </div>
 
@@ -673,7 +661,7 @@ export function HomeClient() {
           <h2 className="text-headline-md font-bold text-on-surface">價格波動榜</h2>
           <Link
             href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
-              activeCategory === 'fruit' ? 'Fruit' : 'Veg'
+              activeCategory === 'fruit' ? 'Fruit' : activeCategory === 'meat' ? 'meat' : activeCategory === 'seafood' ? 'seafood' : 'Veg'
             }`}
             className="text-primary text-label-bold hover:underline flex items-center gap-0.5"
           >
@@ -697,6 +685,7 @@ export function HomeClient() {
                 <motion.div key={`${item.cropCode}_${item.marketName}_${i}`} variants={moverVariant} className="mover-entry" style={{ animationDelay: `${i * 0.05}s` }}>
                   <Link
                     href={`/produce/${encodeURIComponent(item.cropName)}`}
+                    prefetch={false}
                     className="glass-card card-lift rounded-2xl flex items-center justify-between p-3.5 hover:bg-white/60 transition-colors touch-target block"
                   >
                     <div className="flex items-center gap-3 min-w-0">
@@ -709,14 +698,14 @@ export function HomeClient() {
                         </span>
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-body-lg font-bold text-gray-900 truncate">{item.cropName}</h3>
-                        <p className="text-body-sm text-gray-600 truncate font-medium">
+                        <h3 className="text-body-lg font-bold text-on-surface dark:text-zinc-100 truncate">{item.cropName}</h3>
+                        <p className="text-body-sm text-on-surface-variant dark:text-zinc-400 truncate font-medium">
                           {item.marketName}<span className="opacity-40 mx-1">·</span>{item.grade}
                         </p>
                       </div>
                     </div>
                     <div className="text-right shrink-0 ml-3">
-                      <div className="text-headline-md font-black text-gray-900 tabular-nums">${formatPrice(item.currentPrice)}</div>
+                      <div className="text-headline-md font-black text-on-surface dark:text-zinc-100 tabular-nums">${formatPrice(item.currentPrice)}</div>
                       <div className="mt-1">
                         <TrendChip change={item.priceChange} size="sm" />
                       </div>
@@ -884,7 +873,7 @@ export function HomeClient() {
               <span className="material-symbols-outlined text-primary">local_florist</span>
               <h3 className="text-headline-md font-semibold text-on-surface">當季盛產指南</h3>
             </div>
-            <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-3 pb-4 -mx-4 px-4 md:mx-0 md:px-0">
+            <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-4 snap-x snap-mandatory hide-scrollbar gap-3 pb-4 -mx-4 px-4 md:mx-0 md:px-0">
               {loadingSeasonal ? (
                 Array.from({ length: 4 }).map((_, i) => (
                   <div key={i} className="shrink-0 w-44 rounded-3xl bg-white/50 animate-pulse h-32 snap-start border border-white/20" />
@@ -901,9 +890,10 @@ export function HomeClient() {
                   >
                     <Link
                       href={`/search?q=${encodeURIComponent(item.cropName)}&type=${
-                        item.category === 'fruit' ? 'Fruit' : 'Veg'
+                        item.category === 'fruit' ? 'Fruit' : item.category === 'meat' ? 'meat' : item.category === 'seafood' ? 'seafood' : 'Veg'
                       }`}
-                      className="shrink-0 w-48 rounded-3xl glass-card p-4 hover:bg-white transition-all shadow-glass-sm hover:shadow-glass flex flex-col snap-start border border-white/40 group card-lift block"
+                      prefetch={false}
+                      className="shrink-0 w-48 md:w-full rounded-3xl glass-card p-4 hover:bg-white transition-all shadow-glass-sm hover:shadow-glass flex flex-col snap-start border border-white/40 group card-lift block"
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-3xl leading-none transition-transform group-hover:scale-110">{item.emoji}</span>

@@ -1,6 +1,6 @@
 import { getCropEmoji } from '@/lib/utils'
 
-export type ProduceCategory = 'vegetable' | 'fruit' | 'flower' | 'mushroom'
+export type ProduceCategory = 'vegetable' | 'fruit' | 'flower' | 'mushroom' | 'meat' | 'seafood'
 
 interface SeasonalGuideItem {
   cropName: string
@@ -13,6 +13,8 @@ const CATEGORY_KEYWORDS: Record<ProduceCategory, string[]> = {
   fruit: ['果', '蘋果', '香蕉', '芭樂', '鳳梨', '芒果', '葡萄', '西瓜', '柳橙', '橘', '檸檬', '草莓', '桃', '梨', '木瓜'],
   flower: ['花', '菊', '玫瑰', '百合', '蘭'],
   mushroom: ['菇', '香菇', '金針', '杏鮑'],
+  meat: ['豬', '雞', '鵝', '鴨', '羊', '白肉雞', '毛豬', '蛋'],
+  seafood: ['魚', '蝦', '蟹', '蛤', '貝', '魷', '卷', '鯧', '鮭', '鯛']
 }
 
 const SEASONAL_GUIDE: Record<number, SeasonalGuideItem[]> = {
