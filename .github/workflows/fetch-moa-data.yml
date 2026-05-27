@@ -34,6 +34,8 @@ jobs:
 
       - name: 🚀 執行 fetch-moa-data 腳本
         run: npm run fetch-data
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
 
       - name: 🔍 檢查資料是否有更新
         id: check_changes
@@ -52,3 +54,15 @@ jobs:
       - name: ✅ 資料無變動，跳過 commit
         if: steps.check_changes.outputs.changed != 'true'
         run: echo "資料與上次相同，無需更新。"
+
+      # 任何步驟失敗時觸發；SLACK_WEBHOOK_URL 未設定則靜默跳過。
+      - name: 🚨 Slack 失敗通知
+        if: failure() && env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -s -X POST "$SLACK_WEBHOOK_URL" \
+            -H 'Content-type: application/json' \
+            --data "{
+              \"text\": \"❌ *MOA 資料抓取失敗*\\n倉庫：\`${{ github.repository }}\`\\n觸發：\`${{ github.event_name }}\`\\n詳情：${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+            }"
