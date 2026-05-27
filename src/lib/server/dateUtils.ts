@@ -16,13 +16,25 @@ export function rocToISO(roc: string): string {
 }
 
 export function subtractDays(iso: string, days: number): string {
-  const date = new Date(iso)
-  date.setDate(date.getDate() - days)
-  return date.toISOString().split('T')[0]
+  const parts = iso.split('-').map(Number)
+  if (parts.length < 3 || isNaN(parts[0]) || isNaN(parts[1]) || isNaN(parts[2])) {
+    const d = new Date()
+    d.setDate(d.getDate() - days)
+    return d.toISOString().split('T')[0]
+  }
+  const utcMs = Date.UTC(parts[0], parts[1] - 1, parts[2])
+  const d = new Date(utcMs)
+  d.setUTCDate(d.getUTCDate() - days)
+  
+  const year = d.getUTCFullYear()
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0')
+  const date = String(d.getUTCDate()).padStart(2, '0')
+  return `${year}-${month}-${date}`
 }
 
 export function todayISO(): string {
-  return new Date().toISOString().split('T')[0]
+  const d = new Date()
+  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Taipei' }).format(d)
 }
 
 export function dateLabel(iso: string): string {
