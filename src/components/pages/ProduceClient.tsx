@@ -214,8 +214,16 @@ export function ProduceClient({ cropName }: { cropName: string }) {
     async function loadMarkets() {
       setMarketsLoading(true)
       setMarketsError('')
+      
+      const category = getProduceCategory(cropName)
+      const st = category === 'fruit' ? 'Fruit'
+        : category === 'meat' ? 'meat'
+        : category === 'seafood' ? 'seafood'
+        : category === 'flower' ? 'Flower'
+        : 'Veg'
+
       try {
-        const mRes = await fetch(`/api/prices/markets?crop=${encodeURIComponent(cropName)}`)
+        const mRes = await fetch(`/api/prices/markets?crop=${encodeURIComponent(cropName)}&type=${st}`)
         const marketsJson = await mRes.json()
         if (mRes.ok) {
           setMarkets(marketsJson)
@@ -342,8 +350,18 @@ export function ProduceClient({ cropName }: { cropName: string }) {
     ? '水果類'
     : cropCategory === 'mushroom'
       ? '菇類'
-      : '蔬菜類'
-  const searchType = cropCategory === 'fruit' ? 'Fruit' : 'Veg'
+      : cropCategory === 'meat'
+        ? '肉類'
+        : cropCategory === 'seafood'
+          ? '海鮮類'
+          : cropCategory === 'flower'
+            ? '花卉類'
+            : '蔬菜類'
+  const searchType = cropCategory === 'fruit' ? 'Fruit'
+    : cropCategory === 'meat' ? 'meat'
+    : cropCategory === 'seafood' ? 'seafood'
+    : cropCategory === 'flower' ? 'Flower'
+    : 'Veg'
   const displayAlias = cropName.replace(/（.*）|\(.*\)/g, '').trim()
   const historyWindowLabel = period === '1W' ? '近 7 日' : period === '1M' ? '近 30 日' : '近 90 日'
   const heroSummaryCards = [
