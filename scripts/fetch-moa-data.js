@@ -183,8 +183,84 @@ async function main() {
   fs.renameSync(tempFilePath, filePath);
   console.log(`🎉 Successfully saved ${latestRecords.length} recent records to ${filePath}`);
   
+  // -------------------------------------------------------------
+  // Phase 2: Livestock & Poultry Data Fetching
+  // -------------------------------------------------------------
+  console.log('\n🐄 開始擷取 畜禽行情資料 (過去30天)...');
+  const d30 = new Date(today);
+  d30.setDate(d30.getDate() - 30);
+  const startISO = d30.toISOString().split('T')[0];
+  const endISO = todayStr;
+
+  const startROC = formatROCDate(startISO).replace(/\./g, '');
+  const endROC = formatROCDate(endISO).replace(/\./g, '');
+
+  const startGregorian = startISO.replace(/-/g, '/');
+  const endGregorian = endISO.replace(/-/g, '/');
+
+  const apiEndpoints = [
+    { name: 'egg_chicken', url: `https://data.moa.gov.tw/api/v1/PoultryTransType_BoiledChicken_Eggs/?Start_time=${startGregorian}&End_time=${endGregorian}` },
+    { name: 'red_feather', url: `https://data.moa.gov.tw/api/v1/PoultryTransType_RedFeather/?Start_time=${startGregorian}&End_time=${endGregorian}` },
+    { name: 'goose_duck', url: `https://data.moa.gov.tw/api/v1/PoultryTransType_Goose_Duck_Duckegg/?Start_time=${startGregorian}&End_time=${endGregorian}` },
+    { name: 'sheep', url: `https://data.moa.gov.tw/api/v1/SheepQuotation/?Start_time=${startGregorian}&End_time=${endGregorian}` },
+    { name: 'pork', url: `https://data.moa.gov.tw/api/v1/PorkTransType/?Start_time=${startROC}&End_time=${endROC}` },
+    { name: 'seafood', url: `https://data.moa.gov.tw/Service/OpenData/FromM/AquaticTransData.aspx?StartDate=${startROC}&EndDate=${endROC}` }
+  ];
+
+  let livestockData = {};
+  let seafoodData = [];
+
+  for (const ep of apiEndpoints) {
+    console.log(`   ➔ 擷取: ${ep.name}`);
+    try {
+      const data = await fetchWithRetry(ep.url);
+      if (ep.name === 'seafood') {
+        seafoodData = Array.isArray(data) ? data : (data.Data || []);
+      } else {
+        if (data && data.Data) {
+          livestockData[ep.name] = data.Data;
+        } else {
+          livestockData[ep.name] = [];
+        }
+      }
+    } catch (err) {
+      console.warn(`   ⚠️ 失敗: ${ep.name}`, err.message);
+      if (ep.name === 'seafood') seafoodData = [];
+      else livestockData[ep.name] = [];
+    }
+  }
+
+  const livestockPath = path.join(publicDataDir, 'latest-livestock.json');
+  const tempLivestockPath = livestockPath + '.tmp';
+  const livestockPayload = {
+    metadata: {
+      lastUpdated: new Date().toISOString(),
+      startISO,
+      endISO
+    },
+    data: livestockData
+  };
+  fs.writeFileSync(tempLivestockPath, JSON.stringify(livestockPayload), 'utf-8');
+  fs.renameSync(tempLivestockPath, livestockPath);
+  console.log(`🎉 Successfully saved livestock records to ${livestockPath}`);
+
+  const seafoodPath = path.join(publicDataDir, 'latest-seafood.json');
+  const tempSeafoodPath = seafoodPath + '.tmp';
+  const seafoodPayload = {
+    metadata: {
+      lastUpdated: new Date().toISOString(),
+      startISO,
+      endISO
+    },
+    data: seafoodData
+  };
+  fs.writeFileSync(tempSeafoodPath, JSON.stringify(seafoodPayload), 'utf-8');
+  fs.renameSync(tempSeafoodPath, seafoodPath);
+  console.log(`🎉 Successfully saved seafood records to ${seafoodPath}`);
+
   if (fetchedAny) {
     const appUrl = process.env.APP_URL || 'http://localhost:3000';
+
     const cropsToRevalidate = Array.from(revalidateCrops);
     console.log(`\n🔄 Triggering cache revalidation for ${cropsToRevalidate.length} crops at ${appUrl}...`);
     let revalidated = 0;
