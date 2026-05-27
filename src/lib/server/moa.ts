@@ -1286,7 +1286,7 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
             records.push({
               cropCode: 'M01',
               cropName: '羊',
-              marketName: s.name || s.shortName,
+              marketName: s.name || s.shortName || '',
               grade: '中平',
               upperPrice: parseFloat(String(s.avgPrice)) || 0,
               middlePrice: parseFloat(String(s.avgPrice)) || 0,
