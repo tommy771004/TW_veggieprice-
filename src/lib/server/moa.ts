@@ -1349,7 +1349,7 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
                 records.push({
                    cropCode: 'M01',
                    cropName: '羊',
-                   marketName: targetMarket,
+                   marketName: targetMarket ?? '',
                    grade: '中平',
                    upperPrice: totalV / (qs || 1),
                    middlePrice: totalV / (qs || 1),
@@ -1386,7 +1386,7 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
         avgPrice: Number(r['平均價']) || 0,
         transWeight: Number(r['交易量']) || 0,
         date: todayISO(),
-      } as NormalizedPriceRecord)).filter((m) => m.avgPrice > 0);
+      } as NormalizedPriceRecord)).filter((m: NormalizedPriceRecord) => m.avgPrice > 0);
       if (options.cropName) records = records.filter((r) => r.cropName.includes(options.cropName!));
       if (options.market && options.market !== '全部市場') records = records.filter((r) => r.marketName === options.market);
       return { records };
