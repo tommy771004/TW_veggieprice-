@@ -188,23 +188,21 @@ export function HomeClient() {
       .finally(() => setLoadingSeasonal(false))
   }, [])
 
+  // ── Market-Dependent Static Metadata ────────────────────────
   useEffect(() => {
     function addDaysISO(iso: string, days: number) {
-      const date = new Date(`${iso}T00:00:00`)
-      date.setDate(date.getDate() + days)
+      const parts = iso.split('-').map(Number)
+      const date = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]))
+      date.setUTCDate(date.getUTCDate() + days)
       return date.toISOString().split('T')[0]
     }
 
-    async function loadOverviewAndTrend() {
-      setLoadingOverview(true)
-      setOverviewError('')
+    async function loadMarketStaticInsights() {
+      // Calculate today's date in Taiwan Time (UTC+8)
+      const taiDate = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
+      const today = taiDate.toISOString().split('T')[0]
 
-      const today = new Date().toISOString().split('T')[0]
-      const [ovResult, trendResult, restResult, weatherResult] = await Promise.allSettled([
-        fetch(`/api/prices/overview?market=${encodeURIComponent(selectedMarket)}&category=${activeCategory}`)
-          .then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
-        fetch(`/api/prices/overview/trend?market=${encodeURIComponent(selectedMarket)}&days=7&category=${activeCategory}`)
-          .then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
+      const [restResult, weatherResult] = await Promise.allSettled([
         fetchMarketRestDays({
           market: selectedMarket,
           startDate: today,
@@ -212,21 +210,6 @@ export function HomeClient() {
         }),
         fetchMarketWeatherRisk(selectedMarket),
       ])
-
-      if (ovResult.status === 'fulfilled' && ovResult.value.ok) {
-        setOverview(ovResult.value.json as MarketOverview)
-      } else {
-        const json = ovResult.status === 'fulfilled' ? (ovResult.value.json as { error?: string }) : null
-        let errStr = json?.error || (ovResult.status === 'rejected' ? ovResult.reason.message : '暫時無法取得市場概況')
-        if (errStr.includes('fetch')) errStr = '連線至伺服器失敗，請檢查網路狀態或稍後再試'
-        setOverviewError(errStr)
-      }
-
-      if (trendResult.status === 'fulfilled' && trendResult.value.ok) {
-        setMarketTrend(trendResult.value.json as PriceHistoryPoint[])
-      } else {
-        setMarketTrend([])
-      }
 
       if (restResult.status === 'fulfilled') {
         const next = restResult.value
@@ -244,11 +227,43 @@ export function HomeClient() {
       } else {
         setWeatherRisk(null)
       }
+    }
+
+    loadMarketStaticInsights()
+  }, [selectedMarket, reloadKey])
+
+  // ── Category-Dependent Overview & Trend Fetch ────────────────
+  useEffect(() => {
+    async function loadOverviewAndTrend() {
+      setLoadingOverview(true)
+      setOverviewError('')
+
+      const [ovResult, trendResult] = await Promise.allSettled([
+        fetch(`/api/prices/overview?market=${encodeURIComponent(selectedMarket)}&category=${activeCategory}`)
+          .then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
+        fetch(`/api/prices/overview/trend?market=${encodeURIComponent(selectedMarket)}&days=7&category=${activeCategory}`)
+          .then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
+      ])
+
+      if (ovResult.status === 'fulfilled' && ovResult.value.ok) {
+        setOverview(ovResult.value.json as MarketOverview)
+      } else {
+        const json = ovResult.status === 'fulfilled' ? (ovResult.value.json as { error?: string }) : null
+        let errStr = json?.error || (ovResult.status === 'rejected' ? ovResult.reason.message : '暫時無法取得市場概況')
+        if (errStr.includes('fetch')) errStr = '連線至伺服器失敗，請檢查網路狀態或稍後再試'
+        setOverviewError(errStr)
+      }
+
+      if (trendResult.status === 'fulfilled' && trendResult.value.ok) {
+        setMarketTrend(trendResult.value.json as PriceHistoryPoint[])
+      } else {
+        setMarketTrend([])
+      }
 
       setLoadingOverview(false)
     }
     loadOverviewAndTrend()
-  }, [selectedMarket, reloadKey, activeCategory])
+  }, [selectedMarket, activeCategory, reloadKey])
 
   const filteredMovers = useMemo(
     () => movers.filter((item) => getProduceCategory(item.cropName) === activeCategory),
