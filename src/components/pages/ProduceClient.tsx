@@ -515,7 +515,20 @@ export function ProduceClient({ cropName }: { cropName: string }) {
                 </div>
               </div>
 
-              
+              {/* 產地與生長背景側邊欄 */}
+              <div className="hidden lg:block">
+                <div className="hero-info-card space-y-3.5 h-[230px] flex flex-col justify-center">
+                  <p className="text-label-sm font-bold tracking-wider text-white/50 uppercase">產地與生長背景</p>
+                  <div className="space-y-3">
+                    {fieldNoteRows.map((note) => (
+                      <div key={note.label} className="bg-white/5 border border-white/5 rounded-2xl p-2.5 flex flex-col">
+                        <span className="text-2xs font-semibold text-white/40">{note.label}</span>
+                        <strong className="text-body-sm font-bold text-white mt-0.5">{note.value}</strong>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
