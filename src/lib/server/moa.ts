@@ -1293,8 +1293,37 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
               lowerPrice: parseFloat(String(s.avgPrice)) || 0,
               avgPrice: parseFloat(String(s.avgPrice)) || 0,
               transWeight: parseFloat(String(s.quantity)) || 0,
-              date: s.date ? rocToISO(s.date) : todayISO()
+              date: s.transDate ? s.transDate.replace(/\//g, '-') : todayISO()
             });
+          }
+        }
+        if (data.red_feather && data.red_feather.length > 0) {
+          const rfRegions = [
+            { name: '北部', m: 'RedFeather_N_M', f: 'RedFeather_N_F' },
+            { name: '中部', m: 'RedFeather_C_M', f: 'RedFeather_C_F' },
+            { name: '南部', m: 'RedFeather_S_M', f: 'RedFeather_S_F' },
+          ] as const
+          for (const row of data.red_feather) {
+            const isoDate = row.TransDate.replace(/\//g, '-')
+            for (const region of rfRegions) {
+              const mPrice = safeNumericField(row as Record<string, unknown>, region.m)
+              const fPrice = safeNumericField(row as Record<string, unknown>, region.f)
+              if (mPrice === null && fPrice === null) continue
+              const count = (mPrice !== null ? 1 : 0) + (fPrice !== null ? 1 : 0)
+              const avg = ((mPrice ?? 0) + (fPrice ?? 0)) / count
+              records.push({
+                cropCode: 'M02',
+                cropName: '紅羽土雞',
+                marketName: region.name,
+                grade: '中平',
+                upperPrice: avg,
+                middlePrice: avg,
+                lowerPrice: avg,
+                avgPrice: avg,
+                transWeight: 100,
+                date: isoDate,
+              })
+            }
           }
         }
       } else {
