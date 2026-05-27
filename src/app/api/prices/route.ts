@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchSearchRecords } from '@/lib/server/moa'
+import { todayISO } from '@/lib/server/dateUtils'
 
 export const dynamic = 'force-dynamic'
 
@@ -8,7 +9,7 @@ export async function GET(req: NextRequest) {
   const crop = searchParams.get('crop') || ''
   const market = searchParams.get('market') || ''
   const type = searchParams.get('type') || ''
-  const date = searchParams.get('date') || new Date().toISOString().split('T')[0]
+  const date = searchParams.get('date') || todayISO()
   const startDate = searchParams.get('startDate') || date
   const endDate = searchParams.get('endDate') || date
   const pageParam = searchParams.get('page')
