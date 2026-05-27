@@ -90,18 +90,23 @@ export interface LivestockPrices {
   
   // -- 新增加的家禽/畜產擴充 --
   /** 白肉雞價 (元/台斤) */
-  chickenPrice?: number | null
+  chickenPrice: number | null
   /** 紅羽土雞 (元/台斤) */
-  redFeatherChickenPrice?: number | null
+  redFeatherChickenPrice: number | null
   /** 鵝價 (元/台斤) */
-  goosePrice?: number | null
+  goosePrice: number | null
   /** 鴨價 (元/台斤) */
-  duckPrice?: number | null
+  duckPrice: number | null
   /** 羊隻拍賣均價 (元/公斤) */
-  sheepAvgPrice?: number | null
+  sheepAvgPrice: number | null
 
   eggPriceChange: number | null
   porkPriceChange: number | null
+  chickenPriceChange: number | null
+  redFeatherChickenPriceChange: number | null
+  goosePriceChange: number | null
+  duckPriceChange: number | null
+  sheepAvgPriceChange: number | null
 }
 
 export interface MarketTypeOption {
