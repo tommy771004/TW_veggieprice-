@@ -234,7 +234,7 @@ export function WatchlistClient() {
                     className="glass-card rounded-3xl p-4 sm:p-5 flex flex-col gap-4 min-h-[15.5rem]"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <Link href={`/produce/${encodeURIComponent(item.cropName)}`} className="flex items-start gap-3 min-w-0 flex-1">
+                      <Link href={`/produce/${encodeURIComponent(item.cropName)}`} prefetch={false} className="flex items-start gap-3 min-w-0 flex-1">
                         <div className="w-11 h-11 rounded-full bg-white/80 border border-white/60 flex items-center justify-center text-xl shadow-sm flex-shrink-0">
                           {item.emoji}
                         </div>
