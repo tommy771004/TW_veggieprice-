@@ -14,7 +14,6 @@ import type {
   MarketWeatherRiskSummary,
 } from '@/lib/types'
 import {
-  fetchMarketList,
   fetchMarketOptions,
   fetchMarketRestDays,
   fetchMarketWeatherRisk,
@@ -46,6 +45,7 @@ const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
 ]
 
 const FALLBACK_MARKETS = [ALL_MARKET_SENTINEL]
+const ITEMS_PER_PAGE = 20
 
 function getRangeDates(range: SearchFilters['dateRange']): RangeParams {
   const endDate = todayISO()
@@ -94,8 +94,6 @@ export function SearchContent() {
   const [hydrationParams, setHydrationParams] = useState<string>('')
   
   const lastSearchId = useRef(0)
-
-  const ITEMS_PER_PAGE = 20
 
   useEffect(() => {
     let cancelled = false
@@ -156,17 +154,15 @@ export function SearchContent() {
 
 
   useEffect(() => {
+    let cancelled = false
     const today = todayISO()
-    const endDate = (() => {
-      const date = new Date(`${today}T00:00:00`)
-      date.setDate(date.getDate() + 45)
-      return date.toISOString().split('T')[0]
-    })()
+    const endDate = subtractDays(today, -45)
 
     Promise.allSettled([
       fetchMarketRestDays({ market, startDate: today, endDate }),
       fetchMarketWeatherRisk(market),
     ]).then(([restResult, weatherResult]) => {
+      if (cancelled) return
       if (restResult.status === 'fulfilled') {
         const next = restResult.value
           .filter((item) => item.date >= today)
@@ -182,6 +178,7 @@ export function SearchContent() {
         setWeatherRisk(null)
       }
     })
+    return () => { cancelled = true }
   }, [market])
 
   const doSearch = useCallback(
@@ -213,6 +210,7 @@ export function SearchContent() {
           throw new Error(json.error || '暫時無法取得搜尋結果')
         }
 
+        if (searchId !== lastSearchId.current) return
         const data = (json.data || json) as ProducePrice[]
         setResults(data)
         if (q.length >= 1) {
@@ -246,8 +244,10 @@ export function SearchContent() {
     try {
       const searchId = lastSearchId.current
       const r = await fetch(`/api/prices?${hydrationParams}`)
-      const fullData = await r.json()
-      if (searchId === lastSearchId.current && Array.isArray(fullData)) {
+      if (!r.ok) return
+      const json = await r.json()
+      const fullData = Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : null)
+      if (searchId === lastSearchId.current && fullData !== null) {
         setResults(fullData)
         setHasMoreServerData(false)
       }
@@ -283,9 +283,6 @@ export function SearchContent() {
   const paginated = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
   const activeDateLabel = DATE_RANGES.find((item) => item.value === dateRange)?.label ?? '今日'
   const activeMarketTypeLabel = marketTypeOptions.find((item) => item.value === marketType)?.label ?? '蔬菜市場'
-  const averageVisiblePrice = sorted.length > 0
-    ? sorted.reduce((sum, item) => sum + item.avgPrice, 0) / sorted.length
-    : null
 
 
   return (
