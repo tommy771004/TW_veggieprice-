@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchSearchRecords } from '@/lib/server/moa'
-import { subtractDays } from '@/lib/server/dateUtils'
+import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const cropName = searchParams.get('crop') || ''
-  const date = searchParams.get('date') || new Date().toISOString().split('T')[0]
+  const date = searchParams.get('date') || todayISO()
   const marketType = searchParams.get('type') || ''
   
   // Look back 7 days so priceChange is real even when date-1 was a holiday
