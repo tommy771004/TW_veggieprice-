@@ -2,23 +2,40 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-// Helper to fetch with retries
+// Helper to fetch with retries using exponential backoff + full jitter.
+// Jitter formula: random delay in [0, min(CAP, base * 2^attempt)] — avoids
+// synchronized retry storms (Thundering Herd) when multiple jobs retry together.
 async function fetchWithRetry(url, options = {}, retries = 3) {
+  const BASE_DELAY_MS = 1000;   // 1 s
+  const MAX_DELAY_MS  = 30000;  // 30 s ceiling
+
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000); // 15 seconds
       options.signal = controller.signal;
-      
+
       const res = await fetch(url, options);
       clearTimeout(timeout);
-      
+
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
+
+      const text = await res.text();
+
+      // Guard against 503/maintenance HTML pages returned with a 200 status
+      if (text.trimStart().startsWith('<')) {
+        throw new Error(`Non-JSON response (HTML): ${text.substring(0, 120).replace(/\s+/g, ' ')}`);
+      }
+
+      return JSON.parse(text);
     } catch (err) {
       if (attempt === retries) throw err;
-      console.warn(`Attempt ${attempt} failed for ${url}, retrying...`);
-      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Full-jitter backoff: uniform random in [0, min(CAP, base * 2^attempt)]
+      const ceiling = Math.min(MAX_DELAY_MS, BASE_DELAY_MS * Math.pow(2, attempt));
+      const delay = Math.floor(Math.random() * ceiling);
+      console.warn(`[attempt ${attempt}/${retries}] ${url} failed: ${err.message}. Retrying in ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
 }
@@ -259,25 +276,28 @@ async function main() {
   console.log(`🎉 Successfully saved seafood records to ${seafoodPath}`);
 
   if (fetchedAny) {
-    const appUrl = process.env.APP_URL || 'http://localhost:3000';
-
-    const cropsToRevalidate = Array.from(revalidateCrops);
-    console.log(`\n🔄 Triggering cache revalidation for ${cropsToRevalidate.length} crops at ${appUrl}...`);
-    let revalidated = 0;
-    // Cap to 20 crops max for revalidation to avoid overwhelming the live app
-    const top20Crops = cropsToRevalidate.slice(0, 20);
-    for (const crop of top20Crops) {
-      try {
-        await fetch(`${appUrl}/api/prices/history?crop=${encodeURIComponent(crop)}`, {
-          method: 'GET',
-          headers: { 'Date': new Date().toUTCString() }
-        });
-        revalidated++;
-      } catch (e) {
-        console.warn(`⚠️ Failed to revalidate ${crop}`, e.message);
+    const appUrl = process.env.APP_URL;
+    if (!appUrl) {
+      console.log('ℹ️  APP_URL 未設定，跳過 Cache Revalidation（在 GitHub Secrets 中設定 APP_URL 可啟用）。');
+    } else {
+      const cropsToRevalidate = Array.from(revalidateCrops);
+      console.log(`\n🔄 Triggering cache revalidation for ${cropsToRevalidate.length} crops at ${appUrl}...`);
+      let revalidated = 0;
+      // Cap to 20 crops max for revalidation to avoid overwhelming the live app
+      const top20Crops = cropsToRevalidate.slice(0, 20);
+      for (const crop of top20Crops) {
+        try {
+          await fetch(`${appUrl}/api/prices/history?crop=${encodeURIComponent(crop)}`, {
+            method: 'GET',
+            headers: { 'Date': new Date().toUTCString() }
+          });
+          revalidated++;
+        } catch (e) {
+          console.warn(`⚠️ Failed to revalidate ${crop}`, e.message);
+        }
       }
+      console.log(`✅ Cache revalidation complete (${revalidated}/${top20Crops.length} successful)`);
     }
-    console.log(`✅ Cache revalidation complete (${revalidated}/${top20Crops.length} successful)`);
   } else {
     console.log(`✅ Data is already up-to-date. No new fetches needed.`);
   }
