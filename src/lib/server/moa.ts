@@ -25,7 +25,8 @@ const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? '25000')
 const MARKET_TYPE_OPTIONS = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
   { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
-  // { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
+  { value: 'meat', label: '肉品家禽', description: '畜產品交易行情' },
+  { value: 'seafood', label: '漁產市場', description: '漁產品交易行情' },
 ] as const
 
 type MarketType = (typeof MARKET_TYPE_OPTIONS)[number]['value']
@@ -394,6 +395,58 @@ export interface MOAMarket {
 
 export async function fetchMarkets(type: string = 'Veg'): Promise<string[]> {
   const normalizedType = normalizeMarketType(type)
+
+  if (normalizedType === 'meat') {
+    try {
+      const path = require('path')
+      const fs = require('fs')
+      const localFile = path.join(process.cwd(), 'public', 'data', 'latest-livestock.json')
+      const fileContent = await fs.promises.readFile(localFile, 'utf-8')
+      const parsed = JSON.parse(fileContent)
+      const data = parsed.data || {}
+      
+      const markets = new Set<string>(['全國平均'])
+      
+      if (data.pork) {
+        for (const r of data.pork) {
+          if (r.MarketName) markets.add(r.MarketName)
+        }
+      }
+      
+      if (data.sheep) {
+        for (const r of data.sheep) {
+          if (r.name) markets.add(r.name)
+        }
+      }
+      
+      return Array.from(markets)
+    } catch {
+      return ['全國平均']
+    }
+  }
+  if (normalizedType === 'seafood') {
+    const cachedFn = unstable_cache(
+      async (): Promise<string[]> => {
+        const allMarkets = new Set<string>()
+        allMarkets.add('全部市場')
+        try {
+          const records = await fetchMOAEndpointRecords<{ SeafoodMarketName?: string }>('SeafoodProdMarketType', new URLSearchParams(), 1)
+          for (const record of records) {
+            if (record.SeafoodMarketName) {
+              allMarkets.add(record.SeafoodMarketName)
+            }
+          }
+        } catch (e) {
+          console.error('Failed to fetch seafood markets', e)
+        }
+        return Array.from(allMarkets)
+      },
+      ['moa-markets', normalizedType],
+      { revalidate: 86400 } // 24 hours
+    )
+    return cachedFn()
+  }
+
   const cachedFn = unstable_cache(
     async (): Promise<string[]> => {
       const allMarkets = new Set<string>()
@@ -458,7 +511,7 @@ const fetchMarketOptionsCached = unstable_cache(
       updatedAt: new Date().toISOString(),
     }
   },
-  ['moa-market-options-v4'],
+  ['moa-market-options-v5'],
   { revalidate: 3600 }
 )
 
@@ -471,7 +524,8 @@ export async function fetchMarketOptions(): Promise<MarketOptionsResult> {
       marketsByType: {
         Veg: ['全部市場'],
         Fruit: ['全部市場'],
-      // Flower: ['全部市場'],
+        meat: ['全國平均'],
+        seafood: ['全部市場']
       },
       defaultMarketType: 'Veg',
       defaultMarket: '全部市場',
@@ -774,36 +828,36 @@ interface OpenDataRecord {
 async function fetchRecentOpenData(): Promise<(NormalizedPriceRecord & { _typeCode?: string })[]> {
   try {
     const filePath = path.join(process.cwd(), 'public', 'data', 'latest-opendata.json')
-    if (fs.existsSync(filePath)) {
-      const content = await fs.promises.readFile(filePath, 'utf-8')
-      const parsed = JSON.parse(content)
+    const content = await fs.promises.readFile(filePath, 'utf-8')
+    const parsed = JSON.parse(content)
+    
+    if (parsed.metadata && parsed.metadata.lastUpdated) {
+      const lastUpdatedDate = parsed.metadata.lastUpdated.split('T')[0]
+      const today = todayISO()
       
-      if (parsed.metadata && parsed.metadata.lastUpdated) {
-        const lastUpdatedDate = parsed.metadata.lastUpdated.split('T')[0]
-        const today = todayISO()
-        
-        if (lastUpdatedDate >= today) {
-          console.log('Using fresh local JSON data:', lastUpdatedDate)
-          return parsed.data.map((d: any) => ({
-            cropCode: d.CropCode ?? '',
-            cropName: d.CropName ?? '',
-            marketName: d.MarketName ?? '',
-            grade: '一般',
-            upperPrice: d.Upper_Price || 0,
-            middlePrice: d.Middle_Price || 0,
-            lowerPrice: d.Lower_Price || 0,
-            avgPrice: d.Avg_Price || 0,
-            transWeight: d.Trans_Quantity || 0,
-            date: rocToISO(d.TransDate ?? ''),
-            _typeCode: d.TcType 
-          }))
-        } else {
-          console.log(`Local JSON is old (${lastUpdatedDate}), falling back to live API`)
-        }
+      if (lastUpdatedDate >= today) {
+        console.log('Using fresh local JSON data:', lastUpdatedDate)
+        return parsed.data.map((d: any) => ({
+          cropCode: d.CropCode ?? '',
+          cropName: d.CropName ?? '',
+          marketName: d.MarketName ?? '',
+          grade: '一般',
+          upperPrice: d.Upper_Price || 0,
+          middlePrice: d.Middle_Price || 0,
+          lowerPrice: d.Lower_Price || 0,
+          avgPrice: d.Avg_Price || 0,
+          transWeight: d.Trans_Quantity || 0,
+          date: rocToISO(d.TransDate ?? ''),
+          _typeCode: d.TcType 
+        }))
+      } else {
+        console.log(`Local JSON is old (${lastUpdatedDate}), falling back to live API`)
       }
     }
   } catch (err) {
-    console.warn('Failed to read local latest-opendata.json:', err instanceof Error ? err.message : String(err))
+    if ((err as NodeJS.ErrnoException).code !== 'ENOENT') {
+      console.warn('Failed to read local latest-opendata.json:', err instanceof Error ? err.message : String(err))
+    }
   }
 
   const url = 'https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx'
@@ -929,60 +983,66 @@ export async function fetchPriceRecords(options: PriceQueryOptions): Promise<{ r
 }
 
 async function fetchLocalDailyData(startDate: string, endDate: string, cropName?: string, market?: string, marketType?: string): Promise<NormalizedPriceRecord[] | null> {
-  const records: NormalizedPriceRecord[] = [];
-  const dailyDir = path.join(process.cwd(), 'public', 'data', 'daily'); // Assuming running in Next.js environment
+  const dailyDir = path.join(process.cwd(), 'public', 'data', 'daily');
   
-  if (!fs.existsSync(dailyDir)) return null;
+  // We don't check for directory existence to avoid synchronous blocking. If missing, subsequent reads will throw ENOENT.
 
+  const datesToFetch: string[] = [];
   let current = new Date(startDate);
   const end = new Date(endDate);
-  let checkedAny = false;
-  let missingAnyFile = false;
-
+  
   while (current <= end) {
-    checkedAny = true;
-    const isoDate = current.toISOString().split('T')[0];
-    const filePath = path.join(dailyDir, `${isoDate}.json`);
-    
-    if (fs.existsSync(filePath)) {
-      try {
-        const content = await fs.promises.readFile(filePath, 'utf-8');
-        const parsed = JSON.parse(content);
-        for (const d of parsed) {
-          if (cropName && d.CropName !== cropName) continue;
-          if (market && market !== '全部市場' && d.MarketName !== market) continue;
-          if (marketType) {
-             if (marketType === 'Veg' && d.TcType !== 'N04') continue;
-             if (marketType === 'Fruit' && d.TcType !== 'N05') continue;
-             // if (marketType === 'Flower' && d.TcType !== 'N06') continue;
-          }
-          
-          records.push({
-            cropCode: d.CropCode ?? '',
-            cropName: d.CropName ?? '',
-            marketName: d.MarketName ?? '',
-            grade: '一般',
-            upperPrice: d.Upper_Price || 0,
-            middlePrice: d.Middle_Price || 0,
-            lowerPrice: d.Lower_Price || 0,
-            avgPrice: d.Avg_Price || 0,
-            transWeight: d.Trans_Quantity || 0,
-            date: rocToISO(d.TransDate ?? ''),
-          });
-        }
-      } catch (err) {
-        console.warn(`Failed to read daily file ${isoDate}.json`, err instanceof Error ? err.message : String(err));
-        missingAnyFile = true;
-      }
-    } else {
-      missingAnyFile = true;
-    }
-    
+    datesToFetch.push(current.toISOString().split('T')[0]);
     current.setDate(current.getDate() + 1);
   }
 
-  if (checkedAny && missingAnyFile) return null; // If missing any file in the requested range, fallback to API
-  return records;
+  if (datesToFetch.length === 0) return null;
+
+  let missingAnyFile = false;
+
+  const results = await Promise.all(datesToFetch.map(async (isoDate) => {
+    const filePath = path.join(dailyDir, `${isoDate}.json`);
+    try {
+      const content = await fs.promises.readFile(filePath, 'utf-8');
+      const parsed = JSON.parse(content);
+      const records: NormalizedPriceRecord[] = [];
+      
+      for (let i = 0; i < parsed.length; i++) {
+        const d = parsed[i];
+        if (cropName && d.CropName !== cropName) continue;
+        if (market && market !== '全部市場' && d.MarketName !== market) continue;
+        if (marketType) {
+           if (marketType === 'Veg' && d.TcType !== 'N04') continue;
+           if (marketType === 'Fruit' && d.TcType !== 'N05') continue;
+        }
+        
+        records.push({
+          cropCode: d.CropCode ?? '',
+          cropName: d.CropName ?? '',
+          marketName: d.MarketName ?? '',
+          grade: '一般',
+          upperPrice: d.Upper_Price || 0,
+          middlePrice: d.Middle_Price || 0,
+          lowerPrice: d.Lower_Price || 0,
+          avgPrice: d.Avg_Price || 0,
+          transWeight: d.Trans_Quantity || 0,
+          date: rocToISO(d.TransDate ?? ''),
+        });
+      }
+      return records;
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
+        missingAnyFile = true;
+      } else {
+        console.warn(`Failed to read daily file ${isoDate}.json`, err instanceof Error ? err.message : String(err));
+        missingAnyFile = true;
+      }
+      return [];
+    }
+  }));
+
+  if (missingAnyFile) return null; // If missing any file in the requested range, fallback to API
+  return results.flat();
 }
 
 export async function fetchMarketWindowRecords(
@@ -1092,6 +1152,115 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
   const startDate = options.startDate ?? endDate
   // Look back 7 days to find the real previous trading day (handles holidays/weekends)
   const previousDate = subtractDays(startDate, 7)
+
+  if (options.marketType === 'meat') {
+    try {
+      const path = require('path');
+      const fs = require('fs');
+      const localFile = path.join(process.cwd(), 'public', 'data', 'latest-livestock.json');
+      const fileContent = await fs.promises.readFile(localFile, 'utf-8');
+      const parsed = JSON.parse(fileContent);
+      const data = parsed.data || {};
+      
+      const targetMarket = options.market && options.market !== '全部市場' ? options.market : '全國平均';
+      let records: any[] = [];
+      
+      if (targetMarket === '全國平均') {
+        const livestock = await fetchLivestockPrices();
+        records = [
+          { name: '毛豬', price: livestock.porkAvgPrice, weight: 1000 },
+          { name: '白肉雞', price: livestock.chickenPrice, weight: 500 },
+          { name: '紅羽土雞', price: livestock.redFeatherChickenPrice, weight: 400 },
+          { name: '肉鵝', price: livestock.goosePrice, weight: 300 },
+          { name: '肉鴨', price: livestock.duckPrice, weight: 300 },
+          { name: '羊', price: livestock.sheepAvgPrice, weight: 200 },
+          { name: '雞蛋', price: livestock.eggPrice, weight: 10000 }
+        ].map(item => ({
+          cropCode: 'M01',
+          cropName: item.name,
+          marketName: '全國平均',
+          grade: '中平',
+          upperPrice: item.price || 0,
+          middlePrice: item.price || 0,
+          lowerPrice: item.price || 0,
+          avgPrice: item.price || 0,
+          transWeight: item.weight,
+          date: livestock.date,
+        })).filter(m => m.avgPrice > 0);
+      } else {
+        // Find specific market in pork or sheep
+        if (data.pork) {
+          const porkMatches = data.pork.filter((p: any) => p.MarketName === targetMarket);
+          if (porkMatches.length > 0) {
+             const p = porkMatches[0];
+             records.push({
+                cropCode: 'M01',
+                cropName: '毛豬',
+                marketName: p.MarketName,
+                grade: '中平',
+                upperPrice: p.TransNum_AvgPrice || 0,
+                middlePrice: p.TransNum_AvgPrice || 0,
+                lowerPrice: p.TransNum_AvgPrice || 0,
+                avgPrice: p.TransNum_AvgPrice || 0,
+                transWeight: p.TransNum_Total || 0,
+                date: todayISO()
+             });
+          }
+        }
+        if (data.sheep) {
+           const sheepMatches = data.sheep.filter((s: any) => s.name === targetMarket || s.shortName === targetMarket);
+           if (sheepMatches.length > 0) {
+              const qs = sheepMatches.reduce((acc: number, s: any) => acc + (parseFloat(s.quantity) || 0), 0);
+              const totalV = sheepMatches.reduce((acc: number, s: any) => acc + (parseFloat(s.avgPrice) || 0) * (parseFloat(s.quantity) || 0), 0);
+              records.push({
+                 cropCode: 'M01',
+                 cropName: '羊',
+                 marketName: targetMarket,
+                 grade: '中平',
+                 upperPrice: totalV / (qs || 1),
+                 middlePrice: totalV / (qs || 1),
+                 lowerPrice: totalV / (qs || 1),
+                 avgPrice: totalV / (qs || 1),
+                 transWeight: qs,
+                 date: todayISO()
+              });
+           }
+        }
+      }
+
+      const filtered = records.filter(r => !options.cropName || r.cropName.includes(options.cropName));
+      return { records: filtered };
+    } catch (e) {
+      return { records: [], error: '查無資料' };
+    }
+  }
+
+  if (options.marketType === 'seafood') {
+    try {
+      const path = require('path');
+      const fs = require('fs');
+      const localFile = path.join(process.cwd(), 'public', 'data', 'latest-seafood.json');
+      const fileContent = await fs.promises.readFile(localFile, 'utf-8');
+      const parsed = JSON.parse(fileContent);
+      let records = (parsed.data || []).map((r: any) => ({
+        cropCode: String(r['品種代碼']),
+        cropName: r['魚貨名稱'],
+        marketName: r['市場名稱'],
+        grade: '中平',
+        upperPrice: r['上價'] || r['平均價'],
+        middlePrice: r['中價'] || r['平均價'],
+        lowerPrice: r['下價'] || r['平均價'],
+        avgPrice: r['平均價'],
+        transWeight: r['交易量'],
+        date: todayISO(),
+      })).filter((m: any) => m.avgPrice > 0);
+      if (options.cropName) records = records.filter((r: any) => r.cropName.includes(options.cropName));
+      if (options.market && options.market !== '全部市場') records = records.filter((r: any) => r.marketName === options.market);
+      return { records };
+    } catch {
+      return { records: [], error: '查無資料' };
+    }
+  }
 
   // Make a single bulk request instead of N+1 requests
   const bulkRes = await fetchPriceRecords({
@@ -1355,87 +1524,115 @@ interface RawPorkRecord {
 
 const fetchLivestockPricesCached = unstable_cache(
   async (): Promise<LivestockPrices> => {
-    const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
-
-    try {
     const endISO = todayISO()
     const startISO = subtractDays(endISO, 30)
-    
-    // Egg API expects Gregorian slash format: "YYYY/MM/DD"
-    const eggParams = new URLSearchParams({
-      Start_time: startISO.replace(/-/g, '/'),
-      End_time: endISO.replace(/-/g, '/'),
-    })
 
-    const porkParams = new URLSearchParams({
-      Start_time: isoToROC(startISO),
-      End_time: isoToROC(endISO),
-    })
-
-    const [eggRes, porkRes] = await Promise.all([
-      fetch(`https://data.moa.gov.tw/api/v1/PoultryTransType_BoiledChicken_Eggs/?${eggParams}`, {
-        signal: controller.signal,
-        headers: { 
-          'Accept': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-        },
-        cache: 'no-store',
-      }),
-      fetch(`https://data.moa.gov.tw/api/v1/PorkTransType/?${porkParams}`, {
-        signal: controller.signal,
-        headers: { 
-          'Accept': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-        },
-        cache: 'no-store',
-      }),
-    ])
-
-    if (!eggRes.ok) throw new Error(`Egg API returned HTTP ${eggRes.status}`)
-    if (!porkRes.ok) throw new Error(`Pork API returned HTTP ${porkRes.status}`)
-
-    const [eggJson, porkJson] = await Promise.all([
-      eggRes.json() as Promise<{ Data: RawEggRecord[] }>,
-      porkRes.json() as Promise<{ Data: RawPorkRecord[] }>,
-    ])
-
-    // --- Egg prices (TransDate: Gregorian "2026/05/04") ---
-    // Sort descending so [0] is the most recent record regardless of API ordering
-    const eggData = (eggJson.Data ?? []).sort((a, b) => b.TransDate.localeCompare(a.TransDate))
-    const latestEgg = eggData[0]
-    const prevEgg = eggData.find((r) => r.TransDate !== latestEgg?.TransDate)
-    const eggPrice = latestEgg ? parseFloat(latestEgg.egg_Price) || null : null
-    const prevEggPrice = prevEgg ? parseFloat(prevEgg.egg_Price) || null : null
-    const eggPriceChange =
-      eggPrice !== null && prevEggPrice !== null && prevEggPrice > 0
-        ? Math.round(((eggPrice - prevEggPrice) / prevEggPrice) * 1000) / 10
-        : null
-
-    // --- Pork prices: weighted average across markets (TransDate: ROC "1150504") ---
-    // Sort descending — string sort works since ROC YYYYMMDD is zero-padded
-    const porkData = (porkJson.Data ?? []).sort((a, b) => b.TransDate.localeCompare(a.TransDate))
-    const latestPorkDate = porkData[0]?.TransDate
-    const prevPorkDate = porkData.find((r) => r.TransDate !== latestPorkDate)?.TransDate
-
-    function weightedPorkAvg(records: RawPorkRecord[]): number | null {
-      const totalHead = records.reduce((s, r) => s + (r.TransNum_Total || 0), 0)
-      if (totalHead === 0) return null
-      const weighted = records.reduce((s, r) => s + r.TransNum_AvgPrice * (r.TransNum_Total || 0), 0)
-      return Math.round((weighted / totalHead) * 10) / 10
+    let livestockData: any = {};
+    const localFile = path.join(process.cwd(), 'public', 'data', 'latest-livestock.json');
+    if (fs.existsSync(localFile)) {
+      try {
+        const fileContent = await fs.promises.readFile(localFile, 'utf-8');
+        const parsed = JSON.parse(fileContent);
+        livestockData = parsed.data || {};
+      } catch (err) {
+        console.warn('Failed to read latest-livestock.json', err);
+      }
     }
 
-    const todayPork = porkData.filter((r) => r.TransDate === latestPorkDate)
-    const prevPork = porkData.filter((r) => r.TransDate === prevPorkDate)
-    const porkAvgPrice = weightedPorkAvg(todayPork)
-    const prevPorkAvgPrice = weightedPorkAvg(prevPork)
-    const porkPriceChange =
-      porkAvgPrice !== null && prevPorkAvgPrice !== null && prevPorkAvgPrice > 0
-        ? Math.round(((porkAvgPrice - prevPorkAvgPrice) / prevPorkAvgPrice) * 1000) / 10
-        : null
+    // Attempt to fallback to live APIs if local data is completely empty (e.g. not fetched yet)
+    // To respect limitations, we only fallback for the critical data (pork/egg) if needed.
+    const porkDates = new Set((livestockData.pork || []).map((r: any) => r.TransDate));
+    console.log('Pork dates before fetch:', porkDates.size);
+    if (!livestockData.egg_chicken || porkDates.size < 2) {
+      console.log('Fall back to live API for basic livestock info');
+      const startGregorian = startISO.replace(/-/g, '/');
+      const endGregorian = endISO.replace(/-/g, '/');
+      const startROC = isoToROC(startISO);
+      const endROC = isoToROC(endISO);
+      
+      const [eggRes, porkRes] = await Promise.all([
+        !livestockData.egg_chicken ? fetch(`https://data.moa.gov.tw/api/v1/PoultryTransType_BoiledChicken_Eggs/?Start_time=${startGregorian}&End_time=${endGregorian}`).catch(() => null) : Promise.resolve(null),
+        porkDates.size < 2 ? fetch(`https://data.moa.gov.tw/api/v1/PorkTransType/?Start_time=${startROC}&End_time=${endROC}`).catch(() => null) : Promise.resolve(null)
+      ]);
+      
+      if (eggRes && eggRes.ok) livestockData.egg_chicken = (await eggRes.json()).Data || [];
+      if (porkRes && porkRes.ok) livestockData.pork = (await porkRes.json()).Data || [];
+      console.log('Pork dates after fetch:', new Set((livestockData.pork || []).map((r: any) => r.TransDate)).size);
+    }
 
-    // Egg TransDate is ISO e.g. "2026/05/04"
-    const eggDate = latestEgg?.TransDate?.replace(/\//g, '-') ?? todayISO()
+    // --- Egg & Chicken prices ---
+    const eggData = (livestockData.egg_chicken ?? []).sort((a: any, b: any) => b.TransDate.localeCompare(a.TransDate));
+    const latestEgg = eggData[0];
+    const prevEgg = eggData.find((r: any) => r.TransDate !== latestEgg?.TransDate);
+    const eggPrice = latestEgg ? parseFloat(latestEgg.egg_Price) || null : null;
+    const prevEggPrice = prevEgg ? parseFloat(prevEgg.egg_Price) || null : null;
+    const eggPriceChange = (eggPrice !== null && prevEggPrice !== null && prevEggPrice > 0)
+      ? Math.round(((eggPrice - prevEggPrice) / prevEggPrice) * 1000) / 10 : null;
+
+    const chickenPrice = latestEgg ? parseFloat(latestEgg['TaijinPrice_2.0kgup']) || null : null;
+    const prevChickenPrice = prevEgg ? parseFloat(prevEgg['TaijinPrice_2.0kgup']) || null : null;
+    const chickenPriceChange = (chickenPrice !== null && prevChickenPrice !== null && prevChickenPrice > 0)
+      ? Math.round(((chickenPrice - prevChickenPrice) / prevChickenPrice) * 1000) / 10 : null;
+
+    // --- Pork prices ---
+    const porkData = (livestockData.pork ?? []).sort((a: any, b: any) => b.TransDate.localeCompare(a.TransDate));
+    const latestPorkDate = porkData[0]?.TransDate;
+    const prevPorkDate = porkData.find((r: any) => r.TransDate !== latestPorkDate)?.TransDate;
+
+    function weightedPorkAvg(records: any[]): number | null {
+      const totalHead = records.reduce((s, r) => s + (r.TransNum_Total || 0), 0);
+      if (totalHead === 0) return null;
+      const weighted = records.reduce((s, r) => s + (r.TransNum_AvgPrice * (r.TransNum_Total || 0)), 0);
+      return Math.round((weighted / totalHead) * 10) / 10;
+    }
+
+    const todayPork = porkData.filter((r: any) => r.TransDate === latestPorkDate);
+    const prevPork = porkData.filter((r: any) => r.TransDate === prevPorkDate);
+    const porkAvgPrice = weightedPorkAvg(todayPork);
+    const prevPorkAvgPrice = weightedPorkAvg(prevPork);
+    const porkPriceChange = (porkAvgPrice !== null && prevPorkAvgPrice !== null && prevPorkAvgPrice > 0)
+      ? Math.round(((porkAvgPrice - prevPorkAvgPrice) / prevPorkAvgPrice) * 1000) / 10 : null;
+
+    // --- Red Feather Chicken ---
+    const redFeatherData = (livestockData.red_feather ?? []).sort((a: any, b: any) => b.TransDate.localeCompare(a.TransDate));
+    const latestRedFeather = redFeatherData[0];
+    const prevRedFeather = redFeatherData.find((r: any) => r.TransDate !== latestRedFeather?.TransDate);
+    // take RedFeather_C_M (Central Male) or average of available fields
+    const redFeatherChickenPrice = latestRedFeather ? parseFloat(latestRedFeather.RedFeather_C_M || latestRedFeather.RedFeather_N_M) || null : null;
+    const prevRedFeatherChickenPrice = prevRedFeather ? parseFloat(prevRedFeather.RedFeather_C_M || prevRedFeather.RedFeather_N_M) || null : null;
+    const redFeatherChickenPriceChange = (redFeatherChickenPrice !== null && prevRedFeatherChickenPrice !== null && prevRedFeatherChickenPrice > 0)
+      ? Math.round(((redFeatherChickenPrice - prevRedFeatherChickenPrice) / prevRedFeatherChickenPrice) * 1000) / 10 : null;
+
+    // --- Goose and Duck ---
+    const gooseDuckData = (livestockData.goose_duck ?? []).sort((a: any, b: any) => b.TransDate.localeCompare(a.TransDate));
+    const latestGooseDuck = gooseDuckData[0];
+    const prevGooseDuck = gooseDuckData.find((r: any) => r.TransDate !== latestGooseDuck?.TransDate);
+    const goosePrice = latestGooseDuck ? parseFloat(latestGooseDuck.Goose_WR_TaijinPrice) || null : null;
+    const duckPrice = latestGooseDuck ? parseFloat(latestGooseDuck.Duck_75D_TaijinPrice) || null : null;
+    const prevGoosePrice = prevGooseDuck ? parseFloat(prevGooseDuck.Goose_WR_TaijinPrice) || null : null;
+    const prevDuckPrice = prevGooseDuck ? parseFloat(prevGooseDuck.Duck_75D_TaijinPrice) || null : null;
+    const goosePriceChange = (goosePrice !== null && prevGoosePrice !== null && prevGoosePrice > 0)
+      ? Math.round(((goosePrice - prevGoosePrice) / prevGoosePrice) * 1000) / 10 : null;
+    const duckPriceChange = (duckPrice !== null && prevDuckPrice !== null && prevDuckPrice > 0)
+      ? Math.round(((duckPrice - prevDuckPrice) / prevDuckPrice) * 1000) / 10 : null;
+
+    // --- Sheep prices ---
+    const sheepData = (livestockData.sheep ?? []).sort((a: any, b: any) => b.transDate.localeCompare(a.transDate));
+    const latestSheepDate = sheepData[0]?.transDate;
+    const prevSheepDate = sheepData.find((r: any) => r.transDate !== latestSheepDate)?.transDate;
+    const todaySheep = sheepData.filter((r: any) => r.transDate === latestSheepDate);
+    const prevSheep = sheepData.filter((r: any) => r.transDate === prevSheepDate);
+    function avgSheep(records: any[]): number | null {
+      const valid = records.map(r => parseFloat(r.avgPrice)).filter(n => !isNaN(n) && n > 0);
+      if (valid.length === 0) return null;
+      return Math.round((valid.reduce((acc, v) => acc + v, 0) / valid.length) * 10) / 10;
+    }
+    const sheepAvgPrice = avgSheep(todaySheep);
+    const prevSheepAvgPrice = avgSheep(prevSheep);
+    const sheepAvgPriceChange = (sheepAvgPrice !== null && prevSheepAvgPrice !== null && prevSheepAvgPrice > 0)
+      ? Math.round(((sheepAvgPrice - prevSheepAvgPrice) / prevSheepAvgPrice) * 1000) / 10 : null;
+
+    const eggDate = latestEgg?.TransDate?.replace(/\//g, '-') ?? todayISO();
 
     return {
       date: eggDate,
@@ -1444,12 +1641,19 @@ const fetchLivestockPricesCached = unstable_cache(
       porkAvgPrice,
       eggPriceChange,
       porkPriceChange,
-    }
-  } finally {
-    clearTimeout(timer)
-  }
+      chickenPrice,
+      chickenPriceChange,
+      redFeatherChickenPrice,
+      redFeatherChickenPriceChange,
+      goosePrice,
+      goosePriceChange,
+      duckPrice,
+      duckPriceChange,
+      sheepAvgPrice,
+      sheepAvgPriceChange
+    };
   },
-  ['moa-livestock-prices-v1'],
+  ['moa-livestock-prices-v2'],
   { revalidate: 300 }
 )
 
