@@ -6,7 +6,7 @@ import { TrendChip } from '@/components/ui/TrendChip'
 import { PriceLineChart } from '@/components/charts/PriceLineChart'
 import { VolumeBarChart } from '@/components/charts/VolumeBarChart'
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
-import { formatPrice, getCropEmoji } from '@/lib/utils'
+import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
 import { getProduceCategory } from '@/lib/produce'
 import type {
@@ -69,19 +69,10 @@ export function ProduceClient({ cropName }: { cropName: string }) {
   }, [cropCode])
 
   const pulseScrollRef = useRef<HTMLDivElement>(null)
-  const fieldNotesScrollRef = useRef<HTMLDivElement>(null)
-
   const scrollPulse = (dir: 'left' | 'right') => {
     if (pulseScrollRef.current) {
       const scrollAmount = dir === 'left' ? -280 : 280
       pulseScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-    }
-  }
-
-  const scrollFieldNotes = (dir: 'left' | 'right') => {
-    if (fieldNotesScrollRef.current) {
-      const scrollAmount = dir === 'left' ? -260 : 260
-      fieldNotesScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
     }
   }
 
@@ -96,13 +87,10 @@ export function ProduceClient({ cropName }: { cropName: string }) {
       setStreamingProgress(0)
       setStreamingTotal(0)
 
+      const todayStr = todayISO()
       function getDaysAgoISO(days: number): string {
-        const d = new Date()
-        d.setDate(d.getDate() - days)
-        return d.toISOString().split('T')[0]
+        return subtractDays(todayStr, days)
       }
-
-      const todayStr = getDaysAgoISO(0)
 
       try {
         if (period === '1W') {
@@ -211,6 +199,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
 
   // Fetch Markets
   useEffect(() => {
+    let active = true
     async function loadMarkets() {
       setMarketsLoading(true)
       setMarketsError('')
@@ -225,6 +214,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
       try {
         const mRes = await fetch(`/api/prices/markets?crop=${encodeURIComponent(cropName)}&type=${st}`)
         const marketsJson = await mRes.json()
+        if (!active) return
         if (mRes.ok) {
           setMarkets(marketsJson)
         } else {
@@ -232,23 +222,27 @@ export function ProduceClient({ cropName }: { cropName: string }) {
           setMarketsError(marketsJson.error || '目前無法載入市場比價資料')
         }
       } catch {
+        if (!active) return
         setMarkets([])
         setMarketsError('目前無法載入市場比價資料')
       } finally {
-        setMarketsLoading(false)
+        if (active) setMarketsLoading(false)
       }
     }
     loadMarkets()
+    return () => { active = false }
   }, [cropName, reloadKey])
 
   // Fetch Traceability
   useEffect(() => {
+    let active = true
     async function loadTraceability() {
       setTraceabilityLoading(true)
       setTraceabilityError('')
       try {
         const traceRes = await fetch(`/api/prices/traceability?crop=${encodeURIComponent(cropName)}&limit=5`)
         const traceJson = await traceRes.json()
+        if (!active) return
         if (traceRes.ok) {
           setTraceability((traceJson.items ?? []) as TraceabilitySummaryItem[])
         } else {
@@ -256,23 +250,27 @@ export function ProduceClient({ cropName }: { cropName: string }) {
           setTraceabilityError(traceJson.error || '目前無法取得追溯資料')
         }
       } catch {
+        if (!active) return
         setTraceability([])
         setTraceabilityError('目前無法取得追溯資料')
       } finally {
-        setTraceabilityLoading(false)
+        if (active) setTraceabilityLoading(false)
       }
     }
     loadTraceability()
+    return () => { active = false }
   }, [cropName, reloadKey])
 
   // Fetch Cost
   useEffect(() => {
+    let active = true
     async function loadCost() {
       setCostLoading(true)
       setCostError('')
       try {
         const costRes = await fetch(`/api/prices/cost?crop=${encodeURIComponent(cropName)}`)
         const costJson = await costRes.json()
+        if (!active) return
         if (costRes.ok) {
           setCostInsight((costJson.insight ?? null) as ProductCostInsight | null)
           setCostFiles((costJson.insight?.costFiles ?? []) as CostSurveyFile[])
@@ -282,37 +280,44 @@ export function ProduceClient({ cropName }: { cropName: string }) {
           setCostError(costJson.error || '目前無法取得成本資料')
         }
       } catch {
+        if (!active) return
         setCostInsight(null)
         setCostFiles([])
         setCostError('目前無法取得成本資料')
       } finally {
-        setCostLoading(false)
+        if (active) setCostLoading(false)
       }
     }
     loadCost()
+    return () => { active = false }
   }, [cropName, reloadKey])
 
   // Fetch Crop Info
   useEffect(() => {
+    let active = true
     async function loadInfo() {
       setInfoLoading(true)
       try {
         const infoRes = await fetch(`/api/produce/info?crop=${encodeURIComponent(cropName)}`)
         const infoJson = await infoRes.json()
+        if (!active) return
         setCropInfo(infoRes.ok
           ? (infoJson as CropInfo)
           : { feature: '天然新鮮農產品', season: '全年供應', origin: '台灣各地' }
         )
       } catch {
+        if (!active) return
         setCropInfo({ feature: '天然新鮮農產品', season: '全年供應', origin: '台灣各地' })
       } finally {
-        setInfoLoading(false)
+        if (active) setInfoLoading(false)
       }
     }
     loadInfo()
+    return () => { active = false }
   }, [cropName, reloadKey])
 
   useEffect(() => {
+    let active = true
     async function fetchWeather(origin: string) {
       if (!origin || origin === '台灣各地') return
       setWeatherLoading(true)
@@ -321,21 +326,24 @@ export function ProduceClient({ cropName }: { cropName: string }) {
       try {
         const res = await fetch(`/api/weather?county=${encodeURIComponent(origin)}`)
         const json = await res.json()
+        if (!active) return
         if (res.ok) {
           setWeather(json as WeatherData)
         } else {
           setWeatherError(json.error || '無法取得氣象資料')
         }
       } catch (err) {
+        if (!active) return
         setWeatherError('取得氣象資料失敗')
       } finally {
-        setWeatherLoading(false)
+        if (active) setWeatherLoading(false)
       }
     }
     
     if (cropInfo?.origin) {
       fetchWeather(cropInfo.origin)
     }
+    return () => { active = false }
   }, [cropInfo?.origin])
 
   const validHistory = history.filter((point): point is PriceHistoryPoint & { avgPrice: number } => point.avgPrice !== null)
