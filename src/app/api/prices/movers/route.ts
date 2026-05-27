@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getCropEmoji } from '@/lib/utils'
-import { fetchMarketWindowRecords } from '@/lib/server/moa'
+import { fetchMarketWindowRecords, fetchLivestockPrices } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
+import path from 'path'
+import fs from 'fs'
 
 export const maxDuration = 60;
 
@@ -9,15 +11,116 @@ export const maxDuration = 60;
 // to prevent low-volume outliers from dominating the movers list.
 const MIN_WEIGHT = 100
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url)
+  const category = searchParams.get('category') || 'vegetable'
   const today = todayISO()
 
+  if (category === 'meat') {
+    try {
+      const livestock = await fetchLivestockPrices();
+      const movers = [
+        { name: '毛豬', price: livestock.porkAvgPrice, change: livestock.porkPriceChange },
+        { name: '白肉雞', price: livestock.chickenPrice, change: livestock.chickenPriceChange },
+        { name: '紅羽土雞', price: livestock.redFeatherChickenPrice, change: livestock.redFeatherChickenPriceChange },
+        { name: '肉鵝', price: livestock.goosePrice, change: livestock.goosePriceChange },
+        { name: '肉鴨', price: livestock.duckPrice, change: livestock.duckPriceChange },
+        { name: '羊', price: livestock.sheepAvgPrice, change: livestock.sheepAvgPriceChange },
+        { name: '雞蛋', price: livestock.eggPrice, change: livestock.eggPriceChange }
+      ].map(item => ({
+        cropCode: 'M01',
+        cropName: item.name,
+        marketName: '全國平均',
+        grade: '中平',
+        upperPrice: item.price || 0,
+        middlePrice: item.price || 0,
+        lowerPrice: item.price || 0,
+        avgPrice: item.price || 0,
+        transWeight: 1000,
+        date: livestock.date,
+        currentPrice: item.price || 0,
+        priceChange: item.change || 0,
+        emoji: getCropEmoji(item.name)
+      })).filter(m => m.avgPrice > 0).sort((a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange)).slice(0, 5);
+      return NextResponse.json(movers, { headers: { 'Cache-Control': 'public, s-maxage=3600' } });
+    } catch {
+      return NextResponse.json({ error: '查無波動排行資料' }, { status: 404 });
+    }
+  } else if (category === 'seafood') {
+    try {
+      const localFile = path.join(process.cwd(), 'public', 'data', 'latest-seafood.json');
+      const fileContent = await fs.promises.readFile(localFile, 'utf-8');
+      const parsed = JSON.parse(fileContent);
+      const records = parsed.data || [];
+      
+      const tradingDates = [...new Set(records.map((r: any) => String(r['交易日期'])).filter(Boolean))].sort().reverse() as string[];
+    const latestDate: string = tradingDates[0] as string;
+    if (!latestDate) throw new Error('No data');
+
+    const cropDateSums: Record<string, Record<string, { sumPriceVol: number; sumVol: number; cropCode: string }>> = {};
+    
+    for (const record of records) {
+      const avgPrice = record['平均價'] || 0;
+      const transWeight = record['交易量'] || 0;
+      if (avgPrice > 0 && transWeight > 0) {
+        const name = String(record['魚貨名稱']);
+        const d = String(record['交易日期']);
+        if (!cropDateSums[name]) cropDateSums[name] = {};
+        if (!cropDateSums[name][d]) cropDateSums[name][d] = { sumPriceVol: 0, sumVol: 0, cropCode: String(record['品種代碼']) };
+        
+        cropDateSums[name][d].sumPriceVol += avgPrice * transWeight;
+        cropDateSums[name][d].sumVol += transWeight;
+      }
+    }
+
+    const movers = Object.keys(cropDateSums)
+      .map((cropNameKey) => {
+        const cropName = String(cropNameKey);
+        const todayData = cropDateSums[cropName]?.[latestDate];
+        if (!todayData || todayData.sumVol < 50) return null; // seafood weights are smaller, use 50kg
+
+          const currentPrice = todayData.sumPriceVol / todayData.sumVol;
+
+          let baselinePrice = 0;
+          for (let i = 1; i < tradingDates.length; i++) {
+            const prevDate = tradingDates[i] as string;
+            const prevData = cropDateSums[cropName]?.[prevDate];
+            if (prevData && prevData.sumVol >= 50) {
+              baselinePrice = prevData.sumPriceVol / prevData.sumVol;
+              break;
+            }
+          }
+
+          if (baselinePrice <= 0) return null;
+
+          const change = ((currentPrice - baselinePrice) / baselinePrice) * 100;
+
+          return {
+            cropCode: todayData.cropCode,
+            cropName: cropName,
+            marketName: '全國平均',
+            grade: '不分',
+            currentPrice: Math.round(currentPrice * 10) / 10,
+            priceChange: Math.round(change * 10) / 10,
+            emoji: getCropEmoji(cropName),
+            transWeight: Math.round(todayData.sumVol),
+          };
+        })
+        .filter((m): m is NonNullable<typeof m> => m !== null && m.currentPrice >= 3)
+        .sort((a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange))
+        .slice(0, 5);
+
+      return NextResponse.json(movers, { headers: { 'Cache-Control': 'public, s-maxage=3600' } });
+    } catch {
+      return NextResponse.json({ error: '查無波動排行資料' }, { status: 404 });
+    }
+  }
+
   // Query the last 7 calendar days individually in parallel.
-  // We specify 'Veg' here to prevent highly volatile flower prices from
-  // dominating the movers board.
+  const mType = category === 'fruit' ? 'Fruit' : 'Veg'
   const candidateDates = Array.from({ length: 7 }, (_, i) => subtractDays(today, i))
   const dayResults = await Promise.allSettled(
-    candidateDates.map((date) => fetchMarketWindowRecords('全部市場', date, date, 'Veg')),
+    candidateDates.map((date) => fetchMarketWindowRecords('全部市場', date, date, mType)),
   )
 
   const allRecords = dayResults.flatMap((result) =>
@@ -36,58 +139,60 @@ export async function GET() {
     return NextResponse.json({ error: '查無波動排行資料' }, { status: 404 })
   }
 
-  // Use up to 3 prior trading days as the baseline window.
-  // A 3-day VWAP (volume-weighted average price) smooths single-day anomalies and
-  // holiday gaps better than a direct yesterday-vs-today comparison.
-  const baselineDates = new Set(tradingDates.slice(1, 4))
-
-  const latestRecords: typeof allRecords = []
-  // key = cropName_marketName_grade for exact matching (avoids grade mixing)
-  const baselineAccum: Record<string, { sumPriceVol: number; sumVol: number }> = {}
+  // Group all records by cropName and date for highly efficient indexing and lookup.
+  const cropDateSums: Record<string, Record<string, { sumPriceVol: number; sumVol: number; cropCode: string }>> = {}
 
   for (const record of allRecords) {
-    if (record.date === latestDate) {
-      latestRecords.push(record)
-    } else if (baselineDates.has(record.date) && record.avgPrice > 0 && record.transWeight > 0) {
-      const key = `${record.cropName}_${record.marketName}_${record.grade}`
-      const acc = baselineAccum[key] ?? (baselineAccum[key] = { sumPriceVol: 0, sumVol: 0 })
-      acc.sumPriceVol += record.avgPrice * record.transWeight
-      acc.sumVol += record.transWeight
+    if (record.avgPrice > 0 && record.transWeight > 0) {
+      const name = record.cropName
+      const d = record.date
+      if (!cropDateSums[name]) {
+        cropDateSums[name] = {}
+      }
+      if (!cropDateSums[name][d]) {
+        cropDateSums[name][d] = { sumPriceVol: 0, sumVol: 0, cropCode: record.cropCode }
+      }
+      cropDateSums[name][d].sumPriceVol += record.avgPrice * record.transWeight
+      cropDateSums[name][d].sumVol += record.transWeight
     }
   }
 
-  // Compute final VWAP baseline; require minimum cumulative volume for stability.
-  const baselineMap: Record<string, number> = {}
-  for (const [key, { sumPriceVol, sumVol }] of Object.entries(baselineAccum)) {
-    if (sumVol >= MIN_WEIGHT) {
-      baselineMap[key] = sumPriceVol / sumVol
-    }
-  }
+  const movers = Object.keys(cropDateSums)
+    .map((cropName) => {
+      const todayData = cropDateSums[cropName][latestDate]
+      if (!todayData || todayData.sumVol < 2000) return null
 
-  const movers = latestRecords
-    .map((record) => {
-      const key = `${record.cropName}_${record.marketName}_${record.grade}`
-      const currentPrice = record.avgPrice || 0
-      const baselinePrice = baselineMap[key]
-      if (baselinePrice === undefined) return null
-      const change = baselinePrice > 0 ? ((currentPrice - baselinePrice) / baselinePrice) * 100 : 0
+      const currentPrice = todayData.sumPriceVol / todayData.sumVol
+
+      // Look back through tradingDates starting from yesterday (index 1) to find the first previous day with data for this crop.
+      let baselinePrice = 0
+      for (let i = 1; i < tradingDates.length; i++) {
+        const prevDate = tradingDates[i]
+        const prevData = cropDateSums[cropName][prevDate]
+        if (prevData && prevData.sumVol >= 2000) {
+          baselinePrice = prevData.sumPriceVol / prevData.sumVol
+          break
+        }
+      }
+
+      if (baselinePrice <= 0) return null
+
+      const change = ((currentPrice - baselinePrice) / baselinePrice) * 100
+
       return {
-        cropCode: record.cropCode,
-        cropName: record.cropName,
-        marketName: record.marketName,
-        grade: record.grade,
-        currentPrice,
+        cropCode: todayData.cropCode,
+        cropName: cropName,
+        marketName: '全國平均',
+        grade: '不分',
+        currentPrice: Math.round(currentPrice * 10) / 10,
         priceChange: Math.round(change * 10) / 10,
-        emoji: getCropEmoji(record.cropName),
-        transWeight: record.transWeight,
+        emoji: getCropEmoji(cropName),
+        transWeight: Math.round(todayData.sumVol),
       }
     })
-    .filter(
-      (m): m is NonNullable<typeof m> =>
-        m !== null && m.currentPrice >= 3 && m.transWeight >= MIN_WEIGHT,
-    )
+    .filter((m): m is NonNullable<typeof m> => m !== null && m.currentPrice >= 3)
     .sort((a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange))
-    .slice(0, 6)
+    .slice(0, 5)
 
   if (movers.length === 0) {
     return NextResponse.json({ error: '查無波動排行資料' }, { status: 404 })
