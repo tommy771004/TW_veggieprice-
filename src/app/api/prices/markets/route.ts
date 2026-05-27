@@ -1,15 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchPriceRecords } from '@/lib/server/moa'
+import { fetchSearchRecords } from '@/lib/server/moa'
 import { subtractDays } from '@/lib/server/dateUtils'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const cropName = searchParams.get('crop') || ''
   const date = searchParams.get('date') || new Date().toISOString().split('T')[0]
+  const marketType = searchParams.get('type') || ''
+  
   // Look back 7 days so priceChange is real even when date-1 was a holiday
   const weekAgo = subtractDays(date, 7)
 
-  const { records: allRecords, error } = await fetchPriceRecords({ cropName, startDate: weekAgo, endDate: date })
+  const { records: allRecords, error } = await fetchSearchRecords({ 
+    cropName, 
+    startDate: weekAgo, 
+    endDate: date, 
+    marketType 
+  })
 
   if (error) {
     return NextResponse.json({ error }, { status: 502 })

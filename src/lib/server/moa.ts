@@ -1162,69 +1162,120 @@ export async function fetchSearchRecords(options: PriceQueryOptions): Promise<Se
       const parsed = JSON.parse(fileContent);
       const data = parsed.data || {};
       
-      const targetMarket = options.market && options.market !== '全部市場' ? options.market : '全國平均';
+      const isCompareAll = !options.market || options.market === '全部市場';
       let records: any[] = [];
       
-      if (targetMarket === '全國平均') {
+      if (isCompareAll) {
         const livestock = await fetchLivestockPrices();
-        records = [
-          { name: '毛豬', price: livestock.porkAvgPrice, weight: 1000 },
-          { name: '白肉雞', price: livestock.chickenPrice, weight: 500 },
-          { name: '紅羽土雞', price: livestock.redFeatherChickenPrice, weight: 400 },
-          { name: '肉鵝', price: livestock.goosePrice, weight: 300 },
-          { name: '肉鴨', price: livestock.duckPrice, weight: 300 },
-          { name: '羊', price: livestock.sheepAvgPrice, weight: 200 },
-          { name: '雞蛋', price: livestock.eggPrice, weight: 10000 }
-        ].map(item => ({
-          cropCode: 'M01',
-          cropName: item.name,
-          marketName: '全國平均',
-          grade: '中平',
-          upperPrice: item.price || 0,
-          middlePrice: item.price || 0,
-          lowerPrice: item.price || 0,
-          avgPrice: item.price || 0,
-          transWeight: item.weight,
-          date: livestock.date,
-        })).filter(m => m.avgPrice > 0);
-      } else {
-        // Find specific market in pork or sheep
+        if (livestock.porkAvgPrice !== null && livestock.porkAvgPrice > 0) {
+          records.push({
+            cropCode: 'M01',
+            cropName: '毛豬',
+            marketName: '全國平均',
+            grade: '中平',
+            upperPrice: livestock.porkAvgPrice || 0,
+            middlePrice: livestock.porkAvgPrice || 0,
+            lowerPrice: livestock.porkAvgPrice || 0,
+            avgPrice: livestock.porkAvgPrice || 0,
+            transWeight: 1000,
+            date: livestock.date || todayISO(),
+          });
+        }
         if (data.pork) {
-          const porkMatches = data.pork.filter((p: any) => p.MarketName === targetMarket);
-          if (porkMatches.length > 0) {
-             const p = porkMatches[0];
-             records.push({
-                cropCode: 'M01',
-                cropName: '毛豬',
-                marketName: p.MarketName,
-                grade: '中平',
-                upperPrice: p.TransNum_AvgPrice || 0,
-                middlePrice: p.TransNum_AvgPrice || 0,
-                lowerPrice: p.TransNum_AvgPrice || 0,
-                avgPrice: p.TransNum_AvgPrice || 0,
-                transWeight: p.TransNum_Total || 0,
-                date: todayISO()
-             });
+          for (const p of data.pork) {
+            records.push({
+              cropCode: 'M01',
+              cropName: '毛豬',
+              marketName: p.MarketName,
+              grade: '中平',
+              upperPrice: p.TransNum_AvgPrice || 0,
+              middlePrice: p.TransNum_AvgPrice || 0,
+              lowerPrice: p.TransNum_AvgPrice || 0,
+              avgPrice: p.TransNum_AvgPrice || 0,
+              transWeight: p.TransNum_Total || 0,
+              date: p.TransDate ? rocToISO(p.TransDate) : todayISO()
+            });
           }
         }
         if (data.sheep) {
-           const sheepMatches = data.sheep.filter((s: any) => s.name === targetMarket || s.shortName === targetMarket);
-           if (sheepMatches.length > 0) {
-              const qs = sheepMatches.reduce((acc: number, s: any) => acc + (parseFloat(s.quantity) || 0), 0);
-              const totalV = sheepMatches.reduce((acc: number, s: any) => acc + (parseFloat(s.avgPrice) || 0) * (parseFloat(s.quantity) || 0), 0);
-              records.push({
-                 cropCode: 'M01',
-                 cropName: '羊',
-                 marketName: targetMarket,
-                 grade: '中平',
-                 upperPrice: totalV / (qs || 1),
-                 middlePrice: totalV / (qs || 1),
-                 lowerPrice: totalV / (qs || 1),
-                 avgPrice: totalV / (qs || 1),
-                 transWeight: qs,
-                 date: todayISO()
-              });
-           }
+          for (const s of data.sheep) {
+            records.push({
+              cropCode: 'M01',
+              cropName: '羊',
+              marketName: s.name || s.shortName,
+              grade: '中平',
+              upperPrice: parseFloat(s.avgPrice) || 0,
+              middlePrice: parseFloat(s.avgPrice) || 0,
+              lowerPrice: parseFloat(s.avgPrice) || 0,
+              avgPrice: parseFloat(s.avgPrice) || 0,
+              transWeight: parseFloat(s.quantity) || 0,
+              date: s.date ? rocToISO(s.date) : todayISO()
+            });
+          }
+        }
+      } else {
+        const targetMarket = options.market;
+        if (targetMarket === '全國平均') {
+          const livestock = await fetchLivestockPrices();
+          records = [
+            { name: '毛豬', price: livestock.porkAvgPrice, weight: 1000 },
+            { name: '白肉雞', price: livestock.chickenPrice, weight: 500 },
+            { name: '紅羽土雞', price: livestock.redFeatherChickenPrice, weight: 400 },
+            { name: '肉鵝', price: livestock.goosePrice, weight: 300 },
+            { name: '肉鴨', price: livestock.duckPrice, weight: 300 },
+            { name: '羊', price: livestock.sheepAvgPrice, weight: 200 },
+            { name: '雞蛋', price: livestock.eggPrice, weight: 10000 }
+          ].map(item => ({
+            cropCode: 'M01',
+            cropName: item.name,
+            marketName: '全國平均',
+            grade: '中平',
+            upperPrice: item.price || 0,
+            middlePrice: item.price || 0,
+            lowerPrice: item.price || 0,
+            avgPrice: item.price || 0,
+            transWeight: item.weight,
+            date: livestock.date,
+          })).filter(m => m.avgPrice > 0);
+        } else {
+          // Find specific market in pork or sheep
+          if (data.pork) {
+            const porkMatches = data.pork.filter((p: any) => p.MarketName === targetMarket);
+            if (porkMatches.length > 0) {
+               const p = porkMatches[0];
+               records.push({
+                  cropCode: 'M01',
+                  cropName: '毛豬',
+                  marketName: p.MarketName,
+                  grade: '中平',
+                  upperPrice: p.TransNum_AvgPrice || 0,
+                  middlePrice: p.TransNum_AvgPrice || 0,
+                  lowerPrice: p.TransNum_AvgPrice || 0,
+                  avgPrice: p.TransNum_AvgPrice || 0,
+                  transWeight: p.TransNum_Total || 0,
+                  date: p.TransDate ? rocToISO(p.TransDate) : todayISO()
+               });
+            }
+          }
+          if (data.sheep) {
+             const sheepMatches = data.sheep.filter((s: any) => s.name === targetMarket || s.shortName === targetMarket);
+             if (sheepMatches.length > 0) {
+                const qs = sheepMatches.reduce((acc: number, s: any) => acc + (parseFloat(s.quantity) || 0), 0);
+                const totalV = sheepMatches.reduce((acc: number, s: any) => acc + (parseFloat(s.avgPrice) || 0) * (parseFloat(s.quantity) || 0), 0);
+                records.push({
+                   cropCode: 'M01',
+                   cropName: '羊',
+                   marketName: targetMarket,
+                   grade: '中平',
+                   upperPrice: totalV / (qs || 1),
+                   middlePrice: totalV / (qs || 1),
+                   lowerPrice: totalV / (qs || 1),
+                   avgPrice: totalV / (qs || 1),
+                   transWeight: qs,
+                   date: todayISO()
+                });
+             }
+          }
         }
       }
 
