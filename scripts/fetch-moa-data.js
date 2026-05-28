@@ -14,6 +14,10 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000); // 15 seconds
       options.signal = controller.signal;
+      options.headers = {
+        ...options.headers,
+        'Connection': 'close'
+      };
 
       const res = await fetch(url, options);
       clearTimeout(timeout);
