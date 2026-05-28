@@ -22,7 +22,7 @@ export function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] xs:w-[calc(100%-2rem)] max-w-[420px] z-50 flex items-center justify-center select-none">
+    <nav className="md:hidden fixed bottom-[calc(0.625rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] xs:w-[calc(100%-2rem)] max-w-[420px] z-50 flex items-center justify-center select-none">
       {/* Main Capsule Tab Bar */}
       <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-[35px] border border-black/[0.08] dark:border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-[32px] w-full flex justify-around items-center h-[76px] px-2">
         {MAIN_ITEMS.map((item) => {
