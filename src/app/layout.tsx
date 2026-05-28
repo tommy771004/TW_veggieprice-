@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import { Work_Sans, Noto_Sans_TC } from 'next/font/google'
+import { Inter, Noto_Sans_TC } from 'next/font/google'
 import './globals.css'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { TopAppBar } from '@/components/layout/TopAppBar'
@@ -10,9 +10,9 @@ import { ServiceWorkerRegistrar } from '@/components/pwa/ServiceWorkerRegistrar'
 import { PreferencesHydrator } from '@/components/settings/PreferencesHydrator'
 import { ClientSettingsProviders } from '@/components/settings/ClientSettingsProviders'
 
-const workSans = Work_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-work-sans',
+  variable: '--font-inter',
   display: 'swap',
 })
 
@@ -74,7 +74,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="zh-TW" className={`${workSans.variable} ${notoSansTC.variable}`} suppressHydrationWarning>
+    <html lang="zh-TW" className={`${inter.variable} ${notoSansTC.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -84,7 +84,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         <WebAppJsonLd />
       </head>
-      <body className="font-sans min-h-dvh bg-background pb-20 md:pb-0" suppressHydrationWarning>
+      <body className="font-sans min-h-dvh bg-background pb-32 md:pb-0" suppressHydrationWarning>
         <PreferencesHydrator />
         <ClientSettingsProviders />
         <ServiceWorkerRegistrar />
