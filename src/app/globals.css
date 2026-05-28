@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    font-family: 'Work Sans', 'Noto Sans TC', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Noto Sans TC', sans-serif;
     -webkit-font-smoothing: antialiased;
     --font-scale: 1;
     font-size: calc(16px * var(--font-scale));
@@ -390,47 +390,34 @@
 
   /* Liquid Glass — specular highlight + rich saturation */
   .glass-card {
-    background-color: rgba(255, 255, 255, 0.52);
-    backdrop-filter: blur(24px) saturate(180%) brightness(106%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(106%);
-    border: 1px solid rgba(255, 255, 255, 0.48);
-    box-shadow:
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.72),
-      inset 0 -0.5px 0 rgba(0, 0, 0, 0.04),
-      0 8px 32px rgba(27, 94, 32, 0.05),
-      0 2px 6px rgba(0, 0, 0, 0.04);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   }
 
   .glass-card-solid {
-    background-color: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(24px) saturate(180%) brightness(104%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(104%);
-    border: 1px solid rgba(46, 125, 50, 0.22);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      0 4px 24px rgba(27, 94, 32, 0.06),
-      0 1px 4px rgba(0, 0, 0, 0.04);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 0.5px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
   .glass-nav {
-    background-color: rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(40px) saturate(200%) brightness(112%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(112%);
-    border-top: 1px solid rgba(255, 255, 255, 0.65);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      0 -4px 24px rgba(0, 0, 0, 0.04);
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(50px) saturate(200%);
+    -webkit-backdrop-filter: blur(50px) saturate(200%);
+    border-top: 0.5px solid rgba(0, 0, 0, 0.12);
     padding-bottom: calc(0.25rem + env(safe-area-inset-bottom));
   }
 
   .glass-header {
-    background-color: rgba(255, 255, 255, 0.58);
-    backdrop-filter: blur(28px) saturate(180%) brightness(107%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(107%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow:
-      inset 0 -1px 0 rgba(255, 255, 255, 0.4),
-      0 8px 32px rgba(27, 94, 32, 0.05);
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(50px) saturate(200%);
+    -webkit-backdrop-filter: blur(50px) saturate(200%);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
   }
 
   .app-shell-header {
