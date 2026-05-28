@@ -118,9 +118,6 @@ export function TopAppBar() {
         <Link href="/" className="flex items-center gap-3 flex-shrink-0 min-w-0">
           <span className="app-shell-brand-mark material-symbols-outlined text-primary" style={{ fontSize: '1.4rem' }}>eco</span>
           <span className="min-w-0">
-            <span className="block text-label-sm font-extrabold tracking-[0.18em] uppercase text-primary/80">
-              VeggiePrice
-            </span>
             <span className="block text-body-md sm:text-body-lg font-black text-primary-container tracking-tight whitespace-nowrap">
               農時價
             </span>
