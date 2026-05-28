@@ -327,7 +327,8 @@ async function fetchMOARecords(params: URLSearchParams, maxPages: number = MAX_P
         signal: pageController.signal,
         headers: { 
           'Accept': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'Connection': 'close'
         },
         cache: 'no-store',
       })
@@ -381,7 +382,8 @@ async function fetchMOAEndpointRecords<T extends object>(
         signal: pageController.signal,
         headers: { 
           'Accept': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'Connection': 'close'
         },
         cache: 'no-store',
       })
@@ -952,7 +954,8 @@ async function fetchRecentOpenData(): Promise<(NormalizedPriceRecord & { _typeCo
     const res = await fetch(url, { 
       signal: controller.signal, 
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        'Connection': 'close'
       },
       cache: 'no-store' 
     })
@@ -1781,8 +1784,22 @@ const fetchLivestockPricesCached = unstable_cache(
       const endROC = isoToROC(endISO);
       
       const [eggRes, porkRes] = await Promise.all([
-        !livestockData.egg_chicken ? fetch(`https://data.moa.gov.tw/api/v1/PoultryTransType_BoiledChicken_Eggs/?Start_time=${startGregorian}&End_time=${endGregorian}`).catch(() => null) : Promise.resolve(null),
-        porkDates.size < 2 ? fetch(`https://data.moa.gov.tw/api/v1/PorkTransType/?Start_time=${startROC}&End_time=${endROC}`).catch(() => null) : Promise.resolve(null)
+        !livestockData.egg_chicken ? fetch(`https://data.moa.gov.tw/api/v1/PoultryTransType_BoiledChicken_Eggs/?Start_time=${startGregorian}&End_time=${endGregorian}`, {
+          headers: { 
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Connection': 'close' 
+          },
+          cache: 'no-store'
+        }).catch(() => null) : Promise.resolve(null),
+        porkDates.size < 2 ? fetch(`https://data.moa.gov.tw/api/v1/PorkTransType/?Start_time=${startROC}&End_time=${endROC}`, {
+          headers: { 
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Connection': 'close' 
+          },
+          cache: 'no-store'
+        }).catch(() => null) : Promise.resolve(null)
       ]);
       
       if (eggRes && eggRes.ok) livestockData.egg_chicken = (await eggRes.json()).Data || [];
