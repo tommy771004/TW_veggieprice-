@@ -315,52 +315,53 @@ async function withRetry<T>(
 }
 
 async function fetchMOARecords(params: URLSearchParams, maxPages: number = MAX_PAGES): Promise<MOARawRecord[]> {
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
-
   const fetchPage = async (page: number): Promise<{ records: MOARawRecord[]; hasNext: boolean }> => {
     const pageParams = new URLSearchParams(params)
     if (page > 1) pageParams.set('Page', String(page))
-    const response = await fetch(`${MOA_BASE}?${pageParams}`, {
-      signal: controller.signal,
-      headers: { 
-        'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-      },
-      cache: 'no-store',
-    })
-    log.info('moa fetch', { url: `${MOA_BASE}?${pageParams}`, status: response.status })
-    if (!response.ok) throw new Error(`MOA returned HTTP ${response.status}`)
-    const text = await response.text()
-    // MOA 有時在維護期間以 200 回傳 HTML 錯誤頁；必須在 JSON.parse 前偵測並拋出，
-    // 讓 withRetry 決定是否重試，而非讓 SyntaxError 靜默地層層上拋。
-    if (text.trimStart().startsWith('<')) {
-      throw new Error(`MOA returned HTML instead of JSON (HTTP ${response.status}): ${text.substring(0, 120).replace(/\s+/g, ' ')}`)
-    }
-    const json = JSON.parse(text) as { Data: MOARawRecord[]; Next: boolean }
-    const records = json.Data ?? []
-    return { records, hasNext: !!(json.Next && records.length > 0) }
-  }
+    
+    const pageController = new AbortController()
+    const pageTimer = setTimeout(() => pageController.abort(), FETCH_TIMEOUT_MS)
 
-  try {
-    const { records: firstRecords, hasNext: firstHasNext } = await withRetry(() => fetchPage(1))
-    if (!firstHasNext || maxPages <= 1) return firstRecords
-
-    const allRecords: MOARawRecord[] = [...firstRecords]
-    for (let start = 2; start <= maxPages; start += MOA_PAGE_BATCH) {
-      const end = Math.min(start + MOA_PAGE_BATCH - 1, maxPages)
-      const batch = await Promise.all(
-        Array.from({ length: end - start + 1 }, (_, i) => withRetry(() => fetchPage(start + i)))
-      )
-      for (const { records, hasNext } of batch) {
-        allRecords.push(...records)
-        if (!hasNext) return allRecords
+    try {
+      const response = await fetch(`${MOA_BASE}?${pageParams}`, {
+        signal: pageController.signal,
+        headers: { 
+          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+        },
+        cache: 'no-store',
+      })
+      log.info('moa fetch', { url: `${MOA_BASE}?${pageParams}`, status: response.status })
+      if (!response.ok) throw new Error(`MOA returned HTTP ${response.status}`)
+      const text = await response.text()
+      // MOA 有時在維護期間以 200 回傳 HTML 錯誤頁；必須在 JSON.parse 前偵測並拋出，
+      // 讓 withRetry 決定是否重試，而非讓 SyntaxError 靜默地層層上拋。
+      if (text.trimStart().startsWith('<')) {
+        throw new Error(`MOA returned HTML instead of JSON (HTTP ${response.status}): ${text.substring(0, 120).replace(/\s+/g, ' ')}`)
       }
+      const json = JSON.parse(text) as { Data: MOARawRecord[]; Next: boolean }
+      const records = json.Data ?? []
+      return { records, hasNext: !!(json.Next && records.length > 0) }
+    } finally {
+      clearTimeout(pageTimer)
     }
-    return allRecords
-  } finally {
-    clearTimeout(timer)
   }
+
+  const { records: firstRecords, hasNext: firstHasNext } = await withRetry(() => fetchPage(1))
+  if (!firstHasNext || maxPages <= 1) return firstRecords
+
+  const allRecords: MOARawRecord[] = [...firstRecords]
+  for (let start = 2; start <= maxPages; start += MOA_PAGE_BATCH) {
+    const end = Math.min(start + MOA_PAGE_BATCH - 1, maxPages)
+    const batch = await Promise.all(
+      Array.from({ length: end - start + 1 }, (_, i) => withRetry(() => fetchPage(start + i)))
+    )
+    for (const { records, hasNext } of batch) {
+      allRecords.push(...records)
+      if (!hasNext) return allRecords
+    }
+  }
+  return allRecords
 }
 
 async function fetchMOAEndpointRecords<T extends object>(
@@ -368,49 +369,50 @@ async function fetchMOAEndpointRecords<T extends object>(
   params: URLSearchParams,
   maxPages: number = MAX_PAGES
 ): Promise<T[]> {
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
-
   const fetchPage = async (page: number): Promise<{ records: T[]; hasNext: boolean }> => {
     const pageParams = new URLSearchParams(params)
     if (page > 1) pageParams.set('Page', String(page))
-    const response = await fetch(`${MOA_API_ROOT}/${endpoint}/?${pageParams}`, {
-      signal: controller.signal,
-      headers: { 
-        'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-      },
-      cache: 'no-store',
-    })
-    if (!response.ok) throw new Error(`MOA ${endpoint} returned HTTP ${response.status}`)
-    const text = await response.text()
-    if (text.trimStart().startsWith('<')) {
-      throw new Error(`MOA ${endpoint} returned HTML instead of JSON (HTTP ${response.status}): ${text.substring(0, 120).replace(/\s+/g, ' ')}`)
-    }
-    const json = JSON.parse(text) as { Data?: T[]; Next?: boolean }
-    const records = json.Data ?? []
-    return { records, hasNext: !!(json.Next && records.length > 0) }
-  }
+    
+    const pageController = new AbortController()
+    const pageTimer = setTimeout(() => pageController.abort(), FETCH_TIMEOUT_MS)
 
-  try {
-    const { records: firstRecords, hasNext: firstHasNext } = await withRetry(() => fetchPage(1))
-    if (!firstHasNext || maxPages <= 1) return firstRecords
-
-    const allRecords: T[] = [...firstRecords]
-    for (let start = 2; start <= maxPages; start += MOA_PAGE_BATCH) {
-      const end = Math.min(start + MOA_PAGE_BATCH - 1, maxPages)
-      const batch = await Promise.all(
-        Array.from({ length: end - start + 1 }, (_, i) => withRetry(() => fetchPage(start + i)))
-      )
-      for (const { records, hasNext } of batch) {
-        allRecords.push(...records)
-        if (!hasNext) return allRecords
+    try {
+      const response = await fetch(`${MOA_API_ROOT}/${endpoint}/?${pageParams}`, {
+        signal: pageController.signal,
+        headers: { 
+          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+        },
+        cache: 'no-store',
+      })
+      if (!response.ok) throw new Error(`MOA ${endpoint} returned HTTP ${response.status}`)
+      const text = await response.text()
+      if (text.trimStart().startsWith('<')) {
+        throw new Error(`MOA ${endpoint} returned HTML instead of JSON (HTTP ${response.status}): ${text.substring(0, 120).replace(/\s+/g, ' ')}`)
       }
+      const json = JSON.parse(text) as { Data?: T[]; Next?: boolean }
+      const records = json.Data ?? []
+      return { records, hasNext: !!(json.Next && records.length > 0) }
+    } finally {
+      clearTimeout(pageTimer)
     }
-    return allRecords
-  } finally {
-    clearTimeout(timer)
   }
+
+  const { records: firstRecords, hasNext: firstHasNext } = await withRetry(() => fetchPage(1))
+  if (!firstHasNext || maxPages <= 1) return firstRecords
+
+  const allRecords: T[] = [...firstRecords]
+  for (let start = 2; start <= maxPages; start += MOA_PAGE_BATCH) {
+    const end = Math.min(start + MOA_PAGE_BATCH - 1, maxPages)
+    const batch = await Promise.all(
+      Array.from({ length: end - start + 1 }, (_, i) => withRetry(() => fetchPage(start + i)))
+    )
+    for (const { records, hasNext } of batch) {
+      allRecords.push(...records)
+      if (!hasNext) return allRecords
+    }
+  }
+  return allRecords
 }
 
 const FALLBACK_VEG_MARKETS = [
