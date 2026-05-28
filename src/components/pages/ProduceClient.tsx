@@ -188,29 +188,28 @@ export function ProduceClient({ cropName }: { cropName: string }) {
 
           const daysToSubtract = period === '1W' ? 7 : (period === '1M' ? 30 : 90)
           const startLimit = getDaysAgoISO(daysToSubtract)
-          const pMap = new Map(points.map(p => [p.date, p]))
-          const finalPoints = []
-          const finalClosed = []
           
-          let currentD = new Date(startLimit)
-          const endD = new Date(todayStr)
-          while (currentD <= endD) {
-            const iso = currentD.toISOString().split('T')[0]
-            const [, mm, dd] = iso.split('-')
-            if (pMap.has(iso)) {
-              const pt = pMap.get(iso)
-              finalPoints.push(pt)
-              if (pt.isClosed) finalClosed.push(iso)
-            } else {
-              finalPoints.push({ date: iso, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: null, upperPrice: null, lowerPrice: null, volume: null, isClosed: true })
-              finalClosed.push(iso)
-            }
-            currentD.setDate(currentD.getDate() + 1)
+          // Filter out points that are null or out of range, and sort chronologically
+          const validPoints = points
+            .filter(p => p.date >= startLimit && p.date <= todayStr && p.avgPrice !== null)
+            .sort((a, b) => a.date.localeCompare(b.date))
+
+          // If we only have 1 data point (e.g. pork dataset has only 1 snapshot day),
+          // prepend a duplicate day before so Recharts can draw a beautiful flat trend line.
+          if (validPoints.length === 1) {
+            const single = validPoints[0]
+            const prevDate = subtractDays(single.date, 1)
+            const [, pM, pD] = prevDate.split('-')
+            validPoints.unshift({
+              ...single,
+              date: prevDate,
+              label: `${parseInt(pM)}/${parseInt(pD)}`,
+            })
           }
 
-          if (finalPoints.filter(p => !p.isClosed).length === 0) throw new Error('查無近期交易資料')
-          setHistory(finalPoints)
-          setClosedDays(finalClosed)
+          if (validPoints.length === 0) throw new Error('查無近期交易資料')
+          setHistory(validPoints)
+          setClosedDays([]) // No closed day stripe clutter for meat/poultry products
           if (json.metadata?.lastUpdated) setUpdatedAt(json.metadata.lastUpdated)
           setStreamingStatus('complete')
           setHistoryLoading(false)
