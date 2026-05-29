@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
   const endDate = searchParams.get('endDate') || date
   const pageParam = searchParams.get('page')
   const limitParam = searchParams.get('limit') || '20'
+  const format = searchParams.get('format') // 'array' for compact DTO
 
   const { records, error } = await fetchSearchRecords({
     cropName: crop,
@@ -29,6 +30,21 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error }, { status })
   }
 
+  const formatRecords = (recs: any[]) => {
+    if (format === 'array') {
+      const formatted = {
+        keys: ['cropCode', 'cropName', 'marketName', 'grade', 'upperPrice', 'middlePrice', 'lowerPrice', 'avgPrice', 'transWeight', 'date'],
+        data: recs.map(r => [
+          r.cropCode, r.cropName, r.marketName, r.grade, 
+          Math.round(r.upperPrice*10)/10, Math.round(r.middlePrice*10)/10, Math.round(r.lowerPrice*10)/10, Math.round(r.avgPrice*10)/10, 
+          Math.round(r.transWeight), r.date
+        ])
+      }
+      return formatted as any
+    }
+    return recs as any
+  }
+
   if (pageParam) {
     const page = parseInt(pageParam, 10)
     const limit = parseInt(limitParam, 10)
@@ -36,13 +52,22 @@ export async function GET(req: NextRequest) {
       const startIndex = (page - 1) * limit
       const paginatedData = records.slice(startIndex, startIndex + limit)
       return NextResponse.json({
-        data: paginatedData,
+        data: format === 'array' ? formatRecords(paginatedData).data : paginatedData,
+        keys: format === 'array' ? formatRecords(paginatedData).keys : undefined,
         total: records.length,
         page,
         hasNextPage: startIndex + limit < records.length
+      }, {
+        headers: {
+          'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+        },
       })
     }
   }
 
-  return NextResponse.json(records)
+  return NextResponse.json(formatRecords(records), {
+    headers: {
+      'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+    },
+  })
 }

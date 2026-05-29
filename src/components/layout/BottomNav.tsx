@@ -7,8 +7,7 @@ const MAIN_ITEMS = [
   { href: '/', icon: 'dashboard', label: '首頁' },
   { href: '/search', icon: 'search', label: '搜尋' },
   { href: '/seasonal', icon: 'local_florist', label: '當季' },
-  
-  { href: '/watchlist', icon: 'monitoring', label: '關注' },
+  { href: '/insights', icon: 'insights', label: '洞察' },
   { href: '/settings', icon: 'settings', label: '設定' },
 ]
 

@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 import { LazyMotion, domAnimation, m, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
-import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
+import { SkeletonCard, SkeletonList, SkeletonRow } from '@/components/ui/SkeletonCard'
 import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
 
@@ -15,6 +15,8 @@ const ExploreSection = dynamic(() => import('@/components/ui/ExploreSection').th
 const AboutSection = dynamic(() => import('@/components/ui/AboutSection').then(mod => mod.AboutSection))
 const RecommendedLinks = dynamic(() => import('@/components/ui/RecommendedLinks').then(mod => mod.RecommendedLinks))
 const DataSourceBadge = dynamic(() => import('@/components/ui/DataSourceBadge').then(mod => mod.DataSourceBadge))
+const LivestockSection = dynamic(() => import('@/components/pages/HomeSections/LivestockSection').then(mod => mod.LivestockSection))
+const SeasonalGuideSection = dynamic(() => import('@/components/pages/HomeSections/SeasonalGuideSection').then(mod => mod.SeasonalGuideSection))
 
 import { getProduceCategory, getSeasonalGuide, type ProduceCategory } from '@/lib/produce'
 import type {
@@ -103,11 +105,6 @@ export function HomeClient({
   const [moversError, setMoversError] = useState('')
   const [reloadKey, setReloadKey] = useState(0)
   const [summaryDismissed, setSummaryDismissed] = useState(false)
-  const [livestock, setLivestock] = useState<LivestockPrices | null>(initialLivestock)
-  const [loadingLivestock, setLoadingLivestock] = useState(!initialLivestock)
-  const [livestockError, setLivestockError] = useState('')
-  const [seasonalGuide, setSeasonalGuide] = useState<SeasonalItem[]>([])
-  const [loadingSeasonal, setLoadingSeasonal] = useState(true)
   const [nextRestDay, setNextRestDay] = useState<MarketRestDay | null>(null)
   const [isClosedToday, setIsClosedToday] = useState(false)
   const [weatherRisk, setWeatherRisk] = useState<MarketWeatherRiskSummary | null>(null)
@@ -124,7 +121,6 @@ export function HomeClient({
 
   // Suppress loading flash on first mount when server pre-fetched data is available.
   const hasInitialOverview = useRef(!!initialOverview)
-  const hasInitialLivestock = useRef(!!initialLivestock)
 
   const scrollPulse = (dir: 'left' | 'right') => {
     if (pulseScrollRef.current) {
@@ -190,26 +186,6 @@ export function HomeClient({
       .catch((err) => setMoversError(err instanceof Error ? err.message : '暫時無法取得波動排行'))
       .finally(() => setLoadingMovers(false))
   }, [activeCategory])
-
-  useEffect(() => {
-    if (!hasInitialLivestock.current) setLoadingLivestock(true)
-    hasInitialLivestock.current = false
-    setLivestockError('')
-    fetchLivestock()
-      .then(setLivestock)
-      .catch((e) => {
-        setLivestock(null)
-        setLivestockError(e.message || '暫停服務或查無資料')
-      })
-      .finally(() => setLoadingLivestock(false))
-  }, [reloadKey])
-
-  useEffect(() => {
-    fetchSeasonal()
-      .then((data) => setSeasonalGuide(data.length > 0 ? data : getSeasonalGuide()))
-      .catch(() => setSeasonalGuide(getSeasonalGuide()))
-      .finally(() => setLoadingSeasonal(false))
-  }, [])
 
   // ── Market-Dependent Static Metadata ────────────────────────
   useEffect(() => {
@@ -531,7 +507,7 @@ export function HomeClient({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="home-hero-card rounded-3xl p-6 animate-pulse"
+              className="home-hero-card rounded-3xl p-6 animate-pulse min-h-[220px]"
             >
               <div className="h-3 w-28 rounded-full mb-5" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <div className="h-14 w-44 rounded-xl mb-6" style={{ background: 'rgba(255,255,255,0.12)' }} />
@@ -711,7 +687,11 @@ export function HomeClient({
         </div>
 
         {loading ? (
-          <SkeletonList count={5} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+             {Array.from({ length: 6 }).map((_, i) => (
+               <SkeletonRow key={i} />
+             ))}
+          </div>
         ) : (
           <AnimatePresence mode="wait">
             <m.div
@@ -766,79 +746,7 @@ export function HomeClient({
       </section>
 
       {/* ── Livestock Prices ──────────────────────────── */}
-      <section>
-        <h2 className="text-headline-md font-bold text-on-surface mb-4">民生物資行情</h2>
-        <m.div
-          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-30px' }}
-        >
-          {loadingLivestock ? (
-            <>
-              <SkeletonCard />
-              <SkeletonCard />
-            </>
-          ) : livestockError ? (
-            <GlassCard className="p-container-padding text-center sm:col-span-2">
-              <p className="text-body-sm text-on-surface-variant">無法取得民生物資資料 ({livestockError})</p>
-              <button
-                onClick={() => setReloadKey((v) => v + 1)}
-                className="mt-2 text-primary text-label-bold hover:underline"
-              >
-                重新載入
-              </button>
-            </GlassCard>
-          ) : (
-            <>
-              <m.div variants={cardVariant}>
-                <GlassCard className="p-container-padding h-full">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-2xl">🥚</span>
-                    <span className="text-body-sm text-on-surface-variant">雞蛋大運輸價（元/台斤）</span>
-                  </div>
-                  <div className="flex items-end justify-between">
-                    <span className="text-headline-lg font-bold text-on-surface tabular-nums">
-                      {livestock?.eggPrice != null ? `$${livestock.eggPrice.toFixed(1)}` : '—'}
-                    </span>
-                    {livestock?.eggPriceChange != null && (
-                      <TrendChip change={livestock.eggPriceChange} size="sm" />
-                    )}
-                  </div>
-                  {livestock?.eggProducerPrice != null && (
-                    <p className="text-body-sm text-on-surface-variant mt-1">
-                      產地價 ${livestock.eggProducerPrice.toFixed(1)} / 台斤
-                    </p>
-                  )}
-                </GlassCard>
-              </m.div>
-
-              <m.div variants={cardVariant}>
-                <GlassCard className="p-container-padding h-full">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-2xl">🐷</span>
-                    <span className="text-body-sm text-on-surface-variant">毛豬全國加權均價（元/公斤）</span>
-                  </div>
-                  <div className="flex items-end justify-between">
-                    <span className="text-headline-lg font-bold text-on-surface tabular-nums">
-                      {livestock?.porkAvgPrice != null ? `$${livestock.porkAvgPrice.toFixed(1)}` : '—'}
-                    </span>
-                    {livestock?.porkPriceChange != null && (
-                      <TrendChip change={livestock.porkPriceChange} size="sm" />
-                    )}
-                  </div>
-                  {livestock?.date && (
-                    <p className="text-body-sm text-on-surface-variant mt-1">
-                      資料日期：<span suppressHydrationWarning>{new Intl.DateTimeFormat('zh-TW', { dateStyle: 'medium' }).format(new Date(livestock.date))}</span>
-                    </p>
-                  )}
-                </GlassCard>
-              </m.div>
-            </>
-          )}
-        </m.div>
-      </section>
+      <LivestockSection initialLivestock={initialLivestock} reloadKey={reloadKey} />
 
       {/* ── Weekly Trend + Seasonal Guide ─────────────── */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -902,55 +810,7 @@ export function HomeClient({
           </GlassCard>
         </m.div>
 
-        <m.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-30px' }}
-        >
-          <div className="mt-8 mb-4">
-            <div className="flex items-center gap-2 mb-4 px-2">
-              <span className="material-symbols-outlined text-primary">local_florist</span>
-              <h3 className="text-headline-md font-semibold text-on-surface">當季盛產指南</h3>
-            </div>
-            <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-4 snap-x snap-mandatory hide-scrollbar gap-3 pb-4 -mx-4 px-4 md:mx-0 md:px-0">
-              {loadingSeasonal ? (
-                Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="shrink-0 w-44 rounded-3xl bg-white/50 animate-pulse h-32 snap-start border border-white/20" />
-                ))
-              ) : seasonalGuide.length === 0 ? (
-                <p className="text-body-sm text-on-surface-variant text-center py-4 w-full">暫無本月盛產資料</p>
-              ) : (
-                seasonalGuide.map((item, i) => (
-                  <m.div
-                    key={item.cropName}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.07, type: 'spring', stiffness: 300, damping: 25 }}
-                  >
-                    <Link
-                      href={`/search?q=${encodeURIComponent(item.cropName)}&type=${
-                        item.category === 'fruit' ? 'Fruit' : item.category === 'meat' ? 'meat' : item.category === 'seafood' ? 'seafood' : 'Veg'
-                      }`}
-                      prefetch={false}
-                      className="shrink-0 w-48 md:w-full rounded-3xl glass-card p-4 hover:bg-white transition-all shadow-glass-sm hover:shadow-glass flex flex-col snap-start border border-white/40 group card-lift block"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-3xl leading-none transition-transform group-hover:scale-110">{item.emoji}</span>
-                        <span className="material-symbols-outlined text-primary/40 text-lg group-hover:text-primary transition-colors">arrow_forward</span>
-                      </div>
-                      <h3 className="text-body-lg font-bold text-on-surface mb-1 truncate">{item.cropName}</h3>
-                      <p className="text-label-sm text-primary line-clamp-2 leading-relaxed">{item.reason}</p>
-                      {item.note && (
-                        <p className="text-2xs text-on-surface-variant mt-2 opacity-70 truncate">{item.note}</p>
-                      )}
-                    </Link>
-                  </m.div>
-                ))
-              )}
-            </div>
-          </div>
-        </m.div>
+        <SeasonalGuideSection />
       </section>
 
       {/* ── Explore Features ──────────────────────────── */}

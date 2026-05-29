@@ -116,16 +116,14 @@ export async function GET(req: Request) {
     }
   }
 
-  // Query the last 7 calendar days individually in parallel.
+  // Fetch the last 7 calendar days in a single request to prevent N+1 API calls.
   const mType = category === 'fruit' ? 'Fruit' : 'Veg'
-  const candidateDates = Array.from({ length: 7 }, (_, i) => subtractDays(today, i))
-  const dayResults = await Promise.allSettled(
-    candidateDates.map((date) => fetchMarketWindowRecords('全部市場', date, date, mType)),
-  )
-
-  const allRecords = dayResults.flatMap((result) =>
-    result.status === 'fulfilled' && !result.value.error ? result.value.records : [],
-  )
+  const startDate = subtractDays(today, 6)
+  const endDate = today
+  
+  const windowResult = await fetchMarketWindowRecords('全部市場', startDate, endDate, mType)
+  
+  const allRecords = windowResult.error ? [] : windowResult.records
 
   if (allRecords.length === 0) {
     return NextResponse.json({ error: '查無波動排行資料' }, { status: 404 })

@@ -8,7 +8,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
-  output: 'standalone',
 
   async headers() {
     return [

@@ -120,15 +120,36 @@ export async function fetchMarketRestDays(params?: {
   startDate?: string
   endDate?: string
 }): Promise<MarketRestDay[]> {
-  const query = new URLSearchParams()
-  if (params?.market) query.set('market', params.market)
-  if (params?.startDate) query.set('startDate', params.startDate)
-  if (params?.endDate) query.set('endDate', params.endDate)
-
-  const res = await safeFetch(`${BASE}/insights/rest-days?${query}`)
-  const json = await res.json()
-  if (!res.ok) throw new Error((json as { error?: string }).error ?? 'Failed to fetch market rest days')
-  return (json as { items: MarketRestDay[] }).items
+  try {
+    const res = await safeFetch('/data/market-rest-days.json')
+    if (!res.ok) {
+      if (res.status === 404) return [] // Fallback if file doesn't exist yet
+      throw new Error(`Failed to fetch market rest days: ${res.status}`)
+    }
+    const allDays = await res.json() as MarketRestDay[]
+    
+    // Filter locally based on params
+    return allDays.filter(day => {
+      // Market filter
+      if (params?.market && params.market !== '全部市場' && day.marketName !== params.market) {
+        return false
+      }
+      
+      // Date range filter
+      // Because date can be something like 113.05.01 or maybe YYYY-MM-DD
+      // Let's assume it's normalized to YYYY-MM-DD or comparable string
+      if (params?.startDate && day.date < params.startDate) {
+         return false
+      }
+      if (params?.endDate && day.date > params.endDate) {
+         return false
+      }
+      return true
+    })
+  } catch (err) {
+    console.warn('Failed to load rest days from static file:', err)
+    return []
+  }
 }
 
 export async function fetchMarketWeather(params?: {

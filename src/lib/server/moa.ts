@@ -621,17 +621,26 @@ export async function fetchMarketRestDays(
   startDate: string,
   endDate: string
 ): Promise<MarketRestDayResult> {
-  const params = new URLSearchParams({
-    Start_time: isoToROC(startDate),
-    End_time: isoToROC(endDate),
-  })
-
-  if (market && market !== '全部市場') {
-    params.set('MarketName', market)
-  }
-
   try {
-    const records = await fetchMOAEndpointRecords<Record<string, unknown>>('MarketRestDayFarmWCF', params, 4)
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+
+    const response = await fetch('https://data.moa.gov.tw/Service/OpenData/FromM/CropMarketRestDayData.aspx', {
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0'
+      },
+      next: { revalidate: 3600 }
+    })
+    
+    clearTimeout(timer)
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch rest days data: ${response.status}`)
+    }
+
+    const records = await response.json() as Record<string, unknown>[]
     const seen = new Set<string>()
     const items: MarketRestDay[] = []
 
@@ -642,6 +651,11 @@ export async function fetchMarketRestDays(
       const note = readStringField(record, ['Remark', 'Note', 'Memo', 'Reason'])
 
       if (!marketName || !date) continue
+      
+      // Filter by date range (iso strings)
+      if (date < startDate || date > endDate) continue
+      
+      // Filter by market
       if (market && market !== '全部市場' && marketName !== market) continue
 
       const key = `${marketName}_${date}`

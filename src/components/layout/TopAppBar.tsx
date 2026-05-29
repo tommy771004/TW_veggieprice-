@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: '/search', label: '搜尋', icon: 'search' },
   { href: '/seasonal', label: '當季', icon: 'local_florist' },
   { href: '/watchlist', label: '關注', icon: 'monitoring' },
+  { href: '/insights', label: '洞察', icon: 'insights' },
   { href: '/settings', label: '設定', icon: 'settings' },
 ]
 
@@ -32,6 +33,9 @@ function getRouteMeta(pathname: string) {
   }
   if (pathname.startsWith('/watchlist')) {
     return { kicker: 'Watchlist', label: '追蹤清單' }
+  }
+  if (pathname.startsWith('/insights')) {
+    return { kicker: 'Analytics', label: '洞察與分析' }
   }
   if (pathname.startsWith('/settings')) {
     return { kicker: 'Preferences', label: '使用設定' }
@@ -64,8 +68,8 @@ export function TopAppBar() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const updateSuggestions = useCallback(
-    debounce(async (q: string) => {
+  const updateSuggestions = useMemo(
+    () => debounce(async (q: string) => {
       if (!q.trim()) {
         setSuggestions([])
         return

@@ -327,6 +327,54 @@ async function main() {
   fs.renameSync(tempSeafoodPath, seafoodPath);
   console.log(`🎉 Successfully saved seafood records to ${seafoodPath}`);
 
+  // -------------------------------------------------------------
+  // Phase 3: Market Rest Days
+  // -------------------------------------------------------------
+  console.log('\n📅 開始擷取 批發市場休市日資料...');
+  try {
+    const restDaysUrl = 'https://data.moa.gov.tw/Service/OpenData/FromM/CropMarketRestDayData.aspx';
+    console.log(`   ➔ 擷取: ${restDaysUrl}`);
+    const restDaysData = await fetchWithRetry(restDaysUrl);
+    
+    // Validate output
+    const isArrayData = Array.isArray(restDaysData);
+    const resolvedData = isArrayData ? restDaysData : (restDaysData?.Data || []);
+    
+    // Normalize data keys: usually Chinese, map to English for front-end
+    const normalizedRestDays = resolvedData.map(item => {
+      let dateVal = item['休市日期'] || item['RestDate'] || item.date || item.RestDate || item['Date'] || '';
+      // Convert ROC date 113.05.01 to YYYY-MM-DD
+      if (dateVal && dateVal.includes('.')) {
+         const parts = dateVal.split('.');
+         if (parts.length === 3) {
+            const y = parseInt(parts[0], 10) + 1911;
+            const m = parts[1].padStart(2, '0');
+            const d = parts[2].padStart(2, '0');
+            dateVal = `${y}-${m}-${d}`;
+         }
+      } else if (dateVal.length === 7) {
+         // E.g., 1130501
+         const y = parseInt(dateVal.substring(0, 3), 10) + 1911;
+         const m = dateVal.substring(3, 5);
+         const d = dateVal.substring(5, 7);
+         dateVal = `${y}-${m}-${d}`;
+      }
+      return {
+        marketName: item['市場名稱'] || item['MarketName'] || item.marketName,
+        date: dateVal,
+        note: item['備註'] || item['Remark'] || item.note || item.Remark || ''
+      };
+    });
+    
+    const restDaysPath = path.join(publicDataDir, 'market-rest-days.json');
+    const tempRestDaysPath = restDaysPath + '.tmp';
+    fs.writeFileSync(tempRestDaysPath, JSON.stringify(normalizedRestDays), 'utf-8');
+    fs.renameSync(tempRestDaysPath, restDaysPath);
+    console.log(`🎉 Successfully saved ${normalizedRestDays.length} market rest day records to ${restDaysPath}`);
+  } catch (err) {
+    console.warn(`   ⚠️ 批發市場休市日擷取失敗:`, err.message);
+  }
+
   if (fetchedAny) {
     const appUrl = process.env.APP_URL;
     if (!appUrl) {

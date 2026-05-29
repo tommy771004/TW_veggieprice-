@@ -150,6 +150,7 @@ export function SearchContent() {
     return () => {
       cancelled = true
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
@@ -181,8 +182,8 @@ export function SearchContent() {
     return () => { cancelled = true }
   }, [market])
 
-  const doSearch = useCallback(
-    debounce(async (q: string, mkt: string, mktType: string, range: SearchFilters['dateRange']) => {
+  const doSearch = useMemo(
+    () => debounce(async (q: string, mkt: string, mktType: string, range: SearchFilters['dateRange']) => {
       setLoading(true)
       setError('')
       const searchId = ++lastSearchId.current
@@ -202,6 +203,7 @@ export function SearchContent() {
         const page1Params = new URLSearchParams(params)
         page1Params.set('page', '1')
         page1Params.set('limit', '20')
+        page1Params.set('format', 'array')
 
         const res = await fetch(`/api/prices?${page1Params}`)
         const json = await res.json()
@@ -211,7 +213,20 @@ export function SearchContent() {
         }
 
         if (searchId !== lastSearchId.current) return
-        const data = (json.data || json) as ProducePrice[]
+        
+        let data: ProducePrice[] = []
+        if (json.keys && Array.isArray(json.data)) {
+          data = json.data.map((row: any[]) => {
+            const obj: any = {}
+            json.keys.forEach((key: string, idx: number) => {
+              obj[key] = row[idx]
+            })
+            return obj
+          })
+        } else {
+          data = (json.data || json) as ProducePrice[]
+        }
+        
         setResults(data)
         if (q.length >= 1) {
           setAutocomplete([...new Set(data.map((d) => d.cropName).filter((n) => n.includes(q)))].slice(0, 5))
@@ -243,10 +258,23 @@ export function SearchContent() {
     setIsHydrating(true)
     try {
       const searchId = lastSearchId.current
-      const r = await fetch(`/api/prices?${hydrationParams}`)
+      const r = await fetch(`/api/prices?${hydrationParams}&format=array`)
       if (!r.ok) return
       const json = await r.json()
-      const fullData = Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : null)
+      
+      let fullData: ProducePrice[] = []
+      if (json.keys && Array.isArray(json.data)) {
+        fullData = json.data.map((row: any[]) => {
+          const obj: any = {}
+          json.keys.forEach((key: string, idx: number) => {
+            obj[key] = row[idx]
+          })
+          return obj
+        })
+      } else {
+        fullData = Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : null)
+      }
+      
       if (searchId === lastSearchId.current && fullData !== null) {
         setResults(fullData)
         setHasMoreServerData(false)
