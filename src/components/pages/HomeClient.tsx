@@ -2,10 +2,7 @@
 
 import { useEffect, useMemo, useState, useRef } from 'react'
 import Link from 'next/link'
-<<<<<<< HEAD
 import dynamic from 'next/dynamic'
-=======
->>>>>>> f81c64801f9b3f27b8215de1316dd40e2466d2dd
 import { LazyMotion, domAnimation, m, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
@@ -119,15 +116,12 @@ export function HomeClient({
 
   const pulseScrollRef = useRef<HTMLDivElement>(null)
   const insightsScrollRef = useRef<HTMLDivElement>(null)
-<<<<<<< HEAD
   const selectedMarketRef = useRef(selectedMarket)
 
   useEffect(() => {
     selectedMarketRef.current = selectedMarket
   }, [selectedMarket])
 
-=======
->>>>>>> f81c64801f9b3f27b8215de1316dd40e2466d2dd
   // Suppress loading flash on first mount when server pre-fetched data is available.
   const hasInitialOverview = useRef(!!initialOverview)
   const hasInitialLivestock = useRef(!!initialLivestock)
