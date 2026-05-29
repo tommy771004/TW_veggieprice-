@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { fetchSearchRecords } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
 
-export const dynamic = 'force-dynamic'
-
+export const revalidate = 3600
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const crop = searchParams.get('crop') || ''

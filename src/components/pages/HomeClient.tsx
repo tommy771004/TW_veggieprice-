@@ -6,24 +6,10 @@ import { LazyMotion, domAnimation, m, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
 import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
-import dynamic from 'next/dynamic'
-
-const ExploreSection = dynamic(
-  () => import('@/components/ui/ExploreSection').then(m => ({ default: m.ExploreSection })),
-  { loading: () => null }
-)
-const AboutSection = dynamic(
-  () => import('@/components/ui/AboutSection').then(m => ({ default: m.AboutSection })),
-  { loading: () => null }
-)
-const RecommendedLinks = dynamic(
-  () => import('@/components/ui/RecommendedLinks').then(m => ({ default: m.RecommendedLinks })),
-  { loading: () => null }
-)
-const DataSourceBadge = dynamic(
-  () => import('@/components/ui/DataSourceBadge').then(m => ({ default: m.DataSourceBadge })),
-  { loading: () => null }
-)
+import { ExploreSection } from '@/components/ui/ExploreSection'
+import { AboutSection } from '@/components/ui/AboutSection'
+import { RecommendedLinks } from '@/components/ui/RecommendedLinks'
+import { DataSourceBadge } from '@/components/ui/DataSourceBadge'
 import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'

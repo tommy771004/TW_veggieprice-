@@ -4,6 +4,7 @@ import { DEFAULT_MARKET } from '@/lib/constants'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
 export const maxDuration = 60;
+export const revalidate = 3600;
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl

@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '農產品批發價格搜尋 | 農時價',
     description: '搜尋全台批發市場今日蔬果行情，多維度篩選與排序。',
+    images: ['/api/og'],
   },
 }
 

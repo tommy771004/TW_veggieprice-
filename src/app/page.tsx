@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '農時價 — 台灣蔬果批發行情即時查詢',
     description: '免費查詢全台批發市場今日菜價，支援歷史走勢圖表與各市場比價。',
+    images: ['/api/og'],
   },
 }
 
