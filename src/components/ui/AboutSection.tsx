@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 
 const FAQS = [
   {
@@ -34,7 +34,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-20px' }}
@@ -46,19 +46,19 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
         className="w-full text-left glass-card rounded-2xl px-5 py-4 flex items-center justify-between gap-4 transition-colors hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       >
         <span className="text-body-md font-semibold text-on-surface">{q}</span>
-        <motion.span
+        <m.span
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ type: 'spring', stiffness: 400, damping: 28 }}
           className="material-symbols-outlined text-on-surface-variant flex-shrink-0"
           style={{ fontSize: '20px' }}
         >
           expand_more
-        </motion.span>
+        </m.span>
       </button>
 
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
+          <m.div
             key="answer"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -69,10 +69,10 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
             <div className="px-5 pt-2 pb-4 text-body-sm text-on-surface-variant leading-relaxed">
               {a}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -80,7 +80,7 @@ export function AboutSection() {
   return (
     <section className="space-y-8">
       {/* About */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-40px' }}
@@ -90,11 +90,11 @@ export function AboutSection() {
         <p className="text-body-md text-on-surface-variant leading-relaxed">
           農時價是一款免費的台灣蔬果批發行情即時查詢工具，整合農業部農產品產銷資訊開放資料，提供全台主要批發市場的每日均價、歷史走勢圖表與跨市場比價。不論您是家庭主婦、小攤販、農產品採購或餐廳業者，都能透過農時價掌握今日菜價、追蹤長期行情波動，以及了解當季盛產作物的供應狀況。
         </p>
-      </motion.div>
+      </m.div>
 
       {/* FAQ */}
       <div>
-        <motion.h2
+        <m.h2
           className="text-headline-lg font-bold text-on-surface mb-4"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +102,7 @@ export function AboutSection() {
           transition={{ type: 'spring', stiffness: 300, damping: 26 }}
         >
           常見問題 FAQ
-        </motion.h2>
+        </m.h2>
 
         <div className="space-y-2">
           {FAQS.map((faq, i) => (
