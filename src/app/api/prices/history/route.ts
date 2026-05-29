@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import { fetchMarketData, fetchMarketDataByDates } from '@/lib/server/moa'
 
+export const revalidate = 3600
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const cropName = searchParams.get('crop') || ''

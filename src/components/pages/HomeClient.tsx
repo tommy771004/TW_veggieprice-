@@ -2,17 +2,20 @@
 
 import { useEffect, useMemo, useState, useRef } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import dynamic from 'next/dynamic'
+import { LazyMotion, domAnimation, m, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
 import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
-import { ExploreSection } from '@/components/ui/ExploreSection'
-import { AboutSection } from '@/components/ui/AboutSection'
-import { RecommendedLinks } from '@/components/ui/RecommendedLinks'
-import { DataSourceBadge } from '@/components/ui/DataSourceBadge'
 import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
-import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
+
+const WeatherRiskCard = dynamic(() => import('@/components/ui/WeatherRiskCard').then(mod => mod.WeatherRiskCard))
+const ExploreSection = dynamic(() => import('@/components/ui/ExploreSection').then(mod => mod.ExploreSection))
+const AboutSection = dynamic(() => import('@/components/ui/AboutSection').then(mod => mod.AboutSection))
+const RecommendedLinks = dynamic(() => import('@/components/ui/RecommendedLinks').then(mod => mod.RecommendedLinks))
+const DataSourceBadge = dynamic(() => import('@/components/ui/DataSourceBadge').then(mod => mod.DataSourceBadge))
+
 import { getProduceCategory, getSeasonalGuide, type ProduceCategory } from '@/lib/produce'
 import type {
   MarketOverview,
@@ -77,12 +80,22 @@ const cardVariant = {
   },
 }
 
-export function HomeClient() {
-  const [overview, setOverview] = useState<MarketOverview | null>(null)
+interface HomeClientProps {
+  initialTrend?: PriceHistoryPoint[]
+  initialLivestock?: LivestockPrices | null
+  initialOverview?: MarketOverview | null
+}
+
+export function HomeClient({
+  initialTrend = [],
+  initialLivestock = null,
+  initialOverview = null,
+}: HomeClientProps) {
+  const [overview, setOverview] = useState<MarketOverview | null>(initialOverview)
   const [movers, setMovers] = useState<TopMover[]>([])
-  const [marketTrend, setMarketTrend] = useState<PriceHistoryPoint[]>([])
+  const [marketTrend, setMarketTrend] = useState<PriceHistoryPoint[]>(initialTrend)
   const [markets, setMarkets] = useState<string[]>(DEFAULT_HOME_MARKETS)
-  const [loadingOverview, setLoadingOverview] = useState(true)
+  const [loadingOverview, setLoadingOverview] = useState(!initialOverview)
   const [loadingMovers, setLoadingMovers] = useState(true)
   const [activeCategory, setActiveCategory] = useState<ProduceCategory>('vegetable')
   const [selectedMarket, setSelectedMarket] = useState(DEFAULT_MARKET)
@@ -90,8 +103,8 @@ export function HomeClient() {
   const [moversError, setMoversError] = useState('')
   const [reloadKey, setReloadKey] = useState(0)
   const [summaryDismissed, setSummaryDismissed] = useState(false)
-  const [livestock, setLivestock] = useState<LivestockPrices | null>(null)
-  const [loadingLivestock, setLoadingLivestock] = useState(true)
+  const [livestock, setLivestock] = useState<LivestockPrices | null>(initialLivestock)
+  const [loadingLivestock, setLoadingLivestock] = useState(!initialLivestock)
   const [livestockError, setLivestockError] = useState('')
   const [seasonalGuide, setSeasonalGuide] = useState<SeasonalItem[]>([])
   const [loadingSeasonal, setLoadingSeasonal] = useState(true)
@@ -103,6 +116,15 @@ export function HomeClient() {
 
   const pulseScrollRef = useRef<HTMLDivElement>(null)
   const insightsScrollRef = useRef<HTMLDivElement>(null)
+  const selectedMarketRef = useRef(selectedMarket)
+
+  useEffect(() => {
+    selectedMarketRef.current = selectedMarket
+  }, [selectedMarket])
+
+  // Suppress loading flash on first mount when server pre-fetched data is available.
+  const hasInitialOverview = useRef(!!initialOverview)
+  const hasInitialLivestock = useRef(!!initialLivestock)
 
   const scrollPulse = (dir: 'left' | 'right') => {
     if (pulseScrollRef.current) {
@@ -147,7 +169,7 @@ export function HomeClient() {
       setMarkets(filtered)
       
       // If the current market is not in this new list, fallback to preferred or first
-      if (filtered.length > 0 && !filtered.includes(selectedMarket)) {
+      if (filtered.length > 0 && !filtered.includes(selectedMarketRef.current)) {
         const prefs = getUserPreferences()
         if (filtered.includes(prefs.preferredMarket)) {
           setSelectedMarket(prefs.preferredMarket)
@@ -170,7 +192,8 @@ export function HomeClient() {
   }, [activeCategory])
 
   useEffect(() => {
-    setLoadingLivestock(true)
+    if (!hasInitialLivestock.current) setLoadingLivestock(true)
+    hasInitialLivestock.current = false
     setLivestockError('')
     fetchLivestock()
       .then(setLivestock)
@@ -235,7 +258,8 @@ export function HomeClient() {
   // ── Category-Dependent Overview & Trend Fetch ────────────────
   useEffect(() => {
     async function loadOverviewAndTrend() {
-      setLoadingOverview(true)
+      if (!hasInitialOverview.current) setLoadingOverview(true)
+      hasInitialOverview.current = false
       setOverviewError('')
 
       const [ovResult, trendResult] = await Promise.allSettled([
@@ -383,10 +407,11 @@ export function HomeClient() {
       : 'bg-primary text-white'
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="home-dashboard-shell px-section-margin py-6 space-y-section-margin">
 
       {/* ── Market Overview Hero ───────────────────────── */}
-      <motion.section
+      <m.section
         variants={fadeUp}
         initial="hidden"
         animate="show"
@@ -401,16 +426,16 @@ export function HomeClient() {
 
         <div className="section-heading-row mb-4">
           <div>
-            <h2 className="text-headline-lg font-black text-on-surface">今日市場概況</h2>
+            <h1 className="text-headline-lg font-black text-on-surface">台灣蔬果批發行情</h1>
             <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
               用均價、量能與近週節奏，快速讀懂 {selectedMarket} 今天的批發行情。
             </p>
             {overview?.updatedAt && (
               <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
                 <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>update</span>
-                最後更新：{new Date(overview.updatedAt).toLocaleString('zh-TW', {
+                最後更新：<span suppressHydrationWarning>{new Date(overview.updatedAt).toLocaleString('zh-TW', {
                   month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                })}
+                })}</span>
               </p>
             )}
           </div>
@@ -452,7 +477,7 @@ export function HomeClient() {
         {/* Pulse Marquee */}
         {marketPulseCards.length > 0 && (
           <div className="mb-4 overflow-hidden bg-surface/60 backdrop-blur-md border border-outline/20 rounded-2xl flex items-center shadow-glass-sm py-2 group/marquee cursor-default relative">
-            <motion.div
+            <m.div
               className="flex whitespace-nowrap"
               animate={{ x: ["0%", "-50%"] }}
               transition={{ repeat: Infinity, ease: "linear", duration: 15 }}
@@ -465,14 +490,14 @@ export function HomeClient() {
                   <small className="text-xs font-medium text-on-surface-variant bg-surface-variant/50 px-2 py-0.5 rounded-md">{card.meta}</small>
                 </div>
               ))}
-            </motion.div>
+            </m.div>
           </div>
         )}
 
         {/* Daily summary banner */}
         <AnimatePresence>
           {!summaryDismissed && preferences.dailySummary && overview && !loadingOverview && (
-            <motion.div
+            <m.div
               key="summary"
               initial={{ opacity: 0, height: 0, marginBottom: 0 }}
               animate={{ opacity: 1, height: 'auto', marginBottom: 12 }}
@@ -495,13 +520,13 @@ export function HomeClient() {
                   ×
                 </button>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
 
         <AnimatePresence mode="wait">
           {loadingOverview ? (
-            <motion.div
+            <m.div
               key="hero-loading"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -511,9 +536,9 @@ export function HomeClient() {
               <div className="h-3 w-28 rounded-full mb-5" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <div className="h-14 w-44 rounded-xl mb-6" style={{ background: 'rgba(255,255,255,0.12)' }} />
               <div className="h-9 w-full rounded-lg" style={{ background: 'rgba(255,255,255,0.07)' }} />
-            </motion.div>
+            </m.div>
           ) : showErrorCard ? (
-            <motion.div key="hero-error" variants={fadeUp} initial="hidden" animate="show">
+            <m.div key="hero-error" variants={fadeUp} initial="hidden" animate="show">
               <GlassCard className="p-container-padding text-center">
                 <div className="text-4xl mb-2">🧺</div>
                 <p className="text-body-lg font-semibold text-on-surface">首頁資料暫時無法載入</p>
@@ -525,9 +550,9 @@ export function HomeClient() {
                   重新載入
                 </button>
               </GlassCard>
-            </motion.div>
+            </m.div>
           ) : overviewError ? (
-            <motion.div key="hero-ov-error" variants={fadeUp} initial="hidden" animate="show">
+            <m.div key="hero-ov-error" variants={fadeUp} initial="hidden" animate="show">
               <GlassCard className="p-container-padding text-center">
                 <div className="text-4xl mb-2">🧺</div>
                 <p className="text-body-lg font-semibold text-on-surface">市場概況暫時無法載入</p>
@@ -539,9 +564,9 @@ export function HomeClient() {
                   重新載入
                 </button>
               </GlassCard>
-            </motion.div>
+            </m.div>
           ) : overview ? (
-            <motion.div
+            <m.div
               key="hero-data"
               initial={{ opacity: 0, scale: 0.98, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -579,7 +604,7 @@ export function HomeClient() {
                           均價 · 元 / 公斤
                         </p>
                         <div className="flex items-end gap-3 flex-wrap">
-                          <motion.span
+                          <m.span
                             className="text-5xl sm:text-6xl leading-none font-black tabular-nums tracking-tight"
                             style={{ color: '#fcd34d' }}
                             initial={{ opacity: 0, scale: 0.85 }}
@@ -587,7 +612,7 @@ export function HomeClient() {
                             transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.1 }}
                           >
                             ${formatPrice(overview.avgPrice)}
-                          </motion.span>
+                          </m.span>
                           <div className="pb-1 sm:pb-1.5 shrink-0">
                             <TrendChip change={overview.priceChange} />
                           </div>
@@ -637,10 +662,10 @@ export function HomeClient() {
                   </div>
                 )}
               </Link>
-            </motion.div>
+            </m.div>
           ) : null}
         </AnimatePresence>
-      </motion.section>
+      </m.section>
 
       {/* ── Category Filter & Market Select ───────────────────────────── */}
       <section className="-mx-section-margin px-section-margin overflow-x-auto hide-scrollbar">
@@ -689,7 +714,7 @@ export function HomeClient() {
           <SkeletonList count={5} />
         ) : (
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={activeCategory}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
               variants={staggerContainer}
@@ -697,7 +722,7 @@ export function HomeClient() {
               animate="show"
             >
               {filteredMovers.length > 0 ? filteredMovers.map((item, i) => (
-                <motion.div key={`${item.cropCode}_${item.marketName}_${i}`} variants={moverVariant} className="mover-entry" style={{ animationDelay: `${i * 0.05}s` }}>
+                <m.div key={`${item.cropCode}_${item.marketName}_${i}`} variants={moverVariant} className="mover-entry" style={{ animationDelay: `${i * 0.05}s` }}>
                   <Link
                     href={`/produce/${encodeURIComponent(item.cropName)}`}
                     prefetch={false}
@@ -726,16 +751,16 @@ export function HomeClient() {
                       </div>
                     </div>
                   </Link>
-                </motion.div>
+                </m.div>
               )) : (
-                <motion.div variants={fadeUp} className="md:col-span-2 lg:col-span-3">
+                <m.div variants={fadeUp} className="md:col-span-2 lg:col-span-3">
                   <GlassCard className="p-container-padding text-center">
                     <p className="text-body-md text-on-surface">目前沒有符合此分類的波動作物</p>
                     <p className="text-body-sm text-on-surface-variant mt-1">請切換其他分類查看</p>
                   </GlassCard>
-                </motion.div>
+                </m.div>
               )}
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         )}
       </section>
@@ -743,7 +768,7 @@ export function HomeClient() {
       {/* ── Livestock Prices ──────────────────────────── */}
       <section>
         <h2 className="text-headline-md font-bold text-on-surface mb-4">民生物資行情</h2>
-        <motion.div
+        <m.div
           className="grid grid-cols-1 sm:grid-cols-2 gap-3"
           variants={staggerContainer}
           initial="hidden"
@@ -767,7 +792,7 @@ export function HomeClient() {
             </GlassCard>
           ) : (
             <>
-              <motion.div variants={cardVariant}>
+              <m.div variants={cardVariant}>
                 <GlassCard className="p-container-padding h-full">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl">🥚</span>
@@ -787,9 +812,9 @@ export function HomeClient() {
                     </p>
                   )}
                 </GlassCard>
-              </motion.div>
+              </m.div>
 
-              <motion.div variants={cardVariant}>
+              <m.div variants={cardVariant}>
                 <GlassCard className="p-container-padding h-full">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl">🐷</span>
@@ -805,19 +830,19 @@ export function HomeClient() {
                   </div>
                   {livestock?.date && (
                     <p className="text-body-sm text-on-surface-variant mt-1">
-                      資料日期：{new Intl.DateTimeFormat('zh-TW', { dateStyle: 'medium' }).format(new Date(livestock.date))}
+                      資料日期：<span suppressHydrationWarning>{new Intl.DateTimeFormat('zh-TW', { dateStyle: 'medium' }).format(new Date(livestock.date))}</span>
                     </p>
                   )}
                 </GlassCard>
-              </motion.div>
+              </m.div>
             </>
           )}
-        </motion.div>
+        </m.div>
       </section>
 
       {/* ── Weekly Trend + Seasonal Guide ─────────────── */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <motion.div
+        <m.div
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
@@ -875,9 +900,9 @@ export function HomeClient() {
               </div>
             )}
           </GlassCard>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
@@ -897,7 +922,7 @@ export function HomeClient() {
                 <p className="text-body-sm text-on-surface-variant text-center py-4 w-full">暫無本月盛產資料</p>
               ) : (
                 seasonalGuide.map((item, i) => (
-                  <motion.div
+                  <m.div
                     key={item.cropName}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -920,12 +945,12 @@ export function HomeClient() {
                         <p className="text-2xs text-on-surface-variant mt-2 opacity-70 truncate">{item.note}</p>
                       )}
                     </Link>
-                  </motion.div>
+                  </m.div>
                 ))
               )}
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </section>
 
       {/* ── Explore Features ──────────────────────────── */}
@@ -943,7 +968,7 @@ export function HomeClient() {
       {/* ── Floating Price Alert (Glassmorphism) ───────── */}
       <AnimatePresence>
         {overview && !loadingOverview && !alertDismissed && Math.abs(overview.priceChange) >= 10 && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 36, scale: 0.95, x: '-50%' }}
             animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
             exit={{ opacity: 0, y: 24, scale: 0.95, x: '-50%' }}
@@ -969,9 +994,10 @@ export function HomeClient() {
             >
               ×
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>
+    </LazyMotion>
   )
 }

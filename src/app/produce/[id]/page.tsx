@@ -5,6 +5,16 @@ import { SITE_URL } from '@/lib/env'
 
 type Props = { params: Promise<{ id: string }> }
 
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  // Pre-generate popular crops for SSG to reduce server load
+  const popularCrops = ['高麗菜', '香蕉', '蒜頭', '洋蔥', '番茄', '西瓜', '青江菜', '地瓜葉', '蘋果', '玉米']
+  return popularCrops.map((crop) => ({
+    id: encodeURIComponent(crop),
+  }))
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const cropName = decodeURIComponent(id)
@@ -17,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${cropName} 批發行情 | 農時價`,
       description: `${cropName}今日均價、歷史走勢與全台市場比價。`,
       url: pageUrl,
+      images: ['/api/og'],
     },
   }
 }

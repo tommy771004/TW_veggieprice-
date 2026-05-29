@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { GlassCard } from './GlassCard'
 
 const PROJECTS = [
@@ -48,7 +48,7 @@ export function RecommendedLinks() {
         <h2 className="text-headline-md font-bold text-on-surface">更多實用工具推薦</h2>
       </div>
 
-      <motion.div 
+      <m.div 
         variants={containerVariant}
         initial="hidden"
         whileInView="show"
@@ -56,7 +56,7 @@ export function RecommendedLinks() {
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
         {PROJECTS.map((project) => (
-          <motion.div key={project.url} variants={itemVariant}>
+          <m.div key={project.url} variants={itemVariant}>
             <a 
               href={project.url} 
               target="_blank" 
@@ -80,9 +80,9 @@ export function RecommendedLinks() {
                 </p>
               </GlassCard>
             </a>
-          </motion.div>
+          </m.div>
         ))}
-      </motion.div>
+      </m.div>
     </section>
   )
 }

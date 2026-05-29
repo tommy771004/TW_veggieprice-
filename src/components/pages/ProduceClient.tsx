@@ -3,8 +3,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrendChip } from '@/components/ui/TrendChip'
-import { PriceLineChart } from '@/components/charts/PriceLineChart'
-import { VolumeBarChart } from '@/components/charts/VolumeBarChart'
+import dynamic from 'next/dynamic'
+
+const PriceLineChart = dynamic(
+  () => import('@/components/charts/PriceLineChart').then(m => ({ default: m.PriceLineChart })),
+  {
+    loading: () => <div className="h-56 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中...</div>,
+    ssr: false,
+  }
+)
+const VolumeBarChart = dynamic(
+  () => import('@/components/charts/VolumeBarChart').then(m => ({ default: m.VolumeBarChart })),
+  {
+    loading: () => <div className="h-36 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中...</div>,
+    ssr: false,
+  }
+)
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
@@ -93,6 +107,129 @@ export function ProduceClient({ cropName }: { cropName: string }) {
       }
 
       try {
+        const category = getProduceCategory(cropName)
+        if (category === 'meat') {
+          const res = await fetch('/data/latest-livestock.json')
+          if (!active) return
+          if (!res.ok) throw new Error('查無肉品歷史資料')
+          const json = await res.json()
+          if (!active) return
+          
+          const lData = json.data || {}
+          let points: any[] = []
+          
+          if (cropName.includes('豬')) {
+            const grouped = (lData.pork || []).reduce((acc: any, curr: any) => {
+              if (!acc[curr.TransDate]) acc[curr.TransDate] = []
+              acc[curr.TransDate].push(curr)
+              return acc
+            }, {})
+            points = Object.keys(grouped).map(k => {
+              const items = grouped[k]
+              const valid = items.filter((r: any) => r.TransNum_Total > 0 && r.TransNum_AvgPrice > 0)
+              let avg = null, vol = null
+              if (valid.length > 0) {
+                const tv = valid.reduce((s: number, r: any) => s + r.TransNum_Total, 0)
+                const tval = valid.reduce((s: number, r: any) => s + (r.TransNum_Total * r.TransNum_AvgPrice), 0)
+                avg = tv > 0 ? (tval / tv) : 0
+                vol = tv
+              }
+              const yy = parseInt(k.substring(0, 3)) + 1911
+              const mm = k.substring(3, 5)
+              const dd = k.substring(5, 7)
+              return { date: `${yy}-${mm}-${dd}`, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: avg ? Math.round(avg * 10) / 10 : null, upperPrice: null, lowerPrice: null, volume: vol, isClosed: avg === null }
+            })
+          } else if (cropName.includes('蛋')) {
+            points = (lData.egg_chicken || []).map((r: any) => {
+              const iso = r.TransDate.replace(/\//g, '-')
+              const [, mm, dd] = iso.split('-')
+              const p = r.egg_Price ? parseFloat(r.egg_Price) : null
+              return { date: iso, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: p, upperPrice: null, lowerPrice: null, volume: null, isClosed: p === null || isNaN(p) }
+            })
+          } else if (cropName.includes('白肉雞')) {
+            points = (lData.egg_chicken || []).map((r: any) => {
+              const iso = r.TransDate.replace(/\//g, '-')
+              const [, mm, dd] = iso.split('-')
+              const p = r.TaijinPrice_2_0kgup || r.TaijinPrice_1_75kg_1_95kg || r['TaijinPrice_2.0kgup'] || r['TaijinPrice_1.75kg_1.95kg']
+              const pv = p ? parseFloat(p) : null
+              return { date: iso, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: pv, upperPrice: null, lowerPrice: null, volume: null, isClosed: pv === null || isNaN(pv) }
+            })
+          } else if (cropName.includes('紅羽土雞')) {
+            points = (lData.red_feather || []).map((r: any) => {
+              const iso = r.TransDate.replace(/\//g, '-')
+              const [, mm, dd] = iso.split('-')
+              const p = r.RedFeather_C_M || r.RedFeather_N_M
+              const pv = p ? parseFloat(p) : null
+              return { date: iso, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: pv, upperPrice: null, lowerPrice: null, volume: null, isClosed: pv === null || isNaN(pv) }
+            })
+          } else if (cropName.includes('鵝')) {
+            points = (lData.goose_duck || []).map((r: any) => {
+              const iso = r.TransDate.replace(/\//g, '-')
+              const [, mm, dd] = iso.split('-')
+              const p = r.Goose_WR_TaijinPrice || r.Goose_TaijinPrice
+              const pv = p && p !== '休市' ? parseFloat(p) : null
+              return { date: iso, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: pv, upperPrice: null, lowerPrice: null, volume: null, isClosed: pv === null || isNaN(pv) }
+            })
+          } else if (cropName.includes('鴨')) {
+            points = (lData.goose_duck || []).map((r: any) => {
+              const iso = r.TransDate.replace(/\//g, '-')
+              const [, mm, dd] = iso.split('-')
+              const p = r.Duck_75D_TaijinPrice || r.Duck_TaijinPrice || r.Duck_M_TaijinPrice
+              const pv = p && p !== '休市' ? parseFloat(p) : null
+              return { date: iso, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: pv, upperPrice: null, lowerPrice: null, volume: null, isClosed: pv === null || isNaN(pv) }
+            })
+          } else if (cropName.includes('羊')) {
+            const grouped = (lData.sheep || []).reduce((acc: any, curr: any) => {
+              if (!acc[curr.transDate]) acc[curr.transDate] = []
+              acc[curr.transDate].push(curr)
+              return acc
+            }, {})
+            points = Object.keys(grouped).map(k => {
+              const items = grouped[k]
+              const valid = items.filter((r: any) => parseFloat(r.avgPrice) > 0)
+              let avg = null, vol = null
+              if (valid.length > 0) {
+                const tv = valid.reduce((s: number, r: any) => s + (parseFloat(r.quantity) || 0), 0)
+                const tval = valid.reduce((s: number, r: any) => s + (parseFloat(r.quantity) || 0) * parseFloat(r.avgPrice), 0)
+                avg = tv > 0 ? (tval / tv) : 0
+                vol = tv
+              }
+              const iso = k.replace(/\//g, '-')
+              const [, mm, dd] = iso.split('-')
+              return { date: iso, label: `${parseInt(mm)}/${parseInt(dd)}`, avgPrice: avg ? Math.round(avg * 10) / 10 : null, upperPrice: null, lowerPrice: null, volume: vol, isClosed: avg === null }
+            })
+          }
+
+          const daysToSubtract = period === '1W' ? 7 : (period === '1M' ? 30 : 90)
+          const startLimit = getDaysAgoISO(daysToSubtract)
+          
+          // Filter out points that are null or out of range, and sort chronologically
+          const validPoints = points
+            .filter(p => p.date >= startLimit && p.date <= todayStr && p.avgPrice !== null)
+            .sort((a, b) => a.date.localeCompare(b.date))
+
+          // If we only have 1 data point (e.g. pork dataset has only 1 snapshot day),
+          // prepend a duplicate day before so Recharts can draw a beautiful flat trend line.
+          if (validPoints.length === 1) {
+            const single = validPoints[0]
+            const prevDate = subtractDays(single.date, 1)
+            const [, pM, pD] = prevDate.split('-')
+            validPoints.unshift({
+              ...single,
+              date: prevDate,
+              label: `${parseInt(pM)}/${parseInt(pD)}`,
+            })
+          }
+
+          if (validPoints.length === 0) throw new Error('查無近期交易資料')
+          setHistory(validPoints)
+          setClosedDays([]) // No closed day stripe clutter for meat/poultry products
+          if (json.metadata?.lastUpdated) setUpdatedAt(json.metadata.lastUpdated)
+          setStreamingStatus('complete')
+          setHistoryLoading(false)
+          return
+        }
+
         if (period === '1W') {
           const startStr = getDaysAgoISO(7)
           const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr}&endDate=${todayStr}`)
@@ -461,9 +598,9 @@ export function ProduceClient({ cropName }: { cropName: string }) {
               {updatedAt && (
                 <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-1.5">
                   <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>update</span>
-                  最後更新：{new Date(updatedAt).toLocaleString('zh-TW', {
+                  最後更新：<span suppressHydrationWarning>{new Date(updatedAt).toLocaleString('zh-TW', {
                     month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                  })}
+                  })}</span>
                 </p>
               )}
             </div>

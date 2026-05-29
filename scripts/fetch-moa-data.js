@@ -14,6 +14,10 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000); // 15 seconds
       options.signal = controller.signal;
+      options.headers = {
+        ...options.headers,
+        'Connection': 'close'
+      };
 
       const res = await fetch(url, options);
       clearTimeout(timeout);
@@ -203,31 +207,79 @@ async function main() {
   // -------------------------------------------------------------
   // Phase 2: Livestock & Poultry Data Fetching
   // -------------------------------------------------------------
-  console.log('\n🐄 開始擷取 畜禽行情資料 (過去30天)...');
-  const d30 = new Date(today);
-  d30.setDate(d30.getDate() - 30);
-  const startISO = d30.toISOString().split('T')[0];
+  console.log('\n🐄 開始擷取 畜禽行情資料 (過去90天 / 漁產30天)...');
+  const d90 = new Date(today);
+  d90.setDate(d90.getDate() - 90);
+  const startISO = d90.toISOString().split('T')[0];
   const endISO = todayStr;
-
-  const startROC = formatROCDate(startISO).replace(/\./g, '');
-  const endROC = formatROCDate(endISO).replace(/\./g, '');
 
   const startGregorian = startISO.replace(/-/g, '/');
   const endGregorian = endISO.replace(/-/g, '/');
+
+  // Seafood ROC Date (keep range to 30 days to avoid huge payload)
+  const d30 = new Date(today);
+  d30.setDate(d30.getDate() - 30);
+  const startISOSeafood = d30.toISOString().split('T')[0];
+  const startROCSeafood = formatROCDate(startISOSeafood).replace(/\./g, '');
+  const endROCSeafood = formatROCDate(endISO).replace(/\./g, '');
 
   const apiEndpoints = [
     { name: 'egg_chicken', url: `https://data.moa.gov.tw/api/v1/PoultryTransType_BoiledChicken_Eggs/?Start_time=${startGregorian}&End_time=${endGregorian}` },
     { name: 'red_feather', url: `https://data.moa.gov.tw/api/v1/PoultryTransType_RedFeather/?Start_time=${startGregorian}&End_time=${endGregorian}` },
     { name: 'goose_duck', url: `https://data.moa.gov.tw/api/v1/PoultryTransType_Goose_Duck_Duckegg/?Start_time=${startGregorian}&End_time=${endGregorian}` },
     { name: 'sheep', url: `https://data.moa.gov.tw/api/v1/SheepQuotation/?Start_time=${startGregorian}&End_time=${endGregorian}` },
-    { name: 'pork', url: `https://data.moa.gov.tw/api/v1/PorkTransType/?Start_time=${startROC}&End_time=${endROC}` },
-    { name: 'seafood', url: `https://data.moa.gov.tw/Service/OpenData/FromM/AquaticTransData.aspx?StartDate=${startROC}&EndDate=${endROC}` }
+    { name: 'pork', url: `BY_DAY` },
+    { name: 'seafood', url: `https://data.moa.gov.tw/Service/OpenData/FromM/AquaticTransData.aspx?StartDate=${startROCSeafood}&EndDate=${endROCSeafood}` }
   ];
 
   let livestockData = {};
   let seafoodData = [];
 
   for (const ep of apiEndpoints) {
+    if (ep.name === 'pork') {
+      console.log(`   ➔ 擷取: pork (毛豬 V1 API 90天逐日擷取)...`);
+      try {
+        const porkDates = [];
+        for (let i = 0; i < 90; i++) {
+          const d = new Date(today);
+          d.setDate(d.getDate() - i);
+          const yr = d.getFullYear() - 1911;
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const dd = String(d.getDate()).padStart(2, "0");
+          porkDates.push(`${yr}${mm}${dd}`);
+        }
+
+        const porkRecords = [];
+        const BATCH_SIZE = 15;
+        for (let i = 0; i < porkDates.length; i += BATCH_SIZE) {
+          const batch = porkDates.slice(i, i + BATCH_SIZE);
+          const batchResults = await Promise.all(
+            batch.map(async (date) => {
+              try {
+                const res = await fetchWithRetry(`https://data.moa.gov.tw/api/v1/PorkTransType/?TransDate=${date}`);
+                return res?.Data || [];
+              } catch (e) {
+                console.warn(`      ⚠️ 擷取毛豬單日資料失敗 [${date}]: ${e.message}`);
+                return [];
+              }
+            })
+          );
+          for (const list of batchResults) {
+            if (Array.isArray(list)) {
+              porkRecords.push(...list);
+            }
+          }
+          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        livestockData[ep.name] = porkRecords;
+        console.log(`   ✅ pork 擷取完成，共計 ${porkRecords.length} 筆資料 (涵蓋 ${new Set(porkRecords.map(r => r.TransDate)).size} 個交易日)`);
+      } catch (err) {
+        console.warn(`   ⚠️ pork 逐日擷取失敗:`, err.message);
+        livestockData[ep.name] = [];
+      }
+      continue;
+    }
+
     console.log(`   ➔ 擷取: ${ep.name}`);
     try {
       const data = await fetchWithRetry(ep.url);
@@ -266,7 +318,7 @@ async function main() {
   const seafoodPayload = {
     metadata: {
       lastUpdated: new Date().toISOString(),
-      startISO,
+      startISO: startISOSeafood,
       endISO
     },
     data: seafoodData
