@@ -6,10 +6,24 @@ import { LazyMotion, domAnimation, m, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
 import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
-import { ExploreSection } from '@/components/ui/ExploreSection'
-import { AboutSection } from '@/components/ui/AboutSection'
-import { RecommendedLinks } from '@/components/ui/RecommendedLinks'
-import { DataSourceBadge } from '@/components/ui/DataSourceBadge'
+import dynamic from 'next/dynamic'
+
+const ExploreSection = dynamic(
+  () => import('@/components/ui/ExploreSection').then(m => ({ default: m.ExploreSection })),
+  { loading: () => null }
+)
+const AboutSection = dynamic(
+  () => import('@/components/ui/AboutSection').then(m => ({ default: m.AboutSection })),
+  { loading: () => null }
+)
+const RecommendedLinks = dynamic(
+  () => import('@/components/ui/RecommendedLinks').then(m => ({ default: m.RecommendedLinks })),
+  { loading: () => null }
+)
+const DataSourceBadge = dynamic(
+  () => import('@/components/ui/DataSourceBadge').then(m => ({ default: m.DataSourceBadge })),
+  { loading: () => null }
+)
 import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
@@ -77,12 +91,22 @@ const cardVariant = {
   },
 }
 
-export function HomeClient() {
-  const [overview, setOverview] = useState<MarketOverview | null>(null)
+interface HomeClientProps {
+  initialTrend?: PriceHistoryPoint[]
+  initialLivestock?: LivestockPrices | null
+  initialOverview?: MarketOverview | null
+}
+
+export function HomeClient({
+  initialTrend = [],
+  initialLivestock = null,
+  initialOverview = null,
+}: HomeClientProps) {
+  const [overview, setOverview] = useState<MarketOverview | null>(initialOverview)
   const [movers, setMovers] = useState<TopMover[]>([])
-  const [marketTrend, setMarketTrend] = useState<PriceHistoryPoint[]>([])
+  const [marketTrend, setMarketTrend] = useState<PriceHistoryPoint[]>(initialTrend)
   const [markets, setMarkets] = useState<string[]>(DEFAULT_HOME_MARKETS)
-  const [loadingOverview, setLoadingOverview] = useState(true)
+  const [loadingOverview, setLoadingOverview] = useState(!initialOverview)
   const [loadingMovers, setLoadingMovers] = useState(true)
   const [activeCategory, setActiveCategory] = useState<ProduceCategory>('vegetable')
   const [selectedMarket, setSelectedMarket] = useState(DEFAULT_MARKET)
@@ -90,8 +114,8 @@ export function HomeClient() {
   const [moversError, setMoversError] = useState('')
   const [reloadKey, setReloadKey] = useState(0)
   const [summaryDismissed, setSummaryDismissed] = useState(false)
-  const [livestock, setLivestock] = useState<LivestockPrices | null>(null)
-  const [loadingLivestock, setLoadingLivestock] = useState(true)
+  const [livestock, setLivestock] = useState<LivestockPrices | null>(initialLivestock)
+  const [loadingLivestock, setLoadingLivestock] = useState(!initialLivestock)
   const [livestockError, setLivestockError] = useState('')
   const [seasonalGuide, setSeasonalGuide] = useState<SeasonalItem[]>([])
   const [loadingSeasonal, setLoadingSeasonal] = useState(true)
@@ -103,6 +127,9 @@ export function HomeClient() {
 
   const pulseScrollRef = useRef<HTMLDivElement>(null)
   const insightsScrollRef = useRef<HTMLDivElement>(null)
+  // Suppress loading flash on first mount when server pre-fetched data is available.
+  const hasInitialOverview = useRef(!!initialOverview)
+  const hasInitialLivestock = useRef(!!initialLivestock)
 
   const scrollPulse = (dir: 'left' | 'right') => {
     if (pulseScrollRef.current) {
@@ -170,7 +197,8 @@ export function HomeClient() {
   }, [activeCategory])
 
   useEffect(() => {
-    setLoadingLivestock(true)
+    if (!hasInitialLivestock.current) setLoadingLivestock(true)
+    hasInitialLivestock.current = false
     setLivestockError('')
     fetchLivestock()
       .then(setLivestock)
@@ -235,7 +263,8 @@ export function HomeClient() {
   // ── Category-Dependent Overview & Trend Fetch ────────────────
   useEffect(() => {
     async function loadOverviewAndTrend() {
-      setLoadingOverview(true)
+      if (!hasInitialOverview.current) setLoadingOverview(true)
+      hasInitialOverview.current = false
       setOverviewError('')
 
       const [ovResult, trendResult] = await Promise.allSettled([
@@ -409,9 +438,9 @@ export function HomeClient() {
             {overview?.updatedAt && (
               <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
                 <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>update</span>
-                最後更新：{new Date(overview.updatedAt).toLocaleString('zh-TW', {
+                最後更新：<span suppressHydrationWarning>{new Date(overview.updatedAt).toLocaleString('zh-TW', {
                   month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                })}
+                })}</span>
               </p>
             )}
           </div>
@@ -806,7 +835,7 @@ export function HomeClient() {
                   </div>
                   {livestock?.date && (
                     <p className="text-body-sm text-on-surface-variant mt-1">
-                      資料日期：{new Intl.DateTimeFormat('zh-TW', { dateStyle: 'medium' }).format(new Date(livestock.date))}
+                      資料日期：<span suppressHydrationWarning>{new Intl.DateTimeFormat('zh-TW', { dateStyle: 'medium' }).format(new Date(livestock.date))}</span>
                     </p>
                   )}
                 </GlassCard>

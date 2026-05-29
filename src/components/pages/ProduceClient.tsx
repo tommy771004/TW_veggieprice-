@@ -3,8 +3,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrendChip } from '@/components/ui/TrendChip'
-import { PriceLineChart } from '@/components/charts/PriceLineChart'
-import { VolumeBarChart } from '@/components/charts/VolumeBarChart'
+import dynamic from 'next/dynamic'
+
+const PriceLineChart = dynamic(
+  () => import('@/components/charts/PriceLineChart').then(m => ({ default: m.PriceLineChart })),
+  {
+    loading: () => <div className="h-56 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中...</div>,
+    ssr: false,
+  }
+)
+const VolumeBarChart = dynamic(
+  () => import('@/components/charts/VolumeBarChart').then(m => ({ default: m.VolumeBarChart })),
+  {
+    loading: () => <div className="h-36 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中...</div>,
+    ssr: false,
+  }
+)
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
@@ -584,9 +598,9 @@ export function ProduceClient({ cropName }: { cropName: string }) {
               {updatedAt && (
                 <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-1.5">
                   <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>update</span>
-                  最後更新：{new Date(updatedAt).toLocaleString('zh-TW', {
+                  最後更新：<span suppressHydrationWarning>{new Date(updatedAt).toLocaleString('zh-TW', {
                     month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                  })}
+                  })}</span>
                 </p>
               )}
             </div>
