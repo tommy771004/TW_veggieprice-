@@ -332,39 +332,78 @@ async function main() {
   // -------------------------------------------------------------
   console.log('\n📅 開始擷取 批發市場休市日資料...');
   try {
-    const restDaysUrl = 'https://data.moa.gov.tw/Service/OpenData/FromM/CropMarketRestDayData.aspx';
-    console.log(`   ➔ 擷取: ${restDaysUrl}`);
-    const restDaysData = await fetchWithRetry(restDaysUrl);
-    
-    // Validate output
-    const isArrayData = Array.isArray(restDaysData);
-    const resolvedData = isArrayData ? restDaysData : (restDaysData?.Data || []);
-    
-    // Normalize data keys: usually Chinese, map to English for front-end
-    const normalizedRestDays = resolvedData.map(item => {
-      let dateVal = item['休市日期'] || item['RestDate'] || item.date || item.RestDate || item['Date'] || '';
-      // Convert ROC date 113.05.01 to YYYY-MM-DD
-      if (dateVal && dateVal.includes('.')) {
-         const parts = dateVal.split('.');
-         if (parts.length === 3) {
-            const y = parseInt(parts[0], 10) + 1911;
-            const m = parts[1].padStart(2, '0');
-            const d = parts[2].padStart(2, '0');
-            dateVal = `${y}-${m}-${d}`;
-         }
-      } else if (dateVal.length === 7) {
-         // E.g., 1130501
-         const y = parseInt(dateVal.substring(0, 3), 10) + 1911;
-         const m = dateVal.substring(3, 5);
-         const d = dateVal.substring(5, 7);
-         dateVal = `${y}-${m}-${d}`;
+    const endpoints = [
+      { name: '果菜及花卉', url: 'https://data.moa.gov.tw/api/v1/MarketRestDayFarmWCF/' },
+      { name: '漁市', url: 'https://data.moa.gov.tw/api/v1/MarketRestDayFishWCF/' }
+    ];
+
+    const allRestDays = [];
+
+    for (const ep of endpoints) {
+      console.log(`   ➔ 擷取: ${ep.url}`);
+      try {
+        const data = await fetchWithRetry(ep.url);
+        if (!data || !data.Data) continue;
+
+        for (const market of data.Data) {
+          const marketName = market.MarkerName || market.MarketName || '';
+          if (!market.MarketTypeList) continue;
+
+          for (const typeList of market.MarketTypeList) {
+            if (!typeList.YearList) continue;
+            for (const yList of typeList.YearList) {
+              const rYear = typeof yList.Year === 'number' ? yList.Year : parseInt(yList.Year);
+              // limit to recent years just in case
+              if (rYear < 112) continue; 
+              const gregorianYear = rYear + 1911;
+
+              if (!yList.MonthList) continue;
+              for (const mList of yList.MonthList) {
+                const month = String(mList.Month).padStart(2, '0');
+                if (!mList.Rest) continue;
+                
+                const days = mList.Rest.split('、');
+                for (const d of days) {
+                  const dayStr = d.trim();
+                  if (!dayStr) continue;
+                  
+                  // some days might have spaces or weird characters, try to parse
+                  const dayNum = parseInt(dayStr, 10);
+                  if (isNaN(dayNum)) continue;
+
+                  const dateStr = `${gregorianYear}-${month}-${String(dayNum).padStart(2, '0')}`;
+                  
+                  allRestDays.push({
+                    marketName,
+                    date: dateStr,
+                    note: ep.name
+                  });
+                }
+              }
+            }
+          }
+        }
+      } catch (err) {
+         console.warn(`   ⚠️ ${ep.name}休市日擷取失敗:`, err.message);
       }
-      return {
-        marketName: item['市場名稱'] || item['MarketName'] || item.marketName,
-        date: dateVal,
-        note: item['備註'] || item['Remark'] || item.note || item.Remark || ''
-      };
-    });
+    }
+
+    // Deduplicate combining same market + date
+    const uniqueMap = new Map();
+    for (const d of allRestDays) {
+      const key = `${d.marketName}_${d.date}`;
+      // In case Note has both "果菜及花卉" and "漁市", we can join them (unlikely for the same market, but possible)
+      if (uniqueMap.has(key)) {
+         const existing = uniqueMap.get(key);
+         if (!existing.note.includes(d.note)) {
+            existing.note += ` / ${d.note}`;
+         }
+      } else {
+         uniqueMap.set(key, { ...d });
+      }
+    }
+
+    const normalizedRestDays = Array.from(uniqueMap.values());
     
     const restDaysPath = path.join(publicDataDir, 'market-rest-days.json');
     const tempRestDaysPath = restDaysPath + '.tmp';
@@ -372,7 +411,7 @@ async function main() {
     fs.renameSync(tempRestDaysPath, restDaysPath);
     console.log(`🎉 Successfully saved ${normalizedRestDays.length} market rest day records to ${restDaysPath}`);
   } catch (err) {
-    console.warn(`   ⚠️ 批發市場休市日擷取失敗:`, err.message);
+    console.warn(`   ⚠️ 批發市場休市日大發生未預期錯誤:`, err.message);
   }
 
   if (fetchedAny) {

@@ -63,7 +63,7 @@ function getRangeDates(range: SearchFilters['dateRange']): RangeParams {
 
 export function SearchContent() {
   const searchParams = useSearchParams()
-  const initialQuery = searchParams.get('q') || ''
+  const initialQuery = searchParams?.get('q') || ''
 
   const [query, setQuery] = useState(initialQuery)
   const [results, setResults] = useState<ProducePrice[]>([])
@@ -71,9 +71,9 @@ export function SearchContent() {
   const [market, setMarket] = useState(() => {
     if (typeof window !== 'undefined') {
       const prefs = getUserPreferences()
-      return searchParams.get('market') || prefs.preferredMarket || DEFAULT_MARKET
+      return searchParams?.get('market') || prefs.preferredMarket || DEFAULT_MARKET
     }
-    return searchParams.get('market') || DEFAULT_MARKET
+    return searchParams?.get('market') || DEFAULT_MARKET
   })
   const [marketType, setMarketType] = useState<MarketTypeOption['value']>('Veg')
   const [marketTypeOptions, setMarketTypeOptions] = useState<MarketTypeOption[]>([...FALLBACK_MARKET_TYPES])
@@ -99,8 +99,8 @@ export function SearchContent() {
     let cancelled = false
 
     const prefs = getUserPreferences()
-    const urlMarket = searchParams.get('market')
-    const urlType = searchParams.get('type')
+    const urlMarket = searchParams?.get('market')
+    const urlType = searchParams?.get('type')
     const preferredMarket = prefs.preferredMarket
     const preferredMarketType = prefs.preferredMarketType
 

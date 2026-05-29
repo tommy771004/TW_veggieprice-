@@ -15,13 +15,15 @@ const NAV_LINKS = [
   { href: '/settings', label: '設定', icon: 'settings' },
 ]
 
-function isNavActive(pathname: string, href: string) {
+function isNavActive(pathname: string | null, href: string) {
+  if (!pathname) return false
   if (href === '/') return pathname === '/'
   if (href === '/search') return pathname === '/search' || pathname.startsWith('/produce/')
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
-function getRouteMeta(pathname: string) {
+function getRouteMeta(pathname: string | null) {
+  if (!pathname) return { kicker: 'Market pulse', label: '首頁總覽' }
   if (pathname.startsWith('/produce/')) {
     return { kicker: 'Produce detail', label: '單品行情' }
   }

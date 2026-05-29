@@ -11,7 +11,8 @@ const MAIN_ITEMS = [
   { href: '/settings', icon: 'settings', label: '設定' },
 ]
 
-function isNavActive(pathname: string, href: string) {
+function isNavActive(pathname: string | null, href: string) {
+  if (!pathname) return false
   if (href === '/') return pathname === '/'
   if (href === '/search') return pathname === '/search' || pathname.startsWith('/produce/')
   return pathname === href || pathname.startsWith(`${href}/`)

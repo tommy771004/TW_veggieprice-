@@ -625,44 +625,78 @@ export async function fetchMarketRestDays(
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
 
-    const response = await fetch('https://data.moa.gov.tw/Service/OpenData/FromM/CropMarketRestDayData.aspx', {
-      signal: controller.signal,
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0'
-      },
-      next: { revalidate: 3600 }
-    })
+    const fetchWcf = async (url: string) => {
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+        },
+        next: { revalidate: 3600 }
+      })
+      if (!response.ok) throw new Error(`HTTP ${response.status} from ${url}`)
+      const text = await response.text()
+      if (text.startsWith('<html') || text.startsWith('<!DOCTYPE html>')) {
+        throw new Error(`MOA returned HTML instead of JSON for ${url}`)
+      }
+      return JSON.parse(text) as { Data: any[] }
+    }
+
+    const [farmRes, fishRes] = await Promise.allSettled([
+      fetchWcf('https://data.moa.gov.tw/api/v1/MarketRestDayFarmWCF/'),
+      fetchWcf('https://data.moa.gov.tw/api/v1/MarketRestDayFishWCF/')
+    ])
     
     clearTimeout(timer)
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch rest days data: ${response.status}`)
-    }
+    const records: any[] = [
+      ...(farmRes.status === 'fulfilled' ? (farmRes.value?.Data || []) : []),
+      ...(fishRes.status === 'fulfilled' ? (fishRes.value?.Data || []) : [])
+    ]
 
-    const records = await response.json() as Record<string, unknown>[]
     const seen = new Set<string>()
     const items: MarketRestDay[] = []
 
     for (const record of records) {
-      const marketName = readStringField(record, ['MarketName', 'marketName', 'Market'])
-      const rawDate = readStringField(record, ['RestDate', 'MarketDate', 'TransDate', 'Date'])
-      const date = normalizeMoaDate(rawDate)
-      const note = readStringField(record, ['Remark', 'Note', 'Memo', 'Reason'])
+      if (!record) continue
+      const marketName = record.MarkerName
+      if (!marketName) continue
 
-      if (!marketName || !date) continue
-      
-      // Filter by date range (iso strings)
-      if (date < startDate || date > endDate) continue
-      
-      // Filter by market
-      if (market && market !== '全部市場' && marketName !== market) continue
-
-      const key = `${marketName}_${date}`
-      if (seen.has(key)) continue
-      seen.add(key)
-
-      items.push({ marketName, date, note: note || undefined })
+      if (market === '全部市場' || marketName === market || marketName.includes(market) || market.includes(marketName)) {
+        const types = record.MarketTypeList || []
+        for (const type of types) {
+           const years = type.YearList || []
+           for (const yr of years) {
+             const yAD = Number(yr.Year) + 1911
+             if (isNaN(yAD)) continue
+             const yStr = String(yAD)
+             const mList = yr.MonthList || []
+             for (const ml of mList) {
+               const m = Number(ml.Month)
+               if (isNaN(m)) continue
+               const mStr = String(m).padStart(2, '0')
+               const restStr = ml.Rest || ''
+               if (restStr.includes('無')) continue
+               
+               const days = restStr.split('、').map((d: string) => d.trim()).filter(Boolean)
+               for (const d of days) {
+                 const dn = Number(d)
+                 if (isNaN(dn)) continue
+                 const dateYMD = `${yStr}-${mStr}-${String(dn).padStart(2, '0')}`
+                 
+                 // filter by date range
+                 if (dateYMD >= startDate && dateYMD <= endDate) {
+                   const key = `${marketName}_${dateYMD}`
+                   if (!seen.has(key)) {
+                     seen.add(key)
+                     items.push({ marketName, date: dateYMD, note: type.MarketType })
+                   }
+                 }
+               }
+             }
+           }
+        }
+      }
     }
 
     items.sort((a, b) => a.date.localeCompare(b.date) || a.marketName.localeCompare(b.marketName, 'zh-TW'))
