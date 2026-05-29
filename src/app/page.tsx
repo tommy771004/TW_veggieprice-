@@ -24,6 +24,7 @@ export default async function DashboardPage() {
   let initialOverview: any = null
   let initialLivestock: any = null
 
+<<<<<<< HEAD
   // Fetch Livestock and Market Trend concurrently to reduce TTFB
   const livestockPromise = fetchLivestockPrices().catch((err) => {
     console.warn('[Page prefetch] Failed to prefetch livestock prices:', err)
@@ -40,6 +41,23 @@ export default async function DashboardPage() {
 
   if (!trendRes.error && trendRes.points && trendRes.points.length > 0) {
     initialTrend = trendRes.points
+=======
+  // Prefetch Livestock prices in fallback-resilient try/catch
+  try {
+    initialLivestock = await fetchLivestockPrices()
+  } catch (err) {
+    console.warn('[Page prefetch] Failed to prefetch livestock prices:', err)
+  }
+
+  // Prefetch Market Trend and Overview
+  try {
+    const trendRes = await fetchMarketOverviewTrend(market, 7, date)
+    if (!trendRes.error && trendRes.points.length > 0) {
+      initialTrend = trendRes.points
+    }
+  } catch (err) {
+    console.warn('[Page prefetch] Failed to prefetch market overview trend:', err)
+>>>>>>> f81c64801f9b3f27b8215de1316dd40e2466d2dd
   }
 
   // If trend collection is empty, fall back to realistic generated mock to prevent build dependency crashes

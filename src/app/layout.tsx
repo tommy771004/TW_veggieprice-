@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { Inter, Noto_Sans_TC } from 'next/font/google'
+<<<<<<< HEAD
 import dynamic from 'next/dynamic'
+=======
+>>>>>>> f81c64801f9b3f27b8215de1316dd40e2466d2dd
 import './globals.css'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { TopAppBar } from '@/components/layout/TopAppBar'
@@ -10,8 +13,11 @@ import { ServiceWorkerRegistrar } from '@/components/pwa/ServiceWorkerRegistrar'
 import { PreferencesHydrator } from '@/components/settings/PreferencesHydrator'
 import { ClientSettingsProviders } from '@/components/settings/ClientSettingsProviders'
 
+<<<<<<< HEAD
 const OnboardingModal = dynamic(() => import('@/components/ui/OnboardingModal').then(mod => mod.OnboardingModal))
 
+=======
+>>>>>>> f81c64801f9b3f27b8215de1316dd40e2466d2dd
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
