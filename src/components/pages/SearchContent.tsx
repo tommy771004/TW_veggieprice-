@@ -150,6 +150,7 @@ export function SearchContent() {
     return () => {
       cancelled = true
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
@@ -181,8 +182,8 @@ export function SearchContent() {
     return () => { cancelled = true }
   }, [market])
 
-  const doSearch = useCallback(
-    debounce(async (q: string, mkt: string, mktType: string, range: SearchFilters['dateRange']) => {
+  const doSearch = useMemo(
+    () => debounce(async (q: string, mkt: string, mktType: string, range: SearchFilters['dateRange']) => {
       setLoading(true)
       setError('')
       const searchId = ++lastSearchId.current

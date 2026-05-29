@@ -40,9 +40,17 @@ export async function GET(req: NextRequest) {
         total: records.length,
         page,
         hasNextPage: startIndex + limit < records.length
+      }, {
+        headers: {
+          'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+        },
       })
     }
   }
 
-  return NextResponse.json(records)
+  return NextResponse.json(records, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+    },
+  })
 }

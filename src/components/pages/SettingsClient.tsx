@@ -43,7 +43,7 @@ export function SettingsClient() {
     }
   }, [])
 
-  const marketsForType = marketsByType[selectedType] ?? []
+  const marketsForType = useMemo(() => marketsByType[selectedType] ?? [], [marketsByType, selectedType])
 
   const countiesForType = useMemo(() => {
     const set = new Set<string>()

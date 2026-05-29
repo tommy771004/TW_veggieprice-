@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -64,8 +64,8 @@ export function TopAppBar() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const updateSuggestions = useCallback(
-    debounce(async (q: string) => {
+  const updateSuggestions = useMemo(
+    () => debounce(async (q: string) => {
       if (!q.trim()) {
         setSuggestions([])
         return
