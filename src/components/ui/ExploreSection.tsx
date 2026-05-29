@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const FEATURES = [
   {
@@ -58,7 +58,7 @@ export function ExploreSection() {
         <h2 className="text-headline-md font-bold text-on-surface">探索功能</h2>
       </div>
 
-      <motion.div
+      <m.div
         className="grid grid-cols-1 sm:grid-cols-3 gap-3"
         variants={container}
         initial="hidden"
@@ -66,7 +66,7 @@ export function ExploreSection() {
         viewport={{ once: true, margin: '-40px' }}
       >
         {FEATURES.map((f) => (
-          <motion.div key={f.href} variants={card}>
+          <m.div key={f.href} variants={card}>
             <Link
               href={f.href}
               className={`explore-card rounded-3xl p-5 flex flex-col gap-3 bg-gradient-to-br ${f.gradient} h-full block`}
@@ -82,9 +82,9 @@ export function ExploreSection() {
                 <p className="text-body-sm text-on-surface-variant leading-relaxed">{f.desc}</p>
               </div>
             </Link>
-          </motion.div>
+          </m.div>
         ))}
-      </motion.div>
+      </m.div>
     </section>
   )
 }
