@@ -5,75 +5,164 @@
  * system emoji font. A curated SVG set is crisp, consistent, weighs almost nothing
  * (no <img>/network, no next/image), and ships inside the existing JS bundle.
  *
+ * Coverage: rules are derived from the real item names in public/data (MOA daily
+ * opendata + seafood). When no curated SVG fits a crop, we fall back to the original
+ * emoji so the visual never mismatches the item.
+ *
  * Server-safe: no hooks / no 'use client', so it works in RSC (e.g. /seasonal page)
- * and Client Components alike. Size is controlled by the caller via `className`
- * (e.g. "w-7 h-7"), matching the wrapper each call site already provides.
+ * and Client Components alike. Size is controlled by the caller via `className`.
  */
+
+import { getCropEmoji } from '@/lib/utils'
 
 type IconKey =
   | 'tomato' | 'broccoli' | 'onion' | 'leafy' | 'herb' | 'carrot' | 'apple'
-  | 'banana' | 'pineapple' | 'mango' | 'grape' | 'melon' | 'citrus' | 'berry'
-  | 'pear' | 'pepper' | 'corn' | 'pumpkin' | 'eggplant' | 'cucumber' | 'pea'
-  | 'tuber' | 'mushroom' | 'garlic' | 'squid' | 'flower' | 'pig' | 'egg'
-  | 'chicken' | 'duck' | 'sheep' | 'shrimp' | 'crab' | 'shell' | 'fish' | 'leaf'
+  | 'banana' | 'pineapple' | 'mango' | 'grape' | 'waxapple' | 'dragonfruit'
+  | 'coconut' | 'kiwi' | 'lychee' | 'melon' | 'citrus' | 'berry' | 'pear'
+  | 'pepper' | 'corn' | 'pumpkin' | 'eggplant' | 'cucumber' | 'pea' | 'tuber'
+  | 'shoot' | 'mushroom' | 'garlic' | 'squid' | 'flower' | 'avocado' | 'pig'
+  | 'egg' | 'chicken' | 'duck' | 'sheep' | 'shrimp' | 'crab' | 'shell' | 'fish'
 
 /**
  * Ordered keyword → icon rules. First substring match wins, so more specific
- * multi-character keywords MUST precede generic single-character ones
- * (e.g. '洋蔥' before '蔥', '花枝' before '花', '雞蛋' before '雞').
+ * keywords MUST precede generic ones. Order also resolves real MOA naming traps:
+ *   南瓜 before 木瓜 · 葡萄柚 before 葡萄 · 酪梨/扁蒲 before 梨 ·
+ *   青花/蘆筍/花豆 before generic 花 · 大蒜 before 蔥 · 甘薯葉 before 甘薯 ·
+ *   玉米/青花 before generic 筍 · 海帶 before fish 帶.
  */
 const ICON_RULES: ReadonlyArray<readonly [string, IconKey]> = [
-  ['牛番茄', 'tomato'], ['番茄', 'tomato'],
-  ['花椰菜', 'broccoli'], ['青花菜', 'broccoli'], ['花椰', 'broccoli'],
+  // — trap-breakers (must run before the generic rules they'd otherwise hit) —
+  ['大蒜', 'garlic'],
+  ['南瓜', 'pumpkin'],
+  ['青花', 'broccoli'], ['花椰', 'broccoli'],
+  ['酪梨', 'avocado'],
+  ['扁蒲', 'cucumber'],
+  ['蘆筍', 'shoot'],
+
+  // — fruiting vegetables / tomato —
+  ['牛番茄', 'tomato'], ['小番茄', 'tomato'], ['蕃茄', 'tomato'], ['番茄', 'tomato'],
   ['洋蔥', 'onion'],
-  ['高麗菜', 'leafy'], ['甘藍', 'leafy'], ['大白菜', 'leafy'], ['青江菜', 'leafy'], ['空心菜', 'leafy'],
-  ['茼蒿', 'leafy'], ['菠菜', 'leafy'], ['萵苣', 'leafy'], ['生菜', 'leafy'], ['白菜', 'leafy'],
-  ['青蔥', 'herb'], ['韭菜', 'herb'], ['芹菜', 'herb'], ['蔥', 'herb'],
+
+  // — leafy greens —
+  ['高麗菜', 'leafy'], ['甘藍', 'leafy'], ['大白菜', 'leafy'], ['小白菜', 'leafy'],
+  ['青江', 'leafy'], ['空心菜', 'leafy'], ['蕹菜', 'leafy'], ['茼蒿', 'leafy'],
+  ['菠菜', 'leafy'], ['萵苣', 'leafy'], ['生菜', 'leafy'], ['莧菜', 'leafy'],
+  ['油菜', 'leafy'], ['芥藍', 'leafy'], ['芥菜', 'leafy'], ['紅鳳菜', 'leafy'],
+  ['皇宮菜', 'leafy'], ['雪里紅', 'leafy'], ['過貓', 'leafy'], ['蕨菜', 'leafy'],
+  ['山蘇', 'leafy'], ['川七', 'leafy'], ['朴菜', 'leafy'], ['榨菜', 'leafy'],
+  ['鹹菜', 'leafy'], ['黑甜仔', 'leafy'], ['甘薯葉', 'leafy'], ['地瓜葉', 'leafy'],
+  ['芽菜', 'leafy'], ['豆芽', 'leafy'], ['苜蓿', 'leafy'], ['水蓮', 'leafy'],
+  ['西洋菜', 'leafy'], ['人參葉', 'leafy'],
+  ['海帶', 'leafy'], ['海菜', 'leafy'], ['包心白', 'leafy'], ['包白', 'leafy'], ['白菜', 'leafy'],
+
+  // — aromatic herbs / stalks —
+  ['芫荽', 'herb'], ['巴西利', 'herb'], ['巴西里', 'herb'], ['九層塔', 'herb'],
+  ['香茅', 'herb'], ['茴香', 'herb'], ['羅勒', 'herb'], ['青蔥', 'herb'], ['韭菜', 'herb'],
+  ['芹菜', 'herb'], ['蔥', 'herb'], ['甘蔗', 'herb'],
+
+  // — roots —
   ['胡蘿蔔', 'carrot'], ['白蘿蔔', 'carrot'], ['蘿蔔', 'carrot'],
+
+  // — fruit —
   ['蘋果', 'apple'],
   ['香蕉', 'banana'],
-  ['鳳梨', 'pineapple'],
-  ['芒果', 'mango'],
-  ['葡萄', 'grape'],
-  ['西瓜', 'melon'], ['哈密瓜', 'melon'], ['香瓜', 'melon'], ['木瓜', 'melon'], ['芭樂', 'melon'], ['石榴', 'melon'],
-  ['柳橙', 'citrus'], ['柳丁', 'citrus'], ['椪柑', 'citrus'], ['橘子', 'citrus'],
-  ['檸檬', 'citrus'], ['柑', 'citrus'], ['橙', 'citrus'],
-  ['草莓', 'berry'], ['藍莓', 'berry'],
+  ['鳳梨', 'pineapple'], ['波蘿蜜', 'pineapple'], ['菠蘿蜜', 'pineapple'], ['榴槤', 'pineapple'],
+  ['芒果', 'mango'], ['枇杷', 'mango'], ['黃金果', 'mango'], ['蛋黃果', 'mango'], ['柿', 'mango'],
+  ['葡萄柚', 'citrus'],
+  ['葡萄', 'grape'], ['百香果', 'grape'],
+  ['蓮霧', 'waxapple'],
+  ['火龍果', 'dragonfruit'], ['紅龍果', 'dragonfruit'],
+  ['椰子', 'coconut'],
+  ['奇異果', 'kiwi'],
+  ['荔枝', 'lychee'], ['龍眼', 'lychee'], ['紅毛丹', 'lychee'],
+  ['西瓜', 'melon'], ['哈密瓜', 'melon'], ['香瓜梨', 'melon'], ['洋香瓜', 'melon'],
+  ['香瓜', 'melon'], ['甜瓜', 'melon'], ['木瓜', 'melon'], ['芭樂', 'melon'],
+  ['番石榴', 'melon'], ['石榴', 'melon'],
+  ['柳橙', 'citrus'], ['柳丁', 'citrus'], ['椪柑', 'citrus'], ['桶柑', 'citrus'],
+  ['茂谷', 'citrus'], ['橘子', 'citrus'], ['檸檬', 'citrus'], ['柚', 'citrus'],
+  ['柑', 'citrus'], ['橙', 'citrus'], ['桔', 'citrus'],
+  ['草莓', 'berry'], ['藍莓', 'berry'], ['桑椹', 'berry'], ['桑', 'berry'], ['山竹', 'berry'],
+  ['楊梅', 'berry'], ['櫻桃', 'berry'], ['李', 'berry'], ['梅', 'berry'],
   ['水梨', 'pear'], ['梨', 'pear'], ['桃', 'pear'],
+
+  // — other vegetables —
   ['青椒', 'pepper'], ['甜椒', 'pepper'], ['辣椒', 'pepper'],
   ['玉米', 'corn'],
-  ['南瓜', 'pumpkin'],
-  ['茄子', 'eggplant'],
-  ['小黃瓜', 'cucumber'], ['花胡瓜', 'cucumber'], ['胡瓜', 'cucumber'], ['苦瓜', 'cucumber'], ['絲瓜', 'cucumber'], ['黃瓜', 'cucumber'],
-  ['荷蘭豆', 'pea'], ['豌豆', 'pea'], ['毛豆', 'pea'], ['四季豆', 'pea'], ['花生', 'pea'],
-  ['馬鈴薯', 'tuber'], ['地瓜', 'tuber'], ['番薯', 'tuber'], ['芋', 'tuber'], ['薑', 'tuber'],
-  ['金針菇', 'mushroom'], ['杏鮑菇', 'mushroom'], ['香菇', 'mushroom'], ['菇', 'mushroom'],
-  ['蒜頭', 'garlic'], ['蒜', 'garlic'],
-  ['花枝', 'squid'], ['透抽', 'squid'], ['軟絲', 'squid'], ['魷', 'squid'], ['章魚', 'squid'],
-  ['菊', 'flower'], ['玫瑰', 'flower'], ['百合', 'flower'], ['蘭花', 'flower'], ['花', 'flower'],
+  ['茄子', 'eggplant'], ['茄', 'eggplant'],
+  ['小黃瓜', 'cucumber'], ['花胡瓜', 'cucumber'], ['胡瓜', 'cucumber'], ['苦瓜', 'cucumber'],
+  ['絲瓜', 'cucumber'], ['冬瓜', 'cucumber'], ['隼人瓜', 'cucumber'], ['醃瓜', 'cucumber'],
+  ['越瓜', 'cucumber'], ['黃瓜', 'cucumber'], ['瓜', 'cucumber'],
+  ['豆薯', 'tuber'],
+  ['荷蘭豆', 'pea'], ['豌豆', 'pea'], ['毛豆', 'pea'], ['四季豆', 'pea'], ['菜豆', 'pea'],
+  ['敏豆', 'pea'], ['萊豆', 'pea'], ['虎豆', 'pea'], ['鵲豆', 'pea'], ['肉豆', 'pea'],
+  ['花豆', 'pea'], ['豇豆', 'pea'], ['蠶豆', 'pea'], ['秋葵', 'pea'], ['橄欖', 'pea'],
+  ['落花生', 'pea'], ['花生', 'pea'],
+  ['馬鈴薯', 'tuber'], ['薯蕷', 'tuber'], ['甘薯', 'tuber'], ['番薯', 'tuber'],
+  ['地瓜', 'tuber'], ['芋', 'tuber'], ['薑', 'tuber'], ['牛蒡', 'tuber'],
+  ['荸薺', 'tuber'], ['蓮藕', 'tuber'], ['草石蠶', 'tuber'], ['菱角', 'tuber'],
+  ['茭白筍', 'shoot'], ['竹筍', 'shoot'], ['桶筍', 'shoot'], ['金針筍', 'shoot'],
+  ['半天筍', 'shoot'], ['晚香玉筍', 'shoot'], ['筍茸', 'shoot'], ['綠竹', 'shoot'],
+  ['麻竹', 'shoot'], ['筍', 'shoot'],
+  ['金針菇', 'mushroom'], ['杏鮑菇', 'mushroom'], ['香菇', 'mushroom'], ['洋菇', 'mushroom'],
+  ['木耳', 'mushroom'], ['菇', 'mushroom'],
+  ['蕎頭', 'garlic'], ['蒜頭', 'garlic'], ['蒜', 'garlic'],
+
+  // — flowers (after every veg/fruit that merely contains 花) —
+  ['菊', 'flower'], ['玫瑰', 'flower'], ['百合', 'flower'], ['蘭花', 'flower'],
+  ['金針花', 'flower'], ['石蓮花', 'flower'], ['玉蘭', 'flower'], ['花', 'flower'],
+
+  // — squid / cephalopods —
+  ['花枝', 'squid'], ['透抽', 'squid'], ['軟絲', 'squid'], ['軟舌', 'squid'],
+  ['魷', 'squid'], ['章魚', 'squid'], ['小卷', 'squid'], ['鎖管', 'squid'], ['頭足', 'squid'], ['管', 'squid'], ['卷', 'squid'],
+
+  // — meat / poultry —
   ['毛豬', 'pig'], ['豬', 'pig'],
-  ['雞蛋', 'egg'], ['蛋', 'egg'],
+  ['雞蛋', 'egg'], ['鴨蛋', 'egg'], ['皮蛋', 'egg'], ['蛋', 'egg'],
   ['白肉雞', 'chicken'], ['土雞', 'chicken'], ['雞', 'chicken'],
   ['鵝', 'duck'], ['鴨', 'duck'],
   ['羊', 'sheep'],
+
+  // — seafood —
   ['蝦', 'shrimp'],
-  ['蟹', 'crab'],
-  ['牡蠣', 'shell'], ['蛤', 'shell'], ['蚵', 'shell'],
-  ['虱目魚', 'fish'], ['吳郭魚', 'fish'], ['石斑', 'fish'], ['鱸', 'fish'], ['鯛', 'fish'],
-  ['鯧', 'fish'], ['香魚', 'fish'], ['魚', 'fish'], ['海鮮', 'fish'],
+  ['蟹', 'crab'], ['蟳', 'crab'],
+  ['牡蠣', 'shell'], ['文蛤', 'shell'], ['蛤', 'shell'], ['蚵', 'shell'], ['蜆', 'shell'],
+  ['蟶', 'shell'], ['鮑', 'shell'], ['螺', 'shell'], ['九孔', 'shell'], ['貝', 'shell'], ['蚶', 'shell'], ['蜊', 'shell'], ['萬引', 'shell'],
+  ['虱目', 'fish'], ['吳郭', 'fish'], ['石斑', 'fish'], ['鱸', 'fish'], ['鯛', 'fish'],
+  ['鯧', 'fish'], ['香魚', 'fish'], ['鰺', 'fish'], ['黃花', 'fish'], ['赤宗', 'fish'],
+  ['龍膽', 'fish'], ['龍虎斑', 'fish'], ['青斑', 'fish'], ['秋刀', 'fish'], ['土魠', 'fish'],
+  ['海鱺', 'fish'], ['金線', 'fish'], ['加鱲', 'fish'], ['盤仔', 'fish'], ['英哥', 'fish'],
+  ['青嘴', 'fish'], ['龍尖', 'fish'], ['鰱', 'fish'], ['魴', 'fish'], ['鱝', 'fish'],
+  ['秋姑', 'fish'], ['煙仔', 'fish'], ['鰻', 'fish'], ['鰡', 'fish'], ['三牙', 'fish'],
+  ['皮刀', 'fish'], ['魽', 'fish'], ['沙腸', 'fish'], ['勿仔', 'fish'], ['梭', 'fish'],
+  ['白口', 'fish'], ['黑口', 'fish'], ['赤筆', 'fish'], ['巴闌', 'fish'], ['硬尾', 'fish'],
+  ['午仔', 'fish'], ['鯖', 'fish'], ['鮭', 'fish'], ['鯊', 'fish'], ['杉', 'fish'],
+  ['帶魚', 'fish'], ['白帶', 'fish'], ['肉魚', 'fish'], ['什魚', 'fish'], ['草魚', 'fish'],
+  ['紅魚', 'fish'], ['紅尾', 'fish'], ['鱲', 'fish'], ['鰆', 'fish'], ['鰹', 'fish'],
+  ['鮪', 'fish'], ['旗', 'fish'], ['鯰', 'fish'], ['海鯰', 'fish'], ['牛尾', 'fish'],
+  ['四破', 'fish'], ['加志', 'fish'], ['狗母', 'fish'], ['龍舌', 'fish'], ['紅條', 'fish'],
+  ['石喬', 'fish'], ['白北', 'fish'], ['鐵甲', 'fish'], ['水針', 'fish'], ['變身苦', 'fish'],
+  ['咬狗', 'fish'], ['串仔', 'fish'], ['鰽', 'fish'], ['青衣', 'fish'], ['目斗', 'fish'],
+  ['馬加', 'fish'], ['三角仔', 'fish'], ['金錢仔', 'fish'], ['新娘', 'fish'],
+  ['丁香', 'fish'], ['鮫', 'fish'], ['石狗公', 'fish'], ['泥鰍', 'fish'], ['鰍', 'fish'],
+  ['油甘', 'fish'], ['紅喉', 'fish'], ['鱙', 'fish'], ['尾冬', 'fish'], ['西齒', 'fish'],
+  ['三點', 'fish'], ['赤翅', 'fish'], ['赤海', 'fish'], ['長加', 'fish'], ['闊北', 'fish'],
+  ['白松', 'fish'], ['智仔', 'fish'], ['秋哥', 'fish'], ['西刀', 'fish'], ['紅古', 'fish'],
+  ['九岩', 'fish'], ['目孔', 'fish'], ['火口', 'fish'], ['油口', 'fish'], ['黃目帶', 'fish'],
+  ['烏殼', 'fish'], ['大目', 'fish'], ['鞭', 'fish'], ['鱈', 'fish'], ['鱠', 'fish'], ['厚唇', 'fish'],
+  ['斑', 'fish'], ['魚', 'fish'], ['海鮮', 'fish'],
 ]
 
-export function resolveCropIconKey(cropName: string): IconKey {
-  if (!cropName) return 'leaf'
+/** Returns the matched icon key, or null when no curated SVG fits this crop. */
+export function resolveCropIconKey(cropName: string): IconKey | null {
+  if (!cropName) return null
   for (const [keyword, key] of ICON_RULES) {
     if (cropName.includes(keyword)) return key
   }
-  return 'leaf'
+  return null
 }
 
 /** Inner SVG markup per icon (viewBox 0 0 24 24, flat fills). */
 const ICON_SVG: Record<IconKey, string> = {
-  leaf: `<path d="M5 19c0-7 6-13 14-14 1 8-5 15-14 14z" fill="#66BB6A"/><path d="M8 16c2-3 5-5 8-6.5" stroke="#388E3C" stroke-width="1.3" fill="none" stroke-linecap="round"/>`,
   leafy: `<circle cx="12" cy="13" r="8" fill="#81C784"/><path d="M12 5c-4 2-6 6-5 10 2 2 6 2 8 0 2-4 0-9-3-10z" fill="#C8E6C9"/><path d="M9.5 9c-2 3-2 6 0 8" stroke="#4CAF50" stroke-width="1.2" fill="none" stroke-linecap="round"/>`,
   herb: `<path d="M11 21c-2-6-2-12 1-19" stroke="#43A047" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M14 21c1-5 1-11-1-17" stroke="#66BB6A" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M8.5 20h8" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round"/>`,
   tomato: `<circle cx="12" cy="14" r="7" fill="#E53935"/><path d="M12 5c1 2 3 3 4.5 2-1 2-3 2.2-4.5 2.2S8.5 9 7.5 7C9 8 11 7 12 5z" fill="#43A047"/><path d="M12 9V6" stroke="#2E7D32" stroke-width="1.4" stroke-linecap="round"/>`,
@@ -83,7 +172,12 @@ const ICON_SVG: Record<IconKey, string> = {
   banana: `<path d="M5 8c1.2 7.5 7.5 11.5 13.5 9 1-.4.8-2-.3-1.8-5 1-9.8-3-10.8-8C7.2 6.4 5 6.6 5 8z" fill="#FDD835"/><path d="M5 8c0-1.2-1-2.2-2.2-2" stroke="#C0A000" stroke-width="1.4" stroke-linecap="round"/><path d="M18 17l1.6.6" stroke="#A1887F" stroke-width="1.4" stroke-linecap="round"/>`,
   pineapple: `<ellipse cx="12" cy="15.5" rx="5" ry="6" fill="#FBC02D"/><path d="M12 9.5c0-4 2-6.5 4.5-6.5-1 3.5-1.2 5.5-4.5 6.5zm0 0c0-4-2-6.5-4.5-6.5 1 3.5 1.2 5.5 4.5 6.5z" fill="#43A047"/><path d="M9 12l6 6M15 12l-6 6" stroke="#C49000" stroke-width=".9"/>`,
   mango: `<path d="M14.5 6c4 1.2 5.8 5.2 4.6 9s-6.2 5.8-10 3.6S7 11 10 8.4c2-1.8 4-2.8 6.5-2.4z" fill="#FFB300"/><path d="M9 11c2.2-1 4.3-.8 6.2 1.2" stroke="#F57F17" stroke-width="1" fill="none" stroke-linecap="round"/>`,
-  grape: `<g fill="#9C27B0"><circle cx="9.5" cy="12" r="2.2"/><circle cx="13.5" cy="12" r="2.2"/><circle cx="11.5" cy="15.2" r="2.2"/><circle cx="15.2" cy="15.2" r="2.2"/><circle cx="13.3" cy="18.3" r="2.2"/><circle cx="10.5" cy="9" r="2.2"/></g><path d="M13 8.5c0-2.2 1.2-4 4-4" stroke="#43A047" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+  grape: `<g fill="#9C27B0"><circle cx="9.5" cy="12" r="2.2"/><circle cx="13.5" cy="12" r="2.2"/><circle cx="11.5" cy="15.2" r="2.2"/><circle cx="15.2" cy="15.2" r="2.2"/><circle cx="13.3" cy="18.3" r="2.2"/><circle cx="10.5" cy="9" r="2.2"/></g><path d="M13 9c0-2.2 1.2-4 4-4" stroke="#43A047" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+  waxapple: `<path d="M12 6c-1 0-1.4 1-1.4 2C8 9 6.5 12 6.5 15c0 3.6 2.6 5.6 5.5 5.6s5.5-2 5.5-5.6c0-3-1.5-6-4.1-7 0-1-.4-2-1.4-2z" fill="#EC407A"/><path d="M8 14.5c2.4 2 5.6 2 8 0" stroke="#AD1457" stroke-width="1" fill="none"/><path d="M12 6c0-1.4 1-2.6 2.4-2.8" stroke="#43A047" stroke-width="1.4" stroke-linecap="round" fill="none"/>`,
+  dragonfruit: `<ellipse cx="12" cy="13.5" rx="6" ry="7" fill="#E91E63"/><g fill="#9CCC65"><path d="M9 7.5c-1-1.2-3-1-2.8 1 1.4-.2 2-.2 2.8-1zM15 7.5c1-1.2 3-1 2.8 1-1.4-.2-2-.2-2.8-1zM6.8 13c-1.4-.6-3 .4-2.4 2 1-.6 1.8-.6 2.4-2zM17.2 13c1.4-.6 3 .4 2.4 2-1-.6-1.8-.6-2.4-2zM10.5 5.5c0-1.6 1-2.6 2-2.6.4 1.6-.2 2.6-2 2.6z"/></g><circle cx="12" cy="14" r="3.4" fill="#F8BBD0"/>`,
+  coconut: `<circle cx="12" cy="13" r="8" fill="#8D6E63"/><circle cx="12" cy="13" r="5.4" fill="#A1887F"/><g fill="#4E342E"><circle cx="10" cy="11.5" r="1"/><circle cx="14" cy="11.5" r="1"/><circle cx="12" cy="14.5" r="1"/></g>`,
+  kiwi: `<circle cx="12" cy="12" r="8" fill="#8D6E63"/><circle cx="12" cy="12" r="6" fill="#AED581"/><circle cx="12" cy="12" r="2" fill="#F9FBE7"/><g fill="#33691E"><circle cx="12" cy="6.6" r=".5"/><circle cx="12" cy="17.4" r=".5"/><circle cx="6.6" cy="12" r=".5"/><circle cx="17.4" cy="12" r=".5"/><circle cx="8.3" cy="8.3" r=".5"/><circle cx="15.7" cy="8.3" r=".5"/><circle cx="8.3" cy="15.7" r=".5"/><circle cx="15.7" cy="15.7" r=".5"/></g>`,
+  lychee: `<circle cx="12" cy="14" r="6.5" fill="#E53935"/><g fill="#B71C1C"><circle cx="9.5" cy="12" r="1.2"/><circle cx="12" cy="11" r="1.2"/><circle cx="14.5" cy="12" r="1.2"/><circle cx="10" cy="15" r="1.2"/><circle cx="13" cy="15.6" r="1.2"/><circle cx="15" cy="15" r="1.2"/></g><path d="M12 7.6V4" stroke="#6D4C41" stroke-width="1.4" stroke-linecap="round"/>`,
   melon: `<path d="M4 8h16c0 7-4 12-8 12S4 15 4 8z" fill="#E53935"/><path d="M4 8h16l-1.4-2H5.4z" fill="#43A047"/><g fill="#212121"><circle cx="10" cy="12" r=".8"/><circle cx="14" cy="12" r=".8"/><circle cx="12" cy="15.5" r=".8"/></g>`,
   citrus: `<circle cx="12" cy="12" r="8" fill="#FB8C00"/><circle cx="12" cy="12" r="5.4" fill="#FFCC80"/><path d="M12 6.6v10.8M6.6 12h10.8M8.2 8.2l7.6 7.6M15.8 8.2l-7.6 7.6" stroke="#FB8C00" stroke-width="1"/>`,
   berry: `<path d="M12 21c-4-1-7-4-7-7.6 0-2 3-3 7-3s7 1 7 3C19 17 16 20 12 21z" fill="#E53935"/><path d="M8 9.5c1.2-3 6.8-3 8 0-2-1-6-1-8 0z" fill="#43A047"/><g fill="#FFF59D"><circle cx="9" cy="13" r=".6"/><circle cx="12" cy="12.2" r=".6"/><circle cx="15" cy="13" r=".6"/><circle cx="10.5" cy="16" r=".6"/><circle cx="13.5" cy="16" r=".6"/></g>`,
@@ -96,8 +190,10 @@ const ICON_SVG: Record<IconKey, string> = {
   cucumber: `<path d="M7 7c-2 2-2 5.2 0 7.2l2.8 2.8c2 2 5.2 2 7.2 0s2-5.2 0-7.2L14.2 7c-2-2-5.2-2-7.2 0z" fill="#66BB6A"/><g fill="#388E3C"><circle cx="10" cy="10" r=".7"/><circle cx="12.5" cy="12.5" r=".7"/><circle cx="14.5" cy="11" r=".7"/></g>`,
   pea: `<path d="M5 9c0-2 4-3 8 0s6 3 6 6c0 1-1 2-3 1-1-1-2-4-5-6S5 11 5 9z" fill="#7CB342"/><g fill="#33691E"><circle cx="9" cy="11.5" r="1.5"/><circle cx="12" cy="13" r="1.5"/><circle cx="15" cy="14.5" r="1.5"/></g>`,
   tuber: `<g transform="rotate(-15 12 13)"><ellipse cx="12" cy="13" rx="8" ry="5.6" fill="#A1887F"/></g><g fill="#6D4C41"><circle cx="9" cy="11" r=".7"/><circle cx="14" cy="14" r=".7"/><circle cx="12" cy="10.5" r=".7"/></g>`,
+  shoot: `<path d="M10 21c-1-6 0-12 4-17 1.4 5 1.2 12-1 17z" fill="#AED581"/><path d="M14 4c2.2 1 3.2 3 2 5.2-1.2-1-2-2.2-2-5.2z" fill="#7CB342"/><path d="M11 9.5c1 1 2.2 1 3.2 0M10.3 13.5c1.2 1 3 1 4 0M9.7 17.5c1.4 1 3.6 1 4.6 0" stroke="#558B2F" stroke-width="1" fill="none"/>`,
   mushroom: `<path d="M5 12c0-4 3-7 7-7s7 3 7 7c0 1-1 1.2-2 1.2H7C6 13.2 5 13 5 12z" fill="#A1887F"/><path d="M10 13.2h4V18c0 1.4-4 1.4-4 0z" fill="#EFEBE9"/>`,
   garlic: `<path d="M12 4c-1.2 2.2-4 3.4-4 9 0 4 2 7 4 7s4-3 4-7c0-5.6-2.8-6.8-4-9z" fill="#FAFAFA" stroke="#E0E0E0"/><path d="M9 8.5c-1 6-1 9 0 11.5M15 8.5c1 6 1 9 0 11.5" stroke="#E0E0E0" stroke-width="1" fill="none"/>`,
+  avocado: `<path d="M12 6c1.5 0 2 1.5 2 3 2.5 1.5 3.5 4.5 3.5 7 0 3-2.2 5-5.5 5s-5.5-2-5.5-5c0-2.5 1-5.5 3.5-7 0-1.5.5-3 2-3z" fill="#7CB342"/><path d="M12 8.5c1.6 1 2.4 3 2.4 5.5" stroke="#33691E" stroke-width="1" fill="none" stroke-linecap="round"/><circle cx="12" cy="15.5" r="2.6" fill="#8D6E63"/>`,
   flower: `<g fill="#EC407A"><circle cx="12" cy="7" r="3"/><circle cx="7" cy="11" r="3"/><circle cx="17" cy="11" r="3"/><circle cx="9" cy="16.5" r="3"/><circle cx="15" cy="16.5" r="3"/></g><circle cx="12" cy="12" r="2.6" fill="#FFD54F"/>`,
   pig: `<path d="M4.5 8l2.5 3M19.5 8L17 11" stroke="#F48FB1" stroke-width="3" stroke-linecap="round"/><ellipse cx="12" cy="13.5" rx="8" ry="6" fill="#F48FB1"/><ellipse cx="12" cy="14.5" rx="3" ry="2.4" fill="#EC407A"/><circle cx="11" cy="14.5" r=".5" fill="#AD1457"/><circle cx="13" cy="14.5" r=".5" fill="#AD1457"/><circle cx="9" cy="10.5" r=".8" fill="#4E342E"/><circle cx="15" cy="10.5" r=".8" fill="#4E342E"/>`,
   chicken: `<circle cx="13" cy="13.5" r="6" fill="#FFFFFF" stroke="#E0E0E0"/><path d="M13 7.5c-.4-2 1.4-3.2 2.6-2.2-1 1 .2 2.8-2.6 2.2z" fill="#E53935"/><path d="M19 12l3.2-1-3.2-1z" fill="#FB8C00"/><circle cx="17.5" cy="12" r=".9" fill="#3E2723"/><path d="M7.5 18.5c-2 .3-3.5-1.2-2.6-2.4 1 1.6 2.8.8 2.6 2.4z" fill="#FB8C00"/>`,
@@ -118,8 +214,31 @@ interface CropIconProps {
   className?: string
 }
 
+/** Derive an emoji font-size that fills the same box as the Tailwind w-N class. */
+function emojiFontSize(className: string): string {
+  const match = className.match(/\bw-(\d+(?:\.\d+)?)\b/)
+  const units = match ? parseFloat(match[1]) : 6
+  return `${units * 4 * 0.82}px` // 1 Tailwind unit = 4px; 0.82 keeps the glyph inside the box
+}
+
 export function CropIcon({ name, className = 'w-6 h-6' }: CropIconProps) {
   const key = resolveCropIconKey(name)
+
+  // No curated SVG for this crop — fall back to the original emoji so the visual
+  // never mismatches the item (a known emoji beats a generic placeholder).
+  if (!key) {
+    return (
+      <span
+        className={`inline-flex items-center justify-center leading-none select-none ${className}`}
+        style={{ fontSize: emojiFontSize(className) }}
+        role="img"
+        aria-label={name || '農產品'}
+      >
+        {getCropEmoji(name)}
+      </span>
+    )
+  }
+
   return (
     <svg
       viewBox="0 0 24 24"
