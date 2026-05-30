@@ -5,8 +5,9 @@ import { useSearchParams } from 'next/navigation'
 import { m, AnimatePresence } from 'framer-motion'
 import { SkeletonList } from '@/components/ui/SkeletonCard'
 import { ProduceRow } from '@/components/ui/ProduceRow'
+import { CropIcon } from '@/components/ui/CropIcon'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
-import { formatPrice, debounce, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
+import { formatPrice, debounce, subtractDays, todayISO } from '@/lib/utils'
 import type {
   ProducePrice,
   SearchFilters,
@@ -373,7 +374,7 @@ export function SearchContent() {
                     onClick={() => { setQuery(name); setAutocomplete([]) }}
                     className="w-full text-left px-4 py-3 text-body-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-3"
                   >
-                    <span className="text-xl">{getCropEmoji(name)}</span>
+                    <CropIcon name={name} className="w-6 h-6 shrink-0" />
                     {name}
                   </button>
                 ))}
@@ -595,7 +596,7 @@ export function SearchContent() {
               variants={searchItemVariant}
               layout
             >
-              <ProduceRow item={{...item, emoji: getCropEmoji(item.cropName)}} showDetails={true} />
+              <ProduceRow item={item} showDetails={true} />
             </m.div>
           ))}
 

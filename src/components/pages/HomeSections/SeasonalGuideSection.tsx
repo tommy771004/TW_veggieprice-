@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { m } from 'framer-motion'
 import { fetchSeasonal } from '@/lib/api'
 import { getSeasonalGuide } from '@/lib/produce'
+import { CropIcon } from '@/components/ui/CropIcon'
 import type { SeasonalItem } from '@/lib/types'
 
 const fadeUp = {
@@ -62,7 +63,7 @@ export function SeasonalGuideSection() {
                   className="shrink-0 w-48 md:w-full rounded-3xl glass-card p-4 hover:bg-white transition-all shadow-glass-sm hover:shadow-glass flex flex-col snap-start border border-white/40 group card-lift block"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-3xl leading-none transition-transform group-hover:scale-110">{item.emoji}</span>
+                    <CropIcon name={item.cropName} className="w-8 h-8 transition-transform group-hover:scale-110" />
                     <span className="material-symbols-outlined text-primary/40 text-lg group-hover:text-primary transition-colors">arrow_forward</span>
                   </div>
                   <h3 className="text-body-lg font-bold text-on-surface mb-1 truncate">{item.cropName}</h3>

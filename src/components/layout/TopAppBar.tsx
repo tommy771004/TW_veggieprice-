@@ -4,7 +4,8 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { getCropEmoji, debounce } from '@/lib/utils'
+import { debounce } from '@/lib/utils'
+import { CropIcon } from '@/components/ui/CropIcon'
 
 const NAV_LINKS = [
   { href: '/', label: '首頁', icon: 'dashboard' },
@@ -193,7 +194,7 @@ export function TopAppBar() {
                   onMouseDown={(e) => { e.preventDefault(); handleSelect(name) }}
                   className="w-full text-left px-4 py-3 flex items-center gap-3 text-body-md text-on-surface hover:bg-surface-container transition-colors"
                 >
-                  <span className="text-xl">{getCropEmoji(name)}</span>
+                  <CropIcon name={name} className="w-6 h-6 shrink-0" />
                   <span>{name}</span>
                 </button>
               ))}

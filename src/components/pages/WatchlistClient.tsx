@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { TrendChip } from '@/components/ui/TrendChip'
+import { CropIcon } from '@/components/ui/CropIcon'
 import { formatPrice } from '@/lib/utils'
 import { getWatchlist, removeFromWatchlist } from '@/lib/watchlist'
 import type { WatchlistItem } from '@/lib/types'
@@ -266,8 +267,8 @@ export function WatchlistClient() {
                       >
                         <div className="flex items-start justify-between gap-3">
                           <Link href={`/produce/${encodeURIComponent(item.cropName)}`} prefetch={false} className="flex items-start gap-3 min-w-0 flex-1">
-                            <div className="w-11 h-11 rounded-full bg-white/80 border border-white/60 flex items-center justify-center text-xl shadow-sm flex-shrink-0">
-                              {item.emoji}
+                            <div className="w-11 h-11 rounded-full bg-white/80 border border-white/60 flex items-center justify-center shadow-sm flex-shrink-0">
+                              <CropIcon name={item.cropName} className="w-6 h-6" />
                             </div>
                             <div className="min-w-0">
                               <h3 className="text-on-surface text-body-lg font-semibold leading-tight truncate">{item.cropName}</h3>

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { memo } from 'react'
 import { TrendChip } from './TrendChip'
+import { CropIcon } from './CropIcon'
 import { formatPrice, formatVolume } from '@/lib/utils'
 import type { ProducePrice } from '@/lib/types'
 import { m } from 'framer-motion'
@@ -11,7 +12,6 @@ interface ProduceRowProps {
 }
 
 export const ProduceRow = memo(function ProduceRow({ item, showDetails = false }: ProduceRowProps) {
-  const emoji = item.emoji || '🌿'
   const change = item.priceChange ?? 0
 
   return (
@@ -31,8 +31,8 @@ export const ProduceRow = memo(function ProduceRow({ item, showDetails = false }
         className="glass-card rounded-2xl p-4 flex items-center justify-between shadow-sm bg-white/60 dark:bg-zinc-900/60 relative overflow-hidden"
       >
         <div className="flex items-center gap-4 relative z-10 w-full overflow-hidden">
-          <div className="w-14 h-14 bg-white/80 border border-white rounded-full flex items-center justify-center text-2xl shadow-sm shrink-0 group-hover:scale-105 transition-transform duration-300">
-            {emoji}
+          <div className="w-14 h-14 bg-white/80 border border-white rounded-full flex items-center justify-center shadow-sm shrink-0 group-hover:scale-105 transition-transform duration-300">
+            <CropIcon name={item.cropName} className="w-8 h-8" />
           </div>
           <div className="flex flex-col justify-center flex-grow min-w-0 pr-2">
             <h3 className="text-headline-md font-semibold text-on-surface leading-tight truncate">{item.cropName}</h3>

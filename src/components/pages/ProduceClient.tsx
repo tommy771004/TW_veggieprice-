@@ -22,6 +22,7 @@ const VolumeBarChart = dynamic(
   }
 )
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
+import { CropIcon } from '@/components/ui/CropIcon'
 import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
 import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
@@ -41,7 +42,6 @@ const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
 
 export function ProduceClient({ cropName }: { cropName: string }) {
   const router = useRouter()
-  const emoji = getCropEmoji(cropName)
 
   interface WeatherData {
     county: string
@@ -549,7 +549,8 @@ export function ProduceClient({ cropName }: { cropName: string }) {
   const [showPriceRange, setShowPriceRange] = useState(false)
 
   function handleToggleWatchlist() {
-    const added = toggleWatchlist({ cropCode, cropName, emoji })
+    // emoji retained only for WatchlistItem data shape; UI renders via <CropIcon>.
+    const added = toggleWatchlist({ cropCode, cropName, emoji: getCropEmoji(cropName) })
     setInWatchlist(added)
     if (added) {
       triggerHaptic(hapticPatterns.success)
@@ -626,8 +627,8 @@ export function ProduceClient({ cropName }: { cropName: string }) {
             <div className="px-6 pt-6 pb-5 grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_19rem]">
               <div className="min-w-0 space-y-5">
                 <div className="flex items-center gap-4">
-                  <div className="w-24 h-24 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-5xl shadow-lg">
-                    {emoji}
+                  <div className="w-24 h-24 rounded-full bg-white/10 border border-white/10 flex items-center justify-center shadow-lg">
+                    <CropIcon name={cropName} className="w-14 h-14" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex flex-wrap gap-2 mb-2">

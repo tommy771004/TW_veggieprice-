@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import { LazyMotion, domAnimation, m, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendChip } from '@/components/ui/TrendChip'
+import { CropIcon } from '@/components/ui/CropIcon'
 import { SkeletonCard, SkeletonList, SkeletonRow } from '@/components/ui/SkeletonCard'
 import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
@@ -713,8 +714,8 @@ export function HomeClient({
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div className="relative flex-shrink-0">
-                        <div className="w-11 h-11 rounded-xl bg-white/60 border border-white/50 flex items-center justify-center text-2xl shadow-sm">
-                          {item.emoji}
+                        <div className="w-11 h-11 rounded-xl bg-white/60 border border-white/50 flex items-center justify-center shadow-sm">
+                          <CropIcon name={item.cropName} className="w-7 h-7" />
                         </div>
                         <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-on-primary text-2xs font-black rounded-full flex items-center justify-center leading-none shadow-sm">
                           {i + 1}

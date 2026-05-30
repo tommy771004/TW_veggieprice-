@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
 
+  // Tree-shake barrel imports so unused recharts/framer-motion modules never reach
+  // a route chunk. Cuts parse time on low-end devices without any behavior change.
+  experimental: {
+    optimizePackageImports: ['recharts', 'framer-motion'],
+  },
+
   async headers() {
     return [
       {

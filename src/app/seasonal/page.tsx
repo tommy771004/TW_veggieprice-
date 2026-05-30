@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { GlassCard } from '@/components/ui/GlassCard'
+import { CropIcon } from '@/components/ui/CropIcon'
 import { getSeasonalGuide } from '@/lib/produce'
 import { fetchSeasonalCrops } from '@/lib/server/moa'
 
@@ -28,8 +29,8 @@ export default async function SeasonalPage() {
         {items.map((item) => (
           <GlassCard key={item.cropName} className="p-container-padding rounded-3xl">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-white/70 border border-white/60 flex items-center justify-center text-3xl flex-shrink-0">
-                {item.emoji}
+              <div className="w-14 h-14 rounded-2xl bg-white/70 border border-white/60 flex items-center justify-center flex-shrink-0">
+                <CropIcon name={item.cropName} className="w-8 h-8" />
               </div>
               <div>
                 <p className="text-body-lg font-semibold text-on-surface">{item.cropName}</p>
