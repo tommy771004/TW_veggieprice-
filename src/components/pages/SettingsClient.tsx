@@ -11,6 +11,7 @@ import {
   updateUserPreferences,
   type UserPreferences,
 } from '@/lib/preferences'
+import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
 
 export function SettingsClient() {
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_USER_PREFERENCES)
@@ -66,6 +67,7 @@ export function SettingsClient() {
   }, [marketsForType, selectedCounty])
 
   function handleTypeChange(type: 'Veg' | 'Fruit') {
+    triggerHaptic(hapticPatterns.toggle)
     setSelectedType(type)
     setSelectedCounty('全部地區')
     
@@ -78,6 +80,7 @@ export function SettingsClient() {
   }
 
   function handleCountyChange(county: string) {
+    triggerHaptic(hapticPatterns.tick)
     setSelectedCounty(county)
     const list = marketsByType[selectedType] ?? []
     const available = list.filter((m) => {
@@ -94,11 +97,17 @@ export function SettingsClient() {
   }
 
   function persist(partial: Partial<UserPreferences>) {
+    if (partial.theme || partial.fontSize) {
+      triggerHaptic(hapticPatterns.success)
+    } else {
+      triggerHaptic(hapticPatterns.tick)
+    }
     const next = updateUserPreferences(partial)
     setPreferences(next)
   }
 
   async function handlePriceAlertToggle() {
+    triggerHaptic(hapticPatterns.toggle)
     const nextValue = !preferences.priceAlert
     persist({ priceAlert: nextValue })
 
@@ -338,7 +347,10 @@ export function SettingsClient() {
                   suppressHydrationWarning
                   id="preferred-market"
                   value={preferences.preferredMarket}
-                  onChange={(event) => persist({ preferredMarket: event.target.value })}
+                  onChange={(event) => {
+                    triggerHaptic(hapticPatterns.tick)
+                    persist({ preferredMarket: event.target.value })
+                  }}
                   className="w-full bg-white/70 border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
                   {filteredMarkets.length > 0 ? (

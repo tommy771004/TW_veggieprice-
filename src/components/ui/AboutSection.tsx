@@ -40,7 +40,10 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
       viewport={{ once: true, margin: '-20px' }}
       transition={{ delay: index * 0.05, type: 'spring', stiffness: 300, damping: 26 }}
     >
-      <button
+      <m.button
+        whileHover={{ y: -1 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: 'spring', stiffness: 450, damping: 25 }}
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         className="w-full text-left glass-card rounded-2xl px-5 py-4 flex items-center justify-between gap-4 transition-colors hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
@@ -54,7 +57,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
         >
           expand_more
         </m.span>
-      </button>
+      </m.button>
 
       <AnimatePresence initial={false}>
         {open && (

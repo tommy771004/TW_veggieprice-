@@ -9,6 +9,7 @@ import { WebAppJsonLd } from '@/components/seo/JsonLd'
 import { ServiceWorkerRegistrar } from '@/components/pwa/ServiceWorkerRegistrar'
 import { PreferencesHydrator } from '@/components/settings/PreferencesHydrator'
 import { ClientSettingsProviders } from '@/components/settings/ClientSettingsProviders'
+import { FramerMotionProvider } from '@/components/providers/FramerMotionProvider'
 
 const OnboardingModal = dynamic(() => import('@/components/ui/OnboardingModal').then(mod => mod.OnboardingModal))
 
@@ -78,16 +79,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="zh-TW" className={`${inter.variable} ${notoSansTC.variable}`} suppressHydrationWarning>
       <head>
-        {/* <WebAppJsonLd /> */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <WebAppJsonLd />
       </head>
       <body className="font-sans min-h-dvh bg-background pb-32 md:pb-0" suppressHydrationWarning>
         <PreferencesHydrator />
         <ClientSettingsProviders />
         <ServiceWorkerRegistrar />
         <TopAppBar />
-        <div className="md:flex">
-          <main className="flex-1 max-w-7xl mx-auto w-full">{children}</main>
-        </div>
+        <FramerMotionProvider>
+          <div className="md:flex">
+            <main className="flex-1 max-w-7xl mx-auto w-full">{children}</main>
+          </div>
+        </FramerMotionProvider>
         <BottomNav />
         <OnboardingModal />
       </body>

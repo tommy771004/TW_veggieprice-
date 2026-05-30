@@ -6,6 +6,22 @@ import { TrendChip } from '@/components/ui/TrendChip'
 import { formatPrice } from '@/lib/utils'
 import { getWatchlist, removeFromWatchlist } from '@/lib/watchlist'
 import type { WatchlistItem } from '@/lib/types'
+import { m, AnimatePresence } from 'framer-motion'
+import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
+
+const watchlistStaggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.02 } },
+}
+
+const watchlistCardVariant = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 350, damping: 26 },
+  },
+}
 
 interface WatchlistSnapshot {
   price: number
@@ -112,6 +128,7 @@ export function WatchlistClient() {
   }, [items, mounted])
 
   function handleRemove(cropCode: string) {
+    triggerHaptic(hapticPatterns.toggle)
     removeFromWatchlist(cropCode)
     setItems(getWatchlist())
   }
@@ -219,95 +236,114 @@ export function WatchlistClient() {
               </div>
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-              {items.map((item, index) => {
-                const data = snapshots[item.cropCode]
-                const isUp = (data?.change ?? 0) > 0
-                const addedLabel = new Date(item.addedAt).toLocaleDateString('zh-TW', {
-                  month: 'numeric',
-                  day: 'numeric',
-                })
+            <m.div
+              variants={watchlistStaggerContainer}
+              initial="hidden"
+              animate="show"
+              layout
+              className="grid gap-3 md:grid-cols-2 xl:grid-cols-3"
+            >
+              <AnimatePresence mode="popLayout" initial={false}>
+                {items.map((item, index) => {
+                  const data = snapshots[item.cropCode]
+                  const isUp = (data?.change ?? 0) > 0
+                  const addedLabel = new Date(item.addedAt).toLocaleDateString('zh-TW', {
+                    month: 'numeric',
+                    day: 'numeric',
+                  })
 
-                return (
-                  <article
-                    key={`${item.cropCode}-${index}`}
-                    className="glass-card rounded-3xl p-4 sm:p-5 flex flex-col gap-4 min-h-[15.5rem]"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <Link href={`/produce/${encodeURIComponent(item.cropName)}`} prefetch={false} className="flex items-start gap-3 min-w-0 flex-1">
-                        <div className="w-11 h-11 rounded-full bg-white/80 border border-white/60 flex items-center justify-center text-xl shadow-sm flex-shrink-0">
-                          {item.emoji}
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="text-on-surface text-body-lg font-semibold leading-tight truncate">{item.cropName}</h3>
-                          <div className="flex flex-wrap items-center gap-2 mt-1">
-                            <span className="text-label-sm text-on-surface-variant">加入於 {addedLabel}</span>
-                            <TrendChip change={data?.change ?? 0} size="sm" />
-                          </div>
-                        </div>
-                      </Link>
-                      <button
-                        onClick={() => handleRemove(item.cropCode)}
-                        className="touch-target flex items-center justify-center w-11 h-11 rounded-full border border-error/20 bg-white/45 text-error/85 hover:text-error hover:bg-white/70 transition-colors"
-                        aria-label={`移除 ${item.cropName}`}
+                  return (
+                    <m.div
+                      key={item.cropCode}
+                      variants={watchlistCardVariant}
+                      layout
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 26 }}
+                      className="h-full"
+                    >
+                      <article
+                        className="glass-card rounded-3xl p-4 sm:p-5 flex flex-col gap-4 min-h-[15.5rem] h-full shadow-sm hover:shadow-md transition-shadow"
                       >
-                        <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                          favorite
-                        </span>
-                      </button>
-                    </div>
-
-                    <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_6.5rem] sm:items-end">
-                      <div>
-                        <p className="text-label-sm uppercase tracking-[0.12em] text-on-surface-variant">今日均價 · 元 / 公斤</p>
-                        <div className="flex items-end gap-2 mt-1 flex-wrap">
-                          <span className={`font-black text-4xl leading-none ${isUp ? 'text-error' : 'text-primary'}`}>
-                            {loading && !data ? '...' : data && data.price > 0 ? `$${formatPrice(data.price)}` : '--'}
-                          </span>
-                          <span className="text-body-sm text-on-surface-variant pb-0.5">
-                            {data?.change === 0 ? '持平' : data?.change ? `${data.change > 0 ? '+' : ''}${formatPrice(Math.abs(data.change))}` : '等待資料'}
-                          </span>
+                        <div className="flex items-start justify-between gap-3">
+                          <Link href={`/produce/${encodeURIComponent(item.cropName)}`} prefetch={false} className="flex items-start gap-3 min-w-0 flex-1">
+                            <div className="w-11 h-11 rounded-full bg-white/80 border border-white/60 flex items-center justify-center text-xl shadow-sm flex-shrink-0">
+                              {item.emoji}
+                            </div>
+                            <div className="min-w-0">
+                              <h3 className="text-on-surface text-body-lg font-semibold leading-tight truncate">{item.cropName}</h3>
+                              <div className="flex flex-wrap items-center gap-2 mt-1">
+                                <span className="text-label-sm text-on-surface-variant">加入於 {addedLabel}</span>
+                                <TrendChip change={data?.change ?? 0} size="sm" />
+                              </div>
+                            </div>
+                          </Link>
+                          <m.button
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.92 }}
+                            transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+                            onClick={() => handleRemove(item.cropCode)}
+                            className="touch-target flex items-center justify-center w-11 h-11 rounded-full border border-error/20 bg-white/45 text-error/85 hover:text-error hover:bg-white/70 transition-colors"
+                            aria-label={`移除 ${item.cropName}`}
+                          >
+                            <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                              favorite
+                            </span>
+                          </m.button>
                         </div>
-                        {data?.error ? (
-                          <p className="text-body-sm text-on-surface-variant mt-2">{data.error}</p>
-                        ) : (
-                          <p className="text-body-sm text-on-surface-variant mt-2">近 7 日快照已整理，可直接進單品頁看完整脈絡。</p>
-                        )}
-                      </div>
 
-                      <div className="sm:justify-self-end">
-                        {data && data.history.every((point) => point > 0) ? (
-                          <div className="rounded-2xl border border-white/50 bg-white/45 px-3 py-2">
-                            <Sparkline data={data.history} isUp={isUp} id={item.cropCode} />
+                        <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_6.5rem] sm:items-end">
+                          <div>
+                            <p className="text-label-sm uppercase tracking-[0.12em] text-on-surface-variant">今日均價 · 元 / 公斤</p>
+                            <div className="flex items-end gap-2 mt-1 flex-wrap">
+                              <span className={`font-black text-4xl leading-none ${isUp ? 'text-error' : 'text-primary'}`}>
+                                {loading && !data ? '...' : data && data.price > 0 ? `$${formatPrice(data.price)}` : '--'}
+                              </span>
+                              <span className="text-body-sm text-on-surface-variant pb-0.5">
+                                {data?.change === 0 ? '持平' : data?.change ? `${data.change > 0 ? '+' : ''}${formatPrice(Math.abs(data.change))}` : '等待資料'}
+                              </span>
+                            </div>
+                            {data?.error ? (
+                              <p className="text-body-sm text-on-surface-variant mt-2">{data.error}</p>
+                            ) : (
+                              <p className="text-body-sm text-on-surface-variant mt-2">近 7 日快照已整理，可直接進單品頁看完整脈絡。</p>
+                            )}
                           </div>
-                        ) : (
-                          <div className="rounded-2xl border border-white/50 bg-white/35 px-3 py-3 text-center text-body-sm text-on-surface-variant">
-                            暫無走勢
+
+                          <div className="sm:justify-self-end">
+                            {data && data.history.every((point) => point > 0) ? (
+                              <div className="rounded-2xl border border-white/50 bg-white/45 px-3 py-2">
+                                <Sparkline data={data.history} isUp={isUp} id={item.cropCode} />
+                              </div>
+                            ) : (
+                              <div className="rounded-2xl border border-white/50 bg-white/35 px-3 py-3 text-center text-body-sm text-on-surface-variant">
+                                暫無走勢
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </div>
+                        </div>
 
-                    <div className="mt-auto flex flex-wrap gap-2">
-                      <span className={`market-status-chip ${isUp ? 'market-status-chip--critical' : data && data.change < 0 ? '' : 'market-status-chip--warm'}`}>
-                        {data?.change === 0 ? '價格持平' : isUp ? '價格偏熱' : data && data.change < 0 ? '價格回落' : '等待同步'}
-                      </span>
-                      <span className="market-status-chip">手機快速查看</span>
-                    </div>
+                        <div className="mt-auto flex flex-wrap gap-2">
+                          <span className={`market-status-chip ${isUp ? 'market-status-chip--critical' : data && data.change < 0 ? '' : 'market-status-chip--warm'}`}>
+                            {data?.change === 0 ? '價格持平' : isUp ? '價格偏熱' : data && data.change < 0 ? '價格回落' : '等待同步'}
+                          </span>
+                          <span className="market-status-chip">手機快速查看</span>
+                        </div>
 
-                    <div className="pt-1">
-                      <Link
-                        href={`/produce/${encodeURIComponent(item.cropName)}`}
-                        className="inline-flex items-center gap-2 text-body-sm font-semibold text-primary"
-                      >
-                        進入單品詳情
-                        <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_forward</span>
-                      </Link>
-                    </div>
-                  </article>
-                )
-              })}
-            </div>
+                        <div className="pt-1">
+                          <Link
+                            href={`/produce/${encodeURIComponent(item.cropName)}`}
+                            className="inline-flex items-center gap-2 text-body-sm font-semibold text-primary"
+                          >
+                            進入單品詳情
+                            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_forward</span>
+                          </Link>
+                        </div>
+                      </article>
+                    </m.div>
+                  )
+                })}
+              </AnimatePresence>
+            </m.div>
           </section>
         )}
       </div>

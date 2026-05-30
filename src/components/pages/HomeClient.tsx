@@ -11,12 +11,12 @@ import { formatPrice } from '@/lib/utils'
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from '@/lib/constants'
 
 const WeatherRiskCard = dynamic(() => import('@/components/ui/WeatherRiskCard').then(mod => mod.WeatherRiskCard))
-const ExploreSection = dynamic(() => import('@/components/ui/ExploreSection').then(mod => mod.ExploreSection))
-const AboutSection = dynamic(() => import('@/components/ui/AboutSection').then(mod => mod.AboutSection))
-const RecommendedLinks = dynamic(() => import('@/components/ui/RecommendedLinks').then(mod => mod.RecommendedLinks))
-const DataSourceBadge = dynamic(() => import('@/components/ui/DataSourceBadge').then(mod => mod.DataSourceBadge))
-const LivestockSection = dynamic(() => import('@/components/pages/HomeSections/LivestockSection').then(mod => mod.LivestockSection))
-const SeasonalGuideSection = dynamic(() => import('@/components/pages/HomeSections/SeasonalGuideSection').then(mod => mod.SeasonalGuideSection))
+const ExploreSection = dynamic(() => import('@/components/ui/ExploreSection').then(mod => mod.ExploreSection), { loading: () => null })
+const AboutSection = dynamic(() => import('@/components/ui/AboutSection').then(mod => mod.AboutSection), { loading: () => null })
+const RecommendedLinks = dynamic(() => import('@/components/ui/RecommendedLinks').then(mod => mod.RecommendedLinks), { loading: () => null })
+const DataSourceBadge = dynamic(() => import('@/components/ui/DataSourceBadge').then(mod => mod.DataSourceBadge), { loading: () => null })
+const LivestockSection = dynamic(() => import('@/components/pages/HomeSections/LivestockSection').then(mod => mod.LivestockSection), { loading: () => null })
+const SeasonalGuideSection = dynamic(() => import('@/components/pages/HomeSections/SeasonalGuideSection').then(mod => mod.SeasonalGuideSection), { loading: () => null })
 
 import { getProduceCategory, getSeasonalGuide, type ProduceCategory } from '@/lib/produce'
 import type {
@@ -656,17 +656,20 @@ export function HomeClient({
           </select>
           <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
           {CATEGORIES.map((cat) => (
-            <button
+            <m.button
               key={cat.value}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               onClick={() => setActiveCategory(cat.value)}
-              className={`px-5 py-2.5 rounded-full text-label-bold whitespace-nowrap flex items-center gap-2 transition-all duration-200 touch-target ${
+              className={`px-5 py-2.5 rounded-full text-label-bold whitespace-nowrap flex items-center gap-2 transition-colors touch-target ${
                 activeCategory === cat.value
-                  ? 'bg-primary text-white shadow-md scale-[1.03]'
-                  : 'glass-chip text-on-surface-variant hover:text-on-surface'
+                  ? 'bg-primary text-white shadow-md'
+                  : 'glass-chip text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
               }`}
             >
               {cat.label}
-            </button>
+            </m.button>
           ))}
         </div>
       </section>

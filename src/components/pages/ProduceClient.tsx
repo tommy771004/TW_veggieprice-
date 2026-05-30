@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrendChip } from '@/components/ui/TrendChip'
 import dynamic from 'next/dynamic'
+import { ProduceProductJsonLd } from '@/components/seo/JsonLd'
+import { SITE_URL } from '@/lib/env'
 
 const PriceLineChart = dynamic(
   () => import('@/components/charts/PriceLineChart').then(m => ({ default: m.PriceLineChart })),
@@ -22,6 +24,7 @@ const VolumeBarChart = dynamic(
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
+import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
 import { getProduceCategory } from '@/lib/produce'
 import type {
   PricePeriod,
@@ -548,10 +551,18 @@ export function ProduceClient({ cropName }: { cropName: string }) {
   function handleToggleWatchlist() {
     const added = toggleWatchlist({ cropCode, cropName, emoji })
     setInWatchlist(added)
+    if (added) {
+      triggerHaptic(hapticPatterns.success)
+    } else {
+      triggerHaptic(hapticPatterns.toggle)
+    }
   }
 
   return (
     <div className="home-dashboard-shell pb-8">
+      {latestPrice > 0 && (
+        <ProduceProductJsonLd cropName={cropName} url={`${SITE_URL}/produce/${encodeURIComponent(cropName)}`} price={latestPrice} />
+      )}
       <div className="px-section-margin py-4">
         <div className="flex items-center justify-between gap-3">
           <button

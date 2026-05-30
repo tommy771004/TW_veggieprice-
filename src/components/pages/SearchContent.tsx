@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { m, AnimatePresence } from 'framer-motion'
 import { SkeletonList } from '@/components/ui/SkeletonCard'
 import { ProduceRow } from '@/components/ui/ProduceRow'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
@@ -20,6 +21,20 @@ import {
 } from '@/lib/api'
 import { getUserPreferences } from '@/lib/preferences'
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from '@/lib/constants'
+
+const searchStaggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.045, delayChildren: 0.02 } },
+}
+
+const searchItemVariant = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 350, damping: 26 },
+  },
+}
 
 type RangeParams =
   | { kind: 'single'; date: string }
@@ -427,17 +442,20 @@ export function SearchContent() {
               { label: '50–100 元', min: '50', max: '100' },
               { label: '100 元以上', min: '100', max: '' },
             ].map((preset) => (
-              <button
+              <m.button
                 key={preset.label}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 onClick={() => { setMinPrice(preset.min); setMaxPrice(preset.max) }}
-                className={`text-label-bold px-3 py-1.5 rounded-full border transition-all ${
+                className={`text-label-bold px-3 py-1.5 rounded-full border transition-colors ${
                   minPrice === preset.min && maxPrice === preset.max
                     ? 'bg-primary text-on-primary border-primary shadow-sm ring-1 ring-primary'
                     : 'bg-white/50 dark:bg-zinc-800/50 dark:text-zinc-300 dark:border-zinc-700/60 border-outline-variant/30 text-on-surface-variant hover:bg-white/70 dark:hover:bg-zinc-700/80'
                 }`}
               >
                 {preset.label}
-              </button>
+              </m.button>
             ))}
           </div>
         </div>
@@ -447,8 +465,11 @@ export function SearchContent() {
       <div className="section-shell flex !overflow-x-auto no-scrollbar pb-2">
         <div className="flex gap-2 w-max items-center">
           {marketTypeOptions.map((opt) => (
-            <button
+            <m.button
               key={opt.value}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               onClick={() => {
                 const nextType = opt.value as MarketTypeOption['value']
                 setMarketType(nextType)
@@ -465,14 +486,14 @@ export function SearchContent() {
                   }
                 }
               }}
-              className={`px-5 py-2.5 rounded-full text-label-bold whitespace-nowrap flex items-center gap-2 transition-all duration-200 touch-target ${
+              className={`px-5 py-2.5 rounded-full text-label-bold whitespace-nowrap flex items-center gap-2 transition-colors touch-target ${
                 marketType === opt.value
-                  ? 'bg-primary text-white shadow-md scale-[1.03]'
+                  ? 'bg-primary text-white shadow-md'
                   : 'glass-chip text-on-surface-variant hover:text-on-surface'
               }`}
             >
               {opt.label === '蔬菜市場' ? '🥬 蔬菜類' : opt.label === '水果市場' ? '🍎 水果類' : opt.label === '肉品家禽' ? '🐖 肉品家禽' : '🐟 漁產市場'}
-            </button>
+            </m.button>
           ))}
           <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
           <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
@@ -544,36 +565,54 @@ export function SearchContent() {
       {loading ? (
         <SkeletonList count={6} className="grid grid-cols-1 md:grid-cols-2 gap-3" />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <m.div
+          key={`${currentPage}-${market}-${marketType}-${query}`}
+          variants={searchStaggerContainer}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 md:grid-cols-2 gap-3"
+        >
           {error && (
             <div className="glass-card-solid rounded-2xl px-4 py-5 text-center text-on-surface-variant md:col-span-2">
               <div className="text-4xl mb-2">🧺</div>
               <p className="text-body-lg font-semibold text-on-surface">系統維護中或資料暫時無法取得</p>
               <p className="text-body-sm mt-1">{error}</p>
-              <button
+              <m.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 onClick={() => doSearch(query, market, marketType, dateRange)}
                 className="mt-4 text-primary text-label-bold hover:underline"
               >
                 重新載入
-              </button>
+              </m.button>
             </div>
           )}
 
           {paginated.map((item, index) => (
-            <ProduceRow key={`${item.cropCode}-${item.marketName}-${item.date}-${index}`} item={{...item, emoji: getCropEmoji(item.cropName)}} showDetails={true} />
+            <m.div
+              key={`${item.cropCode}-${item.marketName}-${item.date}-${index}`}
+              variants={searchItemVariant}
+              layout
+            >
+              <ProduceRow item={{...item, emoji: getCropEmoji(item.cropName)}} showDetails={true} />
+            </m.div>
           ))}
 
           {/* Pagination */}
           {pageCount > 1 && (
             <div className="flex items-center justify-center gap-2 pt-2 pb-1 md:col-span-2">
-              <button
+              <m.button
+                whileHover={currentPage === 1 ? {} : { scale: 1.02 }}
+                whileTap={currentPage === 1 ? {} : { scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="flex items-center gap-1 px-4 py-2 rounded-full text-label-bold border transition-[background-color,opacity] disabled:opacity-30 disabled:cursor-not-allowed bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70"
               >
                 <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.125rem' }}>chevron_left</span>
                 上一頁
-              </button>
+              </m.button>
               <div className="flex gap-1">
                 {Array.from({ length: pageCount }, (_, i) => i + 1)
                   .filter((p) => p === 1 || p === pageCount || Math.abs(p - currentPage) <= 1)
@@ -586,8 +625,11 @@ export function SearchContent() {
                     p === 'ellipsis' ? (
                       <span key={`e-${idx}`} className="px-2 py-2 text-on-surface-variant">…</span>
                     ) : (
-                      <button
+                      <m.button
                         key={p}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                         onClick={() => setCurrentPage(p as number)}
                         className={`w-9 h-9 rounded-full text-label-bold border transition-[background-color,color,border-color] ${
                           currentPage === p
@@ -596,24 +638,30 @@ export function SearchContent() {
                         }`}
                       >
                         {p}
-                      </button>
+                      </m.button>
                     )
                   )}
               </div>
-              <button
+              <m.button
+                whileHover={currentPage === pageCount ? {} : { scale: 1.02 }}
+                whileTap={currentPage === pageCount ? {} : { scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 onClick={() => setCurrentPage((p) => Math.min(pageCount, p + 1))}
                 disabled={currentPage === pageCount}
                 className="flex items-center gap-1 px-4 py-2 rounded-full text-label-bold border transition-[background-color,opacity] disabled:opacity-30 disabled:cursor-not-allowed bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/70"
               >
                 下一頁
                 <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.125rem' }}>chevron_right</span>
-              </button>
+              </m.button>
             </div>
           )}
 
           {hasMoreServerData && (
             <div className="flex justify-center pt-4 pb-2 md:col-span-2">
-              <button
+              <m.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 onClick={loadRemainingData}
                 disabled={isHydrating}
                 className="flex items-center gap-2 px-6 py-2.5 rounded-full text-label-bold bg-primary/10 text-primary hover:bg-primary/20 transition-colors disabled:opacity-50"
@@ -629,7 +677,7 @@ export function SearchContent() {
                     載入其餘相符資料
                   </>
                 )}
-              </button>
+              </m.button>
             </div>
           )}
 
@@ -651,7 +699,7 @@ export function SearchContent() {
               )}
             </div>
           )}
-        </div>
+        </m.div>
       )}
     </div>
   )

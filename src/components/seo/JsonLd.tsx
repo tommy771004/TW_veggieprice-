@@ -63,3 +63,25 @@ export function ProduceDatasetJsonLd({ cropName, url }: { cropName: string; url:
     />
   )
 }
+
+export function ProduceProductJsonLd({ cropName, url, price }: { cropName: string; url: string; price: number }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${cropName} 批發行情`,
+    description: `${cropName}今日最新批發均價與市場行情`,
+    url,
+    offers: {
+      '@type': 'Offer',
+      price: price.toString(),
+      priceCurrency: 'TWD',
+      availability: 'https://schema.org/InStock',
+    },
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}

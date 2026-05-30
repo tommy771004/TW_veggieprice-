@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
 
 const STORAGE_KEY = 'veggieprice_onboarding_seen'
 
@@ -34,6 +35,7 @@ export function OnboardingModal() {
   }, [])
 
   function dismiss() {
+    triggerHaptic(hapticPatterns.success)
     setExiting(true)
     setTimeout(() => {
       localStorage.setItem(STORAGE_KEY, '1')
@@ -43,6 +45,7 @@ export function OnboardingModal() {
 
   function next() {
     if (step < STEPS.length - 1) {
+      triggerHaptic(hapticPatterns.tick)
       setStep((s) => s + 1)
     } else {
       dismiss()
