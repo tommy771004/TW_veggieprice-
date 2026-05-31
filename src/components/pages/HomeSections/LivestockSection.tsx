@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import { useState, useEffect, useRef } from 'react'
-import { m } from 'framer-motion'
-import { GlassCard } from '@/components/ui/GlassCard'
-import { SkeletonCard } from '@/components/ui/SkeletonCard'
-import { TrendChip } from '@/components/ui/TrendChip'
-import { fetchLivestock } from '@/lib/api'
-import type { LivestockPrices } from '@/lib/types'
+import { useState, useEffect, useRef } from "react";
+import { m } from "framer-motion";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { SkeletonCard } from "@/components/ui/SkeletonCard";
+import { TrendChip } from "@/components/ui/TrendChip";
+import { fetchLivestock } from "@/lib/api";
+import type { LivestockPrices } from "@/lib/types";
 
 const staggerContainer = {
   hidden: {},
   show: { transition: { staggerChildren: 0.055, delayChildren: 0.04 } },
-}
+};
 
 const cardVariant = {
   hidden: { opacity: 0, y: 14, scale: 0.97 },
@@ -19,45 +19,49 @@ const cardVariant = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: 'spring', stiffness: 300, damping: 24 },
+    transition: { type: "spring", stiffness: 300, damping: 24 },
   },
-}
+};
 
 export function LivestockSection({
   initialLivestock = null,
   reloadKey = 0,
 }: {
-  initialLivestock?: LivestockPrices | null
-  reloadKey?: number
+  initialLivestock?: LivestockPrices | null;
+  reloadKey?: number;
 }) {
-  const [livestock, setLivestock] = useState<LivestockPrices | null>(initialLivestock)
-  const [loadingLivestock, setLoadingLivestock] = useState(!initialLivestock)
-  const [livestockError, setLivestockError] = useState('')
-  const hasInitialLivestock = useRef(!!initialLivestock)
-  const [localReloadKey, setLocalReloadKey] = useState(0)
+  const [livestock, setLivestock] = useState<LivestockPrices | null>(
+    initialLivestock,
+  );
+  const [loadingLivestock, setLoadingLivestock] = useState(!initialLivestock);
+  const [livestockError, setLivestockError] = useState("");
+  const hasInitialLivestock = useRef(!!initialLivestock);
+  const [localReloadKey, setLocalReloadKey] = useState(0);
 
   useEffect(() => {
-    if (!hasInitialLivestock.current) setLoadingLivestock(true)
-    hasInitialLivestock.current = false
-    setLivestockError('')
+    if (!hasInitialLivestock.current) setLoadingLivestock(true);
+    hasInitialLivestock.current = false;
+    setLivestockError("");
     fetchLivestock()
       .then(setLivestock)
       .catch((e) => {
-        setLivestock(null)
-        setLivestockError(e.message || '暫停服務或查無資料')
+        setLivestock(null);
+        setLivestockError(e.message || "暫停服務或查無資料");
       })
-      .finally(() => setLoadingLivestock(false))
-  }, [reloadKey, localReloadKey])
+      .finally(() => setLoadingLivestock(false));
+  }, [reloadKey, localReloadKey]);
 
   return (
     <section>
-      <h2 className="text-headline-md font-bold text-on-surface mb-4">民生物資行情</h2>
+      <h2 className="text-headline-md font-bold text-on-surface mb-4">
+        民生物資行情
+      </h2>
       <m.div
         className="grid grid-cols-1 sm:grid-cols-2 gap-3"
         variants={staggerContainer}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, margin: '-30px' }}
+        viewport={{ once: true, margin: "-30px" }}
       >
         {loadingLivestock ? (
           <>
@@ -66,7 +70,9 @@ export function LivestockSection({
           </>
         ) : livestockError ? (
           <GlassCard className="p-container-padding text-center sm:col-span-2">
-            <p className="text-body-sm text-on-surface-variant">無法取得民生物資資料 ({livestockError})</p>
+            <p className="text-body-sm text-on-surface-variant">
+              無法取得民生物資資料 ({livestockError})
+            </p>
             <button
               onClick={() => setLocalReloadKey((v) => v + 1)}
               className="mt-2 text-primary text-label-bold hover:underline"
@@ -80,11 +86,15 @@ export function LivestockSection({
               <GlassCard className="p-container-padding h-full">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-2xl">🥚</span>
-                  <span className="text-body-sm text-on-surface-variant">雞蛋大運輸價（元/台斤）</span>
+                  <span className="text-body-sm text-on-surface-variant">
+                    雞蛋大運輸價（元/台斤）
+                  </span>
                 </div>
                 <div className="flex items-end justify-between">
                   <span className="text-headline-lg font-bold text-on-surface tabular-nums">
-                    {livestock?.eggPrice != null ? `$${livestock.eggPrice.toFixed(1)}` : '—'}
+                    {livestock?.eggPrice != null
+                      ? `$${livestock.eggPrice.toFixed(1)}`
+                      : "—"}
                   </span>
                   {livestock?.eggPriceChange != null && (
                     <TrendChip change={livestock.eggPriceChange} size="sm" />
@@ -102,11 +112,15 @@ export function LivestockSection({
               <GlassCard className="p-container-padding h-full">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-2xl">🐷</span>
-                  <span className="text-body-sm text-on-surface-variant">毛豬全國加權均價（元/公斤）</span>
+                  <span className="text-body-sm text-on-surface-variant">
+                    毛豬全國加權均價（元/公斤）
+                  </span>
                 </div>
                 <div className="flex items-end justify-between">
                   <span className="text-headline-lg font-bold text-on-surface tabular-nums">
-                    {livestock?.porkAvgPrice != null ? `$${livestock.porkAvgPrice.toFixed(1)}` : '—'}
+                    {livestock?.porkAvgPrice != null
+                      ? `$${livestock.porkAvgPrice.toFixed(1)}`
+                      : "—"}
                   </span>
                   {livestock?.porkPriceChange != null && (
                     <TrendChip change={livestock.porkPriceChange} size="sm" />
@@ -114,7 +128,14 @@ export function LivestockSection({
                 </div>
                 {livestock?.date && (
                   <p className="text-body-sm text-on-surface-variant mt-1">
-                    資料日期：<span suppressHydrationWarning>{new Intl.DateTimeFormat('zh-TW', { dateStyle: 'medium' }).format(new Date(livestock.date))}</span>
+                    資料日期：
+                    <span suppressHydrationWarning>
+                      {typeof window !== "undefined"
+                        ? new Intl.DateTimeFormat("zh-TW", {
+                            dateStyle: "medium",
+                          }).format(new Date(livestock.date))
+                        : "..."}
+                    </span>
                   </p>
                 )}
               </GlassCard>
@@ -123,5 +144,5 @@ export function LivestockSection({
         )}
       </m.div>
     </section>
-  )
+  );
 }

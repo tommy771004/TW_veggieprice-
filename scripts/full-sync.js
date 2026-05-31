@@ -4,14 +4,20 @@ const path = require('path');
 const repo = 'tommy771004/TW_veggieprice-';
 
 async function main() {
-  console.log(`Fetching full recursive tree for ${repo}...`);
-  const treeUrl = `https://api.github.com/repos/${repo}/git/trees/main?recursive=1`;
+  const force = process.argv.includes('--force');
+  console.log(`Fetching full recursive tree for ${repo}... (Force: ${force})`);
+  
+  // Use a timestamp to prevent caching at the HTTP proxy/CDN level
+  const treeUrl = `https://api.github.com/repos/${repo}/git/trees/main?recursive=1&t=${Date.now()}`;
   
   try {
     const res = await fetch(treeUrl, {
+      cache: 'no-store',
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Accept': 'application/vnd.github.v3+json'
+        'Accept': 'application/vnd.github.v3+json',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
       }
     });
 
@@ -28,60 +34,78 @@ async function main() {
     const blobFiles = data.tree.filter(item => item.type === 'blob');
     console.log(`Found ${blobFiles.length} files in repository.`);
 
-    // Let's filter files we want to skip or include
-    // We shouldn't overwrite system config files like .env or system skills if any,
-    // but standard files (src, public, package.json, tsconfig.json, next.config.ts, tailwind.config.ts etc.) we certainly should.
+    // Sensitive files to NOT overwrite
     const ignoredPaths = [
-      'package-lock.json',
       '.env',
       '.env.local'
     ];
 
+    const concurrencyLimit = 35;
     let updatedCount = 0;
-
-    for (const item of blobFiles) {
-      const filename = item.path;
-      
-      // Skip ignored paths or .git etc.
-      if (ignoredPaths.some(ignored => filename.includes(ignored)) || filename.startsWith('.git') || filename.startsWith('skills/')) {
-        continue;
-      }
-
-      const filePath = path.resolve(process.cwd(), filename);
-      
-      // We will read local content and compare
-      let localContent = null;
-      if (fs.existsSync(filePath)) {
-        localContent = fs.readFileSync(filePath, 'utf8');
-      }
-
-      const rawUrl = `https://raw.githubusercontent.com/${repo}/main/${filename}`;
-      
-      // Fetch remote content
-      const rawRes = await fetch(rawUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+    
+    const downloadQueue = [...blobFiles];
+    
+    async function worker() {
+      while (downloadQueue.length > 0) {
+        const item = downloadQueue.shift();
+        if (!item) continue;
+        
+        const filename = item.path;
+        
+        // Skip ignored paths or .git etc.
+        if (ignoredPaths.some(ignored => filename === ignored || filename.endsWith('/' + ignored)) || filename.startsWith('.git') || filename.startsWith('skills/')) {
+          continue;
         }
-      });
 
-      if (!rawRes.ok) {
-        console.warn(`Warning: Failed to download raw file ${filename}: ${rawRes.status}`);
-        continue;
-      }
-
-      const remoteContent = await rawRes.text();
-
-      if (localContent !== remoteContent) {
-        console.log(`[Updating] ${filename} is different, overwriting...`);
-        // Ensure nesting directory exists
-        const dir = path.dirname(filePath);
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir, { recursive: true });
+        const filePath = path.resolve(process.cwd(), filename);
+        
+        // Read local content if existed
+        let localContent = null;
+        if (fs.existsSync(filePath)) {
+          localContent = fs.readFileSync(filePath, 'utf8');
         }
-        fs.writeFileSync(filePath, remoteContent, 'utf8');
-        updatedCount++;
+
+        const rawUrl = `https://raw.githubusercontent.com/${repo}/main/${filename}?t=${Date.now()}`;
+        
+        try {
+          const rawRes = await fetch(rawUrl, {
+            cache: 'no-store',
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache'
+            }
+          });
+
+          if (!rawRes.ok) {
+            console.warn(`Warning: Failed to download raw file ${filename}: ${rawRes.status}`);
+            continue;
+          }
+
+          const remoteContent = await rawRes.text();
+
+          const normLocal = localContent ? localContent.replace(/\r\n/g, '\n').trim() : null;
+          const normRemote = remoteContent.replace(/\r\n/g, '\n').trim();
+
+          if (force || normLocal !== normRemote) {
+            console.log(`[Updating] ${filename} is different, overwriting...`);
+            
+            const dir = path.dirname(filePath);
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, { recursive: true });
+            }
+            fs.writeFileSync(filePath, remoteContent, 'utf8');
+            updatedCount++;
+          }
+        } catch (err) {
+          console.error(`Error downloading ${filename}:`, err);
+        }
       }
     }
+
+    // Run parallel workers
+    const workers = Array.from({ length: concurrencyLimit }, () => worker());
+    await Promise.all(workers);
 
     console.log(`\nFull sync finished. Synced ${updatedCount} changed files.`);
   } catch (error) {
