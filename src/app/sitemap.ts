@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: base,                lastModified: now, changeFrequency: 'daily',   priority: 1.0 },
     { url: `${base}/search`,    lastModified: now, changeFrequency: 'daily',   priority: 0.9 },
     { url: `${base}/seasonal`,  lastModified: now, changeFrequency: 'daily',   priority: 0.7 },
+    { url: `${base}/insights`,  lastModified: now, changeFrequency: 'daily',   priority: 0.6 },
     { url: `${base}/watchlist`, lastModified: now, changeFrequency: 'weekly',  priority: 0.6 },
     { url: `${base}/settings`,  lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
   ]
