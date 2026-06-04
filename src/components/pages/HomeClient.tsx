@@ -516,33 +516,25 @@ export function HomeClient({
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          className="home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 py-4 md:py-5"
+          className="home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 py-2 md:py-4"
         >
-          <div className="market-signal-tape mb-4" aria-hidden="true">
-            <span>MOA OPEN DATA</span>
-            <span>WHOLESALE MARKET</span>
-            <span>TAIWAN PRODUCE</span>
-            <span>LIVE PRICE PULSE</span>
-          </div>
-
-          <div className="section-heading-row mb-4">
+          <div className="section-heading-row mb-6">
             <div>
-              <h1 className="text-headline-lg font-black text-on-surface">
-                台灣蔬果批發行情
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">
+                今日市場概況
               </h1>
-              <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
-                用均價、量能與近週節奏，快速讀懂 {selectedMarket}{" "}
-                今天的批發行情。
+              <p className="text-body-md text-on-surface-variant mt-2 max-w-2xl font-medium">
+                掌握 {selectedMarket} 的均價、量能與近週節奏。
               </p>
               {overview?.updatedAt && (
-                <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+                <p className="text-label-sm text-outline flex items-center gap-1 mt-1 font-mono">
                   <span
                     className="material-symbols-outlined"
                     style={{ fontSize: "14px" }}
                   >
                     update
                   </span>
-                  最後更新：
+                  更新時間：
                   <span suppressHydrationWarning>
                     {typeof window !== "undefined"
                       ? new Date(overview.updatedAt).toLocaleString("zh-TW", {
@@ -556,7 +548,7 @@ export function HomeClient({
                 </p>
               )}
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
               {heroStatusChips.map((chip) => (
                 <span
                   key={chip.label}
@@ -775,15 +767,15 @@ export function HomeClient({
 
                         <div className="min-w-0">
                           <p
-                            className="text-label-sm tracking-[0.16em] uppercase font-semibold mb-2"
-                            style={{ color: "rgba(255,255,255,0.48)" }}
+                            className="text-label-sm tracking-wide uppercase font-semibold mb-2"
+                            style={{ color: "rgba(255,255,255,0.6)" }}
                           >
                             均價 · 元 / 公斤
                           </p>
-                          <div className="flex items-end gap-3 flex-wrap">
+                          <div className="flex items-baseline gap-3 flex-wrap">
                             <m.span
-                              className="text-5xl sm:text-6xl leading-none font-black tabular-nums tracking-tight"
-                              style={{ color: "#fcd34d" }}
+                              className="text-6xl sm:text-7xl leading-none font-bold tabular-nums tracking-tighter"
+                              style={{ color: "#ffffff" }}
                               initial={{ opacity: 0, scale: 0.85 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{
@@ -795,14 +787,10 @@ export function HomeClient({
                             >
                               ${formatPrice(overview.avgPrice)}
                             </m.span>
-                            <div className="pb-1 sm:pb-1.5 shrink-0">
+                            <div className="pb-1 sm:pb-2 shrink-0">
                               <TrendChip change={overview.priceChange} />
                             </div>
                           </div>
-                          <p className="mt-3 text-body-sm text-white/70 max-w-xl">
-                            點進搜尋頁可延伸查看 {selectedMarket}{" "}
-                            的完整清單、不同時間範圍與價格區間。
-                          </p>
                         </div>
                       </div>
                     </div>
