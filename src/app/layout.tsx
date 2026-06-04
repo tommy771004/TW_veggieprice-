@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import './globals.css'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { TopAppBar } from '@/components/layout/TopAppBar'
-import { WebAppJsonLd } from '@/components/seo/JsonLd'
+import { WebAppJsonLd, OrganizationJsonLd, WebSiteJsonLd } from '@/components/seo/JsonLd'
 import { ServiceWorkerRegistrar } from '@/components/pwa/ServiceWorkerRegistrar'
 import { PreferencesHydrator } from '@/components/settings/PreferencesHydrator'
 import { ClientSettingsProviders } from '@/components/settings/ClientSettingsProviders'
@@ -81,6 +81,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <OrganizationJsonLd />
+        <WebSiteJsonLd />
         <WebAppJsonLd />
       </head>
       <body className="font-sans min-h-dvh bg-background pb-32 md:pb-0" suppressHydrationWarning>
