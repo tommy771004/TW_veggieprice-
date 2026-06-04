@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ProduceClient } from '@/components/pages/ProduceClient'
 import { BreadcrumbListJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
+import { ProduceFaqSection } from '@/components/seo/ProduceFaq'
 import { SITE_URL } from '@/lib/env'
 
 type Props = { params: Promise<{ id: string }> }
@@ -46,6 +47,7 @@ export default async function ProducePage({ params }: Props) {
       />
       <ProduceDatasetJsonLd cropName={cropName} url={pageUrl} />
       <ProduceClient cropName={cropName} />
+      <ProduceFaqSection cropName={cropName} />
     </>
   )
 }
