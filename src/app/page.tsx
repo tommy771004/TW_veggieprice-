@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { HomeClient } from '@/components/pages/HomeClient'
-import { DEFAULT_MARKET } from '@/lib/constants'
+import { HomeFaqSection } from '@/components/seo/HomeFaq'
 
 export const revalidate = 60 // Cache options: 60 seconds ISR
 
@@ -18,10 +18,13 @@ export default function DashboardPage() {
   // Return early without blocking on network requests to guarantee extremely fast TTFB.
   // The HomeClient will automatically fetch its own data on mount.
   return (
-    <HomeClient
-      initialTrend={[]}
-      initialLivestock={null}
-      initialOverview={null}
-    />
+    <>
+      <HomeClient
+        initialTrend={[]}
+        initialLivestock={null}
+        initialOverview={null}
+      />
+      <HomeFaqSection />
+    </>
   )
 }
