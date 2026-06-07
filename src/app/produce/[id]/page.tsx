@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import type { Metadata } from 'next'
 import { ProduceClient } from '@/components/pages/ProduceClient'
 import { BreadcrumbListJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
@@ -51,3 +52,41 @@ export default async function ProducePage({ params }: Props) {
     </>
   )
 }
+=======
+import type { Metadata } from 'next'
+import { ProduceClient } from '@/components/pages/ProduceClient'
+import { ProduceFAQJsonLd, ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
+import { SITE_URL } from '@/lib/env'
+
+type Props = { params: Promise<{ id: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params
+  const cropName = decodeURIComponent(id)
+  return {
+    title: `${cropName} 今日批發價與歷史走勢 | 農時價`,
+    description: `即時查詢${cropName}全台超過20個批發市場均價、漲跌幅與近30日歷史價格走勢，每日更新農業部官方數據，助您掌握最佳採購時機。`,
+    openGraph: {
+      title: `${cropName} 批發行情 | 農時價`,
+      description: `${cropName}今日均價、近30日歷史走勢與全台市場比價，資料來源農業部。`,
+    },
+    alternates: {
+      canonical: `${SITE_URL}/produce/${id}`,
+    },
+  }
+}
+
+export default async function ProducePage({ params }: Props) {
+  const { id } = await params
+  const cropName = decodeURIComponent(id)
+  const cropUrl = `${SITE_URL}/produce/${id}`
+  return (
+    <>
+      <ProduceFAQJsonLd cropName={cropName} />
+      <ProduceBreadcrumbJsonLd cropName={cropName} cropId={id} />
+      <ProduceDatasetJsonLd cropName={cropName} url={cropUrl} />
+      <ProduceClient cropName={cropName} />
+    </>
+  )
+}
+>>>>>>> 9415576 (feat: add Google Search Console verification, SEO/GEO schema improvements, and XSS fix)
