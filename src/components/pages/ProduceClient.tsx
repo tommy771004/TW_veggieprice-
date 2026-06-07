@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrendChip } from '@/components/ui/TrendChip'
 import dynamic from 'next/dynamic'
-import { ProduceProductJsonLd } from '@/components/seo/JsonLd'
-import { SITE_URL } from '@/lib/env'
 
 const PriceLineChart = dynamic(
   () => import('@/components/charts/PriceLineChart').then(m => ({ default: m.PriceLineChart })),
@@ -40,7 +38,7 @@ import Link from 'next/link'
 
 const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
 
-export function ProduceClient({ cropName }: { cropName: string }) {
+export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string; initialPrice?: number }) {
   const router = useRouter()
 
   interface WeatherData {
@@ -487,7 +485,7 @@ export function ProduceClient({ cropName }: { cropName: string }) {
   }, [cropInfo?.origin])
 
   const validHistory = history.filter((point): point is PriceHistoryPoint & { avgPrice: number } => point.avgPrice !== null)
-  const latestPrice = validHistory[validHistory.length - 1]?.avgPrice ?? 0
+  const latestPrice = validHistory[validHistory.length - 1]?.avgPrice ?? initialPrice
   const prevPrice = validHistory[validHistory.length - 2]?.avgPrice ?? latestPrice
   const priceChange = prevPrice ? ((latestPrice - prevPrice) / prevPrice) * 100 : 0
   const avgCost = costInsight?.avgCostPerKg ?? null
@@ -561,9 +559,6 @@ export function ProduceClient({ cropName }: { cropName: string }) {
 
   return (
     <div className="home-dashboard-shell pb-8">
-      {latestPrice > 0 && (
-        <ProduceProductJsonLd cropName={cropName} url={`${SITE_URL}/produce/${encodeURIComponent(cropName)}`} price={latestPrice} />
-      )}
       <div className="px-section-margin py-4">
         <div className="flex items-center justify-between gap-3">
           <button

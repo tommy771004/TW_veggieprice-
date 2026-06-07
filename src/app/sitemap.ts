@@ -1,27 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/env'
+import { COMMON_CROPS } from '@/lib/crops'
 
-const COMMON_CROPS = [
-  // 葉菜類
-  '高麗菜', '白菜', '菠菜', '空心菜', '地瓜葉', '莧菜', '芥藍', '小白菜',
-  '青江菜', '茼蒿', '韭菜', '蔥', '芹菜', '萵苣', '結球萵苣',
-  // 瓜果類
-  '番茄', '小番茄', '青椒', '辣椒', '茄子', '苦瓜', '絲瓜', '冬瓜',
-  '南瓜', '胡瓜', '扁蒲', '佛手瓜',
-  // 根莖類
-  '洋蔥', '胡蘿蔔', '白蘿蔔', '馬鈴薯', '牛蒡', '薑', '大蒜',
-  '山藥', '芋頭', '甜菜根',
-  // 豆菜類
-  '四季豆', '豇豆', '豌豆', '毛豆', '菜豆',
-  // 菇類
-  '香菇', '金針菇', '杏鮑菇', '鴻喜菇', '木耳',
-  // 水果類
-  '香蕉', '蘋果', '芭樂', '鳳梨', '木瓜', '葡萄', '西瓜', '哈密瓜',
-  '柳橙', '文旦', '柚子', '橘子', '檸檬', '芒果', '荔枝', '龍眼',
-  '百香果', '蓮霧', '釋迦', '火龍果', '草莓', '奇異果',
-  // 花卉
-  '菊花', '玫瑰', '百合', '康乃馨',
-]
+const CATEGORY_SLUGS = ['vegetable', 'fruit', 'mushroom', 'flower']
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_URL
@@ -36,6 +17,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/settings`,  lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
   ]
 
+  const categoryRoutes: MetadataRoute.Sitemap = CATEGORY_SLUGS.map((slug) => ({
+    url:             `${base}/produce/category/${slug}`,
+    lastModified:    now,
+    changeFrequency: 'daily' as const,
+    priority:        0.7,
+  }))
+
   const cropRoutes: MetadataRoute.Sitemap = COMMON_CROPS.map((crop) => ({
     url:             `${base}/produce/${encodeURIComponent(crop)}`,
     lastModified:    now,
@@ -43,5 +31,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:        0.8,
   }))
 
-  return [...staticRoutes, ...cropRoutes]
+  return [...staticRoutes, ...categoryRoutes, ...cropRoutes]
 }
