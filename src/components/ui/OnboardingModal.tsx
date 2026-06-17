@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
 
 const STORAGE_KEY = 'veggieprice_onboarding_seen'
@@ -27,12 +27,58 @@ export function OnboardingModal() {
   const [visible, setVisible] = useState(false)
   const [step, setStep] = useState(0)
   const [exiting, setExiting] = useState(false)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const previouslyFocused = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (!localStorage.getItem(STORAGE_KEY)) {
       setVisible(true)
     }
   }, [])
+
+  // Move focus into the dialog on open and restore it on close. Trap Tab and
+  // close on Escape so keyboard users aren't stranded behind the backdrop.
+  useEffect(() => {
+    if (!visible) return
+    previouslyFocused.current = document.activeElement as HTMLElement | null
+
+    const node = dialogRef.current
+    const focusable = () =>
+      Array.from(
+        node?.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => !el.hasAttribute('disabled'))
+
+    focusable()[0]?.focus()
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        dismiss()
+        return
+      }
+      if (e.key !== 'Tab') return
+      const items = focusable()
+      if (items.length === 0) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      previouslyFocused.current?.focus?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible])
 
   function dismiss() {
     triggerHaptic(hapticPatterns.success)
@@ -69,6 +115,7 @@ export function OnboardingModal() {
 
       {/* Sheet */}
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label="新手導覽"

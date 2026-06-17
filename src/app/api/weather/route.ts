@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketWeatherObservations } from '@/lib/server/moa'
+import { resolveCountyFromTownship } from '@/lib/server/townshipCountyMap'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -19,7 +20,9 @@ export async function GET(req: NextRequest) {
     '金門', '連江'
   ]
 
-  const matchedCounty = VALID_COUNTIES.find(c => rawOrigin.includes(c))
+  // Prefer a direct county keyword; otherwise resolve a district/township
+  // (e.g. 五股區 → 新北) so origins at sub-county granularity still get weather.
+  const matchedCounty = VALID_COUNTIES.find(c => rawOrigin.includes(c)) ?? resolveCountyFromTownship(rawOrigin)
   if (!matchedCounty) {
      return NextResponse.json({ error: 'No matching county found in origin' }, { status: 404 })
   }

@@ -98,6 +98,7 @@ export function SearchContent() {
   const [dateRange, setDateRange] = useState<SearchFilters['dateRange']>('1d')
   const [sortBy, setSortBy] = useState<SearchFilters['sortBy']>('name')
   const [autocomplete, setAutocomplete] = useState<string[]>([])
+  const [acIndex, setAcIndex] = useState(-1)
   const [showPriceFilter, setShowPriceFilter] = useState(false)
   const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
@@ -348,9 +349,29 @@ export function SearchContent() {
               suppressHydrationWarning
               type="search"
               value={query}
-              onChange={(e) => { setQuery(e.target.value); setAutocomplete([]) }}
+              onChange={(e) => { setQuery(e.target.value); setAutocomplete([]); setAcIndex(-1) }}
+              onKeyDown={(e) => {
+                if (autocomplete.length === 0) return
+                if (e.key === 'ArrowDown') {
+                  e.preventDefault()
+                  setAcIndex((i) => (i + 1) % autocomplete.length)
+                } else if (e.key === 'ArrowUp') {
+                  e.preventDefault()
+                  setAcIndex((i) => (i <= 0 ? autocomplete.length - 1 : i - 1))
+                } else if (e.key === 'Enter' && acIndex >= 0) {
+                  e.preventDefault()
+                  setQuery(autocomplete[acIndex]); setAutocomplete([]); setAcIndex(-1)
+                } else if (e.key === 'Escape') {
+                  setAutocomplete([]); setAcIndex(-1)
+                }
+              }}
               placeholder="搜尋作物名稱… (支援注音輸入)"
               aria-label="搜尋作物"
+              role="combobox"
+              aria-expanded={autocomplete.length > 0}
+              aria-controls="search-autocomplete"
+              aria-autocomplete="list"
+              aria-activedescendant={acIndex >= 0 ? `search-ac-${acIndex}` : undefined}
               autoComplete="off"
               className="w-full bg-white/80 dark:bg-zinc-800/85 dark:text-zinc-100 dark:border-zinc-700/80 border border-white/40 shadow-sm rounded-full py-3 pl-12 pr-12 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-transparent transition-[background-color,box-shadow] backdrop-blur-md"
             />
@@ -360,19 +381,32 @@ export function SearchContent() {
                 hasPriceFilter ? 'text-primary' : 'text-primary-container'
               }`}
               title="價格區間篩選"
+              aria-label="價格區間篩選"
+              aria-expanded={showPriceFilter}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '1.375rem' }}>
+              <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.375rem' }}>
                 {hasPriceFilter ? 'filter_alt' : 'tune'}
               </span>
             </button>
 
             {autocomplete.length > 0 && (
-              <div className="absolute top-full mt-2 w-full glass-card-solid rounded-2xl overflow-hidden z-10 shadow-glass">
-                {autocomplete.map((name) => (
+              <div
+                id="search-autocomplete"
+                role="listbox"
+                aria-label="搜尋建議"
+                className="absolute top-full mt-2 w-full glass-card-solid rounded-2xl overflow-hidden z-10 shadow-glass"
+              >
+                {autocomplete.map((name, i) => (
                   <button
                     key={name}
-                    onClick={() => { setQuery(name); setAutocomplete([]) }}
-                    className="w-full text-left px-4 py-3 text-body-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-3"
+                    id={`search-ac-${i}`}
+                    role="option"
+                    aria-selected={i === acIndex}
+                    onMouseEnter={() => setAcIndex(i)}
+                    onClick={() => { setQuery(name); setAutocomplete([]); setAcIndex(-1) }}
+                    className={`w-full text-left px-4 py-3 text-body-md text-on-surface transition-colors flex items-center gap-3 ${
+                      i === acIndex ? 'bg-surface-container' : 'hover:bg-surface-container'
+                    }`}
                   >
                     <CropIcon name={name} className="w-6 h-6 shrink-0" />
                     {name}

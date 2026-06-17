@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import type { ChangeEvent, FormEvent } from 'react'
+import type { ChangeEvent, FormEvent, KeyboardEvent } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { debounce } from '@/lib/utils'
@@ -51,6 +51,7 @@ export function TopAppBar() {
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<string[]>([])
+  const [activeIndex, setActiveIndex] = useState(-1)
   const [focused, setFocused] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -98,6 +99,7 @@ export function TopAppBar() {
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const q = e.target.value
     setQuery(q)
+    setActiveIndex(-1)
     updateSuggestions(q)
   }
 
@@ -112,10 +114,28 @@ export function TopAppBar() {
     router.push(`/produce/${encodeURIComponent(name)}`)
     setQuery('')
     setSuggestions([])
+    setActiveIndex(-1)
     setFocused(false)
   }
 
   const showSuggestions = focused && suggestions.length > 0
+
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (!showSuggestions) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex((i) => (i + 1) % suggestions.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex((i) => (i <= 0 ? suggestions.length - 1 : i - 1))
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault()
+      handleSelect(suggestions[activeIndex])
+    } else if (e.key === 'Escape') {
+      setFocused(false)
+      setActiveIndex(-1)
+    }
+  }
   const routeMeta = getRouteMeta(pathname)
 
   return (
@@ -177,8 +197,14 @@ export function TopAppBar() {
                 value={query}
                 onChange={handleChange}
                 onFocus={() => setFocused(true)}
+                onKeyDown={handleKeyDown}
                 placeholder="搜尋作物…"
                 aria-label="搜尋作物"
+                role="combobox"
+                aria-expanded={showSuggestions}
+                aria-controls="topbar-search-suggestions"
+                aria-autocomplete="list"
+                aria-activedescendant={activeIndex >= 0 ? `topbar-suggestion-${activeIndex}` : undefined}
                 autoComplete="off"
                 className="w-full bg-transparent rounded-full py-2.5 pl-10 pr-4 text-body-md text-on-surface placeholder-outline focus:outline-none"
               />
@@ -187,12 +213,23 @@ export function TopAppBar() {
 
           {/* Autocomplete Dropdown */}
           {showSuggestions && (
-            <div className="absolute top-full mt-2 w-full glass-card-solid rounded-2xl overflow-hidden shadow-glass z-20">
-              {suggestions.map((name) => (
+            <div
+              id="topbar-search-suggestions"
+              role="listbox"
+              aria-label="搜尋建議"
+              className="absolute top-full mt-2 w-full glass-card-solid rounded-2xl overflow-hidden shadow-glass z-20"
+            >
+              {suggestions.map((name, i) => (
                 <button
                   key={name}
+                  id={`topbar-suggestion-${i}`}
+                  role="option"
+                  aria-selected={i === activeIndex}
+                  onMouseEnter={() => setActiveIndex(i)}
                   onMouseDown={(e) => { e.preventDefault(); handleSelect(name) }}
-                  className="w-full text-left px-4 py-3 flex items-center gap-3 text-body-md text-on-surface hover:bg-surface-container transition-colors"
+                  className={`w-full text-left px-4 py-3 flex items-center gap-3 text-body-md text-on-surface transition-colors ${
+                    i === activeIndex ? 'bg-surface-container' : 'hover:bg-surface-container'
+                  }`}
                 >
                   <CropIcon name={name} className="w-6 h-6 shrink-0" />
                   <span>{name}</span>
@@ -207,9 +244,10 @@ export function TopAppBar() {
           <button
             onClick={() => setShowNotifications(!showNotifications)}
             aria-label="最新通知"
+            aria-expanded={showNotifications}
             className="app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
           >
-            <span className="material-symbols-outlined" style={{ fontSize: '1.5rem' }}>notifications</span>
+            <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.5rem' }}>notifications</span>
           </button>
 
           {showNotifications && (

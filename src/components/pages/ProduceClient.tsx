@@ -491,6 +491,8 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
   const avgCost = costInsight?.avgCostPerKg ?? null
   const costGap = avgCost !== null && latestPrice > 0 ? latestPrice - avgCost : null
   const compareMax = Math.max(latestPrice, avgCost ?? 0, 1)
+  // Only show markets that actually traded today; a row of "$0.0" reads as broken/free.
+  const pricedMarkets = markets.filter((m) => m.avgPrice > 0)
   const cropCategory = getProduceCategory(cropName)
   const cropCategoryLabel = cropCategory === 'fruit'
     ? '水果類'
@@ -563,9 +565,10 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
         <div className="flex items-center justify-between gap-3">
           <button
             onClick={() => router.back()}
+            aria-label="返回上一頁"
             className="w-11 h-11 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors border border-white/40 bg-white/60 backdrop-blur-sm"
           >
-            <span className="material-symbols-outlined">arrow_back</span>
+            <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
           </button>
           <div className="flex flex-wrap gap-2 justify-end">
             <span className="market-status-chip">{cropCategoryLabel}</span>
@@ -654,9 +657,9 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
                   <button
                     onClick={(e) => { e.preventDefault(); scrollPulse('left') }}
                     className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
-                    aria-label="Scroll left"
+                    aria-label="向左捲動"
                   >
-                    <span className="material-symbols-outlined text-xl">chevron_left</span>
+                    <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_left</span>
                   </button>
 
                   <div
@@ -678,9 +681,9 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
                   <button
                     onClick={(e) => { e.preventDefault(); scrollPulse('right') }}
                     className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
-                    aria-label="Scroll right"
+                    aria-label="向右捲動"
                   >
-                    <span className="material-symbols-outlined text-xl">chevron_right</span>
+                    <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_right</span>
                   </button>
                 </div>
               </div>
@@ -753,10 +756,10 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
 
             {historyLoading ? (
               <div className="skeleton h-56 rounded-xl" />
-            ) : history.length === 0 ? (
+            ) : validHistory.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-56 text-on-surface-variant gap-3">
-                <span className="text-5xl">🧺</span>
-                <p className="text-body-md font-semibold">{historyError || '查無此作物的交易資料'}</p>
+                <span className="text-5xl" aria-hidden="true">🧺</span>
+                <p className="text-body-md font-semibold">{historyError || '近期無成交資料（可能逢休市），請改看較長區間'}</p>
                 <button
                   onClick={() => setReloadKey((value) => value + 1)}
                   className="text-primary text-label-bold hover:underline"
@@ -835,8 +838,8 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
                 <div className="skeleton h-32 rounded-xl" />
               ) : weatherError ? (
                 <div className="flex flex-col items-center justify-center p-4 text-on-surface-variant gap-2">
-                  <span className="material-symbols-outlined text-3xl">cloud_off</span>
-                  <p className="text-body-md">{weatherError}</p>
+                  <span className="material-symbols-outlined text-3xl" aria-hidden="true">cloud_off</span>
+                  <p className="text-body-md">{/[一-鿿]/.test(weatherError) ? weatherError : '查無此產地的氣象資料'}</p>
                 </div>
               ) : weather ? (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -951,13 +954,13 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
             </div>
             {marketsLoading ? (
               <SkeletonCard />
-            ) : markets.length === 0 ? (
+            ) : pricedMarkets.length === 0 ? (
               <div className="py-8 text-center text-on-surface-variant">
-                <p className="text-body-md font-semibold text-on-surface">{marketsError || '目前沒有市場比價資料'}</p>
+                <p className="text-body-md font-semibold text-on-surface">{marketsError || '今日各市場暫無此作物成交價'}</p>
               </div>
             ) : (
               <ul className="space-y-2">
-                {markets.map((m) => (
+                {pricedMarkets.map((m) => (
                   <li key={m.marketName}>
                     <Link
                       href={`/search?q=${encodeURIComponent(cropName)}&market=${encodeURIComponent(m.marketName)}&type=${searchType}`}

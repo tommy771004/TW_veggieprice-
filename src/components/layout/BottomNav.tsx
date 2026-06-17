@@ -7,6 +7,7 @@ const MAIN_ITEMS = [
   { href: '/', icon: 'dashboard', label: '首頁' },
   { href: '/search', icon: 'search', label: '搜尋' },
   { href: '/seasonal', icon: 'local_florist', label: '當季' },
+  { href: '/watchlist', icon: 'monitoring', label: '關注' },
   { href: '/insights', icon: 'insights', label: '洞察' },
   { href: '/settings', icon: 'settings', label: '設定' },
 ]
@@ -22,7 +23,7 @@ export function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-[calc(0.375rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] xs:w-[calc(100%-2rem)] max-w-[340px] z-50 flex items-center justify-center select-none">
+    <nav className="md:hidden fixed bottom-[calc(0.375rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] xs:w-[calc(100%-2rem)] max-w-[392px] z-50 flex items-center justify-center select-none">
       {/* Main Capsule Tab Bar with Liquid Glass styling */}
       <div className="bg-white/45 dark:bg-black/30 backdrop-blur-[45px] border border-white/40 dark:border-zinc-800/40 shadow-[0_14px_45px_rgba(0,0,0,0.1),_inset_0_1px_2.5px_rgba(255,255,255,0.65),_0_1px_1px_rgba(0,0,0,0.02)] dark:shadow-[0_14px_45px_rgba(0,0,0,0.45),_inset_0_1px_1.5px_rgba(255,255,255,0.2)] rounded-full w-full flex justify-around items-center h-[58px] p-1">
         {MAIN_ITEMS.map((item) => {

@@ -26,28 +26,24 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: '查無跨市場比價資料' }, { status: 404 })
   }
 
-  // Single pass: find the two most recent trading dates, split into today/yesterday buckets.
-  let latestDate = ''
-  let prevDate = ''
+  // Group real-priced records per market (skip 休市 / 0-price placeholder rows —
+  // otherwise a market-closed latest day makes every market read as $0.0).
+  const byMarket = new Map<string, { date: string; avgPrice: number }[]>()
   for (const r of allRecords) {
-    if (!r.date) continue
-    if (r.date > latestDate) { prevDate = latestDate; latestDate = r.date }
-    else if (r.date !== latestDate && r.date > prevDate) prevDate = r.date
+    if (!r.marketName || !r.date || !(r.avgPrice > 0)) continue
+    const list = byMarket.get(r.marketName)
+    if (list) list.push({ date: r.date, avgPrice: r.avgPrice })
+    else byMarket.set(r.marketName, [{ date: r.date, avgPrice: r.avgPrice }])
   }
 
-  const todayMap = new Map<string, number>()
-  const yestMap: Record<string, number> = {}
-  for (const r of allRecords) {
-    if (r.date === latestDate) {
-      if (!todayMap.has(r.marketName)) todayMap.set(r.marketName, r.avgPrice)
-    } else if (r.date === prevDate && r.avgPrice > 0) {
-      yestMap[r.marketName] = r.avgPrice
-    }
-  }
-
-  const comparison = Array.from(todayMap.entries()).map(([marketName, todayPrice]) => {
-    const yest = yestMap[marketName]
-    const change = yest && yest > 0 ? ((todayPrice - yest) / yest) * 100 : 0
+  // For each market use its most recent traded price; compare against the next
+  // older traded day so priceChange skips holidays.
+  const comparison = Array.from(byMarket.entries()).map(([marketName, recs]) => {
+    recs.sort((a, b) => b.date.localeCompare(a.date))
+    const todayPrice = recs[0].avgPrice
+    const latestDate = recs[0].date
+    const prev = recs.find((x) => x.date !== latestDate)
+    const change = prev ? ((todayPrice - prev.avgPrice) / prev.avgPrice) * 100 : 0
     return {
       marketName,
       avgPrice: todayPrice,

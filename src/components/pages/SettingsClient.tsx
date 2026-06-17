@@ -261,7 +261,9 @@ export function SettingsClient() {
                     </div>
                     <button
                       onClick={() => item.toggle()}
-                      aria-pressed={item.state}
+                      role="switch"
+                      aria-checked={item.state}
+                      aria-label={item.label}
                       className={`w-14 h-8 rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/20 ${
                         item.state ? 'bg-primary' : 'bg-surface-variant'
                       }`}

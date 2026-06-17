@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchTraceabilitySummary } from '@/lib/server/moa'
+import { resolveCountyFromTownship } from '@/lib/server/townshipCountyMap'
+import { resolveCountyFromMarketName } from '@/lib/server/marketCountyMap'
 import type { CropInfo } from '@/lib/types'
 
 interface CropBaseEntry {
@@ -76,11 +78,13 @@ async function resolveOrigin(cropName: string, staticOrigin: string): Promise<st
 
   const countyCounts = new Map<string, number>()
   for (const item of items) {
-    // Normalize: 雲林縣 → 雲林、臺南市 → 台南
-    const county = (item.county ?? '')
-      .replace(/臺/g, '台')
-      .replace(/[市縣]$/, '')
-      .trim()
+    // Normalize dirty traceability county fields (e.g. 雲林縣, 臺南市, 五股區,
+    // "新北市淡水") down to a clean short county name.
+    const raw = (item.county ?? '').replace(/臺/g, '台').trim()
+    // marketCountyMap knows urban districts + keywords (淡水/蘆洲/…); townshipMap
+    // covers rural townships (五股/三星/玉井/…); finally strip any lingering suffix.
+    const full = resolveCountyFromMarketName(raw).replace(/臺/g, '台').replace(/[市縣]$/, '')
+    const county = full || resolveCountyFromTownship(raw) || raw.replace(/[市縣區鄉鎮]$/, '')
     if (county && county !== '未知' && county.length >= 2) {
       countyCounts.set(county, (countyCounts.get(county) ?? 0) + 1)
     }

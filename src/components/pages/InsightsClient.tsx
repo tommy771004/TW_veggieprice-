@@ -4,11 +4,20 @@ import React, { useState, useEffect } from 'react'
 import { fetchMarketRestDays } from '@/lib/api'
 import type { MarketRestDay } from '@/lib/types'
 
+const PAGE_SIZE = 24
+
 export function InsightsClient() {
-  const [market, setMarket] = useState('全部市場')
+  // Default to a single market — "全部市場" over a 60-day window renders hundreds
+  // of cards (an endless scroll on mobile). Users can still opt into 全部市場.
+  const [market, setMarket] = useState('台北一')
   const [restDays, setRestDays] = useState<MarketRestDay[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE)
+  }, [market])
 
   useEffect(() => {
     async function loadRestDays() {
@@ -38,7 +47,7 @@ export function InsightsClient() {
   }, [market])
 
   return (
-    <main className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-8 space-y-6 md:space-y-8">
         <header className="space-y-2">
           <h1 className="text-display-sm font-black text-on-surface tracking-tight">洞察與分析</h1>
@@ -108,28 +117,43 @@ export function InsightsClient() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in duration-300">
-                {restDays.map((ds, idx) => (
-                  <div key={`${ds.marketName}_${ds.date}_${idx}`} className="flex items-start gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container-high border border-surface-container transition-colors">
-                    <div className="flex-shrink-0 w-12 h-12 bg-error/10 text-error rounded-full flex items-center justify-center">
-                      <span className="material-symbols-outlined block">event_busy</span>
+              <div className="space-y-4">
+                <p className="text-body-sm text-on-surface-variant">
+                  共 {restDays.length} 筆休市紀錄{restDays.length > visibleCount ? `，顯示前 ${visibleCount} 筆` : ''}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in duration-300">
+                  {restDays.slice(0, visibleCount).map((ds, idx) => (
+                    <div key={`${ds.marketName}_${ds.date}_${idx}`} className="flex items-start gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container-high border border-surface-container transition-colors">
+                      <div className="flex-shrink-0 w-12 h-12 bg-error/10 text-error rounded-full flex items-center justify-center">
+                        <span className="material-symbols-outlined block" aria-hidden="true">event_busy</span>
+                      </div>
+                      <div>
+                        <div className="text-label-lg font-bold text-on-surface mb-0.5">{ds.marketName}</div>
+                        <div className="text-body-md text-on-surface-variant">{ds.date}</div>
+                        {ds.note && (
+                          <div className="mt-2 text-label-sm font-medium px-2 py-1 bg-surface-container rounded inline-block text-on-surface-variant">
+                            {ds.note}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-label-lg font-bold text-on-surface mb-0.5">{ds.marketName}</div>
-                      <div className="text-body-md text-on-surface-variant">{ds.date}</div>
-                      {ds.note && (
-                        <div className="mt-2 text-label-sm font-medium px-2 py-1 bg-surface-container rounded inline-block text-on-surface-variant">
-                          {ds.note}
-                        </div>
-                      )}
-                    </div>
+                  ))}
+                </div>
+                {restDays.length > visibleCount && (
+                  <div className="flex justify-center pt-2">
+                    <button
+                      onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                      className="px-6 py-2.5 rounded-full text-label-bold bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                    >
+                      載入更多（剩 {restDays.length - visibleCount} 筆）
+                    </button>
                   </div>
-                ))}
+                )}
               </div>
             )}
           </div>
         </section>
       </div>
-    </main>
+    </div>
   )
 }

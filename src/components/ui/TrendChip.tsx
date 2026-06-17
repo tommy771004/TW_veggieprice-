@@ -18,7 +18,7 @@ export function TrendChip({ change, size = 'md' }: TrendChipProps) {
         size === 'sm' ? 'text-label-sm' : 'text-xs'
       }`}
     >
-      <span className="material-symbols-outlined" style={{ fontSize: size === 'sm' ? '0.75rem' : '0.875rem' }}>
+      <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: size === 'sm' ? '0.75rem' : '0.875rem' }}>
         {icon}
       </span>
       {formatChange(change)}
