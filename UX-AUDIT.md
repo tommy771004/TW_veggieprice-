@@ -55,18 +55,21 @@
 - 修正：將其包進 `unstable_cache`（30 分 TTL、共用 key），所有呼叫者共享同一份結果。三個端點 warm 延遲由 **~18s 降到 <0.25s**；因共用快取，其中一個端點暖機後其餘端點 cold 也跟著變快（搜尋列表 cold 從 16s → 0.42s）。
 - 檔案：[moa.ts](src/lib/server/moa.ts) — `fetchRecentOpenDataUncached` + `cachedRecentOpenData`（serialized 1.43MB，低於 Next data cache 2MB 上限，確認可被快取）。
 
-### 🟠 建議（取捨/架構，未動手）
+### ✅ 已修正 — P2 / P3
 
-**P2（Medium）— 追蹤清單 N+1 請求**
-- [WatchlistClient.tsx:87-92](src/components/pages/WatchlistClient.tsx#L87)：每個收藏作物各打 2 個請求（`/api/prices?crop=` + `/api/prices/history?crop=`），N 項 = 2N 個並發請求。server 端雖已快取（P1），但 client round-trips 隨清單長度線性成長。
-- 建議：新增可一次帶多個 crop 的批次端點（或讓 `/api/prices` 支援多 crop 參數），把 2N 收斂為 1–2 個請求。屬 API 介面變更，未自行實作。
+**P2（Medium）— 追蹤清單 N+1 請求 → 改為單一批次請求**
+- 問題：[WatchlistClient.tsx](src/components/pages/WatchlistClient.tsx) 原本每個收藏作物各打 2 個請求（`/api/prices?crop=` + `/api/prices/history?crop=`），N 項 = 2N 個 client round-trips，隨清單長度線性成長。
+- 修正：新增批次端點 [/api/prices/watchlist](src/app/api/prices/watchlist/route.ts)（`?crops=a,b,c`）。價格用**單一已快取 all-crops 聚合**（不再逐 crop 打 upstream），7 日 sparkline 用 per-crop history 快取並行取得；client 改為**一次請求**。warm 延遲 ~0.26s。
+- 注意：作物名與 MOA 名不同且全站無 alias map 的作物（如 高麗菜/甘藍、空心菜/蕹菜）會降級為 price 0 —— 與原本逐 crop 行為一致（非本次新增的問題；單品頁同樣無資料）。alias map 屬另一獨立議題，未在此處理。
 
-**P3（Low）— verbose 列表回應與 dead code**
-- `/api/prices` 未帶 `format=array`/分頁時回傳冗長物件 JSON（`type=Veg` 約 304KB）。實際 App 走 `page=1&limit=20&format=array`（小）＋按需 `format=array` 全量，初載不受影響。
-- [lib/api.ts:52](src/lib/api.ts#L52) `fetchPrices` 為 verbose 版本且**目前無呼叫者**（dead code）。建議移除，或讓未分頁回應預設 `format=array`。
+**P3（Low）— 移除 dead code + verbose 路徑**
+- 已移除 [lib/api.ts](src/lib/api.ts) 無呼叫者的 `fetchPrices`（連同孤兒 import `ProducePrice`、`ALL_MARKET_SENTINEL`）。
+- `/api/prices` 未帶 `format=array`/分頁時仍回傳冗長 JSON（`type=Veg` 約 304KB），但實際 App 走 `page=1&limit=20&format=array`（小）＋按需全量，初載不受影響，故保留端點彈性、僅清掉 dead wrapper。
 
-**P4（Low）— 冷啟受資料同步新鮮度影響**
-- 本機 `public/data/latest-opendata.json` 已過期（lastUpdated 2026-05-29），導致 `fetchRecentOpenData` 冷啟強制走 ~19s live fetch。正式環境若 cron 正常更新該檔，冷啟會直接讀本地檔而快。建議確認資料同步 job 運作正常，避免首位使用者卡在 movers 冷啟。
+### 🟠 P4（Low）— 冷啟受資料同步新鮮度影響（屬基礎設施，未改碼）
+- 現況：[vercel.json](vercel.json) **沒有設定任何 cron**；`public/data/*.json`（含 `latest-opendata.json`）是 build 時烘進來的，Vercel runtime 檔案系統唯讀無法在執行期更新。本機該檔已過期（2026-05-29），故 `fetchRecentOpenData` 冷啟改走 ~19s live fetch。
+- 影響已被 **P1 快取** 大幅吸收：live fetch 結果共用快取 30 分，只有真正冷啟（部署後第一位使用者）會付一次成本。
+- 建議（基礎設施決策，未自行變更）：設定每日重新部署，或加排程把 `scripts/fetch-moa-data.js` 產出的檔案 commit 進 repo，讓烘進去的本地資料保持新鮮、冷啟也快。
 
 ---
 

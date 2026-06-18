@@ -84,44 +84,43 @@ export function WatchlistClient() {
     async function loadSnapshots() {
       setLoading(true)
 
-      const entries = await Promise.all(items.map(async (item) => {
-        try {
-          const [pricesRes, historyRes] = await Promise.all([
-            fetch(`/api/prices?crop=${encodeURIComponent(item.cropName)}`),
-            fetch(`/api/prices/history?crop=${encodeURIComponent(item.cropName)}&period=1W`),
-          ])
+      // Single batch request for all watched crops (replaces 2 requests per item).
+      const crops = items.map((item) => item.cropName)
+      const fallback = (msg: string) =>
+        Object.fromEntries(
+          items.map((item) => [
+            item.cropCode,
+            { price: 0, change: 0, history: [0], error: msg },
+          ]),
+        )
 
-          const pricesJson = await pricesRes.json()
-          const historyJson = await historyRes.json()
-
-          if (!pricesRes.ok || !Array.isArray(pricesJson) || pricesJson.length === 0) {
-            throw new Error(pricesJson.error || '目前無法取得價格資料')
-          }
-
-          const current = pricesJson.find((entry: { cropName: string }) => entry.cropName === item.cropName) ?? pricesJson[0]
-          const history = historyRes.ok && Array.isArray(historyJson.data)
-            ? historyJson.data
-                .filter((point: { avgPrice: number | null }) => point.avgPrice !== null)
-                .slice(-7)
-                .map((point: { avgPrice: number }) => point.avgPrice)
-            : []
-
-          return [item.cropCode, {
-            price: current.avgPrice,
-            change: current.priceChange ?? 0,
-            history: history.length > 0 ? history : [current.avgPrice],
-          }] as const
-        } catch (error) {
-          return [item.cropCode, {
-            price: 0,
-            change: 0,
-            history: [0],
-            error: error instanceof Error ? error.message : '目前無法取得價格資料',
-          }] as const
+      try {
+        const res = await fetch(
+          `/api/prices/watchlist?crops=${encodeURIComponent(crops.join(','))}`,
+        )
+        const json = await res.json()
+        if (!res.ok || !json.snapshots) {
+          throw new Error(json.error || '目前無法取得價格資料')
         }
-      }))
 
-      setSnapshots(Object.fromEntries(entries))
+        const snapshots = Object.fromEntries(
+          items.map((item) => {
+            const snap = json.snapshots[item.cropName]
+            if (!snap) {
+              return [
+                item.cropCode,
+                { price: 0, change: 0, history: [0], error: '目前無法取得價格資料' },
+              ] as const
+            }
+            return [item.cropCode, snap] as const
+          }),
+        )
+        setSnapshots(snapshots)
+      } catch (error) {
+        setSnapshots(
+          fallback(error instanceof Error ? error.message : '目前無法取得價格資料'),
+        )
+      }
       setLoading(false)
     }
 

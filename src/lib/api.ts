@@ -1,5 +1,4 @@
 import type {
-  ProducePrice,
   MarketOverview,
   TopMover,
   HistoryApiResponse,
@@ -13,7 +12,7 @@ import type {
   ProductCostInsight,
   MarketWeatherRiskSummary,
 } from './types'
-import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from './constants'
+import { DEFAULT_MARKET } from './constants'
 
 const BASE = '/api'
 
@@ -47,24 +46,6 @@ export async function fetchTopMovers(date?: string, category?: string): Promise<
     throw new Error((errorMsg && errorMsg.includes('fetch')) ? '連線至農業部伺服器失敗，請稍後再試' : (errorMsg ?? 'Failed to fetch movers'))
   }
   return json as TopMover[]
-}
-
-export async function fetchPrices(params: {
-  cropName?: string
-  market?: string
-  date?: string
-  startDate?: string
-  endDate?: string
-}): Promise<ProducePrice[]> {
-  const query = new URLSearchParams()
-  if (params.cropName) query.set('crop', params.cropName)
-  if (params.market && params.market !== ALL_MARKET_SENTINEL) query.set('market', params.market)
-  if (params.date) query.set('date', params.date)
-  if (params.startDate) query.set('startDate', params.startDate)
-  if (params.endDate) query.set('endDate', params.endDate)
-  const res = await safeFetch(`${BASE}/prices?${query}`)
-  if (!res.ok) throw new Error('Failed to fetch prices')
-  return res.json()
 }
 
 export async function fetchPriceHistory(
