@@ -1522,6 +1522,76 @@ function processRawRecordsToResult(
   });
 }
 
+// History local-first source. Serves from the synced daily files (public/data/daily)
+// so the heavy 30-day history endpoint avoids the live API on cache misses.
+//
+// Unlike fetchLocalDailyData (which bails to the API if ANY day's file is missing),
+// history MUST tolerate missing days: a 休市 / 公休 / weekend has no daily file by
+// design, and a 30-day window almost always contains some — so a strict reader would
+// never use local. Missing days are simply left out; buildInterpolatedHistory marks
+// them isClosed (休市), which is exactly the desired behavior.
+//
+// Falls back to the v1 API (returns null) only when local can't be trusted:
+//   - no file within the last 5 days of the range  → sync likely stale, API may be fresher
+//   - zero records for the crop                     → e.g. name/alias mismatch, let v1 try
+async function historyFromLocalDaily(
+  cropName: string,
+  market: string,
+  startDate: string,
+  endDate: string,
+): Promise<FetchMarketDataResult | null> {
+  try {
+    const dailyDir = path.join(process.cwd(), "public", "data", "daily");
+    const dates = dateRange(startDate, endDate);
+    const records: NormalizedPriceRecord[] = [];
+    let newestFile = "";
+
+    await Promise.all(
+      dates.map(async (iso) => {
+        try {
+          const content = await fs.promises.readFile(
+            path.join(dailyDir, `${iso}.json`),
+            "utf-8",
+          );
+          const parsed = JSON.parse(content) as LocalDailyRecord[];
+          if (iso > newestFile) newestFile = iso;
+          for (const d of parsed) {
+            if (d.CropName !== cropName) continue;
+            if (market && market !== "全部市場" && d.MarketName !== market)
+              continue;
+            records.push({
+              cropCode: d.CropCode ?? "",
+              cropName: d.CropName ?? "",
+              marketName: d.MarketName ?? "",
+              grade: "一般",
+              upperPrice: Number(d.Upper_Price) || 0,
+              middlePrice: Number(d.Middle_Price) || 0,
+              lowerPrice: Number(d.Lower_Price) || 0,
+              avgPrice: Number(d.Avg_Price) || 0,
+              transWeight: Number(d.Trans_Quantity) || 0,
+              date: rocToISO(d.TransDate ?? ""),
+            });
+          }
+        } catch {
+          // Missing file: 休市/未營業 or not-yet-synced — tolerate, leave the day out.
+        }
+      }),
+    );
+
+    // Trust local only when sync looks alive and the crop actually has local rows.
+    const syncAlive = newestFile !== "" && newestFile >= subtractDays(endDate, 5);
+    if (!syncAlive || records.length === 0) return null;
+
+    return buildInterpolatedHistory({
+      records,
+      dates,
+      labelForDate: dateLabel,
+    });
+  } catch {
+    return null; // fall through to the live API path
+  }
+}
+
 export async function fetchMarketData(
   cropName: string,
   market: string,
@@ -1532,6 +1602,14 @@ export async function fetchMarketData(
 
   const cachedFn = unstable_cache(
     async (): Promise<FetchMarketDataResult> => {
+      const localResult = await historyFromLocalDaily(
+        cropName,
+        market,
+        startDate,
+        endDate,
+      );
+      if (localResult) return localResult;
+
       const params = new URLSearchParams({
         Start_time: isoToROC(startDate),
         End_time: isoToROC(endDate),
@@ -1572,6 +1650,14 @@ export async function fetchMarketDataByDates(
 ): Promise<FetchMarketDataResult> {
   const cachedFn = unstable_cache(
     async (): Promise<FetchMarketDataResult> => {
+      const localResult = await historyFromLocalDaily(
+        cropName,
+        market,
+        startDate,
+        endDate,
+      );
+      if (localResult) return localResult;
+
       const params = new URLSearchParams({
         Start_time: isoToROC(startDate),
         End_time: isoToROC(endDate),

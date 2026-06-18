@@ -66,6 +66,14 @@
 - 已移除 [lib/api.ts](src/lib/api.ts) 無呼叫者的 `fetchPrices`（連同孤兒 import `ProducePrice`、`ALL_MARKET_SENTINEL`）。
 - `/api/prices` 未帶 `format=array`/分頁時仍回傳冗長 JSON（`type=Veg` 約 304KB），但實際 App 走 `page=1&limit=20&format=array`（小）＋按需全量，初載不受影響，故保留端點彈性、僅清掉 dead wrapper。
 
+### ✅ 已修正 — P5：歷史走勢改為「本地優先」（休市日容忍）
+
+- 問題：`/api/prices/history`（`fetchMarketData` / `fetchMarketDataByDates`）原本**完全不讀 `public/data`**，每次 cache miss 都打 v1 API（30 天區間最重，實測 ~13s 冷啟）。
+- 修正：新增 rest-day-tolerant 的 `historyFromLocalDaily`（[moa.ts](src/lib/server/moa.ts)），兩個 history 函式都先試本地每日檔，湊不齊再退 v1 API。
+- **休市日處理（重點）**：休市/週末**本來就沒有當日檔**，所以不能像 `fetchLocalDailyData` 那樣「缺任一檔就整個退 API」（否則 30 天區間幾乎必含休市 → 永遠走 API）。新讀取器**容忍缺檔**，缺的那天交給 `buildInterpolatedHistory` 標記為 `isClosed`（休市），不抓那天、也不誤判為 cache miss。
+- 退回 v1 API 的條件僅：①最近 5 天內無任何本地檔（同步疑似過期）②該作物本地零筆（名稱/別名不符，讓 v1 模糊比對）。
+- 實測：本地命中區間 cold **0.36s（原 ~13s）**、休市日正確標記；本地過期區間正確退回 API。
+
 ### 🟠 P4（Low）— 冷啟受資料同步新鮮度影響（屬基礎設施，未改碼）
 - 現況：[vercel.json](vercel.json) **沒有設定任何 cron**；`public/data/*.json`（含 `latest-opendata.json`）是 build 時烘進來的，Vercel runtime 檔案系統唯讀無法在執行期更新。本機該檔已過期（2026-05-29），故 `fetchRecentOpenData` 冷啟改走 ~19s live fetch。
 - 影響已被 **P1 快取** 大幅吸收：live fetch 結果共用快取 30 分，只有真正冷啟（部署後第一位使用者）會付一次成本。
