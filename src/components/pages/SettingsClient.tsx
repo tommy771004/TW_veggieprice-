@@ -162,6 +162,7 @@ export function SettingsClient() {
   return (
     <div className="home-dashboard-shell pb-8">
       <div className="px-section-margin py-4 md:py-6 space-y-section-margin">
+        <h1 className="sr-only">使用設定</h1>
 
         <section className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
           <div className="section-shell">

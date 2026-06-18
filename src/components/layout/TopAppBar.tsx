@@ -143,7 +143,7 @@ export function TopAppBar() {
       <div className="flex items-center gap-3 md:gap-4">
       {/* Logo */}
         <Link href="/" className="flex items-center gap-3 flex-shrink-0 min-w-0">
-          <span className="app-shell-brand-mark material-symbols-outlined text-primary" style={{ fontSize: '1.4rem' }}>eco</span>
+          <span className="app-shell-brand-mark material-symbols-outlined text-primary" style={{ fontSize: '1.4rem' }} aria-hidden="true">eco</span>
           <span className="min-w-0">
             <span className="block text-body-md sm:text-body-lg font-black text-primary-container tracking-tight whitespace-nowrap">
               農時價
@@ -159,7 +159,7 @@ export function TopAppBar() {
 
       {/* Desktop Nav (Centered) */}
       <div className="hidden md:flex flex-1 justify-center items-center px-2 md:px-5">
-        <nav className="app-shell-nav-rail flex items-center gap-1">
+        <nav aria-label="主要導覽" className="app-shell-nav-rail flex items-center gap-1">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}

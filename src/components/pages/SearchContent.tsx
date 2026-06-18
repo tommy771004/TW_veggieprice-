@@ -422,10 +422,10 @@ export function SearchContent() {
       {showPriceFilter && (
         <div className="glass-card rounded-2xl p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-label-bold font-semibold text-on-surface flex items-center gap-2">
+            <h2 className="text-label-bold font-semibold text-on-surface flex items-center gap-2">
               <span className="material-symbols-outlined text-primary" style={{ fontSize: '1.125rem' }}>price_change</span>
               價格區間篩選 (元/公斤)
-            </h3>
+            </h2>
             {hasPriceFilter && (
               <button
                 onClick={() => { setMinPrice(''); setMaxPrice('') }}

@@ -633,7 +633,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
                       <span className="market-status-chip market-status-chip--hero">{cropCategoryLabel}</span>
                       <span className="market-status-chip market-status-chip--hero">{displayAlias}</span>
                     </div>
-                    <p className="text-label-sm tracking-[0.16em] uppercase font-semibold mb-2 text-white/48">
+                    <p className="text-label-sm tracking-[0.16em] uppercase font-semibold mb-2 text-white/65">
                       今日批發均價 · 元 / 公斤
                     </p>
                     <div className="flex items-end gap-3 flex-wrap">
@@ -691,11 +691,11 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
               {/* 產地與生長背景側邊欄 */}
               <div className="hidden lg:block">
                 <div className="hero-info-card space-y-3.5 h-[230px] flex flex-col justify-center">
-                  <p className="text-label-sm font-bold tracking-wider text-white/50 uppercase">產地與生長背景</p>
+                  <p className="text-label-sm font-bold tracking-wider text-white/65 uppercase">產地與生長背景</p>
                   <div className="space-y-3">
                     {fieldNoteRows.map((note) => (
                       <div key={note.label} className="bg-white/5 border border-white/5 rounded-2xl p-2.5 flex flex-col">
-                        <span className="text-2xs font-semibold text-white/40">{note.label}</span>
+                        <span className="text-2xs font-semibold text-white/60">{note.label}</span>
                         <strong className="text-body-sm font-bold text-white mt-0.5">{note.value}</strong>
                       </div>
                     ))}
@@ -711,7 +711,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
             <div className="flex justify-between items-start sm:items-center flex-col sm:flex-row gap-4 mb-6">
               <div className="flex flex-col gap-1">
                 <p className="section-kicker">Trend desk</p>
-                <h3 className="text-headline-md font-semibold text-on-surface">價格趨勢</h3>
+                <h2 className="text-headline-md font-semibold text-on-surface">價格趨勢</h2>
                 <p className="text-body-sm text-on-surface-variant">
                   觀察 {cropName} 在 {historyWindowLabel} 的均價變化與休市補點。
                 </p>
@@ -776,7 +776,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
             <div className="section-heading-row gap-3 mb-4">
               <div>
                 <p className="section-kicker">Volume pulse</p>
-                <h3 className="text-headline-md font-semibold text-on-surface">交易量節奏</h3>
+                <h2 className="text-headline-md font-semibold text-on-surface">交易量節奏</h2>
                 <p className="text-body-sm text-on-surface-variant mt-1">
                   近 14 筆成交量，用來看市場熱度是不是跟價格同步。
                 </p>
@@ -800,7 +800,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
             <div className="section-heading-row gap-3 mb-5">
               <div>
                 <p className="section-kicker">Crop brief</p>
-                <h3 className="text-headline-md font-semibold text-on-surface">作物簡介</h3>
+                <h2 className="text-headline-md font-semibold text-on-surface">作物簡介</h2>
               </div>
             </div>
             {infoLoading || !cropInfo ? (
@@ -815,7 +815,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
                   <div key={row.label} className="glass-card rounded-2xl px-4 py-3 flex items-start gap-3">
                     <span className="material-symbols-outlined text-primary mt-0.5" style={{ fontSize: '1.25rem' }}>{row.icon}</span>
                     <div>
-                      <h4 className="text-label-bold text-on-surface-variant">{row.label}</h4>
+                      <h3 className="text-label-bold text-on-surface-variant">{row.label}</h3>
                       <p className="text-body-md text-on-surface">{row.value}</p>
                     </div>
                   </div>
@@ -829,9 +829,9 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
               <div className="section-heading-row gap-3 mb-5">
                 <div>
                   <p className="section-kicker">Origin weather</p>
-                  <h3 className="text-headline-md font-semibold text-on-surface">
+                  <h2 className="text-headline-md font-semibold text-on-surface">
                     產地氣象 ({weather?.county || cropInfo.origin.split('、')[0]})
-                  </h3>
+                  </h2>
                 </div>
               </div>
               {weatherLoading ? (
@@ -873,7 +873,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
             <div className="section-heading-row gap-3 mb-5">
               <div>
                 <p className="section-kicker">Cost spread</p>
-                <h3 className="text-headline-md font-semibold text-on-surface">成本與行情對照</h3>
+                <h2 className="text-headline-md font-semibold text-on-surface">成本與行情對照</h2>
               </div>
             </div>
             {costLoading ? (
@@ -949,7 +949,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
             <div className="section-heading-row gap-3 mb-5">
               <div>
                 <p className="section-kicker">Market compare</p>
-                <h3 className="text-headline-md font-semibold text-on-surface">各區市場比價</h3>
+                <h2 className="text-headline-md font-semibold text-on-surface">各區市場比價</h2>
               </div>
             </div>
             {marketsLoading ? (
@@ -986,7 +986,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
           <div className="section-heading-row gap-3 mb-5">
             <div>
               <p className="section-kicker">Traceability</p>
-              <h3 className="text-headline-md font-semibold text-on-surface">產地追溯摘要</h3>
+              <h2 className="text-headline-md font-semibold text-on-surface">產地追溯摘要</h2>
             </div>
           </div>
           {traceabilityLoading ? (
@@ -1002,7 +1002,8 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
                 <li key={`${item.traceCode}-${index}`} className="glass-card rounded-2xl px-4 py-3">
                   <p className="text-body-md font-semibold text-on-surface">{item.productName}</p>
                   <p className="text-body-sm text-on-surface-variant mt-0.5">
-                    生產者：{item.producerName} ｜ 產地：{item.county}
+                    {item.producerName && item.producerName !== '未揭露' && `生產者：${item.producerName} ｜ `}
+                    產地：{item.county}
                     {item.mark && <span className="ml-1 text-primary font-medium">｜ {item.mark}</span>}
                   </p>
                   <p className="text-label-sm text-outline mt-1">溯源編號：{item.traceCode} ｜ 來源：{item.sourceSystem}</p>

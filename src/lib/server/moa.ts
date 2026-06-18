@@ -697,6 +697,21 @@ export async function fetchMarketOptions(): Promise<MarketOptionsResult> {
   }
 }
 
+// MOA rest-day datasets tag each entry with a product-category code (the section of
+// the market that is closed). Localize to Traditional Chinese so the UI never shows
+// raw codes like "F"/"Fish". Unknown codes return undefined → no badge is rendered.
+const MARKET_TYPE_LABELS: Record<string, string> = {
+  V: "蔬菜",
+  F: "水果",
+  L: "花卉",
+  Fish: "漁產",
+};
+
+function localizeMarketType(code: string | undefined): string | undefined {
+  if (!code) return undefined;
+  return MARKET_TYPE_LABELS[code];
+}
+
 export async function fetchMarketRestDays(
   market: string,
   startDate: string,
@@ -782,7 +797,7 @@ export async function fetchMarketRestDays(
                     items.push({
                       marketName,
                       date: dateYMD,
-                      note: type.MarketType,
+                      note: localizeMarketType(type.MarketType),
                     });
                   }
                 }
@@ -890,6 +905,13 @@ export async function fetchMarketWeatherObservations(
 export function resolveCountyFromMarketName(marketName: string): string {
   return resolveCountyFromMarketDataset(marketName);
 }
+
+// Friendly names for the upstream traceability systems, so the UI never shows raw
+// API endpoint identifiers in the "來源" field.
+const TRACE_SOURCE_LABELS: Record<string, string> = {
+  TWAgriProductsTraceabilityType_ProductInfo: "臺灣農產品生產追溯（QR Code）",
+  AgriProductsTraceabilityType: "產銷履歷（TAP）",
+};
 
 export async function fetchTraceabilitySummary(
   cropName: string,
@@ -1002,7 +1024,7 @@ export async function fetchTraceabilitySummary(
           ]) || "未知";
         const mark =
           readStringField(record, ["Mark", "認驗證", "標章"]) || undefined;
-        const sourceSystem = record.__source ?? "MOA Traceability";
+        const sourceSystem = TRACE_SOURCE_LABELS[record.__source ?? ""] ?? "農產品溯源資訊";
 
         const key = `${productName}_${producerName}_${traceCode}`;
         if (dedup.has(key)) continue;
@@ -1565,6 +1587,54 @@ export async function fetchMarketDataByDates(
   return cachedFn();
 }
 
+// Bulk source for fetchSearchRecords. The MOA v1 API caps responses at 1000
+// records, so a broad (multi-crop) multi-day query returns only the most recent
+// day — leaving no previous-day baseline and collapsing every priceChange to 0.
+// For recent windows we prefer the uncapped OpenData feed (same source the movers
+// endpoint uses), which returns the last few trading days in full. Falls back to
+// the capped path when OpenData is unavailable or doesn't cover the window.
+async function fetchSearchBulkRecords(
+  options: PriceQueryOptions,
+): Promise<{ records: NormalizedPriceRecord[]; error?: string }> {
+  const endDate = options.endDate ?? options.date ?? todayISO();
+  const startDate = options.startDate ?? endDate;
+  const latestOpenDataDate = subtractDays(todayISO(), 5);
+
+  if (endDate >= latestOpenDataDate) {
+    try {
+      const recent = await fetchRecentOpenData();
+      let filtered = recent.filter(
+        (r) => r.date >= startDate && r.date <= endDate,
+      );
+      if (options.marketType === "Veg") {
+        filtered = filtered.filter((r) => r._typeCode === CROP_TYPE_VEG);
+      } else if (options.marketType === "Fruit") {
+        filtered = filtered.filter((r) => r._typeCode === CROP_TYPE_FRUIT);
+      }
+      if (options.market && options.market !== "全部市場") {
+        filtered = filtered.filter((r) => r.marketName === options.market);
+      }
+      if (options.cropName) {
+        filtered = filtered.filter(
+          (r) =>
+            r.cropName === options.cropName ||
+            r.cropName.includes(options.cropName!),
+        );
+      }
+      // Need at least two distinct trading days for a real baseline; otherwise
+      // fall through to the v1 path which may reach further back.
+      const distinctDates = new Set(filtered.map((r) => r.date));
+      if (filtered.length > 0 && distinctDates.size > 1) {
+        return { records: filtered.map(({ _typeCode, ...rest }) => rest) };
+      }
+    } catch {
+      // fall through to the capped v1 path
+    }
+  }
+
+  return fetchPriceRecords(options);
+}
+
 export async function fetchSearchRecords(
   options: PriceQueryOptions,
 ): Promise<SearchRecordsResult> {
@@ -1804,7 +1874,7 @@ export async function fetchSearchRecords(
   }
 
   // Make a single bulk request instead of N+1 requests
-  const bulkRes = await fetchPriceRecords({
+  const bulkRes = await fetchSearchBulkRecords({
     cropName: options.cropName,
     market: options.market,
     startDate: previousDate,

@@ -196,6 +196,7 @@ export function WatchlistClient() {
   return (
     <div className="home-dashboard-shell pb-8">
       <div className="px-section-margin py-4 md:py-6 space-y-section-margin">
+        <h1 className="sr-only">追蹤清單</h1>
 
         {items.length === 0 ? (
           <section className="section-shell text-center py-12 sm:py-16">

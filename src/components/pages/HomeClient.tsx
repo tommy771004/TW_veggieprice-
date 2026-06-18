@@ -846,7 +846,7 @@ export function HomeClient({
                         <span
                           style={{
                             fontSize: "0.625rem",
-                            color: "rgba(255,255,255,0.28)",
+                            color: "rgba(255,255,255,0.55)",
                           }}
                         >
                           {trendPoints[0]?.date.slice(5).replace("-", "/")}
@@ -854,7 +854,7 @@ export function HomeClient({
                         <span
                           style={{
                             fontSize: "0.625rem",
-                            color: "rgba(255,255,255,0.38)",
+                            color: "rgba(255,255,255,0.62)",
                             fontWeight: 500,
                           }}
                         >
@@ -863,7 +863,7 @@ export function HomeClient({
                         <span
                           style={{
                             fontSize: "0.625rem",
-                            color: "rgba(255,255,255,0.28)",
+                            color: "rgba(255,255,255,0.55)",
                           }}
                         >
                           {trendPoints[trendPoints.length - 1]?.date
