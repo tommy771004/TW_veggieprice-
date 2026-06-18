@@ -36,6 +36,40 @@
 
 ---
 
+## 效能審計（查詢 / 資料層）
+
+實測 dev API 延遲（cold = 首次、warm = 後續），標出無快取受益的熱點：
+
+| Endpoint | 修正前 cold / warm | 修正後 cold / warm |
+|---|---|---|
+| `/api/prices/movers` | 19.0s / 18.0s | 19.0s / **0.22s** |
+| `/api/prices?type=Veg` | 16.4s / 18.7s | 0.42s / **0.22s** |
+| `/api/prices/markets` | 19.0s / 18.1s | 0.48s / **0.22s** |
+| `/api/prices/overview` | 6.7s / 0.21s（已快取） | 共用快取後 cold 也降 |
+| `/api/prices/history`、`/seasonal`、`/traceability`、`/cost` | 已正確走 `unstable_cache`，warm < 0.25s | — |
+
+### ✅ 已修正
+
+**P1（🔴 High）— `fetchRecentOpenData` 未快取，拖垮三個端點**
+- movers／搜尋列表／跨市場比價都以 `fetchRecentOpenData()` 為共同 baseline 來源；該函式每次請求都對 MOA OpenData 做 **live fetch（~6999 筆、~1.43MB、15–19s）**，且無任何記憶體/資料快取 → 每次呼叫都重付全額成本。
+- 修正：將其包進 `unstable_cache`（30 分 TTL、共用 key），所有呼叫者共享同一份結果。三個端點 warm 延遲由 **~18s 降到 <0.25s**；因共用快取，其中一個端點暖機後其餘端點 cold 也跟著變快（搜尋列表 cold 從 16s → 0.42s）。
+- 檔案：[moa.ts](src/lib/server/moa.ts) — `fetchRecentOpenDataUncached` + `cachedRecentOpenData`（serialized 1.43MB，低於 Next data cache 2MB 上限，確認可被快取）。
+
+### 🟠 建議（取捨/架構，未動手）
+
+**P2（Medium）— 追蹤清單 N+1 請求**
+- [WatchlistClient.tsx:87-92](src/components/pages/WatchlistClient.tsx#L87)：每個收藏作物各打 2 個請求（`/api/prices?crop=` + `/api/prices/history?crop=`），N 項 = 2N 個並發請求。server 端雖已快取（P1），但 client round-trips 隨清單長度線性成長。
+- 建議：新增可一次帶多個 crop 的批次端點（或讓 `/api/prices` 支援多 crop 參數），把 2N 收斂為 1–2 個請求。屬 API 介面變更，未自行實作。
+
+**P3（Low）— verbose 列表回應與 dead code**
+- `/api/prices` 未帶 `format=array`/分頁時回傳冗長物件 JSON（`type=Veg` 約 304KB）。實際 App 走 `page=1&limit=20&format=array`（小）＋按需 `format=array` 全量，初載不受影響。
+- [lib/api.ts:52](src/lib/api.ts#L52) `fetchPrices` 為 verbose 版本且**目前無呼叫者**（dead code）。建議移除，或讓未分頁回應預設 `format=array`。
+
+**P4（Low）— 冷啟受資料同步新鮮度影響**
+- 本機 `public/data/latest-opendata.json` 已過期（lastUpdated 2026-05-29），導致 `fetchRecentOpenData` 冷啟強制走 ~19s live fetch。正式環境若 cron 正常更新該檔，冷啟會直接讀本地檔而快。建議確認資料同步 job 運作正常，避免首位使用者卡在 movers 冷啟。
+
+---
+
 ## 發現（初版審計狀態；H1/H2/M1/M2/M3/L1 已於上方修正）
 
 ### 🔴 High

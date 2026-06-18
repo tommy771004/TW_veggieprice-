@@ -1185,7 +1185,7 @@ interface SeafoodRawRecord {
   交易量?: number | string;
 }
 
-export async function fetchRecentOpenData(): Promise<
+async function fetchRecentOpenDataUncached(): Promise<
   (NormalizedPriceRecord & { _typeCode?: string })[]
 > {
   try {
@@ -1272,6 +1272,23 @@ export async function fetchRecentOpenData(): Promise<
   } finally {
     clearTimeout(timer);
   }
+}
+
+// The recent OpenData feed (~7000 records, ~1.4MB) is the shared baseline source for
+// movers, the search list and cross-market compare. The upstream live fetch is slow
+// (~15-19s), so memoize it across requests — without this, every one of those
+// endpoints re-pays the full fetch on each call. Data refreshes daily, so a 30-min
+// TTL is safe and cuts warm latency from ~18s to sub-second.
+const cachedRecentOpenData = unstable_cache(
+  fetchRecentOpenDataUncached,
+  ["moa-recent-opendata"],
+  { revalidate: 1800, tags: ["moa-recent-opendata"] },
+);
+
+export async function fetchRecentOpenData(): Promise<
+  (NormalizedPriceRecord & { _typeCode?: string })[]
+> {
+  return cachedRecentOpenData();
 }
 
 export async function fetchPriceRecords(
