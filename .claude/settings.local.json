@@ -6,5 +6,8 @@
       "Read(//c//**)",
       "Read(//c/Users/FH2133/AppData/Roaming/**)"
     ]
+  },
+    "env": {
+    "BASH_ENV": "/c/Users/FH2133/.bashrc"
   }
 }
