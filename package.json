@@ -13,6 +13,7 @@
     "fetch-data": "node scripts/fetch-moa-data.js"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "framer-motion": "^11.18.2",
     "next": "^15.3.2",
     "react": "^19.0.0",
