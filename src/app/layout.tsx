@@ -7,6 +7,7 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { TopAppBar } from '@/components/layout/TopAppBar'
 import { WebAppJsonLd, OrganizationJsonLd, WebSiteJsonLd } from '@/components/seo/JsonLd'
 import { ServiceWorkerRegistrar } from '@/components/pwa/ServiceWorkerRegistrar'
+import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
 import { PreferencesHydrator } from '@/components/settings/PreferencesHydrator'
 import { ClientSettingsProviders } from '@/components/settings/ClientSettingsProviders'
 import { FramerMotionProvider } from '@/components/providers/FramerMotionProvider'
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <PreferencesHydrator />
         <ClientSettingsProviders />
         <ServiceWorkerRegistrar />
+        <AnalyticsTracker />
         <TopAppBar />
         <FramerMotionProvider>
           <div className="md:flex">
