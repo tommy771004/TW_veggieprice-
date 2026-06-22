@@ -18,8 +18,8 @@ import { getCropEmoji } from '@/lib/utils'
 type IconKey =
   | 'tomato' | 'broccoli' | 'onion' | 'leafy' | 'herb' | 'carrot' | 'apple'
   | 'banana' | 'pineapple' | 'mango' | 'grape' | 'waxapple' | 'dragonfruit'
-  | 'coconut' | 'kiwi' | 'lychee' | 'melon' | 'citrus' | 'berry' | 'pear'
-  | 'pepper' | 'corn' | 'pumpkin' | 'eggplant' | 'cucumber' | 'pea' | 'tuber'
+  | 'coconut' | 'kiwi' | 'lychee' | 'melon' | 'citrus' | 'berry' | 'pear' | 'custardapple'
+  | 'pepper' | 'corn' | 'pumpkin' | 'eggplant' | 'cucumber' | 'pea' | 'tuber' | 'chestnut'
   | 'shoot' | 'mushroom' | 'garlic' | 'squid' | 'flower' | 'avocado' | 'pig'
   | 'egg' | 'chicken' | 'duck' | 'sheep' | 'shrimp' | 'crab' | 'shell' | 'fish'
 
@@ -38,6 +38,7 @@ const ICON_RULES: ReadonlyArray<readonly [string, IconKey]> = [
   ['酪梨', 'avocado'],
   ['扁蒲', 'cucumber'],
   ['蘆筍', 'shoot'],
+  ['釋迦', 'custardapple'], // 含「鳳梨釋迦」,須在 鳳梨→pineapple 之前
 
   // — fruiting vegetables / tomato —
   ['牛番茄', 'tomato'], ['小番茄', 'tomato'], ['蕃茄', 'tomato'], ['番茄', 'tomato'],
@@ -52,11 +53,11 @@ const ICON_RULES: ReadonlyArray<readonly [string, IconKey]> = [
   ['山蘇', 'leafy'], ['川七', 'leafy'], ['朴菜', 'leafy'], ['榨菜', 'leafy'],
   ['鹹菜', 'leafy'], ['黑甜仔', 'leafy'], ['甘薯葉', 'leafy'], ['地瓜葉', 'leafy'],
   ['芽菜', 'leafy'], ['豆芽', 'leafy'], ['苜蓿', 'leafy'], ['水蓮', 'leafy'],
-  ['西洋菜', 'leafy'], ['人參葉', 'leafy'],
+  ['西洋菜', 'leafy'], ['人參葉', 'leafy'], ['塌棵', 'leafy'], ['大心菜', 'leafy'],
   ['海帶', 'leafy'], ['海菜', 'leafy'], ['包心白', 'leafy'], ['包白', 'leafy'], ['白菜', 'leafy'],
 
   // — aromatic herbs / stalks —
-  ['芫荽', 'herb'], ['巴西利', 'herb'], ['巴西里', 'herb'], ['九層塔', 'herb'],
+  ['香椿', 'herb'], ['芫荽', 'herb'], ['巴西利', 'herb'], ['巴西里', 'herb'], ['九層塔', 'herb'],
   ['香茅', 'herb'], ['茴香', 'herb'], ['羅勒', 'herb'], ['青蔥', 'herb'], ['韭菜', 'herb'],
   ['芹菜', 'herb'], ['蔥', 'herb'], ['甘蔗', 'herb'],
 
@@ -64,7 +65,7 @@ const ICON_RULES: ReadonlyArray<readonly [string, IconKey]> = [
   ['胡蘿蔔', 'carrot'], ['白蘿蔔', 'carrot'], ['蘿蔔', 'carrot'],
 
   // — fruit —
-  ['蘋果', 'apple'],
+  ['蘋果', 'apple'], ['棗', 'apple'], // 蜜棗/印度棗:綠色、形近蘋果
   ['香蕉', 'banana'],
   ['鳳梨', 'pineapple'], ['波蘿蜜', 'pineapple'], ['菠蘿蜜', 'pineapple'], ['榴槤', 'pineapple'],
   ['芒果', 'mango'], ['枇杷', 'mango'], ['黃金果', 'mango'], ['蛋黃果', 'mango'], ['柿', 'mango'],
@@ -78,6 +79,7 @@ const ICON_RULES: ReadonlyArray<readonly [string, IconKey]> = [
   ['西瓜', 'melon'], ['哈密瓜', 'melon'], ['香瓜梨', 'melon'], ['洋香瓜', 'melon'],
   ['香瓜', 'melon'], ['甜瓜', 'melon'], ['木瓜', 'melon'], ['芭樂', 'melon'],
   ['番石榴', 'melon'], ['石榴', 'melon'],
+  ['香櫞', 'citrus'], // 香櫞/佛手柑(避免用「佛手」以免誤中佛手瓜)
   ['柳橙', 'citrus'], ['柳丁', 'citrus'], ['椪柑', 'citrus'], ['桶柑', 'citrus'],
   ['茂谷', 'citrus'], ['橘子', 'citrus'], ['檸檬', 'citrus'], ['柚', 'citrus'],
   ['柑', 'citrus'], ['橙', 'citrus'], ['桔', 'citrus'],
@@ -96,7 +98,7 @@ const ICON_RULES: ReadonlyArray<readonly [string, IconKey]> = [
   ['荷蘭豆', 'pea'], ['豌豆', 'pea'], ['毛豆', 'pea'], ['四季豆', 'pea'], ['菜豆', 'pea'],
   ['敏豆', 'pea'], ['萊豆', 'pea'], ['虎豆', 'pea'], ['鵲豆', 'pea'], ['肉豆', 'pea'],
   ['花豆', 'pea'], ['豇豆', 'pea'], ['蠶豆', 'pea'], ['秋葵', 'pea'], ['橄欖', 'pea'],
-  ['落花生', 'pea'], ['花生', 'pea'],
+  ['落花生', 'pea'], ['花生', 'pea'], ['栗', 'chestnut'],
   ['馬鈴薯', 'tuber'], ['薯蕷', 'tuber'], ['甘薯', 'tuber'], ['番薯', 'tuber'],
   ['地瓜', 'tuber'], ['芋', 'tuber'], ['薑', 'tuber'], ['牛蒡', 'tuber'],
   ['荸薺', 'tuber'], ['蓮藕', 'tuber'], ['草石蠶', 'tuber'], ['菱角', 'tuber'],
@@ -127,6 +129,7 @@ const ICON_RULES: ReadonlyArray<readonly [string, IconKey]> = [
   ['蟹', 'crab'], ['蟳', 'crab'],
   ['牡蠣', 'shell'], ['文蛤', 'shell'], ['蛤', 'shell'], ['蚵', 'shell'], ['蜆', 'shell'],
   ['蟶', 'shell'], ['鮑', 'shell'], ['螺', 'shell'], ['九孔', 'shell'], ['貝', 'shell'], ['蚶', 'shell'], ['蜊', 'shell'], ['萬引', 'shell'],
+  ['臭肉', 'fish'],
   ['虱目', 'fish'], ['吳郭', 'fish'], ['石斑', 'fish'], ['鱸', 'fish'], ['鯛', 'fish'],
   ['鯧', 'fish'], ['香魚', 'fish'], ['鰺', 'fish'], ['黃花', 'fish'], ['赤宗', 'fish'],
   ['龍膽', 'fish'], ['龍虎斑', 'fish'], ['青斑', 'fish'], ['秋刀', 'fish'], ['土魠', 'fish'],
@@ -182,6 +185,7 @@ const ICON_SVG: Record<IconKey, string> = {
   citrus: `<circle cx="12" cy="12" r="8" fill="#FB8C00"/><circle cx="12" cy="12" r="5.4" fill="#FFCC80"/><path d="M12 6.6v10.8M6.6 12h10.8M8.2 8.2l7.6 7.6M15.8 8.2l-7.6 7.6" stroke="#FB8C00" stroke-width="1"/>`,
   berry: `<path d="M12 21c-4-1-7-4-7-7.6 0-2 3-3 7-3s7 1 7 3C19 17 16 20 12 21z" fill="#E53935"/><path d="M8 9.5c1.2-3 6.8-3 8 0-2-1-6-1-8 0z" fill="#43A047"/><g fill="#FFF59D"><circle cx="9" cy="13" r=".6"/><circle cx="12" cy="12.2" r=".6"/><circle cx="15" cy="13" r=".6"/><circle cx="10.5" cy="16" r=".6"/><circle cx="13.5" cy="16" r=".6"/></g>`,
   pear: `<path d="M12 7c1 0 1.2 1 1 2 3 1 4 4 4 7 0 3-2 5-5 5s-5-2-5-5c0-3 1.2-6 4-7-.2-1 0-2 1-2z" fill="#9CCC65"/><path d="M12 7V4" stroke="#8D6E63" stroke-width="1.4" stroke-linecap="round"/><path d="M13 5c1.5-1 3-.3 3 .8-1.5.8-2.8.2-3-.8z" fill="#43A047"/>`,
+  custardapple: `<circle cx="12" cy="13.6" r="7.5" fill="#9CCC65"/><g fill="#7CB342"><circle cx="9" cy="10.6" r="1.9"/><circle cx="12.5" cy="9.9" r="1.9"/><circle cx="15.4" cy="11.7" r="1.9"/><circle cx="8.7" cy="14.1" r="1.9"/><circle cx="12" cy="13.7" r="1.9"/><circle cx="15.4" cy="15.3" r="1.9"/><circle cx="10.7" cy="17.1" r="1.9"/><circle cx="14" cy="17.4" r="1.9"/></g><path d="M12 6.4V4" stroke="#6D4C41" stroke-width="1.4" stroke-linecap="round"/><path d="M12.5 5.4c1.5-1 3-.3 3 .8-1.5.8-2.8.2-3-.8z" fill="#43A047"/>`,
   pepper: `<path d="M7.5 9.5c-2 1.2-2 5.5-.8 7.6C8 20 10 21 12 21s4-1 5.3-3.9c1.2-2.1 1.2-6.4-.8-7.6-1.2 2-2.5 2.2-4.5 2.2S8.7 11.5 7.5 9.5z" fill="#43A047"/><path d="M12 7.5V4.5M12 4.5c2 0 2.2 2.2 0 3.2" stroke="#2E7D32" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
   broccoli: `<g fill="#43A047"><circle cx="8.5" cy="9" r="3.2"/><circle cx="14" cy="7.6" r="3.2"/><circle cx="16" cy="11.6" r="3"/><circle cx="11.5" cy="11" r="3.2"/></g><path d="M8.5 13h7v4c0 1.5-7 1.5-7 0z" fill="#A5D6A7"/>`,
   corn: `<path d="M12 3c3 0 5 3.2 5 9s-2 9-5 9-5-3.2-5-9 2-9 5-9z" fill="#FDD835"/><g fill="#C0A000"><circle cx="10" cy="9" r=".7"/><circle cx="14" cy="9" r=".7"/><circle cx="12" cy="12" r=".7"/><circle cx="10" cy="15" r=".7"/><circle cx="14" cy="15" r=".7"/></g><path d="M7 13c-2.2-1-3.5.2-4.2 2.2 2.2 1 3.5-.2 4.2-2.2z" fill="#7CB342"/>`,
@@ -190,6 +194,7 @@ const ICON_SVG: Record<IconKey, string> = {
   cucumber: `<path d="M7 7c-2 2-2 5.2 0 7.2l2.8 2.8c2 2 5.2 2 7.2 0s2-5.2 0-7.2L14.2 7c-2-2-5.2-2-7.2 0z" fill="#66BB6A"/><g fill="#388E3C"><circle cx="10" cy="10" r=".7"/><circle cx="12.5" cy="12.5" r=".7"/><circle cx="14.5" cy="11" r=".7"/></g>`,
   pea: `<path d="M5 9c0-2 4-3 8 0s6 3 6 6c0 1-1 2-3 1-1-1-2-4-5-6S5 11 5 9z" fill="#7CB342"/><g fill="#33691E"><circle cx="9" cy="11.5" r="1.5"/><circle cx="12" cy="13" r="1.5"/><circle cx="15" cy="14.5" r="1.5"/></g>`,
   tuber: `<g transform="rotate(-15 12 13)"><ellipse cx="12" cy="13" rx="8" ry="5.6" fill="#A1887F"/></g><g fill="#6D4C41"><circle cx="9" cy="11" r=".7"/><circle cx="14" cy="14" r=".7"/><circle cx="12" cy="10.5" r=".7"/></g>`,
+  chestnut: `<path d="M12 4.6c1 0 1.2 1 1.5 1.8C16.6 7.6 18 10.4 18 13.3c0 3.2-2.6 5-6 5s-6-1.8-6-5c0-2.9 1.4-5.7 4.5-6.9.3-.8.5-1.8 1.5-1.8z" fill="#8D6E63"/><path d="M6.6 14.4c1.5 1.7 3.3 2.4 5.4 2.4s3.9-.7 5.4-2.4c.3 2.7-2.2 4.4-5.4 4.4s-5.7-1.7-5.4-4.4z" fill="#EFCFA8"/><path d="M12 4.6c0-.7.6-1.3 1.4-1.3" stroke="#5D4037" stroke-width="1.2" fill="none" stroke-linecap="round"/>`,
   shoot: `<path d="M10 21c-1-6 0-12 4-17 1.4 5 1.2 12-1 17z" fill="#AED581"/><path d="M14 4c2.2 1 3.2 3 2 5.2-1.2-1-2-2.2-2-5.2z" fill="#7CB342"/><path d="M11 9.5c1 1 2.2 1 3.2 0M10.3 13.5c1.2 1 3 1 4 0M9.7 17.5c1.4 1 3.6 1 4.6 0" stroke="#558B2F" stroke-width="1" fill="none"/>`,
   mushroom: `<path d="M5 12c0-4 3-7 7-7s7 3 7 7c0 1-1 1.2-2 1.2H7C6 13.2 5 13 5 12z" fill="#A1887F"/><path d="M10 13.2h4V18c0 1.4-4 1.4-4 0z" fill="#EFEBE9"/>`,
   garlic: `<path d="M12 4c-1.2 2.2-4 3.4-4 9 0 4 2 7 4 7s4-3 4-7c0-5.6-2.8-6.8-4-9z" fill="#FAFAFA" stroke="#E0E0E0"/><path d="M9 8.5c-1 6-1 9 0 11.5M15 8.5c1 6 1 9 0 11.5" stroke="#E0E0E0" stroke-width="1" fill="none"/>`,
