@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { debounce } from '@/lib/utils'
 import { CropIcon } from '@/components/ui/CropIcon'
+import { FeedbackButton } from '@/components/feedback/FeedbackButton'
+import { trackEvent } from '@/lib/analytics'
 
 const NAV_LINKS = [
   { href: '/', label: '首頁', icon: 'dashboard' },
@@ -106,11 +108,13 @@ export function TopAppBar() {
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (!query.trim()) return
+    trackEvent('search_submit', query.trim())
     router.push(`/search?q=${encodeURIComponent(query.trim())}`)
     setFocused(false)
   }
 
   function handleSelect(name: string) {
+    trackEvent('suggestion_select', name)
     router.push(`/produce/${encodeURIComponent(name)}`)
     setQuery('')
     setSuggestions([])
@@ -164,6 +168,7 @@ export function TopAppBar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={() => trackEvent('nav_click', link.href, { source: 'topbar', label: link.label })}
               className={`app-shell-nav-link px-3.5 py-2 rounded-full text-label-bold font-medium transition-colors whitespace-nowrap ${
                 isNavActive(pathname, link.href)
                   ? 'bg-primary/10 text-primary'
@@ -177,10 +182,10 @@ export function TopAppBar() {
         </nav>
       </div>
 
-      {/* Right Actions: Search + Notifications */}
+      {/* Right Actions: Search + Feedback + Notifications */}
       <div className="flex flex-1 md:flex-none items-center justify-end gap-1 md:gap-3">
-        {/* Global Search Box */}
-        <div ref={containerRef} className="relative w-full md:w-[240px] lg:w-[320px]">
+        {/* Global Search Box (slightly narrower to make room for the feedback action) */}
+        <div ref={containerRef} className="relative flex-1 min-w-0 md:flex-none md:w-[200px] lg:w-[280px]">
           <form onSubmit={handleSubmit} suppressHydrationWarning>
             <div className="app-shell-search-dock relative">
               <span
@@ -239,10 +244,16 @@ export function TopAppBar() {
           )}
         </div>
 
+        {/* Feedback */}
+        <FeedbackButton />
+
         {/* Notifications */}
         <div className="relative" ref={notificationRef}>
           <button
-            onClick={() => setShowNotifications(!showNotifications)}
+            onClick={() => {
+              if (!showNotifications) trackEvent('notifications_open')
+              setShowNotifications(!showNotifications)
+            }}
             aria-label="最新通知"
             aria-expanded={showNotifications}
             className="app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
