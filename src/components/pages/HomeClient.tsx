@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/SkeletonCard";
 import { formatPrice } from "@/lib/utils";
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from "@/lib/constants";
+import { AffiliateMarquee } from "@/components/affiliate/AffiliateMarquee";
 
 const WeatherRiskCard = dynamic(() =>
   import("@/components/ui/WeatherRiskCard").then((mod) => mod.WeatherRiskCard),
@@ -1106,6 +1107,9 @@ export function HomeClient({
 
         {/* ── Explore Features ──────────────────────────── */}
         <ExploreSection />
+
+        {/* ── Affiliate Marquee (跑馬燈) ─────────────────── */}
+        <AffiliateMarquee placement="home" />
 
         {/* ── About + FAQ ───────────────────────────────── */}
         <AboutSection />
