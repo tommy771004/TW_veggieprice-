@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { trackEvent } from '@/lib/analytics'
 
 const MAIN_ITEMS = [
   { href: '/', icon: 'dashboard', label: '首頁' },
@@ -32,6 +33,7 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => trackEvent('nav_click', item.href, { source: 'bottomnav', label: item.label })}
               className={`relative flex flex-col items-center justify-center h-full flex-1 rounded-full transition-all duration-300 active:scale-95 ${
                 active
                   ? 'text-[#0d631b] dark:text-[#88d982]'
