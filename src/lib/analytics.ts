@@ -9,6 +9,8 @@
  * - 完全靜默：任何失敗都不影響使用者操作。
  */
 
+import { isAllowedAuditAction } from './auditEvents'
+
 const ENDPOINT = '/api/audit'
 const SESSION_KEY = 'vp_session_id'
 const FLUSH_INTERVAL_MS = 4000
@@ -96,7 +98,8 @@ export function trackEvent(
   target?: string,
   metadata?: Record<string, unknown>,
 ) {
-  if (typeof window === 'undefined' || !action) return
+  // 只記錄白名單內的重要事件，未列入者直接略過（不入列、不送網路）。
+  if (typeof window === 'undefined' || !isAllowedAuditAction(action)) return
   queue.push({
     action,
     target,
