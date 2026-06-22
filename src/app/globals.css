@@ -757,6 +757,16 @@
     }
   }
 
+  /* Affiliate marquee — seamless horizontal scroll (track is rendered twice) */
+  @keyframes vp-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   /* Card lift on hover — subtle depth enhancement */
   .card-lift {
     transition:
