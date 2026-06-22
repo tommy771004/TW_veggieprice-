@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSql } from '@/lib/server/db'
 import { makeLogger } from '@/lib/server/logger'
+import { isAllowedAuditAction } from '@/lib/auditEvents'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -69,7 +70,8 @@ export async function POST(req: NextRequest) {
     if (!raw || typeof raw !== 'object') continue
     const e = raw as Record<string, unknown>
     const action = str(e.action, MAX_ACTION)
-    if (!action) continue
+    // 僅接受白名單內的重要事件（伺服器端再過濾一次）。
+    if (!action || !isAllowedAuditAction(action)) continue
 
     const base = params.length
     params.push(
