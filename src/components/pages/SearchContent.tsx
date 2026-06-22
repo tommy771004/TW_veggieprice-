@@ -6,6 +6,7 @@ import { m, AnimatePresence } from 'framer-motion'
 import { SkeletonList } from '@/components/ui/SkeletonCard'
 import { ProduceRow } from '@/components/ui/ProduceRow'
 import { CropIcon } from '@/components/ui/CropIcon'
+import { AffiliateMarquee } from '@/components/affiliate/AffiliateMarquee'
 import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
 import { formatPrice, debounce, subtractDays, todayISO } from '@/lib/utils'
 import type {
@@ -595,6 +596,9 @@ export function SearchContent() {
           </button>
         )}
       </div>
+
+      {/* Affiliate Marquee (跑馬燈) */}
+      <AffiliateMarquee placement="search" />
 
       {/* Results List */}
       {loading ? (
