@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { HomeClient } from '@/components/pages/HomeClient'
+import { HomeGeoCitationSection } from '@/components/seo/GeoCitationSection'
 import { HomeFaqSection } from '@/components/seo/HomeFaq'
 
 export const revalidate = 60 // Cache options: 60 seconds ISR
@@ -24,6 +25,7 @@ export default function DashboardPage() {
         initialLivestock={null}
         initialOverview={null}
       />
+      <HomeGeoCitationSection />
       <HomeFaqSection />
     </>
   )

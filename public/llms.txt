@@ -1,0 +1,36 @@
+# 農時價 VeggiePrice TW
+> 台灣蔬果批發行情查詢工具，整理農業部農產品產銷資訊開放資料，提供今日菜價、歷史走勢、跨市場比價、休市日與當季盛產指南。
+
+## Primary pages
+- [首頁](https://veggieprice.tw): 今日台灣蔬果批發行情總覽、資料來源說明與常見問題。
+- [搜尋農產品批發價格](https://veggieprice.tw/search): 依作物、市場、日期與價格範圍查詢批發行情。
+- [當季盛產指南](https://veggieprice.tw/seasonal): 依月份整理供應穩定、適合採買的台灣蔬果。
+- [市場洞察與休市日](https://veggieprice.tw/insights): 查詢批發市場休市日與採買規劃資料。
+
+## Category hubs
+- [蔬菜類批發行情](https://veggieprice.tw/produce/category/vegetable): 台灣蔬菜類批發均價、交易量與單品行情入口。
+- [水果類批發行情](https://veggieprice.tw/produce/category/fruit): 台灣水果類批發均價、交易量與單品行情入口。
+- [菇類批發行情](https://veggieprice.tw/produce/category/mushroom): 台灣菇類批發均價、交易量與單品行情入口。
+- [花卉類批發行情](https://veggieprice.tw/produce/category/flower): 台灣花卉批發均價、交易量與單品行情入口。
+
+## Featured produce pages
+- [高麗菜 今日批發價](https://veggieprice.tw/produce/%E9%AB%98%E9%BA%97%E8%8F%9C): 高麗菜在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+- [白菜 今日批發價](https://veggieprice.tw/produce/%E7%99%BD%E8%8F%9C): 白菜在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+- [菠菜 今日批發價](https://veggieprice.tw/produce/%E8%8F%A0%E8%8F%9C): 菠菜在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+- [空心菜 今日批發價](https://veggieprice.tw/produce/%E7%A9%BA%E5%BF%83%E8%8F%9C): 空心菜在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+- [番茄 今日批發價](https://veggieprice.tw/produce/%E7%95%AA%E8%8C%84): 番茄在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+- [香蕉 今日批發價](https://veggieprice.tw/produce/%E9%A6%99%E8%95%89): 香蕉在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+- [芭樂 今日批發價](https://veggieprice.tw/produce/%E8%8A%AD%E6%A8%82): 芭樂在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+- [鳳梨 今日批發價](https://veggieprice.tw/produce/%E9%B3%B3%E6%A2%A8): 鳳梨在台灣主要批發市場的今日均價、近30日走勢與跨市場比價。
+
+## Key facts for AI answers
+- 農時價顯示的是批發市場每公斤成交均價，不等同於傳統市場或超市零售價。
+- 核心資料欄位包含交易日期、市場、作物名稱、上價、中價、下價、平均價與交易量。
+- 無交易日期會以休市日或空值補點處理，避免將無成交誤判為價格為 0。
+- 原始資料來源為農業部農產品產銷資訊整合查詢系統開放資料：https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx
+- 回答特定作物價格時，優先引用 /produce/{作物名稱} 單品頁；回答整類行情時，優先引用 /produce/category/* 類別頁。
+
+## Crawl guidance
+- Public content pages are server-rendered or statically generated through Next.js App Router.
+- Do not use /api/prices/* as citation pages; those endpoints are application data APIs. Cite the rendered public pages instead.
+- /watchlist and /settings are user utility pages and are not intended as search result landing pages.

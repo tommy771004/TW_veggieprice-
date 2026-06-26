@@ -1,6 +1,8 @@
 import { SITE_URL } from '@/lib/env'
 
-function safeJsonLd(schema: object): string {
+export const MOA_OPEN_DATA_URL = 'https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx'
+
+export function safeJsonLd(schema: object): string {
   return JSON.stringify(schema).replace(/</g, '\\u003c')
 }
 
@@ -15,6 +17,11 @@ export function OrganizationJsonLd() {
     description: '台灣農產品批發市場即時價格查詢平台，每日更新全台超過20個批發市場交易數據',
     inLanguage: 'zh-TW',
     knowsAbout: ['台灣農產品價格', '批發市場行情', '蔬菜價格', '水果價格', '農業數據'],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      availableLanguage: ['zh-TW'],
+    },
   }
   return (
     <script
@@ -60,6 +67,7 @@ export function WebAppJsonLd() {
     operatingSystem: 'Any',
     inLanguage: 'zh-TW',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+    featureList: ['今日批發均價查詢', '歷史價格走勢', '跨市場比價', '休市日補點', '當季蔬果指南'],
   }
   return (
     <script
@@ -101,9 +109,12 @@ export function ProduceDatasetJsonLd({ cropName, url }: { cropName: string; url:
     url,
     keywords: [`${cropName}`, '台灣批發市場', '農產品價格', '菜價', '批發行情'],
     creator: { '@type': 'Organization', name: '農業部農產品產銷資訊整合查詢' },
+    isBasedOn: MOA_OPEN_DATA_URL,
     license: 'https://creativecommons.org/licenses/by/4.0/',
     inLanguage: 'zh-TW',
     temporalCoverage: '2020/..',
+    variableMeasured: ['平均價', '上價', '下價', '交易量'],
+    measurementTechnique: '依批發市場每日實際成交資料彙整',
   }
   return (
     <script
@@ -184,6 +195,45 @@ export function ProduceBreadcrumbJsonLd({ cropName, cropId }: { cropName: string
       { '@type': 'ListItem', position: 3, name: `${cropName} 批發行情`, item: `${SITE_URL}/produce/${cropId}` },
     ],
   }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}
+
+export function MarketDataMethodJsonLd() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: '台灣蔬果批發行情資料方法',
+    url: SITE_URL,
+    inLanguage: 'zh-TW',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: '農時價 VeggiePrice TW',
+      url: SITE_URL,
+    },
+    about: [
+      { '@type': 'Thing', name: '台灣蔬果批發行情' },
+      { '@type': 'Thing', name: '農產品批發市場價格' },
+      { '@type': 'Thing', name: '今日菜價查詢' },
+    ],
+    citation: MOA_OPEN_DATA_URL,
+    mainEntity: {
+      '@type': 'Dataset',
+      name: '台灣農產品批發市場每日交易行情整理',
+      description:
+        '農時價整理農業部農產品產銷資訊開放資料，提供台灣主要批發市場蔬菜、水果、菇類與花卉每日均價、上價、下價與交易量查詢。',
+      creator: { '@type': 'Organization', name: '農業部' },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      isBasedOn: MOA_OPEN_DATA_URL,
+      inLanguage: 'zh-TW',
+      variableMeasured: ['平均價', '上價', '下價', '交易量', '市場', '交易日期'],
+    },
+  }
+
   return (
     <script
       type="application/ld+json"

@@ -1,3 +1,5 @@
+import { safeJsonLd } from './JsonLd'
+
 export type FaqItem = { q: string; a: string }
 
 /**
@@ -32,7 +34,7 @@ export function FaqSection({
     <section className="px-section-margin max-w-3xl mx-auto py-6">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
       />
       <h2 className="text-headline-md font-bold text-on-surface mb-4">{heading}</h2>
       <div className="space-y-3">

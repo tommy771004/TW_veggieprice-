@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     title: '我的蔬果觀察名單 | 農時價',
     description: '一鍵追蹤常買蔬果的最新批發行情。',
   },
+  robots: { index: false, follow: true },
 }
 
 export default function WatchlistPage() {
