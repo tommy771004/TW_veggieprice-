@@ -112,6 +112,9 @@ export function ProduceDatasetJsonLd({ cropName, url }: { cropName: string; url:
     isBasedOn: MOA_OPEN_DATA_URL,
     license: 'https://creativecommons.org/licenses/by/4.0/',
     inLanguage: 'zh-TW',
+    // Daily-refreshed dataset — surface freshness so Search/AI engines know the
+    // page is up-to-date (a positive signal for both indexing and citation).
+    dateModified: new Date().toISOString().slice(0, 10),
     temporalCoverage: '2020/..',
     variableMeasured: ['平均價', '上價', '下價', '交易量'],
     measurementTechnique: '依批發市場每日實際成交資料彙整',

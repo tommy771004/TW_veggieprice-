@@ -3,10 +3,11 @@ import Link from 'next/link'
 import { ProduceClient } from '@/components/pages/ProduceClient'
 import { ProduceFAQJsonLd, ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd, ProduceProductJsonLd } from '@/components/seo/JsonLd'
 import { ProduceFaqSection } from '@/components/seo/ProduceFaq'
+import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
 import { SITE_URL } from '@/lib/env'
 import { COMMON_CROPS } from '@/lib/crops'
 import { getProduceCategory } from '@/lib/produce'
-import { fetchMarketDataByDates } from '@/lib/server/moa'
+import { fetchMarketDataByDates, type HistoryPoint } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -45,16 +46,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-async function fetchInitialPrice(cropName: string): Promise<number> {
+// One server-side history fetch feeds both the client hero (initial price) and
+// the crawlable ProduceMarketSummary, so we don't double-fetch MOA per build.
+async function fetchRecentHistory(cropName: string): Promise<HistoryPoint[]> {
   try {
     const today = todayISO()
-    const start = subtractDays(today, 7)
+    const start = subtractDays(today, 30)
     const result = await fetchMarketDataByDates(cropName, '', start, today)
-    if (result.error || !result.data.length) return 0
-    const valid = result.data.filter((p) => p.avgPrice !== null)
-    return valid[valid.length - 1]?.avgPrice ?? 0
+    if (result.error) return []
+    return result.data
   } catch {
-    return 0
+    return []
   }
 }
 
@@ -62,7 +64,9 @@ export default async function ProducePage({ params }: Props) {
   const { id } = await params
   const cropName = decodeURIComponent(id)
   const pageUrl = `${SITE_URL}/produce/${id}`
-  const initialPrice = await fetchInitialPrice(cropName)
+  const history = await fetchRecentHistory(cropName)
+  const initialPrice =
+    history.filter((p) => p.avgPrice !== null && p.avgPrice > 0).slice(-1)[0]?.avgPrice ?? 0
   const category = getProduceCategory(cropName)
   const categoryLabel = CATEGORY_LABEL[category] ?? '作物'
   const hasCategoryHub = ['vegetable', 'fruit', 'mushroom', 'flower'].includes(category)
@@ -76,6 +80,7 @@ export default async function ProducePage({ params }: Props) {
         <ProduceProductJsonLd cropName={cropName} url={pageUrl} price={initialPrice} />
       )}
       <ProduceClient cropName={cropName} initialPrice={initialPrice} />
+      <ProduceMarketSummary cropName={cropName} history={history} />
       <ProduceFaqSection cropName={cropName} />
       {hasCategoryHub && (
         <div className="px-section-margin pb-8">
