@@ -5,6 +5,7 @@ import { SITE_URL } from '@/lib/env'
 import { COMMON_CROPS } from '@/lib/crops'
 import { getProduceCategory, type ProduceCategory } from '@/lib/produce'
 import { BreadcrumbListJsonLd } from '@/components/seo/JsonLd'
+import { ScrollToTop } from '@/components/ui/ScrollToTop'
 
 type Props = { params: Promise<{ category: string }> }
 
@@ -115,6 +116,7 @@ export default async function CategoryPage({ params }: Props) {
           </div>
         </div>
       </div>
+      <ScrollToTop />
     </>
   )
 }
