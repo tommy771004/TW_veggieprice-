@@ -11,6 +11,13 @@
     --font-scale: 1;
     font-size: calc(16px * var(--font-scale));
     color-scheme: light;
+    --section-margin: 10px;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      --section-margin: 32px;
+    }
   }
 
   html[data-font-size="small"] {

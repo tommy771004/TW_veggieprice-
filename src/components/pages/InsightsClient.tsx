@@ -48,7 +48,7 @@ export function InsightsClient() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-8 space-y-6 md:space-y-8">
+      <div className="max-w-7xl mx-auto px-section-margin py-6 md:py-8 space-y-6 md:space-y-8">
         <header className="space-y-2">
           <h1 className="text-display-sm font-black text-on-surface tracking-tight">洞察與分析</h1>
           <p className="text-body-lg text-on-surface-variant max-w-2xl">
