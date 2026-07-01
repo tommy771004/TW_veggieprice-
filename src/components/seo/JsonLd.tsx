@@ -228,7 +228,7 @@ export function MarketDataMethodJsonLd() {
       '@type': 'Dataset',
       name: '台灣農產品批發市場每日交易行情整理',
       description:
-        '農時價整理農業部農產品產銷資訊開放資料，提供台灣主要批發市場蔬菜、水果、菇類與花卉每日均價、上價、下價與交易量查詢。',
+        '農時價整理農業部農產品產銷資訊開放資料，提供台灣主要批發市場蔬菜、水果與菇類每日均價、上價、下價與交易量查詢。',
       creator: { '@type': 'Organization', name: '農業部' },
       license: 'https://creativecommons.org/licenses/by/4.0/',
       isBasedOn: MOA_OPEN_DATA_URL,
