@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { InsightsClient } from '@/components/pages/InsightsClient'
+import { InsightsSeoSummary } from '@/components/seo/InsightsSeoSummary'
 import { SITE_URL } from '@/lib/env'
 
 export const metadata: Metadata = {
@@ -15,5 +16,10 @@ export const metadata: Metadata = {
 }
 
 export default function InsightsPage() {
-  return <InsightsClient />
+  return (
+    <>
+      <InsightsSeoSummary />
+      <InsightsClient />
+    </>
+  )
 }

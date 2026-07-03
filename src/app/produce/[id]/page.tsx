@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ProduceClient } from '@/components/pages/ProduceClient'
-import { ProduceFAQJsonLd, ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd, ProduceProductJsonLd } from '@/components/seo/JsonLd'
+import { ProduceFAQJsonLd, ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
 import { ProduceFaqSection } from '@/components/seo/ProduceFaq'
 import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
 import { SITE_URL } from '@/lib/env'
@@ -76,9 +76,6 @@ export default async function ProducePage({ params }: Props) {
       <ProduceFAQJsonLd cropName={cropName} />
       <ProduceBreadcrumbJsonLd cropName={cropName} cropId={id} />
       <ProduceDatasetJsonLd cropName={cropName} url={pageUrl} />
-      {initialPrice > 0 && (
-        <ProduceProductJsonLd cropName={cropName} url={pageUrl} price={initialPrice} />
-      )}
       <ProduceClient cropName={cropName} initialPrice={initialPrice} />
       <ProduceMarketSummary cropName={cropName} history={history} />
       <ProduceFaqSection cropName={cropName} />

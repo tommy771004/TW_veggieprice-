@@ -1,0 +1,68 @@
+{
+  "site": "https://veggieprice.tw",
+  "targetDomain": "veggieprice.tw",
+  "language": "zh-TW",
+  "recommendedCadence": "weekly",
+  "prompts": [
+    {
+      "id": "cabbage_today",
+      "query": "今日高麗菜批發價是多少？",
+      "intent": "specific_crop_price",
+      "preferredCitation": "https://veggieprice.tw/produce/%E9%AB%98%E9%BA%97%E8%8F%9C"
+    },
+    {
+      "id": "taiwan_veg_price",
+      "query": "台灣今日菜價查詢去哪裡看？",
+      "intent": "tool_recommendation",
+      "preferredCitation": "https://veggieprice.tw/search"
+    },
+    {
+      "id": "taipei_market_veg",
+      "query": "台北批發市場蔬菜價格怎麼查？",
+      "intent": "market_price_lookup",
+      "preferredCitation": "https://veggieprice.tw/search"
+    },
+    {
+      "id": "banana_trend",
+      "query": "香蕉批發價近期走勢如何？",
+      "intent": "specific_crop_trend",
+      "preferredCitation": "https://veggieprice.tw/produce/%E9%A6%99%E8%95%89"
+    },
+    {
+      "id": "fruit_wholesale",
+      "query": "台灣水果批發行情有哪些網站可以查？",
+      "intent": "category_price_lookup",
+      "preferredCitation": "https://veggieprice.tw/produce/category/fruit"
+    },
+    {
+      "id": "wholesale_vs_retail",
+      "query": "批發價和零售價差多少？",
+      "intent": "definition_comparison",
+      "preferredCitation": "https://veggieprice.tw"
+    },
+    {
+      "id": "produce_source",
+      "query": "哪裡可以查農產品批發價格資料來源？",
+      "intent": "source_attribution",
+      "preferredCitation": "https://veggieprice.tw"
+    },
+    {
+      "id": "market_rest_days",
+      "query": "台灣批發市場休市日怎麼查？",
+      "intent": "rest_day_lookup",
+      "preferredCitation": "https://veggieprice.tw/insights"
+    },
+    {
+      "id": "seasonal_value",
+      "query": "現在當季便宜蔬果推薦有哪些？",
+      "intent": "seasonal_recommendation",
+      "preferredCitation": "https://veggieprice.tw/seasonal"
+    },
+    {
+      "id": "moa_data_reading",
+      "query": "農業部農產品交易行情要怎麼看？",
+      "intent": "how_to_read_data",
+      "preferredCitation": "https://veggieprice.tw/search"
+    }
+  ]
+}

@@ -100,6 +100,106 @@ export function BreadcrumbListJsonLd({
   )
 }
 
+export function WebPageJsonLd({
+  name,
+  description,
+  url,
+  keywords = [],
+}: {
+  name: string
+  description: string
+  url: string
+  keywords?: string[]
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name,
+    description,
+    url,
+    inLanguage: 'zh-TW',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: '農時價 VeggiePrice TW',
+      url: SITE_URL,
+    },
+    ...(keywords.length > 0 && { keywords }),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}
+
+export function ItemListJsonLd({
+  name,
+  description,
+  url,
+  items,
+}: {
+  name: string
+  description: string
+  url: string
+  items: Array<{ name: string; url: string; description?: string }>
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name,
+    description,
+    url,
+    inLanguage: 'zh-TW',
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: item.url,
+      ...(item.description && { description: item.description }),
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}
+
+export function HowToJsonLd({
+  name,
+  description,
+  steps,
+}: {
+  name: string
+  description: string
+  steps: string[]
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    inLanguage: 'zh-TW',
+    step: steps.map((text, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      text,
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}
+
 export function ProduceDatasetJsonLd({ cropName, url }: { cropName: string; url: string }) {
   const schema = {
     '@context': 'https://schema.org',
@@ -118,28 +218,6 @@ export function ProduceDatasetJsonLd({ cropName, url }: { cropName: string; url:
     temporalCoverage: '2020/..',
     variableMeasured: ['平均價', '上價', '下價', '交易量'],
     measurementTechnique: '依批發市場每日實際成交資料彙整',
-  }
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
-    />
-  )
-}
-
-export function ProduceProductJsonLd({ cropName, url, price }: { cropName: string; url: string; price: number }) {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: `${cropName} 批發行情`,
-    description: `${cropName}今日最新批發均價與市場行情`,
-    url,
-    offers: {
-      '@type': 'Offer',
-      price: price.toString(),
-      priceCurrency: 'TWD',
-      availability: 'https://schema.org/InStock',
-    },
   }
   return (
     <script

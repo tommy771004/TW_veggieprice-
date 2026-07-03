@@ -3,9 +3,9 @@ import { SITE_URL } from '@/lib/env'
 
 export default function robots(): MetadataRoute.Robots {
   const base = SITE_URL
-  // GEO: explicitly welcome AI search crawlers so the site is eligible for citations
-  // in ChatGPT Search, Perplexity, Claude, Gemini, and Copilot answers.
-  const aiBots = [
+  // GEO: explicitly welcome AI search/citation crawlers so public pages are
+  // eligible for ChatGPT Search, Perplexity, Claude, Gemini, and Copilot answers.
+  const aiSearchBots = [
     'GPTBot',
     'OAI-SearchBot',
     'ChatGPT-User',
@@ -13,10 +13,16 @@ export default function robots(): MetadataRoute.Robots {
     'ClaudeBot',
     'anthropic-ai',
     'Claude-Web',
+    'Bingbot',
+  ]
+
+  // Visibility tradeoff: these broader AI/training controls are currently
+  // allowed to maximize discoverability. Keep them separate so future policy
+  // changes can block training bots without affecting search citation bots.
+  const aiTrainingBots = [
     'Google-Extended',
     'Applebot-Extended',
     'CCBot',
-    'Bingbot',
   ]
   return {
     rules: [
@@ -28,7 +34,12 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/'],
       },
       {
-        userAgent: aiBots,
+        userAgent: aiSearchBots,
+        allow: ['/', '/api/og'],
+        disallow: ['/api/'],
+      },
+      {
+        userAgent: aiTrainingBots,
         allow: ['/', '/api/og'],
         disallow: ['/api/'],
       },

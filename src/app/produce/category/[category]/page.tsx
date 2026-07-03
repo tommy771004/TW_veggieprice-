@@ -5,6 +5,7 @@ import { SITE_URL } from '@/lib/env'
 import { COMMON_CROPS } from '@/lib/crops'
 import { getProduceCategory, type ProduceCategory } from '@/lib/produce'
 import { BreadcrumbListJsonLd } from '@/components/seo/JsonLd'
+import { CategoryHubSeoSummary } from '@/components/seo/CategoryHubSeoSummary'
 
 type Props = { params: Promise<{ category: string }> }
 
@@ -81,6 +82,13 @@ export default async function CategoryPage({ params }: Props) {
             <h1 className="text-headline-lg font-black text-on-surface">{meta.label}批發行情總覽</h1>
             <p className="text-body-md text-on-surface-variant mt-2 max-w-2xl">{meta.description}</p>
           </div>
+
+          <CategoryHubSeoSummary
+            category={category}
+            label={meta.label}
+            description={meta.description}
+            crops={cropsInCategory}
+          />
 
           <nav aria-label={`${meta.label}作物列表`}>
             <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
