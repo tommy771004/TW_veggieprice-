@@ -6,6 +6,7 @@ import { COMMON_CROPS } from '@/lib/crops'
 import { getProduceCategory, type ProduceCategory } from '@/lib/produce'
 import { BreadcrumbListJsonLd } from '@/components/seo/JsonLd'
 import { CategoryHubSeoSummary } from '@/components/seo/CategoryHubSeoSummary'
+import { ScrollToTop } from '@/components/ui/ScrollToTop'
 
 type Props = { params: Promise<{ category: string }> }
 

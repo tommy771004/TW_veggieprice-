@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import { Inter, Noto_Sans_TC } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import './globals.css'
 import { BottomNav } from '@/components/layout/BottomNav'
@@ -13,19 +12,6 @@ import { ClientSettingsProviders } from '@/components/settings/ClientSettingsPro
 import { FramerMotionProvider } from '@/components/providers/FramerMotionProvider'
 
 const OnboardingModal = dynamic(() => import('@/components/ui/OnboardingModal').then(mod => mod.OnboardingModal))
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const notoSansTC = Noto_Sans_TC({
-  subsets: ['latin'],
-  variable: '--font-noto-sans-tc',
-  weight: ['400', '500', '700'],
-  display: 'swap',
-})
 
 import { SITE_URL, GOOGLE_SITE_VERIFICATION } from '@/lib/env'
 
@@ -78,10 +64,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="zh-TW" className={`${inter.variable} ${notoSansTC.variable}`} suppressHydrationWarning>
+    <html lang="zh-TW" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <OrganizationJsonLd />
         <WebSiteJsonLd />
         <WebAppJsonLd />
