@@ -13,7 +13,6 @@ const CATEGORY_LINKS: Array<{ slug: string; label: string }> = [
   { slug: 'vegetable', label: '蔬菜類批發行情' },
   { slug: 'fruit', label: '水果類批發行情' },
   { slug: 'mushroom', label: '菇類批發行情' },
-  { slug: 'flower', label: '花卉類批發行情' },
 ]
 
 // A curated set of high-interest crops; the rest stay reachable via the category

@@ -161,6 +161,8 @@ export function HomeClient({
     useState<MarketWeatherRiskSummary | null>(null);
   const [preferences, setPreferences] = useState(DEFAULT_USER_PREFERENCES);
   const [alertDismissed, setAlertDismissed] = useState(false);
+  // Market overview hero starts collapsed; the heading toggles it open.
+  const [heroCollapsed, setHeroCollapsed] = useState(true);
 
   const pulseScrollRef = useRef<HTMLDivElement>(null);
   const insightsScrollRef = useRef<HTMLDivElement>(null);
@@ -521,9 +523,27 @@ export function HomeClient({
         >
           <div className="section-heading-row mb-6">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">
-                今日市場概況
-              </h1>
+              <button
+                type="button"
+                onClick={() => setHeroCollapsed((v) => !v)}
+                aria-expanded={!heroCollapsed}
+                aria-controls="market-hero-content"
+                className="flex items-center gap-2 group text-left"
+              >
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">
+                  今日市場概況
+                </h1>
+                <span
+                  className="material-symbols-outlined text-on-surface-variant transition-transform duration-300 group-hover:text-on-surface"
+                  style={{
+                    fontSize: "30px",
+                    transform: heroCollapsed ? "rotate(0deg)" : "rotate(180deg)",
+                  }}
+                  aria-hidden="true"
+                >
+                  expand_more
+                </span>
+              </button>
               <p className="text-body-md text-on-surface-variant mt-2 max-w-2xl font-medium">
                 掌握 {selectedMarket} 的均價、量能與近週節奏。
               </p>
@@ -569,6 +589,18 @@ export function HomeClient({
               ))}
             </div>
           </div>
+
+          <AnimatePresence initial={false}>
+            {!heroCollapsed && (
+              <m.div
+                id="market-hero-content"
+                key="hero-content"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
 
           {(nextRestDay || weatherRisk) && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
@@ -877,6 +909,9 @@ export function HomeClient({
                 </Link>
               </m.div>
             ) : null}
+          </AnimatePresence>
+              </m.div>
+            )}
           </AnimatePresence>
         </m.section>
 

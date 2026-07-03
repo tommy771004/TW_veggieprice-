@@ -198,27 +198,69 @@ export function WatchlistClient() {
         <h1 className="sr-only">追蹤清單</h1>
 
         {items.length === 0 ? (
-          <section className="section-shell text-center py-12 sm:py-16">
-            <span className="text-6xl block mb-4">🌿</span>
-            <p className="text-body-lg font-semibold text-on-surface">尚無收藏項目</p>
-            <p className="text-body-sm text-on-surface-variant mt-2 max-w-md mx-auto">
-              在作物詳情頁點愛心，或直接從搜尋頁開始，先收進你最常買、最常看的作物。
+          <section className="relative overflow-hidden glass-card rounded-3xl p-8 sm:p-12 text-center border border-white/40 dark:border-zinc-800/40 shadow-sm">
+            {/* Background glowing gradients */}
+            <div className="absolute -top-12 -left-12 w-40 h-40 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+            
+            <m.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              className="relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary mb-6"
+            >
+              <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>
+                monitoring
+              </span>
+              {/* Little floating heart */}
+              <m.span 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                className="absolute -top-1 -right-1 material-symbols-outlined text-error text-xl bg-white dark:bg-zinc-900 rounded-full p-0.5 shadow-sm"
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                favorite
+              </m.span>
+            </m.div>
+
+            <h2 className="text-headline-md font-bold text-on-surface">打造你的專屬農時行情</h2>
+            <p className="text-body-md text-on-surface-variant mt-3 max-w-md mx-auto leading-relaxed">
+              目前還沒有追蹤任何作物。只要在作物詳情頁點擊愛心，就能把最常關注的菜價、果價收進這裡，在手機上單手即可輕鬆掌握最新的每日批發走勢。
             </p>
-            <div className="mt-6 flex flex-col sm:flex-row gap-2.5 justify-center">
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center">
               <Link
                 href="/search"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-5 py-3 text-body-sm font-bold"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-6 py-3.5 text-body-sm font-bold shadow-md shadow-primary/15 hover:bg-primary-hover transition-colors"
               >
-                <span className="material-symbols-outlined" style={{ fontSize: '1.1rem' }}>search</span>
-                搜尋作物
+                <span className="material-symbols-outlined" style={{ fontSize: '1.2rem' }}>search</span>
+                立即搜尋想看的作物
               </Link>
               <Link
                 href="/seasonal"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/40 bg-white/55 px-5 py-3 text-body-sm font-semibold text-on-surface"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/40 bg-white/50 hover:bg-white/85 dark:bg-black/20 dark:hover:bg-black/35 px-6 py-3.5 text-body-sm font-semibold text-on-surface transition-colors"
               >
-                <span className="material-symbols-outlined" style={{ fontSize: '1.1rem' }}>spa</span>
-                看當季推薦
+                <span className="material-symbols-outlined" style={{ fontSize: '1.2rem' }}>spa</span>
+                查看當季盛產推薦
               </Link>
+            </div>
+
+            {/* Quick recommendation pill list */}
+            <div className="mt-12 pt-8 border-t border-dashed border-outline-variant/20">
+              <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-[0.12em]">熱門追蹤推薦</p>
+              <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                {['高麗菜', '香蕉', '九層塔', '青蔥', '小番茄'].map((crop) => (
+                  <Link
+                    key={crop}
+                    href={`/produce/${encodeURIComponent(crop)}`}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container/50 hover:bg-primary/5 border border-outline-variant/20 hover:border-primary/20 text-body-sm font-medium text-on-surface transition-all active:scale-95"
+                  >
+                    <CropIcon name={crop} className="w-4 h-4" />
+                    <span>{crop}</span>
+                    <span className="material-symbols-outlined text-xs text-on-surface-variant">arrow_forward</span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </section>
         ) : (

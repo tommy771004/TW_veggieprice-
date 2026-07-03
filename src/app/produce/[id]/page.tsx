@@ -5,7 +5,6 @@ import { ProduceFAQJsonLd, ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd } from 
 import { ProduceFaqSection } from '@/components/seo/ProduceFaq'
 import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
 import { SITE_URL } from '@/lib/env'
-import { COMMON_CROPS } from '@/lib/crops'
 import { getProduceCategory } from '@/lib/produce'
 import { fetchMarketDataByDates, type HistoryPoint } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
@@ -21,13 +20,13 @@ const CATEGORY_LABEL: Record<string, string> = {
 
 type Props = { params: Promise<{ id: string }> }
 
-export const revalidate = 3600
-
-export async function generateStaticParams() {
-  return COMMON_CROPS.map((crop) => ({
-    id: encodeURIComponent(crop),
-  }))
-}
+// The dynamic segment is a URL-encoded CJK crop name. A cacheable (ISR/static)
+// route makes Next.js attach an implicit path-based cache tag —
+// `_N_T_/produce/<decoded-name>` — to the `x-next-cache-tags` response header.
+// HTTP header values must be latin-1, so the raw Chinese characters throw
+// `ERR_INVALID_CHAR`. Rendering dynamically drops that path tag; MOA responses
+// are still cached at the data layer via `unstable_cache` in src/lib/server/moa.ts.
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params

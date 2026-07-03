@@ -123,6 +123,7 @@ export default async function CategoryPage({ params }: Props) {
           </div>
         </div>
       </div>
+      <ScrollToTop />
     </>
   )
 }
