@@ -56,6 +56,12 @@ jobs:
         if: steps.check_changes.outputs.changed != 'true'
         run: echo "資料與上次相同，無需更新。"
 
+      - name: 📡 通知 IndexNow(Bing/Yandex 等)重新爬取
+        if: steps.check_changes.outputs.changed == 'true'
+        run: npm run notify-indexnow
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+
       # 任何步驟失敗時觸發；SLACK_WEBHOOK_URL 未設定則靜默跳過。
       - name: 🚨 Slack 失敗通知
         if: failure() && env.SLACK_WEBHOOK_URL != ''
