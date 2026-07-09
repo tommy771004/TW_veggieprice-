@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 export default function InsightsPage() {
   return (
     <>
-      <InsightsSeoSummary />
       <InsightsClient />
+      <InsightsSeoSummary />
     </>
   )
 }

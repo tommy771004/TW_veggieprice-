@@ -11,6 +11,7 @@ import {
   Tooltip,
   ReferenceLine,
 } from 'recharts'
+import { m } from 'framer-motion'
 import type { PriceHistoryPoint } from '@/lib/types'
 
 interface PriceLineChartProps {
@@ -19,8 +20,6 @@ interface PriceLineChartProps {
   height?:          number
   showPriceRange?:  boolean
 }
-
-// ─── Custom Tooltip ───────────────────────────────────────────────────────────
 
 interface TooltipPayload {
   value:   number | null
@@ -39,10 +38,18 @@ function CustomTooltip({
   if (!active || !payload?.length) return null
   const point = payload[0]?.payload as PriceHistoryPoint
 
+  const formattedDate = point.date ? (() => {
+    const parts = point.date.split('-')
+    if (parts.length === 3) {
+      return `${parts[0]} 年 ${parts[1]} 月 ${parts[2]} 日`
+    }
+    return point.date
+  })() : label
+
   if (point.isClosed) {
     return (
       <div className="glass-card-solid rounded-xl px-3 py-2.5 text-sm shadow-glass-sm">
-        <p className="text-on-surface-variant text-xs mb-1">{label}</p>
+        <p className="text-on-surface-variant text-xs mb-1">{formattedDate}</p>
         <div className="inline-flex items-center gap-1.5 bg-outline-variant/20 border border-outline-variant/40 text-on-surface-variant text-label-sm px-2.5 py-0.5 rounded-full font-medium mb-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-outline-variant/80" />
           休市 / 無交易日
@@ -59,7 +66,7 @@ function CustomTooltip({
 
   return (
     <div className="glass-card-solid rounded-xl px-3 py-2 text-sm shadow-glass-sm">
-      <p className="text-on-surface-variant text-xs mb-1">{label}</p>
+      <p className="text-on-surface-variant text-xs mb-1">{formattedDate}</p>
       <p className="text-primary font-bold text-base">${point.avgPrice?.toFixed(1)}</p>
       {point.upperPrice != null && (
         <div className="text-label-sm text-on-surface-variant mt-1 space-y-0.5">
@@ -154,7 +161,12 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
 
   return (
     <div className="overflow-x-auto -mx-1 relative">
-      <div style={{ minWidth: Math.max(data.length * 6, 300) }}>
+      <m.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        style={{ minWidth: Math.max(data.length * 6, 300) }}
+      >
         <ResponsiveContainer width="100%" height={height}>
           <AreaChart 
             data={data} 
@@ -198,7 +210,6 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
 
             <Tooltip content={<CustomTooltip />} />
 
-            {/* Average price reference line */}
             {avgLine !== null && (
               <ReferenceLine
                 y={avgLine}
@@ -214,7 +225,6 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
               />
             )}
 
-            {/* Subtle vertical bars indicating closed/rest days */}
             {data.map((point, index) => {
               if (point.isClosed) {
                 return (
@@ -229,7 +239,6 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
               return null
             })}
 
-            {/* connectNulls bridges across closed-market days (Part 2 Stage 3) */}
             <Area
               type="monotone"
               dataKey="avgPrice"
@@ -241,7 +250,6 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
               activeDot={{ r: 5, fill: '#1b5e20', strokeWidth: 0 }}
             />
 
-            {/* Upper / lower price range lines — rendered above avgPrice fill */}
             {showPriceRange && hasRangeData && (
               <>
                 <Area
@@ -270,7 +278,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
             )}
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </m.div>
 
       {/* Legend row */}
       {(closedDays.length > 0 || (showPriceRange && hasRangeData)) && (

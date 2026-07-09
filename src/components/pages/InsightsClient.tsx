@@ -1,40 +1,45 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { m, AnimatePresence } from 'framer-motion'
 import { fetchMarketRestDays } from '@/lib/api'
 import type { MarketRestDay } from '@/lib/types'
 
-const PAGE_SIZE = 24
-
 export function InsightsClient() {
-  // Default to a single market — "全部市場" over a 60-day window renders hundreds
-  // of cards (an endless scroll on mobile). Users can still opt into 全部市場.
   const [market, setMarket] = useState('台北一')
   const [restDays, setRestDays] = useState<MarketRestDay[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
-
-  useEffect(() => {
-    setVisibleCount(PAGE_SIZE)
-  }, [market])
+  
+  const [currentDate, setCurrentDate] = useState(() => {
+    const now = new Date()
+    return new Date(now.getFullYear(), now.getMonth(), 1)
+  })
 
   useEffect(() => {
     async function loadRestDays() {
       setLoading(true)
       setError(null)
       try {
-        const today = new Date()
-        const pre30 = new Date()
-        pre30.setDate(today.getDate() - 30)
+        const year = currentDate.getFullYear()
+        const month = currentDate.getMonth()
+        
+        const firstDay = new Date(year, month, 1)
+        const lastDay = new Date(year, month + 1, 0)
+        
+        const startDate = new Date(firstDay)
+        startDate.setDate(1 - firstDay.getDay())
+        
+        const endDate = new Date(lastDay)
+        endDate.setDate(lastDay.getDate() + (6 - lastDay.getDay()))
 
-        const next30 = new Date()
-        next30.setDate(today.getDate() + 30)
+        const startStr = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`
+        const endStr = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`
 
         const data = await fetchMarketRestDays({
           market,
-          startDate: pre30.toISOString().split('T')[0],
-          endDate: next30.toISOString().split('T')[0],
+          startDate: startStr,
+          endDate: endStr,
         })
         setRestDays(data)
       } catch (err) {
@@ -44,11 +49,44 @@ export function InsightsClient() {
       }
     }
     loadRestDays()
-  }, [market])
+  }, [market, currentDate])
+
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth()
+  
+  const firstDay = new Date(year, month, 1)
+  const lastDay = new Date(year, month + 1, 0)
+  const startDate = new Date(firstDay)
+  startDate.setDate(1 - firstDay.getDay())
+  const endDate = new Date(lastDay)
+  endDate.setDate(lastDay.getDate() + (6 - lastDay.getDay()))
+  
+  const gridDates: Date[] = []
+  const curr = new Date(startDate)
+  while (curr <= endDate) {
+    gridDates.push(new Date(curr))
+    curr.setDate(curr.getDate() + 1)
+  }
+
+  const restDaysByDate = restDays.reduce((acc, rd) => {
+    if (!acc[rd.date]) acc[rd.date] = []
+    acc[rd.date].push(rd)
+    return acc
+  }, {} as Record<string, MarketRestDay[]>)
+
+  const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1))
+  const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1))
+  const goToToday = () => {
+    const now = new Date()
+    setCurrentDate(new Date(now.getFullYear(), now.getMonth(), 1))
+  }
+
+  const today = new Date()
+  const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-section-margin py-6 md:py-8 space-y-6 md:space-y-8">
+    <div className="bg-background">
+      <div className="max-w-7xl mx-auto px-section-margin pt-6 md:pt-8 pb-4 space-y-6 md:space-y-8">
         <header className="space-y-2">
           <h1 className="text-display-sm font-black text-on-surface tracking-tight">洞察與分析</h1>
           <p className="text-body-lg text-on-surface-variant max-w-2xl">
@@ -56,11 +94,11 @@ export function InsightsClient() {
           </p>
         </header>
 
-        <section className="glass-card-solid rounded-3xl p-6 md:p-8 space-y-6">
+        <section className="glass-card-solid rounded-3xl p-6 md:p-8 space-y-6 relative overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-container py-4">
             <div>
               <h2 className="text-title-lg font-bold text-on-surface">批發市場休市日</h2>
-              <p className="text-body-md text-on-surface-variant">查詢前後 30 天之休市日</p>
+              <p className="text-body-md text-on-surface-variant">行事曆檢視</p>
             </div>
 
             <div className="w-full md:w-64">
@@ -96,59 +134,118 @@ export function InsightsClient() {
             </div>
           </div>
 
-          <div className="min-h-[240px]">
-            {loading ? (
-              <div className="flex flex-col items-center justify-center p-12 text-on-surface-variant gap-4 animate-in fade-in">
-                <span className="material-symbols-outlined animate-spin text-[32px]">sync</span>
-                <span className="text-body-md font-medium">載入休市日資訊中...</span>
+          <div className="min-h-[400px] relative">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-title-lg font-bold text-on-surface">
+                {year} 年 {month + 1} 月
+              </h3>
+              <div className="flex items-center gap-2">
+                <button onClick={prevMonth} className="p-2 rounded-full bg-surface hover:bg-surface-container transition-colors text-on-surface-variant border border-surface-container">
+                  <span className="material-symbols-outlined block text-[20px]">chevron_left</span>
+                </button>
+                <button onClick={goToToday} className="px-4 py-1.5 rounded-full bg-surface hover:bg-surface-container transition-colors text-label-md font-bold text-on-surface border border-surface-container">
+                  本月
+                </button>
+                <button onClick={nextMonth} className="p-2 rounded-full bg-surface hover:bg-surface-container transition-colors text-on-surface-variant border border-surface-container">
+                  <span className="material-symbols-outlined block text-[20px]">chevron_right</span>
+                </button>
               </div>
-            ) : error ? (
-              <div className="app-shell-error-glass rounded-2xl p-6 text-center animate-in fade-in">
-                <span className="material-symbols-outlined text-[32px] mb-2">warning</span>
-                <h3 className="text-title-md font-bold mb-1">無法載入資料</h3>
-                <p className="text-body-md opacity-80">{error}</p>
-              </div>
-            ) : restDays.length === 0 ? (
-               <div className="flex flex-col items-center justify-center p-12 text-on-surface-variant gap-4 bg-surface-container/50 rounded-2xl animate-in fade-in">
-                <span className="material-symbols-outlined text-[48px] opacity-50">event_available</span>
-                <div className="text-center">
-                  <h3 className="text-title-md font-bold mb-1 text-on-surface">無休市日</h3>
-                  <p className="text-body-sm">指定期間內查無紀錄</p>
+            </div>
+
+            <div className="grid grid-cols-7 gap-px bg-surface-container-high rounded-t-2xl overflow-hidden border border-surface-container-high">
+              {['日', '一', '二', '三', '四', '五', '六'].map((day) => (
+                <div key={day} className="bg-surface py-3 text-center text-label-md font-bold text-on-surface-variant">
+                  {day}
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <p className="text-body-sm text-on-surface-variant">
-                  共 {restDays.length} 筆休市紀錄{restDays.length > visibleCount ? `，顯示前 ${visibleCount} 筆` : ''}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in duration-300">
-                  {restDays.slice(0, visibleCount).map((ds, idx) => (
-                    <div key={`${ds.marketName}_${ds.date}_${idx}`} className="flex items-start gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container-high border border-surface-container transition-colors">
-                      <div className="flex-shrink-0 w-12 h-12 bg-error/10 text-error rounded-full flex items-center justify-center">
-                        <span className="material-symbols-outlined block" aria-hidden="true">event_busy</span>
-                      </div>
-                      <div>
-                        <div className="text-label-lg font-bold text-on-surface mb-0.5">{ds.marketName}</div>
-                        <div className="text-body-md text-on-surface-variant">{ds.date}</div>
-                        {ds.note && (
-                          <div className="mt-2 text-label-sm font-medium px-2 py-1 bg-surface-container rounded inline-block text-on-surface-variant">
-                            {ds.note}
-                          </div>
-                        )}
-                      </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-7 gap-px bg-surface-container-high border-x border-b border-surface-container-high rounded-b-2xl overflow-hidden relative">
+              {gridDates.map((date) => {
+                const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+                const isCurrentMonth = date.getMonth() === month
+                const isToday = dateString === todayString
+                const dayRestDays = restDaysByDate[dateString] || []
+                const isRest = dayRestDays.length > 0
+
+                return (
+                  <div 
+                    key={dateString} 
+                    className={`bg-surface min-h-[100px] p-2 flex flex-col gap-1 transition-colors relative group
+                      ${!isCurrentMonth ? 'opacity-40 bg-surface/50' : ''}
+                      ${isRest ? 'bg-error/5 hover:bg-error/10' : 'hover:bg-surface-container-low'}
+                    `}
+                  >
+                    <div className="flex justify-between items-start">
+                      <span className={`text-label-md font-medium w-7 h-7 flex items-center justify-center rounded-full
+                        ${isToday ? 'bg-primary text-on-primary' : 'text-on-surface'}
+                        ${isRest && !isToday ? 'text-error' : ''}
+                      `}>
+                        {date.getDate()}
+                      </span>
+                      {isRest && (
+                        <span className="material-symbols-outlined text-error text-[20px] opacity-80" aria-hidden="true">
+                          cancel
+                        </span>
+                      )}
                     </div>
-                  ))}
-                </div>
-                {restDays.length > visibleCount && (
-                  <div className="flex justify-center pt-2">
-                    <button
-                      onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-                      className="px-6 py-2.5 rounded-full text-label-bold bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                    >
-                      載入更多（剩 {restDays.length - visibleCount} 筆）
-                    </button>
+                    
+                    <div className="flex-1 mt-1">
+                      {isRest && (
+                        <div className="flex flex-col gap-1">
+                          {market === '全部市場' ? (
+                            <div className="text-[11px] leading-tight text-error font-bold px-1.5 py-0.5 bg-error/10 rounded w-fit">
+                              {dayRestDays.length} 個休市
+                            </div>
+                          ) : (
+                            <div className="text-[11px] leading-tight text-error font-bold px-1.5 py-0.5 bg-error/10 rounded w-fit truncate">
+                              休市
+                            </div>
+                          )}
+                          {dayRestDays[0]?.note && (
+                            <div className="text-[10px] leading-tight text-on-surface-variant line-clamp-2 px-1">
+                              {dayRestDays[0].note}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Hover Tooltip for ALL markets if there are many */}
+                    {isRest && market === '全部市場' && dayRestDays.length > 0 && (
+                      <div className="absolute z-10 bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] p-3 bg-inverse-surface text-inverse-on-surface text-body-sm rounded-xl shadow-glass-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all pointer-events-none">
+                        <div className="font-bold mb-1 border-b border-inverse-on-surface/20 pb-1">{dateString}</div>
+                        <div className="flex flex-wrap gap-1">
+                          {dayRestDays.map((rd, i) => (
+                            <span key={i} className="after:content-[',_'] last:after:content-['']">{rd.marketName}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
+                )
+              })}
+              
+              <AnimatePresence>
+                {loading && (
+                  <m.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-surface/50 backdrop-blur-sm flex flex-col items-center justify-center z-20"
+                  >
+                    <span className="material-symbols-outlined animate-spin text-[32px] text-primary">sync</span>
+                  </m.div>
                 )}
+              </AnimatePresence>
+            </div>
+            
+            {error && !loading && (
+              <div className="mt-4 app-shell-error-glass rounded-2xl p-4 text-center">
+                <p className="text-body-md opacity-80 flex items-center justify-center gap-2">
+                  <span className="material-symbols-outlined text-[20px]">warning</span>
+                  {error}
+                </p>
               </div>
             )}
           </div>
@@ -157,3 +254,4 @@ export function InsightsClient() {
     </div>
   )
 }
+
