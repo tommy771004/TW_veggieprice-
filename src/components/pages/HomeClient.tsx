@@ -440,7 +440,6 @@ export function HomeClient({
 
   const heroStatusChips = useMemo(() => {
     const chips: Array<{ label: string; tone?: "critical" | "warm" }> = [
-      { label: selectedMarket },
       { label: activeCategoryLabel },
       { label: isClosedToday ? "今日休市" : "正常交易" },
     ];
