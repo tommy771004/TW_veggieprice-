@@ -16,8 +16,8 @@ import { formatPrice } from "@/lib/utils";
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from "@/lib/constants";
 import { AffiliateMarquee } from "@/components/affiliate/AffiliateMarquee";
 
-const WeatherRiskCard = dynamic(() =>
-  import("@/components/ui/WeatherRiskCard").then((mod) => mod.WeatherRiskCard),
+const MarketInsightsPanel = dynamic(() =>
+  import("@/components/ui/MarketInsightsPanel").then((mod) => mod.MarketInsightsPanel),
 );
 const ExploreSection = dynamic(
   () =>
@@ -603,22 +603,11 @@ export function HomeClient({
               >
 
           {(nextRestDay || weatherRisk) && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
-              <div className="rounded-2xl border border-primary/20 bg-white/70 backdrop-blur-sm px-4 py-3">
-                <p className="text-label-bold text-primary">市場休市避雷</p>
-                {nextRestDay ? (
-                  <p className="text-body-sm text-on-surface mt-1">
-                    下次休市：{nextRestDay.date.replace(/-/g, "/")}{" "}
-                    {nextRestDay.note ? `(${nextRestDay.note})` : ""}
-                  </p>
-                ) : (
-                  <p className="text-body-sm text-on-surface-variant mt-1">
-                    近 45 日暫無休市公告
-                  </p>
-                )}
-              </div>
-              <WeatherRiskCard weatherRisk={weatherRisk} />
-            </div>
+            <MarketInsightsPanel
+              nextRestDay={nextRestDay}
+              isClosedToday={isClosedToday}
+              weatherRisk={weatherRisk}
+            />
           )}
 
           {/* Pulse Marquee */}

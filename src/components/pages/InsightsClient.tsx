@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
-import { fetchMarketRestDays } from '@/lib/api'
-import type { MarketRestDay } from '@/lib/types'
+import { fetchMarketRestDays, fetchMarketWeatherRisk } from '@/lib/api'
+import type { MarketRestDay, MarketWeatherRiskSummary } from '@/lib/types'
 
 export function InsightsClient() {
   const [market, setMarket] = useState('台北一')
   const [restDays, setRestDays] = useState<MarketRestDay[]>([])
+  const [weatherRisk, setWeatherRisk] = useState<MarketWeatherRiskSummary | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   
@@ -51,6 +52,22 @@ export function InsightsClient() {
     loadRestDays()
   }, [market, currentDate])
 
+  useEffect(() => {
+    async function loadWeather() {
+      if (market === '全部市場') {
+        setWeatherRisk(null)
+        return
+      }
+      try {
+        const riskData = await fetchMarketWeatherRisk(market)
+        setWeatherRisk(riskData)
+      } catch {
+        setWeatherRisk(null)
+      }
+    }
+    loadWeather()
+  }, [market])
+
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()
   
@@ -84,6 +101,15 @@ export function InsightsClient() {
   const today = new Date()
   const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
 
+  let weatherIcon = ''
+  if (weatherRisk) {
+    const { maxRainfallMm, maxTemperatureC } = weatherRisk.metrics
+    if (maxRainfallMm !== null && maxRainfallMm > 5) weatherIcon = 'rainy'
+    else if (maxRainfallMm !== null && maxRainfallMm > 0) weatherIcon = 'partly_cloudy_day'
+    else if (maxTemperatureC !== null && maxTemperatureC >= 30) weatherIcon = 'sunny'
+    else weatherIcon = 'cloud'
+  }
+
   return (
     <div className="bg-background">
       <div className="max-w-7xl mx-auto px-section-margin pt-6 md:pt-8 pb-4 space-y-6 md:space-y-8">
@@ -97,7 +123,17 @@ export function InsightsClient() {
         <section className="glass-card-solid rounded-3xl p-6 md:p-8 space-y-6 relative overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-container py-4">
             <div>
-              <h2 className="text-title-lg font-bold text-on-surface">批發市場休市日</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-title-lg font-bold text-on-surface">批發市場休市日</h2>
+                {weatherIcon && (
+                  <span 
+                    className="material-symbols-outlined text-on-surface-variant text-[24px]" 
+                    title={`${weatherRisk?.reasons[0] ?? ''}`}
+                  >
+                    {weatherIcon}
+                  </span>
+                )}
+              </div>
               <p className="text-body-md text-on-surface-variant">行事曆檢視</p>
             </div>
 

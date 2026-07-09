@@ -4,6 +4,7 @@ import type { MarketWeatherRiskSummary } from '@/lib/types'
 import { DEFAULT_MARKET } from '@/lib/constants'
 
 export const maxDuration = 60;
+export const dynamic = 'force-dynamic'
 
 function buildRiskSummary(market: string, county: string, observations: {
   temperatureC: number | null

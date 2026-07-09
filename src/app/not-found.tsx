@@ -1,11 +1,4 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
-
-export const metadata: Metadata = {
-  title: '找不到頁面',
-  description: '您要找的頁面不存在或已被移除。',
-  robots: { index: false, follow: true },
-}
 
 export default function NotFound() {
   return (

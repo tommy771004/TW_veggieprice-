@@ -7,7 +7,6 @@ import { SkeletonList } from '@/components/ui/SkeletonCard'
 import { ProduceRow } from '@/components/ui/ProduceRow'
 import { CropIcon } from '@/components/ui/CropIcon'
 import { AffiliateMarquee } from '@/components/affiliate/AffiliateMarquee'
-import { WeatherRiskCard } from '@/components/ui/WeatherRiskCard'
 import { formatPrice, debounce, subtractDays, todayISO } from '@/lib/utils'
 import type {
   ProducePrice,

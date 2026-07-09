@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketRestDays } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
   const market = searchParams.get('market') || '全部市場'

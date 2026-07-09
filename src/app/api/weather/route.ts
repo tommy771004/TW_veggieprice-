@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketWeatherObservations } from '@/lib/server/moa'
 import { resolveCountyFromTownship } from '@/lib/server/townshipCountyMap'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   let county = searchParams.get('county')
