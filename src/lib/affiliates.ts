@@ -248,6 +248,32 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     priority: 3,
     partner: 'byFood',
   },
+  {
+    id: 'a1-i3Fresh',
+    enabled: true,
+    sponsored: false,
+    title: 'i3Fresh 愛上新鮮 臺灣',
+    description: '探索新鮮蔬果預訂。',
+    ctaLabel: '探索蔬果體驗',
+    url: 'https://onelink.one/s/FN2vG',
+    icon: 'restaurant',
+    categories: FOOD,
+    priority: 3,
+    partner: 'byFood',
+  },
+  {
+    id: 'a1-uni-prosperity',
+    enabled: true,
+    sponsored: false,
+    title: '萬家福線上購物',
+    description: '探索新鮮蔬果預訂。',
+    ctaLabel: '探索蔬果體驗',
+    url: 'https://onelink.one/s/CPHek',
+    icon: 'restaurant',
+    categories: FOOD,
+    priority: 3,
+    partner: 'byFood',
+  },
 ]
 // ===========================================================================
 //  ▲▲▲ 版位設定結束 ▲▲▲
