@@ -7,6 +7,7 @@ import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
 import { SITE_URL } from '@/lib/env'
 import { getProduceCategory } from '@/lib/produce'
 import { fetchMarketDataByDates, type HistoryPoint } from '@/lib/server/moa'
+import { fetchProduceMetadata } from '@/lib/server/produceMetadata'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -20,12 +21,6 @@ const CATEGORY_LABEL: Record<string, string> = {
 
 type Props = { params: Promise<{ id: string }> }
 
-// The dynamic segment is a URL-encoded CJK crop name. A cacheable (ISR/static)
-// route makes Next.js attach an implicit path-based cache tag —
-// `_N_T_/produce/<decoded-name>` — to the `x-next-cache-tags` response header.
-// HTTP header values must be latin-1, so the raw Chinese characters throw
-// `ERR_INVALID_CHAR`. Rendering dynamically drops that path tag; MOA responses
-// are still cached at the data layer via `unstable_cache` in src/lib/server/moa.ts.
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -45,8 +40,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-// One server-side history fetch feeds both the client hero (initial price) and
-// the crawlable ProduceMarketSummary, so we don't double-fetch MOA per build.
 async function fetchRecentHistory(cropName: string): Promise<HistoryPoint[]> {
   try {
     const today = todayISO()
@@ -63,7 +56,10 @@ export default async function ProducePage({ params }: Props) {
   const { id } = await params
   const cropName = decodeURIComponent(id)
   const pageUrl = `${SITE_URL}/produce/${id}`
-  const history = await fetchRecentHistory(cropName)
+  const [history, metadata] = await Promise.all([
+    fetchRecentHistory(cropName),
+    fetchProduceMetadata(cropName)
+  ])
   const initialPrice =
     history.filter((p) => p.avgPrice !== null && p.avgPrice > 0).slice(-1)[0]?.avgPrice ?? 0
   const category = getProduceCategory(cropName)
@@ -75,7 +71,14 @@ export default async function ProducePage({ params }: Props) {
       <ProduceFAQJsonLd cropName={cropName} />
       <ProduceBreadcrumbJsonLd cropName={cropName} cropId={id} />
       <ProduceDatasetJsonLd cropName={cropName} url={pageUrl} />
-      <ProduceClient cropName={cropName} initialPrice={initialPrice} />
+      <ProduceClient
+        cropName={cropName}
+        initialPrice={initialPrice}
+        initialMarkets={metadata.markets}
+        initialTraceability={metadata.traceability}
+        initialCostInsight={metadata.costInsight}
+        initialCropInfo={metadata.cropInfo}
+      />
       <ProduceMarketSummary cropName={cropName} history={history} />
       <ProduceFaqSection cropName={cropName} />
       {hasCategoryHub && (

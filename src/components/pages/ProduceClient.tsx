@@ -38,7 +38,21 @@ import Link from 'next/link'
 
 const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
 
-export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string; initialPrice?: number }) {
+export function ProduceClient({
+  cropName,
+  initialPrice = 0,
+  initialMarkets,
+  initialTraceability,
+  initialCostInsight,
+  initialCropInfo,
+}: {
+  cropName: string
+  initialPrice?: number
+  initialMarkets?: MarketComparison[]
+  initialTraceability?: TraceabilitySummaryItem[]
+  initialCostInsight?: ProductCostInsight | null
+  initialCropInfo?: CropInfo | null
+}) {
   const router = useRouter()
 
   interface WeatherData {
@@ -53,15 +67,15 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
   const [weatherError, setWeatherError] = useState('')
 
   const [period, setPeriod] = useState<PricePeriod>('1W')
-  const [cropInfo, setCropInfo] = useState<CropInfo | null>(null)
+  const [cropInfo, setCropInfo] = useState<CropInfo | null>(initialCropInfo ?? null)
   const [history, setHistory] = useState<PriceHistoryPoint[]>([])
   const [closedDays, setClosedDays] = useState<string[]>([])
-  const [markets, setMarkets] = useState<MarketComparison[]>([])
+  const [markets, setMarkets] = useState<MarketComparison[]>(initialMarkets ?? [])
   const [historyLoading, setHistoryLoading] = useState(true)
-  const [marketsLoading, setMarketsLoading] = useState(true)
-  const [traceabilityLoading, setTraceabilityLoading] = useState(true)
-  const [costLoading, setCostLoading] = useState(true)
-  const [infoLoading, setInfoLoading] = useState(true)
+  const [marketsLoading, setMarketsLoading] = useState(!initialMarkets)
+  const [traceabilityLoading, setTraceabilityLoading] = useState(!initialTraceability)
+  const [costLoading, setCostLoading] = useState(!initialCostInsight)
+  const [infoLoading, setInfoLoading] = useState(!initialCropInfo)
 
   const [streamingStatus, setStreamingStatus] = useState<'idle' | 'loading_chunks' | 'complete'>('idle')
   const [streamingProgress, setStreamingProgress] = useState(0)
@@ -71,9 +85,9 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
   const [inWatchlist, setInWatchlist] = useState(false)
   const [historyError, setHistoryError] = useState('')
   const [marketsError, setMarketsError] = useState('')
-  const [traceability, setTraceability] = useState<TraceabilitySummaryItem[]>([])
-  const [costInsight, setCostInsight] = useState<ProductCostInsight | null>(null)
-  const [costFiles, setCostFiles] = useState<CostSurveyFile[]>([])
+  const [traceability, setTraceability] = useState<TraceabilitySummaryItem[]>(initialTraceability ?? [])
+  const [costInsight, setCostInsight] = useState<ProductCostInsight | null>(initialCostInsight ?? null)
+  const [costFiles, setCostFiles] = useState<CostSurveyFile[]>(initialCostInsight?.costFiles ?? [])
   const [traceabilityError, setTraceabilityError] = useState('')
   const [costError, setCostError] = useState('')
   const [reloadKey, setReloadKey] = useState(0)
@@ -327,28 +341,24 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
         if (active) setHistoryLoading(false)
       }
     }
-
     loadHistory()
-
     return () => {
       active = false
     }
   }, [cropName, period, reloadKey])
 
-  // Fetch Markets
   useEffect(() => {
+    if (initialMarkets && reloadKey === 0) return
     let active = true
     async function loadMarkets() {
       setMarketsLoading(true)
       setMarketsError('')
-      
       const category = getProduceCategory(cropName)
       const st = category === 'fruit' ? 'Fruit'
         : category === 'meat' ? 'meat'
         : category === 'seafood' ? 'seafood'
         : category === 'flower' ? 'Flower'
         : 'Veg'
-
       try {
         const mRes = await fetch(`/api/prices/markets?crop=${encodeURIComponent(cropName)}&type=${st}`)
         const marketsJson = await mRes.json()
@@ -369,10 +379,10 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
     }
     loadMarkets()
     return () => { active = false }
-  }, [cropName, reloadKey])
+  }, [cropName, reloadKey, initialMarkets])
 
-  // Fetch Traceability
   useEffect(() => {
+    if (initialTraceability && reloadKey === 0) return
     let active = true
     async function loadTraceability() {
       setTraceabilityLoading(true)
@@ -397,10 +407,10 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
     }
     loadTraceability()
     return () => { active = false }
-  }, [cropName, reloadKey])
+  }, [cropName, reloadKey, initialTraceability])
 
-  // Fetch Cost
   useEffect(() => {
+    if (initialCostInsight && reloadKey === 0) return
     let active = true
     async function loadCost() {
       setCostLoading(true)
@@ -428,10 +438,10 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
     }
     loadCost()
     return () => { active = false }
-  }, [cropName, reloadKey])
+  }, [cropName, reloadKey, initialCostInsight])
 
-  // Fetch Crop Info
   useEffect(() => {
+    if (initialCropInfo && reloadKey === 0) return
     let active = true
     async function loadInfo() {
       setInfoLoading(true)
@@ -452,7 +462,7 @@ export function ProduceClient({ cropName, initialPrice = 0 }: { cropName: string
     }
     loadInfo()
     return () => { active = false }
-  }, [cropName, reloadKey])
+  }, [cropName, reloadKey, initialCropInfo])
 
   useEffect(() => {
     let active = true
