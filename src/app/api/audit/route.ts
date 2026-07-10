@@ -2,6 +2,7 @@ import { NextRequest, NextResponse, after } from 'next/server'
 import { getSql } from '@/lib/server/db'
 import { makeLogger } from '@/lib/server/logger'
 import { isAllowedAuditAction } from '@/lib/auditEvents'
+import { sendTelemetryBatch } from '@/lib/server/telemetry'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -60,6 +61,7 @@ export async function POST(req: NextRequest) {
 
   const params: unknown[] = []
   const rows: string[] = []
+  const telemetryEvents: Array<{ name: string; properties: { route: string } }> = []
 
   for (const raw of rawEvents.slice(0, MAX_EVENTS)) {
     if (!raw || typeof raw !== 'object') continue
@@ -80,6 +82,10 @@ export async function POST(req: NextRequest) {
     rows.push(
       `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}::jsonb, $${base + 6}, $${base + 7})`,
     )
+    telemetryEvents.push({
+      name: `audit.${action}`,
+      properties: { route: str(e.path, MAX_PATH)?.slice(0, 120) ?? '/' },
+    })
   }
 
   if (rows.length === 0) return noContent()
@@ -94,6 +100,7 @@ export async function POST(req: NextRequest) {
     while (attempts < maxAttempts) {
       try {
         await sql.query(query, params)
+        sendTelemetryBatch(telemetryEvents)
         break
       } catch (err) {
         attempts++

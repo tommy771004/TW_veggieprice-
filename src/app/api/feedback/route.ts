@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSql } from '@/lib/server/db'
 import { makeLogger } from '@/lib/server/logger'
+import { sendTelemetry } from '@/lib/server/telemetry'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -53,6 +54,7 @@ export async function POST(req: NextRequest) {
       INSERT INTO feedback (category, message, contact, path, session_id, user_agent)
       VALUES (${category}, ${message}, ${contact}, ${path}, ${sessionId}, ${userAgent})
     `
+    sendTelemetry('feedback.submitted', { category })
     return NextResponse.json({ ok: true })
   } catch (err) {
     log.error('寫入意見回饋失敗', err)
