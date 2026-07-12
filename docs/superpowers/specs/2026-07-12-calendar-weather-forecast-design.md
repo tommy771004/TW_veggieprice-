@@ -3,6 +3,13 @@
 日期：2026-07-12
 範圍：`src/components/pages/InsightsClient.tsx`（洞察頁「批發市場休市日」行事曆）
 
+> **已修正（實作中發現）：** 本文件原規劃的 CWA 資料集 `F-C0032-005` 經上線實測回傳
+> HTTP 404，實際不存在。已改用 `F-D0047-091`（一般天氣預報－未來1週天氣預報），
+> 其 JSON 結構亦不同（`records.Locations[0].Location[].WeatherElement[].Time[].ElementValue[]`，
+> 而非本文件下方所寫的 `records.location[0].weatherElement[].time[].parameter`）。
+> 詳見 commit `4772c98`／`53f6c02`。以下「資料來源」與相關程式碼區塊保留原始設計紀錄，
+> 實作請以原始碼（`src/lib/server/cwaForecast.ts`、`src/lib/server/cwa.ts`）為準。
+
 ## 背景
 
 行事曆目前只在頁首顯示一個「當月天氣風險」圖示（來自 `fetchMarketWeatherRisk`，本質是「目前觀測」的風險評分，非未來預報）。使用者要求：

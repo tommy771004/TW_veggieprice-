@@ -10,6 +10,14 @@
 
 **Spec:** `docs/superpowers/specs/2026-07-12-calendar-weather-forecast-design.md`
 
+> **Corrected during implementation:** `F-C0032-005` (referenced throughout the tasks below)
+> does not exist on the live CWA API — confirmed HTTP 404 during Task 4's smoke test. It was
+> replaced with `F-D0047-091`, which has a different JSON schema (see commits `4772c98` and
+> `53f6c02`). `mergeForecastPeriods`/`mapWxToIcon`/`taipeiISODate` were unaffected; only
+> `parseCwaResponse` (now takes a required `county` parameter) and `cwa.ts`'s endpoint constant
+> changed. The task text below is left as-is for historical record — see the actual source
+> (`src/lib/server/cwaForecast.ts`, `src/lib/server/cwa.ts`) for what shipped.
+
 ---
 
 ### Task 1: Add `DailyForecast` / `MarketWeatherForecast` types
