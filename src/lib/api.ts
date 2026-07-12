@@ -11,6 +11,7 @@ import type {
   TraceabilitySummaryItem,
   ProductCostInsight,
   MarketWeatherRiskSummary,
+  MarketWeatherForecast,
 } from './types'
 import { DEFAULT_MARKET } from './constants'
 
@@ -155,4 +156,12 @@ export async function fetchMarketWeatherRisk(market: string): Promise<MarketWeat
   const json = await res.json()
   if (!res.ok) throw new Error((json as { error?: string }).error ?? 'Failed to fetch market weather risk')
   return json as MarketWeatherRiskSummary
+}
+
+export async function fetchMarketWeatherForecast(market: string): Promise<MarketWeatherForecast> {
+  const params = new URLSearchParams({ market })
+  const res = await safeFetch(`${BASE}/insights/weather-forecast?${params}`)
+  const json = await res.json()
+  if (!res.ok) throw new Error((json as { error?: string }).error ?? 'Failed to fetch market weather forecast')
+  return json as MarketWeatherForecast
 }
