@@ -15,6 +15,8 @@ async function fetchWeeklyForecastUncached(county: string): Promise<DailyForecas
   try {
     const params = new URLSearchParams({
       Authorization: apiKey,
+      // locationName is accepted by this endpoint but silently ignored — F-D0047-091 always
+      // returns all 22 counties; parseCwaResponse(json, county) does the real filtering.
       locationName: county,
       format: 'JSON',
     })
