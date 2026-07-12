@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
-import { fetchMarketRestDays, fetchMarketWeatherRisk } from '@/lib/api'
-import type { MarketRestDay, MarketWeatherRiskSummary } from '@/lib/types'
+import { fetchMarketRestDays, fetchMarketWeatherRisk, fetchMarketWeatherForecast } from '@/lib/api'
+import type { MarketRestDay, MarketWeatherRiskSummary, MarketWeatherForecast } from '@/lib/types'
 
 export function InsightsClient() {
   const [market, setMarket] = useState('台北一')
   const [restDays, setRestDays] = useState<MarketRestDay[]>([])
   const [weatherRisk, setWeatherRisk] = useState<MarketWeatherRiskSummary | null>(null)
+  const [forecast, setForecast] = useState<MarketWeatherForecast | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   
@@ -68,6 +69,22 @@ export function InsightsClient() {
     loadWeather()
   }, [market])
 
+  useEffect(() => {
+    async function loadForecast() {
+      if (market === '全部市場') {
+        setForecast(null)
+        return
+      }
+      try {
+        const data = await fetchMarketWeatherForecast(market)
+        setForecast(data)
+      } catch {
+        setForecast(null)
+      }
+    }
+    loadForecast()
+  }, [market])
+
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()
   
@@ -90,6 +107,11 @@ export function InsightsClient() {
     acc[rd.date].push(rd)
     return acc
   }, {} as Record<string, MarketRestDay[]>)
+
+  const forecastByDate = (forecast?.days ?? []).reduce((acc, day) => {
+    acc[day.date] = day
+    return acc
+  }, {} as Record<string, MarketWeatherForecast['days'][number]>)
 
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1))
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1))
@@ -203,10 +225,11 @@ export function InsightsClient() {
                 const isToday = dateString === todayString
                 const dayRestDays = restDaysByDate[dateString] || []
                 const isRest = dayRestDays.length > 0
+                const dayForecast = forecastByDate[dateString]
 
                 return (
-                  <div 
-                    key={dateString} 
+                  <div
+                    key={dateString}
                     className={`bg-surface min-h-[100px] p-2 flex flex-col gap-1 transition-colors relative group
                       ${!isCurrentMonth ? 'opacity-40 bg-surface/50' : ''}
                       ${isRest ? 'bg-error/5 hover:bg-error/10' : 'hover:bg-surface-container-low'}
@@ -219,13 +242,30 @@ export function InsightsClient() {
                       `}>
                         {date.getDate()}
                       </span>
-                      {isRest && (
-                        <span className="material-symbols-outlined text-error text-[20px] opacity-80" aria-hidden="true">
-                          cancel
-                        </span>
-                      )}
+                      <div className="flex items-center gap-1">
+                        {dayForecast && (
+                          <span
+                            className="material-symbols-outlined text-on-surface-variant text-[16px]"
+                            title={`${dayForecast.wxText}${dayForecast.pop !== null ? ` · 降雨機率 ${dayForecast.pop}%` : ''}`}
+                          >
+                            {dayForecast.icon}
+                          </span>
+                        )}
+                        {isRest && (
+                          <span className="material-symbols-outlined text-error text-[20px] opacity-80" aria-hidden="true">
+                            cancel
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    
+                    {dayForecast && (
+                      <div className="text-[10px] leading-tight text-on-surface-variant">
+                        {dayForecast.maxT !== null ? `${Math.round(dayForecast.maxT)}°` : '--'}
+                        {' / '}
+                        {dayForecast.minT !== null ? `${Math.round(dayForecast.minT)}°` : '--'}
+                      </div>
+                    )}
+
                     <div className="flex-1 mt-1">
                       {isRest && (
                         <div className="flex flex-col gap-1">
