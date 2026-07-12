@@ -1,0 +1,155 @@
+{
+  "version": "1.0.0",
+  "lastReviewed": "2026-07-12",
+  "sources": {
+    "hpaPlate": {
+      "label": "衛福部國健署：我的餐盤",
+      "url": "https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=1405&pid=8629&sid=10109"
+    },
+    "tfdaNutrition": {
+      "label": "衛福部食藥署：食品營養成分資料庫",
+      "url": "https://www.fda.gov.tw/tc/site.aspx?r=1593802020&sid=271"
+    },
+    "foodEducation": {
+      "label": "農業部：食農教育資訊整合平臺",
+      "url": "https://fae.moa.gov.tw/"
+    },
+    "seafoodSafety": {
+      "label": "農業部漁業署：生鮮漁產品選購與處理",
+      "url": "https://wm.moa.gov.tw/preview_fa/view.php?id=708&print=Y&subtheme=&theme=Press_release"
+    },
+    "seafoodTrace": {
+      "label": "農業部漁業署：水產品生產追溯查詢系統",
+      "url": "https://fishqrc.fa.gov.tw/"
+    }
+  },
+  "categories": {
+    "vegetable": {
+      "label": "蔬菜類",
+      "health": "國健署建議每餐蔬菜量比水果多一些，並以當季、多樣、至少三分之一深綠或黃橙紅色蔬菜為原則。",
+      "plateTip": "把它放在餐盤的蔬菜位置；再搭配全穀雜糧與豆魚蛋肉，才是一餐，而非只吃單一食材。",
+      "production": "葉菜、根莖與果菜的供應會受產季、日照、降雨與病蟲害管理影響；頁面中的產地與行情可作為採買參考。",
+      "selection": "選外觀完整、無明顯腐敗或異味的品項；回家後依食材特性冷藏並儘早料理。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    "fruit": {
+      "label": "水果類",
+      "health": "水果是均衡飲食的一部分，但不能取代蔬菜；國健署以每餐約一個拳頭大的水果份量作為容易記憶的原則。",
+      "plateTip": "以在地、當季與多樣化為方向，搭配正餐與蔬菜，而非用果汁或單一水果取代一餐。",
+      "production": "水果的成熟期、風味與供應量會受品種、產地氣候與採收期影響；批發行情反映的是市場交易，不等同零售價格。",
+      "selection": "依品項選擇外觀完整、無滲水或霉斑者；部分水果適合室溫後熟，切開後應冷藏並儘早食用。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    "meat": {
+      "label": "肉品家禽",
+      "health": "肉品、家禽與蛋屬於豆魚蛋肉類。國健署建議蛋白質來源優先順序為豆類、魚類與海鮮、蛋類、禽肉與畜肉，並避免加工肉品。",
+      "plateTip": "以一個掌心大小作為每餐蛋白質食物的簡易概念；仍需搭配蔬菜與全穀雜糧。",
+      "production": "本頁顯示的是畜禽批發交易行情；實際部位、飼養方式與加工狀態會影響產品特性，應以包裝標示與供應資訊為準。",
+      "selection": "生鮮肉與家禽應保持低溫、避免生熟交叉污染，並依產品與個人飲食需求充分加熱後食用。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    "seafood": {
+      "label": "漁產市場",
+      "health": "魚類與海鮮屬於豆魚蛋肉類，可作為蛋白質來源之一；均衡飲食仍需要蔬菜、全穀雜糧等其他食物類別。",
+      "plateTip": "搭配一份掌心大小的蛋白質食物概念規劃，避免把單一魚種或海鮮當作完整飲食建議。",
+      "production": "漁產品可能來自捕撈或養殖，供應與價格會受漁期、天候、養殖條件與運銷冷鏈影響。",
+      "selection": "購買後應低溫保存、生熟分開處理並充分加熱；可透過追溯資訊確認來源與產品資料。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "seafoodSafety", "seafoodTrace"]
+    },
+    "mushroom": {
+      "label": "菇類",
+      "health": "菇類可作為餐點中增加口感與多樣性的食材；實際營養成分請以食藥署資料庫的品項與處理型態為準。",
+      "plateTip": "菇類可和蔬菜一起入菜，但不等同於取代餐盤中的水果、全穀雜糧或蛋白質食物。",
+      "production": "常見食用菇多採設施栽培，供應較能全年維持；不同品種的保存與料理方式仍有差異。",
+      "selection": "選擇完整、無黏滑異味的菇體，冷藏保存並依包裝或販售者建議儘早料理。",
+      "sourceIds": ["tfdaNutrition", "foodEducation"]
+    },
+    "flower": {
+      "label": "花卉類",
+      "health": "本品項屬花卉交易資訊，不應預設為可食用食材；請以產品標示、供應商資訊與食品安全規範判斷用途。",
+      "plateTip": "花卉不納入我的餐盤六大類食物的日常份量計算。",
+      "production": "花卉交易受品種、節慶、氣候與採收品質影響；本頁提供批發行情與市場觀察。",
+      "selection": "觀賞花卉與食用花的用途不同，未標示可食用者不建議作為食材。",
+      "sourceIds": ["foodEducation"]
+    }
+  },
+  "items": [
+    {
+      "aliases": ["高麗菜", "甘藍"],
+      "health": "屬淡色葉菜；可與深綠或黃橙紅色蔬菜交替搭配，增加一餐蔬菜的多樣性。",
+      "production": "常見於冷涼季節的葉球蔬菜；成熟度、降雨與運輸狀況都可能影響市場供應。",
+      "selection": "挑選葉球結實、外葉完整、切口無明顯褐變者。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    {
+      "aliases": ["菠菜"],
+      "health": "屬深綠葉菜，可協助實踐餐盤中至少三分之一選擇深色蔬菜的多樣性原則。",
+      "production": "較適合冷涼季節栽培，供應狀況會隨產區與氣候變動。",
+      "selection": "挑選葉片完整、色澤自然、無黃化或黏滑者。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    {
+      "aliases": ["胡蘿蔔"],
+      "health": "屬黃橙紅色蔬菜，可與深綠葉菜輪替，讓餐盤顏色更多樣。",
+      "production": "食用部位為肥大的根，根形、成熟期與產地氣候都會影響外觀與供應。",
+      "selection": "挑選表皮完整、質地硬挺、無明顯裂痕或軟爛者。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    {
+      "aliases": ["番茄", "小番茄"],
+      "health": "屬果實類蔬菜；可與葉菜、根莖類蔬菜交替搭配，避免餐盤只集中單一顏色或型態。",
+      "production": "果實成熟與供應量會受品種、溫度及栽培管理影響。",
+      "selection": "選果皮完整、無裂果滲水與異味者；熟度依生食或料理用途選擇。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    {
+      "aliases": ["香蕉"],
+      "health": "屬水果類；以一份水果搭配正餐的概念規劃，不以水果取代蔬菜。",
+      "production": "為台灣常見果品，成熟度與運輸條件會影響外觀與可食狀態。",
+      "selection": "依食用時間選擇果皮熟度，避免明顯壓傷、發霉或異味。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    {
+      "aliases": ["鳳梨"],
+      "health": "屬水果類；建議與其他當季水果交替選擇，維持水果來源多樣性。",
+      "production": "產期與風味會依品種、產區與採收時間而有差異。",
+      "selection": "選外觀完整、無滲水霉斑、基部無異味者；切開後應冷藏。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    {
+      "aliases": ["芭樂", "番石榴"],
+      "health": "屬水果類；以原型水果搭配餐食，比以含糖飲品取代水果更容易掌握份量。",
+      "production": "不同品種在果肉口感、採收成熟度與產期上有所差異。",
+      "selection": "選表皮完整、無軟爛或蟲害痕跡者；依熟度冷藏並儘早食用。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "foodEducation"]
+    },
+    {
+      "aliases": ["豬", "毛豬", "豬肉"],
+      "health": "屬豆魚蛋肉類；可依均衡飲食原則與豆類、魚類、蛋類、禽肉輪替搭配。",
+      "production": "本頁行情多為毛豬或批發交易指標，不代表特定零售部位的營養或售價。",
+      "selection": "購買零售生鮮肉時，請依包裝標示冷藏或冷凍保存，處理時注意生熟分開。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition"]
+    },
+    {
+      "aliases": ["雞", "白肉雞", "紅羽土雞", "雞肉"],
+      "health": "屬豆魚蛋肉類；料理時可與蔬菜及全穀雜糧搭配，形成較完整的一餐。",
+      "production": "雞價可能因雞種、規格、產地與市場交易條件不同而有差異。",
+      "selection": "生鮮禽肉應維持低溫、避免交叉污染並充分加熱。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition"]
+    },
+    {
+      "aliases": ["蛋", "雞蛋"],
+      "health": "屬豆魚蛋肉類；份量仍需依整體餐盤與個人需求安排。",
+      "production": "蛋價資料反映產地或運輸交易指標，與零售蛋品規格及包裝條件可能不同。",
+      "selection": "依包裝標示保存；使用前後清潔接觸器具，並充分加熱。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition"]
+    },
+    {
+      "aliases": ["虱目魚", "鯖魚", "吳郭魚", "鯛魚"],
+      "health": "屬豆魚蛋肉類中的魚類與海鮮選項；可與其他蛋白質來源輪替，並搭配蔬菜和全穀雜糧。",
+      "production": "可能來自養殖或捕撈，供應與行情會受漁期、天候、養殖及冷鏈條件影響。",
+      "selection": "購買後低溫保存；處理時生熟分開並充分加熱，可再查詢追溯資訊了解來源。",
+      "sourceIds": ["hpaPlate", "tfdaNutrition", "seafoodSafety", "seafoodTrace"]
+    }
+  ]
+}

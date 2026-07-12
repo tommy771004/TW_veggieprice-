@@ -4,6 +4,8 @@ import { ProduceClient } from '@/components/pages/ProduceClient'
 import { ProduceFAQJsonLd, ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
 import { ProduceFaqSection } from '@/components/seo/ProduceFaq'
 import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
+import { FoodGuideSection } from '@/components/produce/FoodGuideSection'
+import { GovernmentDataSection } from '@/components/produce/GovernmentDataSection'
 import { SITE_URL } from '@/lib/env'
 import { getProduceCategory } from '@/lib/produce'
 import { fetchMarketDataByDates, type HistoryPoint } from '@/lib/server/moa'
@@ -79,6 +81,8 @@ export default async function ProducePage({ params }: Props) {
         initialCostInsight={metadata.costInsight}
         initialCropInfo={metadata.cropInfo}
       />
+      <FoodGuideSection cropName={cropName} />
+      <GovernmentDataSection cropName={cropName} wholesalePrice={initialPrice} />
       <ProduceMarketSummary cropName={cropName} history={history} />
       <ProduceFaqSection cropName={cropName} />
       {hasCategoryHub && (

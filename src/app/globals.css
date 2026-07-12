@@ -748,6 +748,120 @@
     position: relative;
   }
 
+  .healthy-basket-hero {
+    position: relative;
+    isolation: isolate;
+    background:
+      linear-gradient(135deg, rgba(252, 211, 77, 0.2), transparent 42%),
+      linear-gradient(150deg, #234a2a 0%, #136c36 54%, #0d5b62 100%);
+    box-shadow:
+      0 20px 44px rgba(15, 75, 40, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
+
+  .healthy-basket-hero::after {
+    content: '';
+    position: absolute;
+    width: 14rem;
+    aspect-ratio: 1;
+    right: -4rem;
+    bottom: -7rem;
+    border: 2.5rem solid rgba(255, 226, 159, 0.13);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5rem rgba(255, 255, 255, 0.035);
+    z-index: -1;
+  }
+
+  .healthy-basket-eyebrow {
+    color: rgba(255, 244, 214, 0.82);
+    font-size: calc(11px * var(--font-scale));
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .healthy-basket-item {
+    border: 1px solid rgba(13, 99, 27, 0.1);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.76),
+      0 8px 20px rgba(27, 94, 32, 0.05);
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .healthy-basket-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 14px 28px rgba(27, 94, 32, 0.1);
+  }
+
+  .healthy-basket-icon {
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    background: rgba(221, 246, 221, 0.88);
+  }
+
+  .healthy-plate-check {
+    display: flex;
+    min-height: 5.875rem;
+    align-items: flex-start;
+    gap: 0.75rem;
+    border: 1px solid rgba(92, 101, 90, 0.18);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.54);
+    padding: 0.9rem;
+    color: #40493d;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .healthy-plate-check:hover {
+    border-color: rgba(13, 99, 27, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .healthy-plate-check--done {
+    border-color: rgba(13, 99, 27, 0.32);
+    background: rgba(203, 255, 194, 0.58);
+    color: #0d631b;
+  }
+
+  html.dark .healthy-basket-item {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(34, 38, 34, 0.78);
+  }
+
+  html.dark .healthy-basket-item:hover {
+    background: rgba(42, 49, 42, 0.92);
+  }
+
+  html.dark .healthy-basket-icon {
+    background: rgba(39, 84, 44, 0.7);
+  }
+
+  html.dark .healthy-plate-check {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(28, 28, 30, 0.72);
+    color: #d9e6da;
+  }
+
+  html.dark .healthy-plate-check--done {
+    border-color: rgba(136, 217, 130, 0.34);
+    background: rgba(22, 83, 36, 0.52);
+    color: #cbffc2;
+  }
+
   /* Staggered slide-up animation for mover cards */
   .mover-entry {
     animation: mover-slide-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;

@@ -557,6 +557,7 @@ export function ProduceClient({
   // Whether the loaded history dataset includes upper/lower price columns
   const hasHistoryRangeData = history.some((d) => d.upperPrice != null)
   const [showPriceRange, setShowPriceRange] = useState(false)
+  const [showFieldNotes, setShowFieldNotes] = useState(false)
 
   function handleToggleWatchlist() {
     // emoji retained only for WatchlistItem data shape; UI renders via <CropIcon>.
@@ -700,16 +701,27 @@ export function ProduceClient({
 
               {/* 產地與生長背景側邊欄 */}
               <div className="hidden lg:block">
-                <div className="hero-info-card space-y-3.5 h-[230px] flex flex-col justify-center">
-                  <p className="text-label-sm font-bold tracking-wider text-white/65 uppercase">產地與生長背景</p>
-                  <div className="space-y-3">
-                    {fieldNoteRows.map((note) => (
-                      <div key={note.label} className="bg-white/5 border border-white/5 rounded-2xl p-2.5 flex flex-col">
-                        <span className="text-2xs font-semibold text-white/60">{note.label}</span>
-                        <strong className="text-body-sm font-bold text-white mt-0.5">{note.value}</strong>
-                      </div>
-                    ))}
-                  </div>
+                <div className={`hero-info-card space-y-3.5 ${showFieldNotes ? 'h-[230px] flex flex-col justify-center' : ''}`}>
+                  <button
+                    type="button"
+                    onClick={() => setShowFieldNotes((v) => !v)}
+                    className="w-full flex items-center justify-between gap-2"
+                  >
+                    <p className="text-label-sm font-bold tracking-wider text-white/65 uppercase">產地與生長背景</p>
+                    <span className="material-symbols-outlined text-white/50" style={{ fontSize: '18px' }}>
+                      {showFieldNotes ? 'expand_less' : 'expand_more'}
+                    </span>
+                  </button>
+                  {showFieldNotes && (
+                    <div className="space-y-3">
+                      {fieldNoteRows.map((note) => (
+                        <div key={note.label} className="bg-white/5 border border-white/5 rounded-2xl p-2.5 flex flex-col">
+                          <span className="text-2xs font-semibold text-white/60">{note.label}</span>
+                          <strong className="text-body-sm font-bold text-white mt-0.5">{note.value}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

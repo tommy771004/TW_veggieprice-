@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: base,               lastModified: now },
     { url: `${base}/search`,   lastModified: now },
     { url: `${base}/seasonal`, lastModified: now },
+    { url: `${base}/healthy-basket`, lastModified: now },
     { url: `${base}/insights`, lastModified: now },
   ]
 

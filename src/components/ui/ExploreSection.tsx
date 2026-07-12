@@ -23,6 +23,15 @@ const FEATURES = [
     accent: 'text-lime-700',
   },
   {
+    href: '/healthy-basket',
+    icon: 'nutrition',
+    emoji: '🥗',
+    title: '一餐好菜籃',
+    desc: '用當季食材組一餐，再檢查我的餐盤六大類是否完整',
+    gradient: 'from-orange-400/10 to-rose-400/5',
+    accent: 'text-orange-700',
+  },
+  {
     href: '/watchlist',
     icon: 'monitoring',
     emoji: '📌',
@@ -59,7 +68,7 @@ export function ExploreSection() {
       </div>
 
       <m.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-3"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
         variants={container}
         initial="hidden"
         whileInView="show"

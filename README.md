@@ -52,6 +52,14 @@ npm run dev
 - `public/sw.js` 會快取核心頁面與品牌資產，並對同網域 API 採 network-first 策略。
 - `src/components/pwa/ServiceWorkerRegistrar.tsx` 會在瀏覽器端自動註冊 service worker。
 
+## 政府參考資料同步
+
+`npm run sync-government-data` 會下載並正規化食藥署食品營養成分、農業部每月盛產農產品產地，以及農產品產地價格資料，產生 `src/data/generated/government-reference.json`。詳情頁只會在品名能可靠對應官方資料時顯示營養、盛產產地與產地查報價。
+
+產地查報價格可能以元／公斤或元／支（把）統計，因此頁面不會在未確認品項單位一致時直接計算它與批發均價的價差。
+
+GitHub Actions 會在每週一凌晨（台灣時間）執行同一同步器，也可在 Actions 頁面手動觸發 `Sync government reference data`。資料無變動時不會建立 commit。
+
 若未設定 `NEXT_PUBLIC_SITE_URL`，專案會自動回退到 Vercel 提供的 `VERCEL_PROJECT_PRODUCTION_URL` 或 `VERCEL_URL`。
 
 ## 文件
