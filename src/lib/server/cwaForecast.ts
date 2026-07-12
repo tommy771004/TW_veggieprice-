@@ -1,9 +1,9 @@
-// Pure parsing/merge helpers for CWA F-C0032-005 (一週縣市天氣預報).
+// Pure parsing/merge helpers for CWA F-D0047-091 (鄉鎮天氣預報-未來1週天氣預報).
 // Deliberately zero-import so this file can run standalone under `node --test`
 // (next/cache and the `@/*` path alias only resolve inside the Next.js build).
 
 export interface CwaForecastPeriod {
-  startTime: string // "YYYY-MM-DD HH:mm:ss"
+  startTime: string // ISO 8601 with offset, e.g. "2026-07-12T06:00:00+08:00"
   endTime: string
   wx: string
   maxT: number | null
@@ -50,34 +50,51 @@ function toNumber(value: unknown): number | null {
 function indexByStartTime(times: any[]): Map<string, any> {
   const map = new Map<string, any>()
   for (const t of times) {
-    const key = String(t?.startTime ?? '')
+    const key = String(t?.StartTime ?? '')
     if (key) map.set(key, t)
   }
   return map
 }
 
-export function parseCwaResponse(json: unknown): CwaForecastPeriod[] {
-  const elements = (json as any)?.records?.location?.[0]?.weatherElement
+// Each Time entry's ElementValue is an array (always length 1 in practice) whose single
+// object carries an element-specific key (MaxTemperature / MinTemperature /
+// ProbabilityOfPrecipitation / Weather+WeatherCode).
+function firstElementValue(time: any): any {
+  return Array.isArray(time?.ElementValue) ? time.ElementValue[0] : undefined
+}
+
+export function parseCwaResponse(json: unknown, county: string): CwaForecastPeriod[] {
+  const locations = (json as any)?.records?.Locations?.[0]?.Location
+  if (!Array.isArray(locations)) return []
+
+  const location = locations.find((loc: any) => loc?.LocationName === county)
+  if (!location) return []
+
+  const elements = location?.WeatherElement
   if (!Array.isArray(elements)) return []
 
   const findTimes = (name: string): any[] =>
-    elements.find((el: any) => el?.elementName === name)?.time ?? []
+    elements.find((el: any) => el?.ElementName === name)?.Time ?? []
 
-  const wxTimes = findTimes('Wx')
-  const maxTByStart = indexByStartTime(findTimes('MaxT'))
-  const minTByStart = indexByStartTime(findTimes('MinT'))
-  const popByStart = indexByStartTime(findTimes('PoP12h'))
+  const wxTimes = findTimes('天氣現象')
+  const maxTByStart = indexByStartTime(findTimes('最高溫度'))
+  const minTByStart = indexByStartTime(findTimes('最低溫度'))
+  const popByStart = indexByStartTime(findTimes('12小時降雨機率'))
 
   return wxTimes
     .map((wxTime: any): CwaForecastPeriod => {
-      const startTime = String(wxTime?.startTime ?? '')
+      const startTime = String(wxTime?.StartTime ?? '')
+      const wxValue = firstElementValue(wxTime)
+      const maxTValue = firstElementValue(maxTByStart.get(startTime))
+      const minTValue = firstElementValue(minTByStart.get(startTime))
+      const popValue = firstElementValue(popByStart.get(startTime))
       return {
         startTime,
-        endTime: String(wxTime?.endTime ?? ''),
-        wx: String(wxTime?.parameter?.parameterName ?? ''),
-        maxT: toNumber(maxTByStart.get(startTime)?.parameter?.parameterName),
-        minT: toNumber(minTByStart.get(startTime)?.parameter?.parameterName),
-        pop: toNumber(popByStart.get(startTime)?.parameter?.parameterName),
+        endTime: String(wxTime?.EndTime ?? ''),
+        wx: String(wxValue?.Weather ?? ''),
+        maxT: toNumber(maxTValue?.MaxTemperature),
+        minT: toNumber(minTValue?.MinTemperature),
+        pop: toNumber(popValue?.ProbabilityOfPrecipitation),
       }
     })
     .filter((p: CwaForecastPeriod) => p.startTime.length > 0)
