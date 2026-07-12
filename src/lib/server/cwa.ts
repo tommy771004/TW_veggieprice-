@@ -24,14 +24,14 @@ async function fetchWeeklyForecastUncached(county: string): Promise<DailyForecas
       cache: 'no-store',
     })
     if (!response.ok) {
-      console.log(`[cwa] weekly forecast HTTP ${response.status} for county=${county}`)
+      console.warn(`[cwa] weekly forecast HTTP ${response.status} for county=${county}`)
       return []
     }
     const json = await response.json()
     const periods = parseCwaResponse(json)
     return mergeForecastPeriods(periods, taipeiISODate(new Date()))
   } catch (error) {
-    console.log(`[cwa] weekly forecast failed for county=${county}: ${error instanceof Error ? error.message : String(error)}`)
+    console.warn(`[cwa] weekly forecast failed for county=${county}: ${error instanceof Error ? error.message : String(error)}`)
     return []
   } finally {
     clearTimeout(timer)
