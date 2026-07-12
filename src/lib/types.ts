@@ -155,6 +155,20 @@ export interface MarketWeatherRiskSummary {
   }
 }
 
+export interface DailyForecast {
+  date: string        // ISO yyyy-mm-dd, Asia/Taipei local date
+  maxT: number | null
+  minT: number | null
+  pop: number | null  // 12hr rain probability, %
+  wxText: string
+  icon: string         // Material Symbols Outlined name
+}
+
+export interface MarketWeatherForecast {
+  county: string
+  days: DailyForecast[]
+}
+
 export interface TraceabilitySummaryItem {
   productName: string
   producerName: string
