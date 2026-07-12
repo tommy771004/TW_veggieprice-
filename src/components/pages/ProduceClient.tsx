@@ -558,6 +558,7 @@ export function ProduceClient({
   const hasHistoryRangeData = history.some((d) => d.upperPrice != null)
   const [showPriceRange, setShowPriceRange] = useState(false)
   const [showFieldNotes, setShowFieldNotes] = useState(false)
+  const [heroCardCollapsed, setHeroCardCollapsed] = useState(false)
 
   function handleToggleWatchlist() {
     // emoji retained only for WatchlistItem data shape; UI renders via <CropIcon>.
@@ -612,7 +613,25 @@ export function ProduceClient({
           <div className="section-heading-row mb-4">
             <div>
               <p className="section-kicker">Produce focus</p>
-              <h1 className="text-headline-lg font-black text-on-surface">{cropName} 批發行情</h1>
+              <button
+                type="button"
+                onClick={() => setHeroCardCollapsed((v) => !v)}
+                aria-expanded={!heroCardCollapsed}
+                aria-controls="produce-hero-card"
+                className="flex items-center gap-2 group text-left"
+              >
+                <h1 className="text-headline-lg font-black text-on-surface">{cropName} 批發行情</h1>
+                <span
+                  className="material-symbols-outlined text-on-surface-variant transition-transform duration-300 group-hover:text-on-surface"
+                  style={{
+                    fontSize: '24px',
+                    transform: heroCardCollapsed ? 'rotate(0deg)' : 'rotate(180deg)',
+                  }}
+                  aria-hidden="true"
+                >
+                  expand_more
+                </span>
+              </button>
               <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
                 從單品均價、量能、產地與成本一起看，判斷今天這個作物是在穩定區、熱區，還是波動區。
               </p>
@@ -632,7 +651,22 @@ export function ProduceClient({
             </div>
           </div>
 
-          <div className="home-hero-card rounded-3xl overflow-hidden">
+          <div id="produce-hero-card" className="home-hero-card rounded-3xl overflow-hidden">
+            {heroCardCollapsed ? (
+              <div className="px-6 py-4 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center shadow-lg shrink-0">
+                  <CropIcon name={cropName} className="w-7 h-7" />
+                </div>
+                <div className="min-w-0 flex-1 flex items-center gap-3 flex-wrap">
+                  <span className="market-status-chip market-status-chip--hero">{cropCategoryLabel}</span>
+                  <span className="text-2xl leading-none font-black tabular-nums tracking-tight text-[#fcd34d]">
+                    {latestPrice > 0 ? `$${formatPrice(latestPrice)}` : '--'}
+                  </span>
+                  <span className="text-label-sm text-white/60">元 / 公斤</span>
+                  {latestPrice > 0 ? <TrendChip change={priceChange} /> : null}
+                </div>
+              </div>
+            ) : (
             <div className="px-6 pt-6 pb-5 grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_19rem]">
               <div className="min-w-0 space-y-5">
                 <div className="flex items-center gap-4">
@@ -725,6 +759,7 @@ export function ProduceClient({
                 </div>
               </div>
             </div>
+            )}
           </div>
         </section>
 
