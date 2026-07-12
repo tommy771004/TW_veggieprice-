@@ -42,8 +42,18 @@ function addDaysISO(iso: string, days: number): string {
 }
 
 function toNumber(value: unknown): number | null {
+  if (value === null || value === undefined || value === '') return null
   const n = Number(value)
   return Number.isFinite(n) ? n : null
+}
+
+function indexByStartTime(times: any[]): Map<string, any> {
+  const map = new Map<string, any>()
+  for (const t of times) {
+    const key = String(t?.startTime ?? '')
+    if (key) map.set(key, t)
+  }
+  return map
 }
 
 export function parseCwaResponse(json: unknown): CwaForecastPeriod[] {
@@ -54,19 +64,22 @@ export function parseCwaResponse(json: unknown): CwaForecastPeriod[] {
     elements.find((el: any) => el?.elementName === name)?.time ?? []
 
   const wxTimes = findTimes('Wx')
-  const maxTTimes = findTimes('MaxT')
-  const minTTimes = findTimes('MinT')
-  const popTimes = findTimes('PoP12h')
+  const maxTByStart = indexByStartTime(findTimes('MaxT'))
+  const minTByStart = indexByStartTime(findTimes('MinT'))
+  const popByStart = indexByStartTime(findTimes('PoP12h'))
 
   return wxTimes
-    .map((wxTime: any, i: number): CwaForecastPeriod => ({
-      startTime: String(wxTime?.startTime ?? ''),
-      endTime: String(wxTime?.endTime ?? ''),
-      wx: String(wxTime?.parameter?.parameterName ?? ''),
-      maxT: toNumber(maxTTimes[i]?.parameter?.parameterName),
-      minT: toNumber(minTTimes[i]?.parameter?.parameterName),
-      pop: toNumber(popTimes[i]?.parameter?.parameterName),
-    }))
+    .map((wxTime: any): CwaForecastPeriod => {
+      const startTime = String(wxTime?.startTime ?? '')
+      return {
+        startTime,
+        endTime: String(wxTime?.endTime ?? ''),
+        wx: String(wxTime?.parameter?.parameterName ?? ''),
+        maxT: toNumber(maxTByStart.get(startTime)?.parameter?.parameterName),
+        minT: toNumber(minTByStart.get(startTime)?.parameter?.parameterName),
+        pop: toNumber(popByStart.get(startTime)?.parameter?.parameterName),
+      }
+    })
     .filter((p: CwaForecastPeriod) => p.startTime.length > 0)
 }
 

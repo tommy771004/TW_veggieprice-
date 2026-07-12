@@ -96,6 +96,110 @@ test('parseCwaResponse: missing records structure returns empty array', () => {
   assert.deepEqual(parseCwaResponse({ records: { location: [] } }), [])
 })
 
+test('parseCwaResponse: pairs elements by startTime, not array position (reordered/missing entries)', () => {
+  // Wx has two periods, A then B. MaxT/MinT/PoP12h are reordered (B before A) and MaxT
+  // is additionally missing an entry for A entirely. A naive index-based zip would pair
+  // Wx[0] (A) with MaxT[0]/MinT[0]/PoP[0] (which are actually B's values) -- wrong.
+  const REORDERED_FIXTURE = {
+    records: {
+      location: [
+        {
+          locationName: '臺北市',
+          weatherElement: [
+            {
+              elementName: 'Wx',
+              time: [
+                { startTime: '2026-07-12 06:00:00', endTime: '2026-07-12 18:00:00', parameter: { parameterName: '多雲' } }, // A
+                { startTime: '2026-07-12 18:00:00', endTime: '2026-07-13 06:00:00', parameter: { parameterName: '晴天' } }, // B
+              ],
+            },
+            {
+              elementName: 'MaxT',
+              time: [
+                // Only B's entry present, and listed first (reordered) -- A's entry is missing entirely.
+                { startTime: '2026-07-12 18:00:00', endTime: '2026-07-13 06:00:00', parameter: { parameterName: '20' } }, // B
+              ],
+            },
+            {
+              elementName: 'MinT',
+              time: [
+                // Reordered: B before A.
+                { startTime: '2026-07-12 18:00:00', endTime: '2026-07-13 06:00:00', parameter: { parameterName: '15' } }, // B
+                { startTime: '2026-07-12 06:00:00', endTime: '2026-07-12 18:00:00', parameter: { parameterName: '22' } }, // A
+              ],
+            },
+            {
+              elementName: 'PoP12h',
+              time: [
+                { startTime: '2026-07-12 18:00:00', endTime: '2026-07-13 06:00:00', parameter: { parameterName: '5' } }, // B
+                { startTime: '2026-07-12 06:00:00', endTime: '2026-07-12 18:00:00', parameter: { parameterName: '50' } }, // A
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const periods = parseCwaResponse(REORDERED_FIXTURE)
+  assert.equal(periods.length, 2)
+
+  const periodA = periods.find((p) => p.startTime === '2026-07-12 06:00:00')!
+  const periodB = periods.find((p) => p.startTime === '2026-07-12 18:00:00')!
+
+  assert.equal(periodA.wx, '多雲')
+  assert.equal(periodA.maxT, null) // no MaxT entry for A -- must NOT fall back to B's 20
+  assert.equal(periodA.minT, 22)
+  assert.equal(periodA.pop, 50)
+
+  assert.equal(periodB.wx, '晴天')
+  assert.equal(periodB.maxT, 20)
+  assert.equal(periodB.minT, 15)
+  assert.equal(periodB.pop, 5)
+})
+
+test('parseCwaResponse: blank or missing numeric readings parse as null, not 0', () => {
+  const BLANK_FIXTURE = {
+    records: {
+      location: [
+        {
+          locationName: '臺北市',
+          weatherElement: [
+            {
+              elementName: 'Wx',
+              time: [
+                { startTime: '2026-07-12 06:00:00', endTime: '2026-07-12 18:00:00', parameter: { parameterName: '多雲' } },
+              ],
+            },
+            {
+              elementName: 'MaxT',
+              time: [
+                { startTime: '2026-07-12 06:00:00', endTime: '2026-07-12 18:00:00', parameter: { parameterName: '' } },
+              ],
+            },
+            {
+              elementName: 'MinT',
+              time: [], // entirely missing entry for this startTime
+            },
+            {
+              elementName: 'PoP12h',
+              time: [
+                { startTime: '2026-07-12 06:00:00', endTime: '2026-07-12 18:00:00', parameter: { parameterName: '' } },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const periods = parseCwaResponse(BLANK_FIXTURE)
+  assert.equal(periods.length, 1)
+  assert.equal(periods[0].maxT, null)
+  assert.equal(periods[0].minT, null)
+  assert.equal(periods[0].pop, null)
+})
+
 test('mergeForecastPeriods: merges day+night into one record per date, prefers daytime Wx', () => {
   const periods = parseCwaResponse(FIXTURE)
   const days = mergeForecastPeriods(periods, '2026-07-12')
