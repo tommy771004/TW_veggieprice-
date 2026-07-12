@@ -3,7 +3,7 @@ import type { DailyForecast } from '@/lib/types'
 import { parseCwaResponse, mergeForecastPeriods, taipeiISODate } from './cwaForecast'
 
 const CWA_FETCH_TIMEOUT_MS = Number(process.env.CWA_FETCH_TIMEOUT_MS ?? '10000')
-const CWA_BASE = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-005'
+const CWA_BASE = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-091'
 
 async function fetchWeeklyForecastUncached(county: string): Promise<DailyForecast[]> {
   const apiKey = process.env.CWA_API_KEY
@@ -28,7 +28,7 @@ async function fetchWeeklyForecastUncached(county: string): Promise<DailyForecas
       return []
     }
     const json = await response.json()
-    const periods = parseCwaResponse(json)
+    const periods = parseCwaResponse(json, county)
     return mergeForecastPeriods(periods, taipeiISODate(new Date()))
   } catch (error) {
     console.warn(`[cwa] weekly forecast failed for county=${county}: ${error instanceof Error ? error.message : String(error)}`)
