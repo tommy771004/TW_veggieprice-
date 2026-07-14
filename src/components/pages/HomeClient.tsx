@@ -175,6 +175,11 @@ export function HomeClient({
 
   // Suppress loading flash on first mount when server pre-fetched data is available.
   const hasInitialOverview = useRef(!!initialOverview);
+  // ADR-0001 F6: skip the first client overview/trend round-trip when RSC already
+  // embedded the default market + vegetable shell (avoids double-fetch on cold).
+  const skipDefaultPrefetchRoundtrip = useRef(
+    !!initialOverview && initialTrend.length > 0,
+  );
 
   const scrollPulse = (dir: "left" | "right") => {
     if (pulseScrollRef.current) {
@@ -308,6 +313,20 @@ export function HomeClient({
   // ── Category-Dependent Overview & Trend Fetch ────────────────
   useEffect(() => {
     async function loadOverviewAndTrend() {
+      // First mount only: keep SSR default shell, skip redundant client fetch.
+      if (
+        skipDefaultPrefetchRoundtrip.current &&
+        selectedMarket === DEFAULT_MARKET &&
+        activeCategory === "vegetable" &&
+        reloadKey === 0
+      ) {
+        skipDefaultPrefetchRoundtrip.current = false;
+        hasInitialOverview.current = false;
+        setLoadingOverview(false);
+        return;
+      }
+      skipDefaultPrefetchRoundtrip.current = false;
+
       if (!hasInitialOverview.current) setLoadingOverview(true);
       hasInitialOverview.current = false;
       setOverviewError("");

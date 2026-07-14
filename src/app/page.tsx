@@ -3,8 +3,9 @@ import { HomeClient } from '@/components/pages/HomeClient'
 import { HomeGeoCitationSection } from '@/components/seo/GeoCitationSection'
 import { HomeFaqSection } from '@/components/seo/HomeFaq'
 import { HomeSeoLinks } from '@/components/seo/HomeSeoLinks'
+import { prefetchDefaultHomeData } from '@/lib/server/home-prefetch'
 
-export const revalidate = 60 // Cache options: 60 seconds ISR
+export const revalidate = 60 // ISR: HTML + embedded default shell refresh every 60s
 
 export const metadata: Metadata = {
   title: '今日台灣蔬果批發行情 | 農時價',
@@ -16,15 +17,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function DashboardPage() {
-  // Return early without blocking on network requests to guarantee extremely fast TTFB.
-  // The HomeClient will automatically fetch its own data on mount.
+/**
+ * ADR-0001 option D (F6 phase): prefetch default market overview + week trend
+ * into the RSC payload so first paint can show real numbers.
+ * CDN still serves STALE HTML quickly (revalidate=60); regeneration may wait on MOA.
+ * F5 request fan-out is deferred until post-deploy re-measure.
+ */
+export default async function DashboardPage() {
+  const { overview, trend } = await prefetchDefaultHomeData()
+
   return (
     <>
       <HomeClient
-        initialTrend={[]}
+        initialTrend={trend}
         initialLivestock={null}
-        initialOverview={null}
+        initialOverview={overview}
       />
       <HomeSeoLinks />
       <HomeGeoCitationSection />

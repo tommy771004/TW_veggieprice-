@@ -2,7 +2,7 @@
 
 **性質：** 純診斷文件，不含程式碼變更（本文件本身的內容更新除外）。對應原始需求項目 1（分析載入效能問題、阻塞、讀取 JSON 檔案跟 API、以及程式寫法問題）。項目 2（載入進度條）已另行產出 spec 並排入 ticket，見 [spec-homepage-loading-bar.md](./spec-homepage-loading-bar.md)。
 
-**更新記錄：** commit `e903d13`（2026-07-14）已修復 F1、F2、F3、F4，並已實作 `HomeLoadingBar` 元件與對應 E2E 測試。本次更新在原本的效能發現之外，新增「阻塞」與「程式寫法問題」兩個獨立段落，並將各項發現標註目前狀態。後續實作已修復殘留的 `require()`／`any` 型別標註，以及 O1/O2（假資料掩蓋錯誤改為明確錯誤回應）；`overview/trend` 同步移除假資料 fallback。
+**更新記錄：** commit `e903d13`（2026-07-14）已修復 F1、F2、F3、F4，並已實作 `HomeLoadingBar` 元件與對應 E2E 測試。本次更新在原本的效能發現之外，新增「阻塞」與「程式寫法問題」兩個獨立段落，並將各項發現標註目前狀態。後續實作已修復殘留的 `require()`／`any` 型別標註，以及 O1/O2（假資料掩蓋錯誤改為明確錯誤回應）；`overview/trend` 同步移除假資料 fallback。F5／F6 已綁定「先量測 → ADR-0001 決策 → 再實作」，見 [f5-f6-measurement-plan.md](./f5-f6-measurement-plan.md) 與 [ADR-0001](../adr/0001-homepage-data-fetch-topology.md)。
 
 ## 摘要
 
@@ -68,31 +68,38 @@
 
 ## 尚未處理的架構層發現
 
-以下兩項在原報告中就標註為「架構層決定，非缺陷」，這次沒有變動，仍建議另外討論：
+以下兩項在原報告中就標註為「架構層決定，非缺陷」。**已綁定同一決策場，流程為：先量測 → ADR 拍板 → 再實作。禁止在 ADR Accepted 前開 F5／F6 產品 PR。**
+
+| 文件 | 用途 |
+|------|------|
+| [f5-f6-measurement-plan.md](./f5-f6-measurement-plan.md) | 量測指標、手順、Results 模板、完成定義 |
+| [ADR-0001](../adr/0001-homepage-data-fetch-topology.md) | F5+F6 選項空間、Decision 欄、實作閘門 |
 
 ### 🟡 F5 — 首頁掛載時平行發出 5–6 個獨立請求，無合併
 
 - **位置：** [src/components/pages/HomeClient.tsx](src/components/pages/HomeClient.tsx) 內 4 個獨立的 `useEffect`：市場清單、波動榜、休市日+天氣風險、市場概況+週趨勢。
 - **現象：** 各 `useEffect` 內部已用 `Promise.allSettled` 平行化，但跨 4 個 `useEffect` 彼此獨立觸發，等於同時對 Vercel 開 5–6 條個別 serverless function 呼叫，各自可能有獨立 cold start。
-- **建議：** 若要處理，方向是新增彙總端點（例如 `/api/prices/home-bootstrap`），但這會動到 `CLAUDE.md` 記載的 Route Handler 對照表，屬於架構層決定，建議另外討論再動手。
-- **預估工作量：** L（大）
+- **決策狀態：** 納入 ADR-0001（與 F6 同場）；選項含維持現狀／單端點 bootstrap／雙端點等。  
+- **預估工作量：** 若實作約 L（大）；目前 **不實作** 直至量測 + Decision。
 
 ### 🟡 F6 — `page.tsx` 刻意不做 SSR 資料預取（既有設計決策，非缺陷）
 
 - **位置：** [src/app/page.tsx:19-28](src/app/page.tsx#L19-L28)，程式碼內已有註解說明原因（fast TTFB）。
 - **現象：** 這正是為什麼使用者會看到 skeleton 畫面持續數秒的根本原因——不是「壞掉」，是既有取捨的直接後果。
-- **建議：** 不建議現在改動；若之後要重新評估，建議先補一份 ADR 記錄現況的取捨脈絡。
-- **預估工作量：** 不適用（建議先決策）
+- **決策狀態：** 納入 ADR-0001（與 F5 同場）；不可與 F5 各做各的而不寫清順序與 cache 語意。  
+- **預估工作量：** 決策本身 XS；若選 SSR 預取約 M。
 
 ## 優先順序建議
 
 1. F1–F4 已於 commit `e903d13` 修復，無需再處理。
 2. 殘留 `require()`／`any` 與 O1/O2 已修復，無需再處理。
-3. 剩餘項目：
-   - **F5、F6**——架構層決定，建議另開討論，不建議跟小修小補一起處理。
+3. **F5、F6：**
+   - 量測基線已對 https://tw-veggieprice.vercel.app/ 完成（見 [量測計畫 §5](./f5-f6-measurement-plan.md)）。
+   - [ADR-0001](../adr/0001-homepage-data-fetch-topology.md) **Accepted：選項 D**（先 F6，再評估 F5）。
+   - **F6 已實作：** `src/lib/server/home-prefetch.ts` + `page.tsx` 預取預設市場 overview/trend。
+   - **F5 仍延後**，觸發條件見 ADR「再評估條件」。
 
 ## 不在此份診斷範圍內
 
-- 不含 Vercel serverless cold start 的實際量測數據——需要正式環境的監控/日誌數據才能判斷實際發生頻率與時長，本報告僅指出結構性風險（F5）。
+- 量測的實際數字不在本診斷文件內維護——請寫入量測計畫 §5 或 ADR-0001 Evidence。
 - 不含首頁以外頁面（搜尋頁、作物詳情頁等）的效能稽核。`fetchSearchRecords` 的肉品/漁產分支有相同的未快取讀檔模式（[src/lib/server/moa.ts:1757, 1950](src/lib/server/moa.ts#L1757)），但不在「首頁初始化載入」範圍內，故未展開分析。
-- F5（bootstrap 彙總端點）、F6（SSR 預取取捨）仍屬架構決策，未在本次實作範圍內。
