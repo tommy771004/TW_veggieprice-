@@ -132,3 +132,26 @@ test("shows the top loading bar during initial and category data loads", async (
   moversGates[1].resolve();
   await expect(loadingBar).toBeHidden();
 });
+
+test.describe("homepage hydration", () => {
+  test.use({ serviceWorkers: "block" });
+
+  test("does not report a hydration error for reduced-motion visitors", async ({ page }) => {
+    const hydrationErrors: string[] = [];
+    const recordError = (message: string) => {
+      if (message.includes("Hydration failed") || message.includes("Minified React error #418")) {
+        hydrationErrors.push(message);
+      }
+    };
+
+    page.on("console", (message) => {
+      if (message.type() === "error") recordError(message.text());
+    });
+    page.on("pageerror", (error) => recordError(error.message));
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    await expect(page.getByRole("heading", { name: "今日市場概況" })).toBeVisible();
+    await expect.poll(() => hydrationErrors).toEqual([]);
+  });
+});

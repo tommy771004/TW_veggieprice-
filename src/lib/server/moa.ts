@@ -39,8 +39,8 @@ const FETCH_TIMEOUT_MS = Number(process.env.MOA_FETCH_TIMEOUT_MS ?? "25000");
 const MOA_FETCH_RETRIES = 2;
 
 /** MOA 農產品種類代碼（農業部 OpenData 規格） */
-const CROP_TYPE_VEG = "N04" as const; // 蔬菜
-const CROP_TYPE_FRUIT = "N05" as const; // 水果
+export const CROP_TYPE_VEG = "N04" as const; // 蔬菜
+export const CROP_TYPE_FRUIT = "N05" as const; // 水果
 /** 每批次的平行 HTTP 請求數量；數字過大會造成 Serverless 函數的並發限制 */
 const MOA_PAGE_BATCH = 3 as const;
 

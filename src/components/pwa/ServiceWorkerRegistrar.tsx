@@ -10,7 +10,11 @@ export function ServiceWorkerRegistrar() {
 
     const register = async () => {
       try {
-        await navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        const registration = await navigator.serviceWorker.register('/sw.js', {
+          scope: '/',
+          updateViaCache: 'none',
+        })
+        await registration.update()
       } catch (error) {
         console.error('Service worker registration failed', error)
       }

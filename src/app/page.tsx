@@ -24,13 +24,13 @@ export const metadata: Metadata = {
  * F5 request fan-out is deferred until post-deploy re-measure.
  */
 export default async function DashboardPage() {
-  const { overview, trend } = await prefetchDefaultHomeData()
+  const { overview, trend, livestock } = await prefetchDefaultHomeData()
 
   return (
     <>
       <HomeClient
         initialTrend={trend}
-        initialLivestock={null}
+        initialLivestock={livestock}
         initialOverview={overview}
       />
       <HomeSeoLinks />

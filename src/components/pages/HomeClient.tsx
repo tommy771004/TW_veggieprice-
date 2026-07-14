@@ -95,6 +95,28 @@ const CATEGORIES: ReadonlyArray<{ label: string; value: ProduceCategory }> = [
   { label: "🐟 漁產", value: "seafood" },
 ];
 
+function formatTaipeiUpdatedAt(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Taipei",
+    numberingSystem: "latn",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+  const fields = Object.fromEntries(
+    parts
+      .filter((part) => part.type !== "literal")
+      .map((part) => [part.type, part.value]),
+  );
+
+  return `${fields.month}/${fields.day} ${fields.hour}:${fields.minute}`;
+}
+
 // ── Shared animation variants ──────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -611,16 +633,7 @@ export function HomeClient({
                     update
                   </span>
                   更新時間：
-                  <span suppressHydrationWarning>
-                    {typeof window !== "undefined"
-                      ? new Date(overview.updatedAt).toLocaleString("zh-TW", {
-                          month: "numeric",
-                          day: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
-                      : "..."}
-                  </span>
+                  <span>{formatTaipeiUpdatedAt(overview.updatedAt)}</span>
                 </p>
               )}
             </div>
@@ -996,10 +1009,15 @@ export function HomeClient({
 
         {/* ── Top Movers ────────────────────────────────── */}
         <section>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-headline-md font-bold text-on-surface">
-              價格波動榜
-            </h2>
+          <div className="flex justify-between items-start mb-4 gap-3">
+            <div>
+              <h2 className="text-headline-md font-bold text-on-surface">
+                價格波動榜
+              </h2>
+              <p className="text-body-sm text-on-surface-variant mt-0.5">
+                最新交易日相較前一有效交易日，依全市場加權均價計算
+              </p>
+            </div>
             <Link
               href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
                 activeCategory === "fruit"

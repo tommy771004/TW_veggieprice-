@@ -7,6 +7,7 @@ import { SkeletonCard } from "@/components/ui/SkeletonCard";
 import { TrendChip } from "@/components/ui/TrendChip";
 import { fetchLivestock } from "@/lib/api";
 import type { LivestockPrices } from "@/lib/types";
+import { formatTaipeiDate } from "@/lib/utils";
 
 const staggerContainer = {
   hidden: {},
@@ -35,12 +36,16 @@ export function LivestockSection({
   );
   const [loadingLivestock, setLoadingLivestock] = useState(!initialLivestock);
   const [livestockError, setLivestockError] = useState("");
-  const hasInitialLivestock = useRef(!!initialLivestock);
+  const skipInitialFetch = useRef(!!initialLivestock);
   const [localReloadKey, setLocalReloadKey] = useState(0);
 
   useEffect(() => {
-    if (!hasInitialLivestock.current) setLoadingLivestock(true);
-    hasInitialLivestock.current = false;
+    if (skipInitialFetch.current) {
+      skipInitialFetch.current = false;
+      return;
+    }
+
+    setLoadingLivestock(true);
     setLivestockError("");
     fetchLivestock()
       .then(setLivestock)
@@ -128,14 +133,7 @@ export function LivestockSection({
                 </div>
                 {livestock?.date && (
                   <p className="text-body-sm text-on-surface-variant mt-1">
-                    資料日期：
-                    <span suppressHydrationWarning>
-                      {typeof window !== "undefined"
-                        ? new Intl.DateTimeFormat("zh-TW", {
-                            dateStyle: "medium",
-                          }).format(new Date(livestock.date))
-                        : "..."}
-                    </span>
+                    資料日期：{formatTaipeiDate(livestock.date)}
                   </p>
                 )}
               </GlassCard>

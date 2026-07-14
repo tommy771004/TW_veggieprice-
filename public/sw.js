@@ -1,11 +1,6 @@
-const CACHE_NAME = 'veggieprice-static-v3'
-const RUNTIME_CACHE = 'veggieprice-runtime-v3'
+const CACHE_NAME = 'veggieprice-static-v4'
+const RUNTIME_CACHE = 'veggieprice-runtime-v4'
 const APP_SHELL = [
-  '/',
-  '/search',
-  '/seasonal',
-  '/watchlist',
-  '/settings',
   '/manifest.json',
   '/icons/icon-192.svg',
   '/icons/icon-512.svg',
@@ -35,7 +30,9 @@ async function networkFirst(request) {
 
   try {
     const response = await fetch(request)
-    if (request.method === 'GET' && response.ok) {
+    // Never persist server-rendered navigation HTML. A cached page shell from an
+    // older deployment can otherwise hydrate against newly deployed React chunks.
+    if (request.method === 'GET' && response.ok && request.mode !== 'navigate') {
       cache.put(request, response.clone())
     }
     return response
@@ -43,10 +40,6 @@ async function networkFirst(request) {
     const cached = await cache.match(request)
     if (cached) {
       return cached
-    }
-
-    if (request.mode === 'navigate') {
-      return caches.match('/')
     }
 
     throw new Error('Network unavailable and no cached response found.')

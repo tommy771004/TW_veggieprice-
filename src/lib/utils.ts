@@ -37,6 +37,27 @@ export function formatDate(iso: string): string {
   return d.toLocaleDateString('zh-TW', { month: 'short', day: 'numeric' })
 }
 
+/** A locale-stable calendar date for values shown in both SSR and hydration. */
+export function formatTaipeiDate(iso: string): string {
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return ''
+
+  const fields = Object.fromEntries(
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Taipei',
+      numberingSystem: 'latn',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+      .formatToParts(date)
+      .filter((part) => part.type !== 'literal')
+      .map((part) => [part.type, part.value]),
+  )
+
+  return `${fields.year}/${fields.month}/${fields.day}`
+}
+
 export function subtractDays(iso: string, days: number): string {
   const parts = iso.split('-').map(Number)
   if (parts.length < 3 || isNaN(parts[0]) || isNaN(parts[1]) || isNaN(parts[2])) {

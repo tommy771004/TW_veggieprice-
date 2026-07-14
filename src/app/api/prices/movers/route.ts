@@ -3,11 +3,16 @@ import { getCropEmoji } from "@/lib/utils";
 import {
   fetchLatestSeafoodData,
   fetchLivestockPrices,
+  fetchRecentOpenData,
+  CROP_TYPE_FRUIT,
+  CROP_TYPE_VEG,
   type SeafoodRawRecord,
 } from "@/lib/server/moa";
 import { bustCacheOnReload } from "@/lib/server/freshReload";
 
 export const maxDuration = 60;
+const OPEN_DATA_MIN_VOLUME_KG = 2000;
+const MAX_BASELINE_TRADING_DAYS = 7;
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -205,18 +210,17 @@ export async function GET(req: Request) {
     }
   }
 
-  // Fetch recent open data directly to ensure fallback to local latest-opendata.json
-  const mType = category === "fruit" ? "Fruit" : "Veg";
-  const { fetchRecentOpenData } = await import("@/lib/server/moa");
+  // Fetch recent open data directly to ensure fallback to local latest-opendata.json.
+  // Crop codes are numeric in the MOA feed, so category must use TcType (N04/N05),
+  // not a string prefix heuristic.
+  const cropType = category === "fruit" ? CROP_TYPE_FRUIT : CROP_TYPE_VEG;
 
   bustCacheOnReload(req, ["moa-recent-opendata"]);
   let recentRecords = await fetchRecentOpenData();
   const allRecords = recentRecords.filter(
     (r) =>
       r.marketName !== "全國平均" &&
-      (mType === "Fruit"
-        ? r.cropCode.startsWith("F") || r._typeCode === "Fruit"
-        : !r.cropCode.startsWith("F") && r._typeCode !== "Fruit"),
+      r._typeCode === cropType,
   );
 
   if (allRecords.length === 0) {
@@ -263,16 +267,22 @@ export async function GET(req: Request) {
   const movers = Object.keys(cropDateSums)
     .map((cropName) => {
       const todayData = cropDateSums[cropName][latestDate];
-      if (!todayData || todayData.sumVol < 2000) return null;
+      if (!todayData || todayData.sumVol < OPEN_DATA_MIN_VOLUME_KG) return null;
 
       const currentPrice = todayData.sumPriceVol / todayData.sumVol;
 
-      // Look back through tradingDates starting from yesterday (index 1) to find the first previous day with data for this crop.
+      // Compare the latest aggregate quote to the nearest valid prior trading
+      // day, looking back no more than one trading week. This avoids presenting
+      // a multi-week drift as a recent price movement.
       let baselinePrice = 0;
-      for (let i = 1; i < tradingDates.length; i++) {
+      for (
+        let i = 1;
+        i < tradingDates.length && i <= MAX_BASELINE_TRADING_DAYS;
+        i++
+      ) {
         const prevDate = tradingDates[i];
         const prevData = cropDateSums[cropName][prevDate];
-        if (prevData && prevData.sumVol >= 2000) {
+        if (prevData && prevData.sumVol >= OPEN_DATA_MIN_VOLUME_KG) {
           baselinePrice = prevData.sumPriceVol / prevData.sumVol;
           break;
         }
