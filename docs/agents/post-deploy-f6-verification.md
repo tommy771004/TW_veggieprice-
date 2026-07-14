@@ -20,26 +20,41 @@
 
 ---
 
-## Loop 第 1 輪（2026-07-14 ~18:59 UTC+8）
+## Loop 第 2 輪（部署後驗證）
 
-### 正式站 smoke（修復 **尚未** 上線時）
+**部署：** `172e35f` 已上線。
+
+| 檢查 | 結果 | 備註 |
+|------|------|------|
+| vegetable 台北一 | ✅ | avg **70.9**（Veg-only，不再混水果） |
+| fruit 台北一 | ✅ | avg **76.8**（≠ 蔬菜） |
+| seafood 台北一 | ✅ | date **2026-07-08**、avg **180.1**、priceChange **+9.4** |
+| seafood trend 台北／台北一 | ✅ | 近週有點 + 休市 null |
+| Homepage SSR | ✅ | TTFB ~691ms，今日均價 **$70.9**（與 Veg overview 一致） |
+| meat overview | ✅ | date 2026-07-08、avg 103.2、priceChange +2.2 |
+| 假市場 vegetable | ✅ | HTTP 404 `{error}` |
+| movers vegetable | ✅ | 200、5 筆（冷路徑 ~21s，F5 仍延後） |
+| markets list seafood | ✅ | 含「台北」等 |
+
+**本輪無新 code fix**（優先確認上輪修復落地）。文件更新後 commit。
+
+---
+
+## Loop 第 1 輪（2026-07-14，修復 **尚未** 上線）
 
 | 檢查 | 結果 |
 |------|------|
 | Homepage TTFB | ✅ ~420ms，SSR 今日均價 $72.7 |
 | vegetable overview 台北一 | ✅ 72.7 / priceChange -16.8 |
-| fruit overview 台北一 | ❌ **仍 = 72.7**（與蔬菜相同，N04/N05 未分） |
-| seafood overview 台北一 | ❌ avg **163.7**、priceChange **0**、date=今天（跨日混均） |
+| fruit overview 台北一 | ❌ **仍 = 72.7**（與蔬菜相同） |
+| seafood overview 台北一 | ❌ avg **163.7**、priceChange **0** |
 | seafood trend | ❌ `[]` |
 
-### 本輪動作
-
-- 確認 working tree 已有對應修復；`npm run test:unit` **27/27 pass**；`tsc --noEmit` 通過。
-- **Commit + push** 本輪修復（見下方「已修」），待 Vercel 部署後由 loop 第 2 輪再 smoke。
+動作：`npm run test:unit` 27/27；ship `172e35f`。
 
 ---
 
-## 已修（本輪 ship）
+## 已修（`172e35f`）
 
 | 嚴重度 | 問題 | 修復 |
 |--------|------|------|
