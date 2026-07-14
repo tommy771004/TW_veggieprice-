@@ -89,8 +89,6 @@ export function ProduceClient({
   const [traceability, setTraceability] = useState<TraceabilitySummaryItem[]>(initialTraceability ?? [])
   const [costInsight, setCostInsight] = useState<ProductCostInsight | null>(initialCostInsight ?? null)
   const [costFiles, setCostFiles] = useState<CostSurveyFile[]>(initialCostInsight?.costFiles ?? [])
-  const [traceabilityError, setTraceabilityError] = useState('')
-  const [costError, setCostError] = useState('')
   const [reloadKey, setReloadKey] = useState(0)
   const cropCode = `CROP_${cropName.split('').reduce((acc, c) => (acc * 31 + c.charCodeAt(0)) & 0xffff, 0).toString(16).toUpperCase().padStart(4, '0')}`
 
@@ -405,7 +403,6 @@ export function ProduceClient({
     let active = true
     async function loadTraceability() {
       setTraceabilityLoading(true)
-      setTraceabilityError('')
       try {
         const traceRes = await fetch(`/api/prices/traceability?crop=${encodeURIComponent(cropName)}&limit=5`)
         const traceJson = await traceRes.json()
@@ -414,12 +411,10 @@ export function ProduceClient({
           setTraceability((traceJson.items ?? []) as TraceabilitySummaryItem[])
         } else {
           setTraceability([])
-          setTraceabilityError(traceJson.error || '目前無法取得追溯資料')
         }
       } catch {
         if (!active) return
         setTraceability([])
-        setTraceabilityError('目前無法取得追溯資料')
       } finally {
         if (active) setTraceabilityLoading(false)
       }
@@ -434,7 +429,6 @@ export function ProduceClient({
     let active = true
     async function loadCost() {
       setCostLoading(true)
-      setCostError('')
       try {
         const costRes = await fetch(`/api/prices/cost?crop=${encodeURIComponent(cropName)}`)
         const costJson = await costRes.json()
@@ -445,13 +439,11 @@ export function ProduceClient({
         } else {
           setCostInsight(null)
           setCostFiles([])
-          setCostError(costJson.error || '目前無法取得成本資料')
         }
       } catch {
         if (!active) return
         setCostInsight(null)
         setCostFiles([])
-        setCostError('目前無法取得成本資料')
       } finally {
         if (active) setCostLoading(false)
       }
@@ -525,6 +517,9 @@ export function ProduceClient({
   const compareMax = Math.max(latestPrice, avgCost ?? 0, 1)
   // Only show markets that actually traded today; a row of "$0.0" reads as broken/free.
   const pricedMarkets = markets.filter((m) => m.avgPrice > 0)
+  const showCostCard = costLoading || (costInsight !== null && avgCost !== null) || costFiles.length > 0
+  const showMarketCard = marketsLoading || pricedMarkets.length > 0
+  const showTraceabilityCard = traceabilityLoading || traceability.length > 0
   const cropCategory = getProduceCategory(cropName)
   const cropCategoryLabel = cropCategory === 'fruit'
     ? '水果類'
@@ -947,7 +942,9 @@ export function ProduceClient({
           ) : null}
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        {(showCostCard || showMarketCard) ? (
+          <section className={`grid gap-4 ${showCostCard && showMarketCard ? 'lg:grid-cols-2' : ''}`}>
+          {showCostCard ? (
           <div className="section-shell">
             <div className="section-heading-row gap-3 mb-5">
               <div>
@@ -1016,14 +1013,11 @@ export function ProduceClient({
                   ))}
                 </ul>
               </div>
-            ) : (
-              <div className="py-6 text-center text-on-surface-variant">
-                <p className="text-body-md font-semibold text-on-surface">{costError || '目前查無可用成本資料'}</p>
-                <p className="text-body-sm mt-1">可稍後重試，或改查其他作物</p>
-              </div>
-            )}
+            ) : null}
           </div>
+          ) : null}
 
+          {showMarketCard ? (
           <div className="section-shell">
             <div className="section-heading-row gap-3 mb-5">
               <div>
@@ -1033,10 +1027,6 @@ export function ProduceClient({
             </div>
             {marketsLoading ? (
               <SkeletonCard />
-            ) : pricedMarkets.length === 0 ? (
-              <div className="py-8 text-center text-on-surface-variant">
-                <p className="text-body-md font-semibold text-on-surface">{marketsError || '今日各市場暫無此作物成交價'}</p>
-              </div>
             ) : (
               <ul className="space-y-2">
                 {pricedMarkets.map((m) => (
@@ -1059,9 +1049,12 @@ export function ProduceClient({
               </ul>
             )}
           </div>
-        </section>
+          ) : null}
+          </section>
+        ) : null}
 
-        <section className="section-shell">
+        {showTraceabilityCard ? (
+          <section className="section-shell">
           <div className="section-heading-row gap-3 mb-5">
             <div>
               <p className="section-kicker">Traceability</p>
@@ -1070,11 +1063,6 @@ export function ProduceClient({
           </div>
           {traceabilityLoading ? (
             <SkeletonCard />
-          ) : traceability.length === 0 ? (
-            <div className="py-6 text-center text-on-surface-variant">
-              <p className="text-body-md font-semibold text-on-surface">{traceabilityError || '目前查無可用追溯資料'}</p>
-              <p className="text-body-sm mt-1">可稍後重試或改查更完整作物名稱</p>
-            </div>
           ) : (
             <ul className="grid gap-3 lg:grid-cols-2">
               {traceability.map((item, index) => (
@@ -1090,7 +1078,8 @@ export function ProduceClient({
               ))}
             </ul>
           )}
-        </section>
+          </section>
+        ) : null}
       </div>
     </div>
   )
