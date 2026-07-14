@@ -100,11 +100,44 @@ export async function GET(req: Request) {
         >
       > = {};
 
+      // MOA's seafood feed occasionally reports a stub quote (上價=中價=下價=平均價)
+      // shared identically across many unrelated species from the same market on
+      // the same day — a "no real trade" placeholder rather than an actual price.
+      // Cluster same market+date+price records to detect and drop that noise
+      // before it distorts the daily average / mover ranking.
+      const priceClusters = new Map<string, Set<string>>();
       for (const record of records as SeafoodRawRecord[]) {
+        const upper = Number(record["上價"]);
+        const middle = Number(record["中價"]);
+        const lower = Number(record["下價"]);
+        const avg = Number(record["平均價"]);
+        if (upper === middle && middle === lower && upper === avg && avg > 0) {
+          const key = `${record["市場名稱"]}|${record["交易日期"]}|${avg}`;
+          const names = priceClusters.get(key) ?? new Set<string>();
+          names.add(String(record["魚貨名稱"] ?? ""));
+          priceClusters.set(key, names);
+        }
+      }
+
+      for (const record of records as SeafoodRawRecord[]) {
+        const name = String(record["魚貨名稱"] ?? "");
+        // "其他XX" are generic/miscellaneous catch-all buckets, not one
+        // consistent commodity — their average swings wildly day to day
+        // purely because the mix of species lumped into them changes.
+        if (name.startsWith("其他")) continue;
+
         const avgPrice = Number(record["平均價"]) || 0;
         const transWeight = Number(record["交易量"]) || 0;
+
+        const upper = Number(record["上價"]);
+        const middle = Number(record["中價"]);
+        const lower = Number(record["下價"]);
+        if (upper === middle && middle === lower && upper === avgPrice) {
+          const key = `${record["市場名稱"]}|${record["交易日期"]}|${avgPrice}`;
+          if ((priceClusters.get(key)?.size ?? 0) >= 3) continue; // placeholder stub
+        }
+
         if (avgPrice > 0 && transWeight > 0) {
-          const name = String(record["魚貨名稱"] ?? "");
           const d = String(record["交易日期"] ?? "");
           if (!cropDateSums[name]) cropDateSums[name] = {};
           if (!cropDateSums[name][d])
@@ -127,8 +160,11 @@ export async function GET(req: Request) {
 
           const currentPrice = todayData.sumPriceVol / todayData.sumVol;
 
+          // Only compare against a baseline within the last week of trading
+          // days — reaching further back would label a multi-week price
+          // drift as if it were a recent "mover".
           let baselinePrice = 0;
-          for (let i = 1; i < tradingDates.length; i++) {
+          for (let i = 1; i < tradingDates.length && i <= 7; i++) {
             const prevDate = tradingDates[i] as string;
             const prevData = cropDateSums[cropName]?.[prevDate];
             if (prevData && prevData.sumVol >= 50) {

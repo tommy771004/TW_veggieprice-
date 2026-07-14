@@ -82,8 +82,8 @@
 
 - **F5** 多 endpoint fan-out（ADR-0001）  
 - 漁產／肉品 snapshot 最新日偏舊（data sync pipeline）  
-- 漁產 movers 極端漲跌幅 outlier  
-- weather-risk 仍有 seed fallback（非本 loop 範圍）  
+- ~~漁產 movers 極端漲跌幅 outlier~~ ✅ 已修（見下方第 6 輪）  
+- ~~weather-risk 仍有 seed fallback（非本 loop 範圍）~~ ✅ 已修（見下方第 6 輪）  
 
 ---
 
@@ -92,7 +92,11 @@
 - **F5** 多 endpoint fan-out（ADR-0001）  
 - 肉品 JSON `lastUpdated` 偏舊 — 需 data sync pipeline，非 API 邏輯  
 - `Cache-Control` 回應常只見 `public`（CDN 仍 HIT）  
-- 漁產 movers 極端漲跌幅 outlier  
+
+### 第 6 輪（本次）
+
+- **漁產 movers 極端漲跌幅 outlier**：根因是 MOA 漁產原始資料中 (1) 同一市場同一天有多個不同魚貨共用完全相同的無價差報價（上=中=下=平均價，例如高雄「凍」類 17 個品項同天全部 = 85），屬未成交的佔位假資料；(2)「其他XX」為混合品項的統計桶，非單一商品，價格本就會因當天收購組成不同而劇烈波動。`src/app/api/prices/movers/route.ts` 的漁產分支新增：偵測同市場＋同日＋同價格且 ≥3 個品項共用時視為佔位資料並排除；排除「其他」開頭的混合桶；比較基準日改為只往前找 7 個交易日內（避免拿數週前的價格冒充「近期漲跌」）。修復前 Top 5 出現 +773%／+467%／+325% 等異常值，修復後最大約 +182%（鹹魚，屬小量季節性商品，合理）。
+- **weather-risk 仍有 seed fallback**：`src/app/api/insights/weather-risk/route.ts` 原本在真實測站資料缺失時，用 county 字元碼當 seed 產生正弦波假溫度/雨量/濕度，再據此算出「風險分數」回傳，等於用假資料冒充真實氣象風險評估。已移除該假資料產生邏輯，改為在無真實測站資料時回傳 404 `{ error: '查無天氣測站資料' }`。前端（`HomeClient`/`InsightsClient`/`SearchContent`）皆以 `Promise.allSettled`／`try-catch` 呼叫，失敗時本就會將 `weatherRisk` 設為 `null`，`MarketInsightsPanel` 對 `null` 已有完整的中性 UI（不显示風險分數，回退顯示近週走勢），因此此變更不影響既有 UI 契約。
 
 ---
 
