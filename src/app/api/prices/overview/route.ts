@@ -32,13 +32,17 @@ export async function GET(req: NextRequest) {
 
   if (category === 'meat') {
     const livestock = await fetchLivestockPrices();
+    if (!livestock.porkAvgPrice) {
+      return overviewErrorResponse('查無市場概況資料', 404)
+    }
     return NextResponse.json({
       date: livestock.date,
       marketName: '全國平均',
-      avgPrice: livestock.porkAvgPrice || 0,
-      totalVolume: 0,
+      avgPrice: livestock.porkAvgPrice,
+      // Head count for the latest pork trading day (not kg — UI labels 量能 generically).
+      totalVolume: livestock.porkTotalHeads ?? 0,
       priceChange: livestock.porkPriceChange || 0,
-      volumeChange: 0,
+      volumeChange: livestock.porkVolumeChange || 0,
       updatedAt: new Date().toISOString(),
     });
   }

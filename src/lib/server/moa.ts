@@ -2653,6 +2653,21 @@ const fetchLivestockPricesCached = unstable_cache(
             ((porkAvgPrice - prevPorkAvgPrice) / prevPorkAvgPrice) * 1000,
           ) / 10
         : null;
+    const porkTotalHeads = todayPork.reduce(
+      (s, r) => s + (Number(r.TransNum_Total) || 0),
+      0,
+    );
+    const prevPorkTotalHeads = prevPork.reduce(
+      (s, r) => s + (Number(r.TransNum_Total) || 0),
+      0,
+    );
+    const porkVolumeChange =
+      porkTotalHeads > 0 && prevPorkTotalHeads > 0
+        ? Math.round(
+            ((porkTotalHeads - prevPorkTotalHeads) / prevPorkTotalHeads) *
+              1000,
+          ) / 10
+        : null;
 
     // --- Red Feather Chicken ---
     const redFeatherData = (livestockData.red_feather ?? []).sort((a, b) =>
@@ -2758,6 +2773,8 @@ const fetchLivestockPricesCached = unstable_cache(
       eggPrice,
       eggProducerPrice: safeNumericField(latestEgg, "egg_Producer_Price"),
       porkAvgPrice,
+      porkTotalHeads: porkTotalHeads > 0 ? porkTotalHeads : null,
+      porkVolumeChange,
       eggPriceChange,
       porkPriceChange,
       chickenPrice,
@@ -2772,7 +2789,7 @@ const fetchLivestockPricesCached = unstable_cache(
       sheepAvgPriceChange,
     };
   },
-  ["moa-livestock-prices-v2"],
+  ["moa-livestock-prices-v3"],
   { revalidate: 300 },
 );
 

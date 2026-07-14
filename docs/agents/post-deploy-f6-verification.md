@@ -20,28 +20,32 @@
 
 ---
 
-## Loop 第 3 輪
+## Loop 第 4 輪
 
-### 回歸 smoke（`172e35f` 仍穩）
+### 驗證 `7fa0d6f` meat trend（已上線）
 
 | 檢查 | 結果 |
 |------|------|
-| vegetable / fruit split | ✅ 70.9 / 76.8 |
-| seafood overview + trend | ✅ 180.1 / +9.4；週走勢有點 |
-| Homepage SSR | ✅ 今日均價 $70.9 |
-| overview 暖 cache | ✅ ~0.3s |
+| meat trend | ✅ 真實序列 98.5→…→103.2；volume=頭數（非 1000 假值）；有 label |
+| veg/fruit/seafood/home | ✅ 與第 2–3 輪一致 |
+| 部署 | Vercel `dpl_F36Juji…` READY / production |
 
 ### 本輪新發現 → ship
 
 | 嚴重度 | 問題 | 修復 |
 |--------|------|------|
-| **中** | 肉品 `overview/trend` 用 `factor` **捏造**近週價格（假線） | `fetchLivestockPorkTrend`：依毛豬 `TransDate` 頭數加權真實日均價 |
+| **低** | meat overview `totalVolume` 恒 0、`volumeChange` 0 | `porkTotalHeads` / `porkVolumeChange` 從當日毛豬成交頭數計算 |
 
-### 預期部署後 meat trend
+### 預期部署後 meat overview
 
-- 近週各交易日均價約 **98–108** 不等（非單調 0.5% 假斜率）  
-- 最新日 ≈ **103.2**（與 meat overview 一致）  
-- 無交易日 `avgPrice/volume` 為 null  
+- totalVolume ≈ **16593**（頭）  
+- volumeChange 相對前一交易日非 0（約 -9.5% vs 07-07）  
+
+---
+
+## Loop 第 3 輪
+
+回歸 `172e35f` 穩。Ship 肉品真實 trend（`7fa0d6f`）。
 
 ---
 
