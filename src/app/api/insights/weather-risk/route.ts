@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchMarketWeatherObservations, resolveCountyFromMarketName } from '@/lib/server/moa'
+import { resolveCountyFromMarketName } from '@/lib/server/moa'
+import { fetchCurrentWeatherObservations } from '@/lib/server/cwa'
 import type { MarketWeatherRiskSummary } from '@/lib/types'
 import { DEFAULT_MARKET } from '@/lib/constants'
-import { bustCacheOnReload } from '@/lib/server/freshReload'
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic'
@@ -98,24 +98,10 @@ export async function GET(req: NextRequest) {
   const market = searchParams.get('market') || DEFAULT_MARKET
   const county = searchParams.get('county') || resolveCountyFromMarketName(market)
 
-  let weatherItems: any[] = []
-  let errorMsg = ''
-
-  bustCacheOnReload(req, ['moa-weather-observations'])
-
-  try {
-    const weatherRes = await fetchMarketWeatherObservations(county, 40)
-    if (!weatherRes.error && weatherRes.items && weatherRes.items.length > 0) {
-      weatherItems = weatherRes.items
-    } else {
-      errorMsg = weatherRes.error || 'No weather items found'
-    }
-  } catch (err) {
-    errorMsg = err instanceof Error ? err.message : String(err)
-  }
+  const weatherItems = await fetchCurrentWeatherObservations(county, 40)
 
   if (weatherItems.length === 0) {
-    console.log(`[API weather-risk] No real weather observations for county: ${county}. Reason: ${errorMsg}`)
+    console.log(`[API weather-risk] No CWA weather observations for county: ${county}`)
     // Do not fabricate readings — a risk score built from synthetic data
     // would misrepresent actual conditions. Callers already treat a
     // failed/errored request as "no weather risk data available".

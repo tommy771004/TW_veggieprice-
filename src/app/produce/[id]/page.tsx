@@ -8,8 +8,8 @@ import { FoodGuideSection } from '@/components/produce/FoodGuideSection'
 import { GovernmentDataSection } from '@/components/produce/GovernmentDataSection'
 import { SITE_URL } from '@/lib/env'
 import { getProduceCategory } from '@/lib/produce'
-import { fetchMarketDataByDates, type HistoryPoint } from '@/lib/server/moa'
-import { fetchProduceMetadata } from '@/lib/server/produceMetadata'
+import { getCropBaseInfo } from '@/lib/cropInfo'
+import { fetchLocalMarketDataByDates, type HistoryPoint } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -46,7 +46,7 @@ async function fetchRecentHistory(cropName: string): Promise<HistoryPoint[]> {
   try {
     const today = todayISO()
     const start = subtractDays(today, 30)
-    const result = await fetchMarketDataByDates(cropName, '', start, today)
+    const result = await fetchLocalMarketDataByDates(cropName, '', start, today)
     if (result.error) return []
     return result.data
   } catch {
@@ -58,10 +58,8 @@ export default async function ProducePage({ params }: Props) {
   const { id } = await params
   const cropName = decodeURIComponent(id)
   const pageUrl = `${SITE_URL}/produce/${id}`
-  const [history, metadata] = await Promise.all([
-    fetchRecentHistory(cropName),
-    fetchProduceMetadata(cropName)
-  ])
+  const history = await fetchRecentHistory(cropName)
+  const baseInfo = getCropBaseInfo(cropName)
   const initialPrice =
     history.filter((p) => p.avgPrice !== null && p.avgPrice > 0).slice(-1)[0]?.avgPrice ?? 0
   const category = getProduceCategory(cropName)
@@ -76,10 +74,11 @@ export default async function ProducePage({ params }: Props) {
       <ProduceClient
         cropName={cropName}
         initialPrice={initialPrice}
-        initialMarkets={metadata.markets}
-        initialTraceability={metadata.traceability}
-        initialCostInsight={metadata.costInsight}
-        initialCropInfo={metadata.cropInfo}
+        initialCropInfo={{
+          feature: baseInfo.feature,
+          season: baseInfo.season,
+          origin: baseInfo.staticOrigin,
+        }}
       />
       <FoodGuideSection cropName={cropName} />
       <GovernmentDataSection cropName={cropName} wholesalePrice={initialPrice} />

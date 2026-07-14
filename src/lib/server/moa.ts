@@ -1650,6 +1650,22 @@ async function historyFromLocalDaily(
   }
 }
 
+export async function fetchLocalMarketDataByDates(
+  cropName: string,
+  market: string,
+  startDate: string,
+  endDate: string,
+): Promise<FetchMarketDataResult> {
+  const localResult = await historyFromLocalDaily(cropName, market, startDate, endDate)
+  if (localResult) return localResult
+
+  return {
+    data: [],
+    closedDays: [],
+    error: '靜態行情資料尚未同步',
+  }
+}
+
 export async function fetchMarketData(
   cropName: string,
   market: string,

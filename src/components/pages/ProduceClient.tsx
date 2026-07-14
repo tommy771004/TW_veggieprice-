@@ -65,6 +65,7 @@ export function ProduceClient({
   const [weather, setWeather] = useState<WeatherData | null>(null)
   const [weatherLoading, setWeatherLoading] = useState(false)
   const [weatherError, setWeatherError] = useState('')
+  const [enhancementsReady, setEnhancementsReady] = useState(false)
 
   const [period, setPeriod] = useState<PricePeriod>('1W')
   const [cropInfo, setCropInfo] = useState<CropInfo | null>(initialCropInfo ?? null)
@@ -72,10 +73,10 @@ export function ProduceClient({
   const [closedDays, setClosedDays] = useState<string[]>([])
   const [markets, setMarkets] = useState<MarketComparison[]>(initialMarkets ?? [])
   const [historyLoading, setHistoryLoading] = useState(true)
-  const [marketsLoading, setMarketsLoading] = useState(!initialMarkets)
-  const [traceabilityLoading, setTraceabilityLoading] = useState(!initialTraceability)
-  const [costLoading, setCostLoading] = useState(!initialCostInsight)
-  const [infoLoading, setInfoLoading] = useState(!initialCropInfo)
+  const [marketsLoading, setMarketsLoading] = useState(false)
+  const [traceabilityLoading, setTraceabilityLoading] = useState(false)
+  const [costLoading, setCostLoading] = useState(false)
+  const [infoLoading, setInfoLoading] = useState(false)
 
   const [streamingStatus, setStreamingStatus] = useState<'idle' | 'loading_chunks' | 'complete'>('idle')
   const [streamingProgress, setStreamingProgress] = useState(0)
@@ -96,6 +97,22 @@ export function ProduceClient({
   useEffect(() => {
     setInWatchlist(isInWatchlist(cropCode))
   }, [cropCode])
+
+  useEffect(() => {
+    const markReady = () => setEnhancementsReady(true)
+    const browserWindow = window as Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout?: number }) => number
+      cancelIdleCallback?: (id: number) => void
+    }
+
+    if (browserWindow.requestIdleCallback) {
+      const idleId = browserWindow.requestIdleCallback(markReady, { timeout: 1500 })
+      return () => browserWindow.cancelIdleCallback?.(idleId)
+    }
+
+    const timeoutId = window.setTimeout(markReady, 500)
+    return () => window.clearTimeout(timeoutId)
+  }, [])
 
   const pulseScrollRef = useRef<HTMLDivElement>(null)
   const scrollPulse = (dir: 'left' | 'right') => {
@@ -348,6 +365,7 @@ export function ProduceClient({
   }, [cropName, period, reloadKey])
 
   useEffect(() => {
+    if (!enhancementsReady) return
     if (initialMarkets && reloadKey === 0) return
     let active = true
     async function loadMarkets() {
@@ -379,9 +397,10 @@ export function ProduceClient({
     }
     loadMarkets()
     return () => { active = false }
-  }, [cropName, reloadKey, initialMarkets])
+  }, [cropName, reloadKey, initialMarkets, enhancementsReady])
 
   useEffect(() => {
+    if (!enhancementsReady) return
     if (initialTraceability && reloadKey === 0) return
     let active = true
     async function loadTraceability() {
@@ -407,9 +426,10 @@ export function ProduceClient({
     }
     loadTraceability()
     return () => { active = false }
-  }, [cropName, reloadKey, initialTraceability])
+  }, [cropName, reloadKey, initialTraceability, enhancementsReady])
 
   useEffect(() => {
+    if (!enhancementsReady) return
     if (initialCostInsight && reloadKey === 0) return
     let active = true
     async function loadCost() {
@@ -438,9 +458,10 @@ export function ProduceClient({
     }
     loadCost()
     return () => { active = false }
-  }, [cropName, reloadKey, initialCostInsight])
+  }, [cropName, reloadKey, initialCostInsight, enhancementsReady])
 
   useEffect(() => {
+    if (!enhancementsReady) return
     if (initialCropInfo && reloadKey === 0) return
     let active = true
     async function loadInfo() {
@@ -462,9 +483,10 @@ export function ProduceClient({
     }
     loadInfo()
     return () => { active = false }
-  }, [cropName, reloadKey, initialCropInfo])
+  }, [cropName, reloadKey, initialCropInfo, enhancementsReady])
 
   useEffect(() => {
+    if (!enhancementsReady) return
     let active = true
     async function fetchWeather(origin: string) {
       if (!origin || origin === '台灣各地') return
@@ -492,7 +514,7 @@ export function ProduceClient({
       fetchWeather(cropInfo.origin)
     }
     return () => { active = false }
-  }, [cropInfo?.origin])
+  }, [cropInfo?.origin, enhancementsReady])
 
   const validHistory = history.filter((point): point is PriceHistoryPoint & { avgPrice: number } => point.avgPrice !== null)
   const latestPrice = validHistory[validHistory.length - 1]?.avgPrice ?? initialPrice

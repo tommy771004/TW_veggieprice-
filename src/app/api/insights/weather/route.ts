@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchMarketWeatherObservations } from '@/lib/server/moa'
+import { fetchCurrentWeatherObservations } from '@/lib/server/cwa'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,13 +11,9 @@ export async function GET(req: NextRequest) {
     ? Math.max(1, Math.min(Math.floor(requestedLimit), 100))
     : 20
 
-  const result = await fetchMarketWeatherObservations(county, limit)
+  const items = await fetchCurrentWeatherObservations(county, limit)
 
-  if (result.error) {
-    return NextResponse.json({ error: result.error, items: [] }, { status: 502 })
-  }
-
-  return NextResponse.json(result, {
+  return NextResponse.json({ items }, {
     headers: {
       'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
     },

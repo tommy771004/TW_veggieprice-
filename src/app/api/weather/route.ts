@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchMarketWeatherObservations } from '@/lib/server/moa'
+import { fetchCurrentWeather } from '@/lib/server/cwa'
 import { resolveCountyFromTownship } from '@/lib/server/townshipCountyMap'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -30,46 +31,12 @@ export async function GET(req: NextRequest) {
   }
   county = matchedCounty
 
-  try {
-    const weatherRes = await fetchMarketWeatherObservations(county, 40)
-    if (weatherRes.error) {
-      return NextResponse.json({ error: weatherRes.error }, { status: 502 })
-    }
-
-    const observations = weatherRes.items
-
-    if (observations.length === 0) {
-      return NextResponse.json({ error: 'No weather data found for this county' }, { status: 404 })
-    }
-
-    // Average the valid data
-    let totalTemp = 0, validTempCount = 0
-    let totalHumd = 0, validHumdCount = 0
-    let totalRain = 0, validRainCount = 0
-
-    observations.forEach(obs => {
-      if (obs.temperatureC !== null && obs.temperatureC > -10 && obs.temperatureC < 50) { 
-        totalTemp += obs.temperatureC; validTempCount++ 
-      }
-      if (obs.humidityPct !== null && obs.humidityPct >= 0 && obs.humidityPct <= 100) { 
-        totalHumd += obs.humidityPct; validHumdCount++ 
-      }
-      if (obs.rainfallMm !== null && obs.rainfallMm >= 0 && obs.rainfallMm < 500) { 
-        totalRain += obs.rainfallMm; validRainCount++ 
-      }
-    })
-
-    const avgTemp = validTempCount > 0 ? Math.round(totalTemp / validTempCount) : null
-    const avgHumd = validHumdCount > 0 ? Math.round(totalHumd / validHumdCount) : null
-    const avgRain = validRainCount > 0 ? Math.round(totalRain / validRainCount) : null
-
-    return NextResponse.json({
-      county,
-      temp: avgTemp,
-      humidity: avgHumd,
-      rainfall: avgRain
-    })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
+  const observation = await fetchCurrentWeather(county)
+  if (!observation) {
+    return NextResponse.json({ error: 'No CWA weather data found for this county' }, { status: 404 })
   }
+
+  return NextResponse.json(observation, {
+    headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1800' },
+  })
 }

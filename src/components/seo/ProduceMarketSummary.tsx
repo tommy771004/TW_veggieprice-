@@ -1,9 +1,5 @@
 import Link from 'next/link'
-import { unstable_cache } from 'next/cache'
 import { getCropBaseInfo } from '@/lib/cropInfo'
-import { getProduceCategory } from '@/lib/produce'
-import { fetchSearchRecords } from '@/lib/server/moa'
-import { todayISO } from '@/lib/server/dateUtils'
 import type { HistoryPoint } from '@/lib/server/moa'
 import type { MarketComparison } from '@/lib/types'
 
@@ -27,67 +23,19 @@ function changeLabel(pct: number): string {
   return '持平'
 }
 
-function categoryToSearchType(cropName: string): string {
-  switch (getProduceCategory(cropName)) {
-    case 'fruit': return 'Fruit'
-    case 'meat': return 'meat'
-    case 'seafood': return 'seafood'
-    case 'flower': return 'Flower'
-    default: return 'Veg'
-  }
-}
-
-async function loadMarketComparison(cropName: string): Promise<MarketComparison[]> {
-  const today = todayISO()
-  // Wrap in unstable_cache so the underlying no-store MOA fetch runs in a detached
-  // cache scope. Without this the fetch trips Next's "Dynamic server usage" bailout
-  // during static generation and the table renders empty; with it the data is both
-  // cached and available at build/ISR time (same pattern as fetchMarketData).
-  const cached = unstable_cache(
-    async (): Promise<MarketComparison[]> => {
-      const { records, error } = await fetchSearchRecords({
-        cropName,
-        date: today,
-        marketType: categoryToSearchType(cropName),
-      })
-      if (error || records.length === 0) return []
-
-      const byMarket = new Map<string, { date: string; avgPrice: number; priceChange: number }>()
-      for (const r of records) {
-        if (!r.marketName || !r.date || !(r.avgPrice > 0)) continue
-        const existing = byMarket.get(r.marketName)
-        if (!existing || r.date > existing.date) {
-          byMarket.set(r.marketName, { date: r.date, avgPrice: r.avgPrice, priceChange: r.priceChange ?? 0 })
-        }
-      }
-      return Array.from(byMarket.entries())
-        .map(([marketName, rec]) => ({ marketName, avgPrice: rec.avgPrice, priceChange: rec.priceChange }))
-        .sort((a, b) => a.avgPrice - b.avgPrice)
-    },
-    ['produce-market-comparison-v1', cropName, today],
-    { revalidate: 3600, tags: [`history-${cropName}`] },
-  )
-
-  try {
-    return await cached()
-  } catch {
-    return []
-  }
-}
-
-export async function ProduceMarketSummary({
+export function ProduceMarketSummary({
   cropName,
   history,
+  markets = [],
 }: {
   cropName: string
   history: HistoryPoint[]
+  markets?: MarketComparison[]
 }) {
   const info = getCropBaseInfo(cropName)
   const valid = history.filter(
     (p): p is HistoryPoint & { avgPrice: number } => p.avgPrice !== null && p.avgPrice > 0,
   )
-  const markets = await loadMarketComparison(cropName)
-
   const latest = valid[valid.length - 1]
   const prev = valid[valid.length - 2]
   const changePct = latest && prev && prev.avgPrice > 0
