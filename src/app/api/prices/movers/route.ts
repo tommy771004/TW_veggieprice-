@@ -2,21 +2,15 @@ import { NextResponse } from "next/server";
 import { getCropEmoji } from "@/lib/utils";
 import {
   fetchLatestSeafoodData,
-  fetchMarketWindowRecords,
   fetchLivestockPrices,
+  type SeafoodRawRecord,
 } from "@/lib/server/moa";
-import { subtractDays, todayISO } from "@/lib/server/dateUtils";
 
 export const maxDuration = 60;
-
-// Minimum transaction weight (kg) required both today and in the 3-day baseline
-// to prevent low-volume outliers from dominating the movers list.
-const MIN_WEIGHT = 100;
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category") || "vegetable";
-  const today = todayISO();
 
   if (category === "meat") {
     try {
@@ -88,7 +82,9 @@ export async function GET(req: Request) {
 
       const tradingDates = [
         ...new Set(
-          records.map((r: any) => String(r["交易日期"])).filter(Boolean),
+          records
+            .map((r: SeafoodRawRecord) => String(r["交易日期"] ?? ""))
+            .filter(Boolean),
         ),
       ]
         .sort()
@@ -104,18 +100,18 @@ export async function GET(req: Request) {
         >
       > = {};
 
-      for (const record of records) {
+      for (const record of records as SeafoodRawRecord[]) {
         const avgPrice = Number(record["平均價"]) || 0;
         const transWeight = Number(record["交易量"]) || 0;
         if (avgPrice > 0 && transWeight > 0) {
-          const name = String(record["魚貨名稱"]);
-          const d = String(record["交易日期"]);
+          const name = String(record["魚貨名稱"] ?? "");
+          const d = String(record["交易日期"] ?? "");
           if (!cropDateSums[name]) cropDateSums[name] = {};
           if (!cropDateSums[name][d])
             cropDateSums[name][d] = {
               sumPriceVol: 0,
               sumVol: 0,
-              cropCode: String(record["品種代碼"]),
+              cropCode: String(record["品種代碼"] ?? ""),
             };
 
           cropDateSums[name][d].sumPriceVol += avgPrice * transWeight;

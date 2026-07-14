@@ -1,95 +1,98 @@
 # 首頁初始化載入效能診斷報告
 
-**性質：** 純診斷文件，不含程式碼變更。對應原始需求項目 1（分析載入效能問題）。項目 2（載入進度條）已另行產出 spec 並排入 ticket，見 [spec-homepage-loading-bar.md](./spec-homepage-loading-bar.md)。
+**性質：** 純診斷文件，不含程式碼變更（本文件本身的內容更新除外）。對應原始需求項目 1（分析載入效能問題、阻塞、讀取 JSON 檔案跟 API、以及程式寫法問題）。項目 2（載入進度條）已另行產出 spec 並排入 ticket，見 [spec-homepage-loading-bar.md](./spec-homepage-loading-bar.md)。
+
+**更新記錄：** commit `e903d13`（2026-07-14）已修復 F1、F2、F3、F4，並已實作 `HomeLoadingBar` 元件與對應 E2E 測試。本次更新在原本的效能發現之外，新增「阻塞」與「程式寫法問題」兩個獨立段落，並將各項發現標註目前狀態。後續實作已修復殘留的 `require()`／`any` 型別標註，以及 O1/O2（假資料掩蓋錯誤改為明確錯誤回應）；`overview/trend` 同步移除假資料 fallback。
 
 ## 摘要
 
-首頁 (`HomeClient`) 掛載時會平行發出 5–6 個獨立的 API 請求，其中多數的資料層函式已用 `unstable_cache` 妥善快取；但仍有**幾個明確的未快取熱點**，加上**本機開發環境（`next dev`）完全不受 CDN 層 `Cache-Control` 標頭保護**，兩者疊加很可能就是「初始化 loading 太久」的主因。以下依嚴重程度列出具體發現，附檔案位置與行號。
+首頁 (`HomeClient`) 掛載時會平行發出 5–6 個獨立的 API 請求。原本有幾個明確的未快取熱點（F1–F4），加上本機開發環境（`next dev`）完全不受 CDN 層 `Cache-Control` 標頭保護，兩者疊加是「初始化 loading 太久」的主因——**這四項熱點目前均已修復**。殘留的程式寫法問題（`require()`／`any`／O1·O2 假資料）亦已處理。仍待評估的是架構層的取捨（F5、F6）。
 
 ## 判讀前提：你是在哪個環境感受到「載入太久」？
 
-這份報告裡有兩類問題，嚴重程度會因環境而完全不同：
+這份報告區分了兩類問題，嚴重程度會因環境而完全不同（此區分在理解「為什麼這樣修就夠了」時仍然有用，即使 F1–F4 現在都已修復）：
 
-- **本機開發 (`next dev` / `localhost`)**：沒有 CDN 在前面擋，所有 Route Handler 自己設的 `Cache-Control` 標頭形同虛設（沒有代理伺服器會去讀它）。只有 `unstable_cache` 包住的函式層級快取還有效（那是 Next.js 進程內快取，跟 CDN 無關）。**這種情況下，發現 F1、F3 會在每一次重新整理都以「完整未快取成本」執行。**
-- **Vercel 正式環境**：CDN 會依 `Cache-Control` 標頭快取回應。多數發現在正式環境會被大幅緩解（見各項的「正式環境影響」）。**只有發現 F2 在正式環境也完全不受保護。**
+- **本機開發 (`next dev` / `localhost`)**：沒有 CDN 在前面擋，Route Handler 自己設的 `Cache-Control` 標頭形同虛設。只有 `unstable_cache` 包住的函式層級快取有效（Next.js 進程內快取，跟 CDN 無關）。修復前，F1、F3 會在本機每一次重新整理都以「完整未快取成本」執行；修復後兩者都已包進 `unstable_cache`，本機也能受惠。
+- **Vercel 正式環境**：CDN 會依 `Cache-Control` 標頭快取回應。修復前只有 F2 在正式環境也完全不受保護；修復後已補上快取。
 
-若你是在本機測試時注意到這個問題，請優先看 F1 與 F3；若正式環境本身就慢，請優先看 F2，並檢查 F5（平行請求數量）與 Vercel function 的 cold start。
+## 發現（效能／JSON＋API 讀取相關）
 
-## 發現
+### ✅ F1 — `/api/prices/overview?category=seafood`（已修復）
 
-### 🔴 F1 — `/api/prices/overview?category=seafood` 完全無快取（本機＋正式環境皆然）
+- **原始位置：** [src/app/api/prices/overview/route.ts:29-46](src/app/api/prices/overview/route.ts#L29-L46)（成功路徑）與 [同檔 47-58 行](src/app/api/prices/overview/route.ts#L47-L58)（fallback 路徑）
+- **原始現象：** 每次請求都用 `fs.promises.readFile` 讀取並 `JSON.parse` 整份 `public/data/latest-seafood.json`（約 1.7MB），且完全沒有設定 `Cache-Control` 標頭——任何環境下都是每次請求付出完整成本。
+- **修復方式（commit `e903d13`）：** 讀檔邏輯抽到 `moa.ts` 的 `fetchLatestSeafoodDataUncached`，包進 `unstable_cache`（`revalidate: 3600`）匯出為 `fetchLatestSeafoodData()`；route handler 改呼叫這支共用函式，並補上 `SEAFOOD_CACHE_HEADERS`（`s-maxage=3600, stale-while-revalidate=7200`）在兩個回傳路徑上。`next.config.ts` 也另外針對 `category=seafood` 的查詢加了一條 headers 規則做雙重保障。
 
-- **位置：** [src/app/api/prices/overview/route.ts:29-46](src/app/api/prices/overview/route.ts#L29-L46)（成功路徑）與 [同檔 47-58 行](src/app/api/prices/overview/route.ts#L47-L58)（fallback 路徑）
-- **現象：** 每次請求都用 `fs.promises.readFile` 同步讀取並 `JSON.parse` 整份 `public/data/latest-seafood.json`（約 1.7MB），然後在記憶體中 `filter`/`reduce` 全部記錄。
-- **關鍵問題：** 這兩個 `return NextResponse.json(...)` **都沒有設定任何 `Cache-Control` 標頭**——同檔案最下面蔬菜/水果路徑有設 `s-maxage=120`（[第 131-138 行](src/app/api/prices/overview/route.ts#L131-L138)），但海鮮分支完全沒有。也不像 `movers` 路由的海鮮分支那樣至少有 `s-maxage=3600`。
-- **影響：** 只要使用者把首頁分類切到「漁產」，這支 API 在任何環境下都是**每次請求都付出完整讀檔+解析成本**，沒有任何一層快取保護。
-- **建議修法：** 比照 `movers/route.ts` 加上 `Cache-Control: public, s-maxage=3600` 標頭，或直接用 `unstable_cache` 包住海鮮資料讀取（比照 `fetchRecentOpenDataUncached` 的作法）。
-- **預估工作量：** S（小）
+### ✅ F2 — `/api/markets/list?type=meat`（已修復）
 
-### 🔴 F2 — `/api/markets/list?type=meat` 完全無快取（本機＋正式環境皆然）
+- **原始位置：** `fetchMarkets` 的 meat 分支，[src/lib/server/moa.ts:541-568](src/lib/server/moa.ts#L541-L568)
+- **原始現象：** 同步讀取並解析 `latest-livestock.json`（約 1.2MB），**兩層快取都沒有**——本報告中唯一「本機＋正式環境皆無保護」的路徑。
+- **修復方式：** 抽成 `fetchLivestockMarketsUncached`，包進 `unstable_cache`（`["moa-livestock-markets-v1"]`，`revalidate: 3600`）匯出為 `fetchLivestockMarketsCached`；`fetchMarkets` 的 meat 分支現在直接回傳這支快取函式的結果。`markets/list/route.ts` 也補上了 `s-maxage=3600, stale-while-revalidate=7200` 標頭。
 
-- **位置：** `fetchMarkets` 的 meat 分支，[src/lib/server/moa.ts:541-568](src/lib/server/moa.ts#L541-L568)，由 [src/app/api/markets/list/route.ts](src/app/api/markets/list/route.ts) 呼叫
-- **現象：** 同步讀取並解析 `public/data/latest-livestock.json`（約 1.2MB），逐筆組出市場名稱清單。
-- **關鍵問題：** 這個函式**沒有 `unstable_cache` 包裝**，呼叫它的 route handler 也**完全沒有設定任何 `Cache-Control` 標頭**——是本報告中唯一一個「兩層快取都沒有」的路徑。
-- **影響：** 使用者把首頁分類切到「肉品家禽」時，每次都要付出完整讀檔+解析成本，不論本機或正式環境。
-- **建議修法：** 用 `unstable_cache`（比照同檔案中 Veg/Fruit 分支的作法，`revalidate: 3600` 即可，因為市場清單很少變動）包住這個分支。
-- **預估工作量：** S（小）
+### ✅ F3 — `fetchMarketRestDays` 巢狀解析邏輯（已修復）
 
-### 🟠 F3 — `fetchMarketRestDays` 的巢狀解析邏輯每次呼叫都重算（本機環境下影響最大，且在**預設分類下就會觸發**）
+- **原始位置：** [src/lib/server/moa.ts:715-820](src/lib/server/moa.ts#L715-L820)，`HomeClient` 對**任何分類**都會呼叫，本機測試時影響最大的一項。
+- **原始現象：** 外部 MOA fetch 有 `next: { revalidate: 3600 }` 快取，但市場 → 類型 → 年 → 月 → 日的四層巢狀解析/篩選邏輯完全沒包在 `unstable_cache` 裡，只靠 route 自己的 HTTP 標頭在正式環境緩解，本機開發完全沒保護。
+- **修復方式：** 原函式改名為 `fetchMarketRestDaysUncached`（純邏輯不變），新增一層 `fetchMarketRestDays` 包住它，用 `unstable_cache`（key 為 `["moa-market-rest-days-v1", market, startDate, endDate]`，`revalidate: 1800`）——現在本機開發也能命中這層快取，不用每次重新整理都重跑巢狀迴圈。
 
-- **位置：** [src/lib/server/moa.ts:715-820](src/lib/server/moa.ts#L715-L820)，由 [src/app/api/insights/rest-days/route.ts](src/app/api/insights/rest-days/route.ts) 呼叫，`HomeClient` 在 `loadMarketStaticInsights` 中對**任何分類**都會呼叫（[src/components/pages/HomeClient.tsx:270-304](src/components/pages/HomeClient.tsx#L270-L304)）。
-- **現象：** 對外部 MOA 兩支 WCF 端點的 `fetch()` 有 `next: { revalidate: 3600 }`，這層 fetch 本身有快取。但拿到回應後，市場 → 類型 → 年 → 月 → 日的四層巢狀迴圈解析/篩選邏輯**完全沒有包在 `unstable_cache` 裡**，每次呼叫都重新跑一次。
-- **正式環境影響：** Route handler 自己設了 `Cache-Control: public, s-maxage=1800, stale-while-revalidate=7200`（[route.ts:19-23](src/app/api/insights/rest-days/route.ts#L19-L23)），所以在 Vercel 上會被 CDN 依 `(market, startDate, endDate)` 快取 30 分鐘——多數請求不會真的命中這段解析邏輯。
-- **本機環境影響：** `next dev` 沒有 CDN，這段解析**每次重新整理首頁都會完整跑一遍**，而且不像 F1/F2 只在切換分類時發生——這是**任何分類、每次載入首頁都會觸發**的路徑，本機測試時很可能是最有感的一項。
-- **建議修法：** 把解析/篩選邏輯本身也包進 `unstable_cache`（key 用 `market/startDate/endDate`），而不是只靠外層 route 的 HTTP 標頭。這樣本機開發時也能受惠。
-- **預估工作量：** M（中，牽涉重構函式邊界，把「外部 fetch」與「純運算」拆開分別快取）
+### ✅ F4 — `/api/prices/movers?category=seafood`（已修復）
 
-### 🟠 F4 — `/api/prices/movers?category=seafood` 讀檔未於函式層快取（正式環境有 CDN 緩解）
+- **原始位置：** [src/app/api/prices/movers/route.ts:87-96](src/app/api/prices/movers/route.ts#L87-L96)
+- **原始現象：** 同樣讀取 `latest-seafood.json`，函式層未快取，僅靠 CDN 標頭在正式環境緩解。
+- **修復方式：** 改呼叫與 F1 共用的 `fetchLatestSeafoodData()`，移除了這支路由裡原本各自 `import path`/`import fs` 直接讀檔的重複程式碼。
 
-- **位置：** [src/app/api/prices/movers/route.ts:87-96](src/app/api/prices/movers/route.ts#L87-L96)
-- **現象：** 同樣同步讀取+解析 `latest-seafood.json`（約 1.7MB），但這裡至少有設 `Cache-Control: public, s-maxage=3600`（[第 175-176 行附近](src/app/api/prices/movers/route.ts)），正式環境下會被 CDN 快取一小時。
-- **影響：** 本機開發時每次切到漁產分類都要付出完整成本；正式環境下風險較低。
-- **建議修法：** 同 F1，改用 `unstable_cache` 做函式層記憶體快取，讓本機開發也受益，而不是只靠 CDN 標頭。
-- **預估工作量：** S（小）
+## 🔵 阻塞（Event Loop Blocking）
+
+這是這次補上的獨立段落——先前的報告把「阻塞」隱含在「未快取讀檔」的討論裡，沒有講清楚阻塞具體指什麼。
+
+- **技術上的區分：** `fs.promises.readFile` 本身是**非同步**的，不會阻塞 Node.js 的事件迴圈；真正會阻塞的是它讀回字串後的 **`JSON.parse()`**——這是同步運算，處理 1–1.7MB 的字串時，會讓執行它的那個 serverless function instance 在解析期間**完全無法處理任何其他並發請求**，包括同一使用者的其他 API 呼叫或其他使用者打到同一 instance 的請求。`fetchMarketRestDays` 的四層巢狀迴圈解析也是同一類的同步 CPU-bound 阻塞。
+- **修復後的現況：** F1–F4 全部包進 `unstable_cache` 之後，阻塞**發生的頻率**大幅降低——同一組快取 key（例如同一個 `market`）在 `revalidate` 時間窗內，不論有幾個並發請求進來，`JSON.parse`／巢狀解析都只會真正執行一次，其餘請求直接拿快取結果，不會觸發阻塞。
+- **但要注意：** 這治的是「頻率」，不是「單次阻塞的嚴重度」。快取到期、第一個打進來的請求（cache miss）仍然要付出完整的同步解析成本，一樣會讓那個 instance 暫時無法服務其他請求。以目前的資料量（最大約 1.7MB），單次 `JSON.parse` 預期落在幾十毫秒等級，尚不到需要拆成串流解析或 worker thread 的程度，但如果未來這些 JSON 檔案持續成長（尤其 `market-rest-days.json` 已經 1.16MB、`latest-seafood.json` 已經 1.7MB），值得留意這個上限。
+- **目前沒有找到**仍在「每一次 cache miss 都會阻塞、且沒有任何快取包裝」的路徑——F1–F4 是本次稽核範圍內找到的全部同類案例，都已修復。
+
+## 🟣 程式寫法問題（Code Pattern Issues）
+
+同樣是這次補上的段落。
+
+- **✅ 已修復：重複的海鮮讀檔邏輯 + 函式中間 `require()`。** 修復前，`movers/route.ts` 用頂層 `import path from "path"; import fs from "fs"` 讀檔，`overview/route.ts` 則是在函式中間用 `const path = require('path'); const fs = require('fs')`——同一份 `latest-seafood.json` 的讀取/解析邏輯在兩個檔案裡各寫一份，且風格還不一致。這正符合 `CLAUDE.md` 自己記載的慣例（「新增 API 端點時，優先擴充 `src/lib/server/moa.ts`，避免在 Route Handler 內重複寫 fetch 與日期轉換」）所要避免的狀況。修復後兩處都改呼叫 `moa.ts` 匯出的 `fetchLatestSeafoodData()`，重複與風格不一致都一併解決。
+
+- **✅ 已修復：`overview/route.ts` 函式中間的 `require()`。** 假資料 fallback 已移除，`subtractDays` 的 mid-function `require` 一併消失；`overview/trend/route.ts` 同樣改為頂層 ES import。
+
+- **✅ 已修復：海鮮記錄改用 `SeafoodRawRecord` 型別。** `overview/route.ts` 與 `movers/route.ts` 讀取海鮮欄位時皆改為 `SeafoodRawRecord`，不再使用 `r: any`。
+
+- **✅ 已修復（原報告的 O1/O2）：不再用假資料掩蓋失敗狀態。**
+  - **O1：** 蔬菜/水果分類若 `fetchMarketOverviewTrend` 回傳 0 筆或錯誤，`overview/route.ts` 改回傳 `{ error }` 與 404/502，不再以市場名稱字元碼種子產生虛構均價。
+  - **O2：** 漁產分類讀檔失敗回 502、該市場查無資料回 404，不再回寫死的均價 150／交易量 5000。
+  - **順帶：** `overview/trend` 的蔬菜/水果假趨勢 fallback 同步移除；漁產趨勢尚未有真實歷史序列，改回空陣列（HTTP 200）避免隨機假線。海鮮 overview 成功路徑欄位對齊 `MarketOverview`（`marketName`／`totalVolume`）。
+  - **前端：** `HomeClient` 既有的 `ovResult.value.ok`／`overviewError` 邏輯無需改動即可顯示錯誤狀態。
+
+## 尚未處理的架構層發現
+
+以下兩項在原報告中就標註為「架構層決定，非缺陷」，這次沒有變動，仍建議另外討論：
 
 ### 🟡 F5 — 首頁掛載時平行發出 5–6 個獨立請求，無合併
 
-- **位置：** [src/components/pages/HomeClient.tsx](src/components/pages/HomeClient.tsx) 內共 4 個獨立的 `useEffect`：市場清單（[225 行](src/components/pages/HomeClient.tsx#L225)）、波動榜（[251 行](src/components/pages/HomeClient.tsx#L251)）、休市日+天氣風險（[270-304 行](src/components/pages/HomeClient.tsx#L270-L304)，內部已用 `Promise.allSettled` 平行）、市場概況+週趨勢（[313-320 行](src/components/pages/HomeClient.tsx#L313-L320)，同樣用 `Promise.allSettled`）。
-- **現象：** 雖然同一個 `useEffect` 內部已經平行化（`Promise.allSettled`），但跨 4 個 `useEffect` 之間彼此獨立觸發，等於瀏覽器同時對 Vercel 開 5–6 條個別的 serverless function 呼叫，各自可能有獨立的 cold start。
-- **影響：** 不算「錯誤」，但比起單一個彙總端點回傳所有首頁所需資料，目前架構在網路延遲、TLS 交握、function 冷啟動上的總開銷會比較高，尤其在行動網路或 Vercel cold start 情境下更明顯。
-- **建議修法：** 若要處理，方向是新增一個彙總端點（例如 `/api/prices/home-bootstrap`）在伺服器端平行呼叫現有資料層函式後一次回傳；但這會改變目前 CLAUDE.md 記載的 Route Handler 對照表，屬於架構層決定，建議另外討論再動手，不建議在這份診斷之外直接執行。
-- **預估工作量：** L（大，新端點+前端改寫+文件同步更新）
+- **位置：** [src/components/pages/HomeClient.tsx](src/components/pages/HomeClient.tsx) 內 4 個獨立的 `useEffect`：市場清單、波動榜、休市日+天氣風險、市場概況+週趨勢。
+- **現象：** 各 `useEffect` 內部已用 `Promise.allSettled` 平行化，但跨 4 個 `useEffect` 彼此獨立觸發，等於同時對 Vercel 開 5–6 條個別 serverless function 呼叫，各自可能有獨立 cold start。
+- **建議：** 若要處理，方向是新增彙總端點（例如 `/api/prices/home-bootstrap`），但這會動到 `CLAUDE.md` 記載的 Route Handler 對照表，屬於架構層決定，建議另外討論再動手。
+- **預估工作量：** L（大）
 
 ### 🟡 F6 — `page.tsx` 刻意不做 SSR 資料預取（既有設計決策，非缺陷）
 
-- **位置：** [src/app/page.tsx:19-28](src/app/page.tsx#L19-L28)，程式碼內已有註解說明：「Return early without blocking on network requests to guarantee extremely fast TTFB」
-- **現象：** 首頁的 Server Component 直接回傳空殼，所有資料都交給 `HomeClient` 掛載後才用 `fetch` 取得——這正是為什麼使用者會看到 skeleton 畫面持續數秒的根本原因，而不是某個地方「壞掉」了。
-- **影響：** 這個設計用 TTFB（Time To First Byte）指標換取了「感知載入時間」——伺服器很快回應，但畫面實際填滿內容仍需等待前端的請求瀑布跑完。使用者感受到的「loading 太久」，某種程度上就是這個既有取捨的直接後果。
-- **建議：** 不建議現在改動（牽涉 SSR/TTFB 取捨的架構決策，且目前沒有 ADR 記錄這個決定的理由）。如果之後要重新評估「要不要犧牲 TTFB 換取首屏就有資料」，建議先補一份 ADR 記錄現況的取捨脈絡，再做決定。
-- **預估工作量：** 不適用（建議先決策，非直接修復項目）
-
-## 附帶發現（非效能問題，但在稽核過程中發現，一併回報）
-
-在讀取 [src/app/api/prices/overview/route.ts](src/app/api/prices/overview/route.ts) 的過程中，順帶發現兩處資料正確性相關的邏輯，跟載入效能無關，但因為就在同一支檔案裡，一併記錄供你評估是否要另外處理：
-
-- **O1：** 蔬菜/水果分類若 `fetchMarketOverviewTrend` 回傳 0 筆資料，程式碼會用「市場名稱字元碼加日期」當種子產生一組看起來合理但完全虛構的價格資料（[第 82-108 行](src/app/api/prices/overview/route.ts#L82-L108)），而不是回傳錯誤狀態。前端會把這組假資料當成真實市場均價顯示。
-- **O2：** 漁產分類若讀檔失敗或該市場查無資料，會回傳寫死的假資料（均價 150、交易量 5000，[第 51-58 行](src/app/api/prices/overview/route.ts#L51-L58)）。
-
-這兩點不影響載入速度，但可能影響資料可信度，是否要處理請你自行判斷——不在本次「載入效能」診斷的範圍內，這裡僅止於回報觀察到的事實。
+- **位置：** [src/app/page.tsx:19-28](src/app/page.tsx#L19-L28)，程式碼內已有註解說明原因（fast TTFB）。
+- **現象：** 這正是為什麼使用者會看到 skeleton 畫面持續數秒的根本原因——不是「壞掉」，是既有取捨的直接後果。
+- **建議：** 不建議現在改動；若之後要重新評估，建議先補一份 ADR 記錄現況的取捨脈絡。
+- **預估工作量：** 不適用（建議先決策）
 
 ## 優先順序建議
 
-若要著手修復，建議順序（依「風險是否在任何環境都存在」與修復成本排序）：
-
-1. **F2**（肉品市場清單，任何環境都無保護，修法簡單）
-2. **F1**（海鮮市場概況，任何環境都無保護，修法簡單）
-3. **F3**（休市日解析，本機開發影響最大且觸及所有分類，修法中等）
-4. **F4**（海鮮波動榜，正式環境已有緩解，修法簡單，可與 F1 一起處理）
-5. F5、F6 屬於架構層決定，建議另開討論，不建議跟前 4 項一起小改動處理
+1. F1–F4 已於 commit `e903d13` 修復，無需再處理。
+2. 殘留 `require()`／`any` 與 O1/O2 已修復，無需再處理。
+3. 剩餘項目：
+   - **F5、F6**——架構層決定，建議另開討論，不建議跟小修小補一起處理。
 
 ## 不在此份診斷範圍內
 
-- 不含任何程式碼修改（依先前確認，本文件僅為診斷報告）。
-- 不含 O1、O2 的修復決策（僅回報，留待你決定是否處理）。
-- 不含 Vercel serverless cold start 的實際量測數據——這需要正式環境的監控/日誌數據，無法單靠讀程式碼判斷實際發生頻率與時長，本報告僅指出「架構上存在多個獨立 function 呼叫、會放大 cold start 影響」這個結構性風險。
-- 不含首頁以外頁面（搜尋頁、作物詳情頁等）的效能稽核，雖然 `fetchSearchRecords` 的肉品/漁產分支有相同的未快取讀檔模式（[src/lib/server/moa.ts:1757, 1950](src/lib/server/moa.ts#L1757)），但不在「首頁初始化載入」的範圍內，故未展開。
+- 不含 Vercel serverless cold start 的實際量測數據——需要正式環境的監控/日誌數據才能判斷實際發生頻率與時長，本報告僅指出結構性風險（F5）。
+- 不含首頁以外頁面（搜尋頁、作物詳情頁等）的效能稽核。`fetchSearchRecords` 的肉品/漁產分支有相同的未快取讀檔模式（[src/lib/server/moa.ts:1757, 1950](src/lib/server/moa.ts#L1757)），但不在「首頁初始化載入」範圍內，故未展開分析。
+- F5（bootstrap 彙總端點）、F6（SSR 預取取捨）仍屬架構決策，未在本次實作範圍內。

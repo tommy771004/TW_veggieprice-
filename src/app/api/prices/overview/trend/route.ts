@@ -16,34 +16,46 @@ export async function GET(req: NextRequest) {
     : 7
 
   if (category === 'meat') {
-    const livestock = await fetchLivestockPrices();
-    const today = todayISO();
-    const pts = Array.from({ length: days }).map((_, i) => {
-      const d = subtractDays(today, days - 1 - i);
-      const factor = 1 - (days - 1 - i) * 0.005; // slightly decreasing back in time
-      return {
-        date: d,
-        avgPrice: Math.round((livestock.porkAvgPrice || 90) * factor * 10) / 10,
-        transWeight: (livestock.porkAvgPrice) ? 1000 : 0
+    try {
+      const livestock = await fetchLivestockPrices();
+      if (!livestock.porkAvgPrice) {
+        return NextResponse.json(
+          { error: '查無市場趨勢資料' },
+          { status: 404 },
+        );
       }
-    });
-    return NextResponse.json(pts, { headers: { 'Cache-Control': 'public, s-maxage=3600' } });
+      const today = todayISO();
+      const pts = Array.from({ length: days }).map((_, i) => {
+        const d = subtractDays(today, days - 1 - i);
+        const factor = 1 - (days - 1 - i) * 0.005; // slightly decreasing back in time
+        return {
+          date: d,
+          avgPrice: Math.round((livestock.porkAvgPrice || 90) * factor * 10) / 10,
+          transWeight: 1000,
+        }
+      });
+      return NextResponse.json(pts, { headers: { 'Cache-Control': 'public, s-maxage=3600' } });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '讀取肉品市場趨勢失敗'
+      return NextResponse.json({ error: message }, { status: 502 })
+    }
   }
 
+  // Seafood weekly trend is not yet backed by historical series data.
+  // Return an empty series so the client shows no chart rather than invented prices.
   if (category === 'seafood') {
-    const today = todayISO();
-    const pts = Array.from({ length: days }).map((_, i) => {
-      const d = subtractDays(today, days - 1 - i);
-      return {
-        date: d,
-        avgPrice: Math.round((150 + Math.random() * 5) * 10) / 10,
-        transWeight: 5000
-      }
+    return NextResponse.json([], {
+      headers: { 'Cache-Control': 'public, s-maxage=3600' },
     });
-    return NextResponse.json(pts, { headers: { 'Cache-Control': 'public, s-maxage=3600' } });
   }
 
-  let finalPoints: any[] = []
+  let finalPoints: {
+    date: string
+    label?: string
+    avgPrice: number | null
+    volume?: number | null
+    isClosed?: boolean
+  }[] = []
   let errorMsg = ''
   
   try {
@@ -58,36 +70,15 @@ export async function GET(req: NextRequest) {
   }
 
   if (finalPoints.length === 0) {
-    console.log(`[API trend] Generating fallback trend points. Reason: ${errorMsg}`)
-    const { subtractDays } = require('@/lib/server/dateUtils')
-    const today = todayISO()
-    
-    finalPoints = Array.from({ length: days }).map((_, i) => {
-      const d = subtractDays(today, days - 1 - i)
-      const charCodeSum = market.split('').reduce((sum: number, char: string) => sum + char.charCodeAt(0), 0)
-      const dayNum = new Date(d).getDate()
-      const seed = charCodeSum + dayNum + i
-      
-      const basePrice = market.includes('台北一') ? 42.5 
-                      : market.includes('台北二') ? 35.8 
-                      : market.includes('台中') ? 31.2 
-                      : market.includes('高雄') ? 28.5 
-                      : market.includes('板橋') ? 33.4 
-                      : market.includes('三重') ? 32.1 
-                      : 30.0
-                      
-      const priceOffset = (seed % 15) * 0.4 - 3.0
-      const avgPrice = Math.round((basePrice + priceOffset) * 10) / 10
-      const volume = Math.round(120000 + (seed % 40) * 1500)
-      
-      return {
-        date: d,
-        label: d.substring(5).replace('-', '/'),
-        avgPrice,
-        volume,
-        isClosed: seed % 7 === 0
-      }
-    })
+    const message =
+      errorMsg && errorMsg !== 'Empty points list'
+        ? errorMsg
+        : '查無市場趨勢資料'
+    const status =
+      errorMsg && !errorMsg.includes('查無') && errorMsg !== 'Empty points list'
+        ? 502
+        : 404
+    return NextResponse.json({ error: message }, { status })
   }
 
   return NextResponse.json(finalPoints, {

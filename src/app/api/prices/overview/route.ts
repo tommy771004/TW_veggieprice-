@@ -3,6 +3,7 @@ import {
   fetchLatestSeafoodData,
   fetchMarketOverviewTrend,
   fetchLivestockPrices,
+  type SeafoodRawRecord,
 } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
 import { DEFAULT_MARKET } from '@/lib/constants'
@@ -14,6 +15,10 @@ const SEAFOOD_CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
 };
 
+function overviewErrorResponse(message: string, status: number) {
+  return NextResponse.json({ error: message }, { status })
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const market = searchParams.get('market') || DEFAULT_MARKET
@@ -24,45 +29,61 @@ export async function GET(req: NextRequest) {
     const livestock = await fetchLivestockPrices();
     return NextResponse.json({
       date: livestock.date,
-      market: '全國平均',
+      marketName: '全國平均',
       avgPrice: livestock.porkAvgPrice || 0,
-      transWeight: 0,
+      totalVolume: 0,
       priceChange: livestock.porkPriceChange || 0,
       volumeChange: 0,
+      updatedAt: new Date().toISOString(),
     });
   }
 
   if (category === 'seafood') {
     try {
       const records = await fetchLatestSeafoodData();
-      const marketRecords = records.filter((r: any) => r['市場名稱'] === market || market === '全部市場');
+      const marketRecords = records.filter(
+        (r: SeafoodRawRecord) =>
+          r['市場名稱'] === market || market === '全部市場',
+      );
       if (marketRecords.length > 0) {
-        const avgPrice = marketRecords.reduce((sum: number, r: any) => sum + r['平均價'], 0) / marketRecords.length;
-        const transWeight = marketRecords.reduce((sum: number, r: any) => sum + r['交易量'], 0);
-        return NextResponse.json({
-          date: date,
-          market: market,
-          avgPrice: Math.round(avgPrice * 10) / 10,
-          transWeight: Math.round(transWeight * 10) / 10,
-          priceChange: 0,
-          volumeChange: 0,
-        }, { headers: SEAFOOD_CACHE_HEADERS });
+        const avgPrice =
+          marketRecords.reduce(
+            (sum: number, r: SeafoodRawRecord) =>
+              sum + (Number(r['平均價']) || 0),
+            0,
+          ) / marketRecords.length;
+        const totalVolume = marketRecords.reduce(
+          (sum: number, r: SeafoodRawRecord) =>
+            sum + (Number(r['交易量']) || 0),
+          0,
+        );
+        return NextResponse.json(
+          {
+            date,
+            marketName: market,
+            avgPrice: Math.round(avgPrice * 10) / 10,
+            totalVolume: Math.round(totalVolume * 10) / 10,
+            priceChange: 0,
+            volumeChange: 0,
+            updatedAt: new Date().toISOString(),
+          },
+          { headers: SEAFOOD_CACHE_HEADERS },
+        );
       }
+      return overviewErrorResponse('查無市場概況資料', 404);
     } catch (e) {
-      // fallback handled below
+      const message =
+        e instanceof Error ? e.message : '讀取漁產市場概況失敗';
+      return overviewErrorResponse(message, 502);
     }
-    // simplified mock overview for seafood just so it doesn't break
-    return NextResponse.json({
-      date: date,
-      market: market,
-      avgPrice: 150,
-      transWeight: 5000,
-      priceChange: 0,
-      volumeChange: 0,
-    }, { headers: SEAFOOD_CACHE_HEADERS });
   }
 
-  let recentTradingPoints: any[] = []
+  let recentTradingPoints: {
+    date: string
+    label?: string
+    avgPrice: number | null
+    volume: number | null
+  }[] = []
   let errorMsg = ''
 
   try {
@@ -80,37 +101,10 @@ export async function GET(req: NextRequest) {
   }
 
   if (recentTradingPoints.length === 0) {
-    console.log(`[API overview] Generating realistic vegetable overview fallback data. Reason: ${errorMsg || 'No points'}`)
-    
-    const { subtractDays } = require('@/lib/server/dateUtils')
-    const days = 7
-    const points = Array.from({ length: days }).map((_, i) => {
-      const d = subtractDays(date, days - 1 - i)
-      const charCodeSum = market.split('').reduce((sum: number, char: string) => sum + char.charCodeAt(0), 0)
-      const dayNum = new Date(d).getDate()
-      const seed = charCodeSum + dayNum + i
-      
-      const basePrice = market.includes('台北一') ? 42.5 
-                      : market.includes('台北二') ? 35.8 
-                      : market.includes('台中') ? 31.2 
-                      : market.includes('高雄') ? 28.5 
-                      : market.includes('板橋') ? 33.4 
-                      : market.includes('三重') ? 32.1 
-                      : 30.0
-      
-      const priceOffset = (seed % 15) * 0.4 - 3.0
-      const avgPrice = Math.round((basePrice + priceOffset) * 10) / 10
-      const volume = Math.round(120000 + (seed % 40) * 1500)
-      
-      return {
-        date: d,
-        label: d.substring(5).replace('-', '/'),
-        avgPrice,
-        volume,
-      }
-    })
-    
-    recentTradingPoints = points.slice().reverse()
+    const message = errorMsg || '查無市場概況資料'
+    const status =
+      errorMsg && !errorMsg.includes('查無') ? 502 : 404
+    return overviewErrorResponse(message, status)
   }
 
   const latestPoint = recentTradingPoints[0]
