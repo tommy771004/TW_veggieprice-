@@ -15,6 +15,7 @@ import {
 import { formatPrice } from "@/lib/utils";
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from "@/lib/constants";
 import { AffiliateMarquee } from "@/components/affiliate/AffiliateMarquee";
+import { HomeLoadingBar } from "@/components/ui/HomeLoadingBar";
 
 const MarketInsightsPanel = dynamic(() =>
   import("@/components/ui/MarketInsightsPanel").then((mod) => mod.MarketInsightsPanel),
@@ -196,6 +197,7 @@ export function HomeClient({
   };
 
   const loading = loadingMovers;
+  const primaryDataLoading = loadingOverview || loadingMovers;
   const activeCategoryLabel = useMemo(
     () =>
       CATEGORIES.find((item) => item.value === activeCategory)
@@ -512,6 +514,7 @@ export function HomeClient({
 
   return (
     <LazyMotion features={domAnimation} strict>
+      <HomeLoadingBar active={primaryDataLoading} />
       <div className="home-dashboard-shell px-section-margin py-6 space-y-section-margin">
         {/* ── Market Overview Hero ───────────────────────── */}
         <m.section

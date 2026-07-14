@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchMarketOverviewTrend, fetchLivestockPrices } from '@/lib/server/moa'
+import {
+  fetchLatestSeafoodData,
+  fetchMarketOverviewTrend,
+  fetchLivestockPrices,
+} from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
 import { DEFAULT_MARKET } from '@/lib/constants'
 
 export const maxDuration = 60;
 export const revalidate = 3600;
+
+const SEAFOOD_CACHE_HEADERS = {
+  'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+};
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
@@ -26,12 +34,7 @@ export async function GET(req: NextRequest) {
 
   if (category === 'seafood') {
     try {
-      const path = require('path');
-      const fs = require('fs');
-      const localFile = path.join(process.cwd(), 'public', 'data', 'latest-seafood.json');
-      const fileContent = await fs.promises.readFile(localFile, 'utf-8');
-      const parsed = JSON.parse(fileContent);
-      const records = parsed.data || [];
+      const records = await fetchLatestSeafoodData();
       const marketRecords = records.filter((r: any) => r['市場名稱'] === market || market === '全部市場');
       if (marketRecords.length > 0) {
         const avgPrice = marketRecords.reduce((sum: number, r: any) => sum + r['平均價'], 0) / marketRecords.length;
@@ -43,7 +46,7 @@ export async function GET(req: NextRequest) {
           transWeight: Math.round(transWeight * 10) / 10,
           priceChange: 0,
           volumeChange: 0,
-        });
+        }, { headers: SEAFOOD_CACHE_HEADERS });
       }
     } catch (e) {
       // fallback handled below
@@ -56,7 +59,7 @@ export async function GET(req: NextRequest) {
       transWeight: 5000,
       priceChange: 0,
       volumeChange: 0,
-    });
+    }, { headers: SEAFOOD_CACHE_HEADERS });
   }
 
   let recentTradingPoints: any[] = []

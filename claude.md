@@ -51,3 +51,17 @@ flowchart LR
 - 新增 API 端點時，優先擴充 `src/lib/server/moa.ts`，避免在 Route Handler 內重複寫 fetch 與日期轉換。
 - PWA 快取策略如需調整，請優先修改 `public/sw.js`，避免把快取邏輯散落到 React 元件內。
 - 使用者偏好若要新增欄位，請同步更新 `src/lib/preferences.ts` 與 `src/app/globals.css` 的套用規則。
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked as GitHub Issues in `tommy771004/TW_veggieprice-`, using the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default label vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout — `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.

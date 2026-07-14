@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import { getCropEmoji } from "@/lib/utils";
 import {
+  fetchLatestSeafoodData,
   fetchMarketWindowRecords,
   fetchLivestockPrices,
 } from "@/lib/server/moa";
 import { subtractDays, todayISO } from "@/lib/server/dateUtils";
-import path from "path";
-import fs from "fs";
 
 export const maxDuration = 60;
 
@@ -85,15 +84,7 @@ export async function GET(req: Request) {
     }
   } else if (category === "seafood") {
     try {
-      const localFile = path.join(
-        process.cwd(),
-        "public",
-        "data",
-        "latest-seafood.json",
-      );
-      const fileContent = await fs.promises.readFile(localFile, "utf-8");
-      const parsed = JSON.parse(fileContent);
-      const records = parsed.data || [];
+      const records = await fetchLatestSeafoodData();
 
       const tradingDates = [
         ...new Set(
@@ -114,8 +105,8 @@ export async function GET(req: Request) {
       > = {};
 
       for (const record of records) {
-        const avgPrice = record["平均價"] || 0;
-        const transWeight = record["交易量"] || 0;
+        const avgPrice = Number(record["平均價"]) || 0;
+        const transWeight = Number(record["交易量"]) || 0;
         if (avgPrice > 0 && transWeight > 0) {
           const name = String(record["魚貨名稱"]);
           const d = String(record["交易日期"]);

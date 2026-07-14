@@ -23,6 +23,18 @@ const nextConfig: NextConfig = {
         source: '/api/prices/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, s-maxage=60, stale-while-revalidate=300' }],
       },
+      {
+        // Seafood data is backed by a daily local snapshot and is parsed once
+        // per hour in the server data layer, so let the CDN keep it equally long.
+        source: '/api/prices/overview',
+        has: [{ type: 'query', key: 'category', value: 'seafood' }],
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=7200' }],
+      },
+      {
+        source: '/api/prices/movers',
+        has: [{ type: 'query', key: 'category', value: 'seafood' }],
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=7200' }],
+      },
     ]
   },
 }

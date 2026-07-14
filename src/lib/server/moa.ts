@@ -535,39 +535,49 @@ export interface MOAMarket {
   MarketName: string;
 }
 
+async function fetchLivestockMarketsUncached(): Promise<string[]> {
+  try {
+    const localFile = path.join(
+      process.cwd(),
+      "public",
+      "data",
+      "latest-livestock.json",
+    );
+    const fileContent = await fs.promises.readFile(localFile, "utf-8");
+    const parsed = JSON.parse(fileContent);
+    const data: LivestockLocalData = parsed.data || {};
+
+    const markets = new Set<string>(["全國平均"]);
+
+    if (data.pork) {
+      for (const r of data.pork) {
+        if (r.MarketName) markets.add(r.MarketName);
+      }
+    }
+
+    if (data.sheep) {
+      for (const r of data.sheep) {
+        if (r.name) markets.add(r.name);
+      }
+    }
+
+    return Array.from(markets);
+  } catch {
+    return ["全國平均"];
+  }
+}
+
+const fetchLivestockMarketsCached = unstable_cache(
+  fetchLivestockMarketsUncached,
+  ["moa-livestock-markets-v1"],
+  { revalidate: 3600 },
+);
+
 export async function fetchMarkets(type: string = "Veg"): Promise<string[]> {
   const normalizedType = normalizeMarketType(type);
 
   if (normalizedType === "meat") {
-    try {
-      const localFile = path.join(
-        process.cwd(),
-        "public",
-        "data",
-        "latest-livestock.json",
-      );
-      const fileContent = await fs.promises.readFile(localFile, "utf-8");
-      const parsed = JSON.parse(fileContent);
-      const data: LivestockLocalData = parsed.data || {};
-
-      const markets = new Set<string>(["全國平均"]);
-
-      if (data.pork) {
-        for (const r of data.pork) {
-          if (r.MarketName) markets.add(r.MarketName);
-        }
-      }
-
-      if (data.sheep) {
-        for (const r of data.sheep) {
-          if (r.name) markets.add(r.name);
-        }
-      }
-
-      return Array.from(markets);
-    } catch {
-      return ["全國平均"];
-    }
+    return fetchLivestockMarketsCached();
   }
   if (normalizedType === "seafood") {
     const cachedFn = unstable_cache(
@@ -712,7 +722,7 @@ function localizeMarketType(code: string | undefined): string | undefined {
   return MARKET_TYPE_LABELS[code];
 }
 
-export async function fetchMarketRestDays(
+async function fetchMarketRestDaysUncached(
   market: string,
   startDate: string,
   endDate: string,
@@ -820,6 +830,20 @@ export async function fetchMarketRestDays(
       error: error instanceof Error ? error.message : "Unknown MOA fetch error",
     };
   }
+}
+
+export async function fetchMarketRestDays(
+  market: string,
+  startDate: string,
+  endDate: string,
+): Promise<MarketRestDayResult> {
+  const cachedFn = unstable_cache(
+    () => fetchMarketRestDaysUncached(market, startDate, endDate),
+    ["moa-market-rest-days-v1", market, startDate, endDate],
+    { revalidate: 1800, tags: ["moa-market-rest-days"] },
+  );
+
+  return cachedFn();
 }
 
 function parseWeatherRecord(
@@ -1174,7 +1198,8 @@ interface OpenDataRecord {
 }
 
 /** Shape of one record in public/data/latest-seafood.json written by fetch-moa-data.js */
-interface SeafoodRawRecord {
+export interface SeafoodRawRecord {
+  交易日期?: string | number;
   品種代碼?: string | number;
   魚貨名稱?: string;
   市場名稱?: string;
@@ -1183,6 +1208,31 @@ interface SeafoodRawRecord {
   下價?: number | string;
   平均價?: number | string;
   交易量?: number | string;
+}
+
+async function fetchLatestSeafoodDataUncached(): Promise<SeafoodRawRecord[]> {
+  const localFile = path.join(
+    process.cwd(),
+    "public",
+    "data",
+    "latest-seafood.json",
+  );
+  const fileContent = await fs.promises.readFile(localFile, "utf-8");
+  const parsed = JSON.parse(fileContent) as {
+    data?: SeafoodRawRecord[];
+  };
+
+  return Array.isArray(parsed.data) ? parsed.data : [];
+}
+
+const fetchLatestSeafoodDataCached = unstable_cache(
+  fetchLatestSeafoodDataUncached,
+  ["moa-latest-seafood-data-v1"],
+  { revalidate: 3600, tags: ["moa-latest-seafood-data"] },
+);
+
+export async function fetchLatestSeafoodData(): Promise<SeafoodRawRecord[]> {
+  return fetchLatestSeafoodDataCached();
 }
 
 async function fetchRecentOpenDataUncached(): Promise<
