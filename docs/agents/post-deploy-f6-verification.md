@@ -20,23 +20,34 @@
 
 ---
 
+## Loop 第 3 輪
+
+### 回歸 smoke（`172e35f` 仍穩）
+
+| 檢查 | 結果 |
+|------|------|
+| vegetable / fruit split | ✅ 70.9 / 76.8 |
+| seafood overview + trend | ✅ 180.1 / +9.4；週走勢有點 |
+| Homepage SSR | ✅ 今日均價 $70.9 |
+| overview 暖 cache | ✅ ~0.3s |
+
+### 本輪新發現 → ship
+
+| 嚴重度 | 問題 | 修復 |
+|--------|------|------|
+| **中** | 肉品 `overview/trend` 用 `factor` **捏造**近週價格（假線） | `fetchLivestockPorkTrend`：依毛豬 `TransDate` 頭數加權真實日均價 |
+
+### 預期部署後 meat trend
+
+- 近週各交易日均價約 **98–108** 不等（非單調 0.5% 假斜率）  
+- 最新日 ≈ **103.2**（與 meat overview 一致）  
+- 無交易日 `avgPrice/volume` 為 null  
+
+---
+
 ## Loop 第 2 輪（部署後驗證）
 
-**部署：** `172e35f` 已上線。
-
-| 檢查 | 結果 | 備註 |
-|------|------|------|
-| vegetable 台北一 | ✅ | avg **70.9**（Veg-only，不再混水果） |
-| fruit 台北一 | ✅ | avg **76.8**（≠ 蔬菜） |
-| seafood 台北一 | ✅ | date **2026-07-08**、avg **180.1**、priceChange **+9.4** |
-| seafood trend 台北／台北一 | ✅ | 近週有點 + 休市 null |
-| Homepage SSR | ✅ | TTFB ~691ms，今日均價 **$70.9**（與 Veg overview 一致） |
-| meat overview | ✅ | date 2026-07-08、avg 103.2、priceChange +2.2 |
-| 假市場 vegetable | ✅ | HTTP 404 `{error}` |
-| movers vegetable | ✅ | 200、5 筆（冷路徑 ~21s，F5 仍延後） |
-| markets list seafood | ✅ | 含「台北」等 |
-
-**本輪無新 code fix**（優先確認上輪修復落地）。文件更新後 commit。
+**部署：** `172e35f` 已上線。蔬果分型、漁產日均／趨勢、SSR $70.9 皆 ✅。無 code fix。
 
 ---
 

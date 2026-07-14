@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
   fetchMarketOverviewTrend,
-  fetchLivestockPrices,
+  fetchLivestockPorkTrend,
   fetchSeafoodMarketTrend,
 } from '@/lib/server/moa'
 import { DEFAULT_MARKET } from '@/lib/constants'
-import { subtractDays, todayISO } from '@/lib/server/dateUtils'
+import { todayISO } from '@/lib/server/dateUtils'
 
 export const maxDuration = 60;
 export const revalidate = 3600;
@@ -27,26 +27,17 @@ export async function GET(req: NextRequest) {
 
   if (category === 'meat') {
     try {
-      const livestock = await fetchLivestockPrices();
-      if (!livestock.porkAvgPrice) {
+      // Real multi-day pork series (head-weighted). Do not invent synthetic prices.
+      const trendRes = await fetchLivestockPorkTrend(days)
+      if (trendRes.error || trendRes.points.length === 0) {
         return NextResponse.json(
-          { error: '查無市場趨勢資料' },
+          { error: trendRes.error || '查無市場趨勢資料' },
           { status: 404 },
-        );
+        )
       }
-      // Use livestock trading day as the series end so points are not pure today-offset fiction.
-      const end = livestock.date || todayISO();
-      const pts = Array.from({ length: days }).map((_, i) => {
-        const d = subtractDays(end, days - 1 - i);
-        const factor = 1 - (days - 1 - i) * 0.005;
-        return {
-          date: d,
-          avgPrice: Math.round((livestock.porkAvgPrice || 90) * factor * 10) / 10,
-          transWeight: 1000,
-          volume: 1000,
-        }
-      });
-      return NextResponse.json(pts, { headers: { 'Cache-Control': 'public, s-maxage=3600' } });
+      return NextResponse.json(trendRes.points, {
+        headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200' },
+      })
     } catch (err) {
       const message = err instanceof Error ? err.message : '讀取肉品市場趨勢失敗'
       return NextResponse.json({ error: message }, { status: 502 })

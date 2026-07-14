@@ -2780,6 +2780,85 @@ export async function fetchLivestockPrices(): Promise<LivestockPrices> {
   return fetchLivestockPricesCached();
 }
 
+/**
+ * National pork average trend from latest-livestock.json (weighted by head count).
+ * Replaces invented meat trend series so charts only show real trading days.
+ */
+export async function fetchLivestockPorkTrend(
+  days: number,
+): Promise<MarketOverviewTrendResult> {
+  const normalizedDays = Math.min(Math.max(Math.floor(days), 1), 30);
+
+  const localFile = path.join(
+    process.cwd(),
+    "public",
+    "data",
+    "latest-livestock.json",
+  );
+  let pork: RawPorkRecord[] = [];
+  if (fs.existsSync(localFile)) {
+    try {
+      const fileContent = await fs.promises.readFile(localFile, "utf-8");
+      const parsed = JSON.parse(fileContent);
+      const data = (parsed.data || {}) as LivestockLocalData;
+      pork = data.pork ?? [];
+    } catch {
+      return { points: [], error: "讀取肉品趨勢資料失敗" };
+    }
+  }
+
+  if (pork.length === 0) {
+    return { points: [], error: "查無市場趨勢資料" };
+  }
+
+  const byDate = new Map<string, RawPorkRecord[]>();
+  for (const r of pork) {
+    const iso = normalizeMoaDate(String(r.TransDate ?? ""));
+    if (!iso) continue;
+    const bucket = byDate.get(iso) ?? [];
+    bucket.push(r);
+    byDate.set(iso, bucket);
+  }
+
+  const tradingDates = [...byDate.keys()].sort();
+  if (tradingDates.length === 0) {
+    return { points: [], error: "查無市場趨勢資料" };
+  }
+
+  const endDate = tradingDates[tradingDates.length - 1];
+  const startDate = subtractDays(endDate, Math.max(normalizedDays - 1, 0));
+
+  const points: MarketOverviewTrendPoint[] = dateRange(startDate, endDate).map(
+    (date) => {
+      const rows = byDate.get(date);
+      if (!rows || rows.length === 0) {
+        return {
+          date,
+          label: dateLabel(date),
+          avgPrice: null,
+          volume: null,
+        };
+      }
+      const avgPrice = weightedPorkAvg(rows);
+      const volume = rows.reduce(
+        (s, r) => s + (Number(r.TransNum_Total) || 0),
+        0,
+      );
+      return {
+        date,
+        label: dateLabel(date),
+        avgPrice,
+        volume: volume > 0 ? volume : null,
+      };
+    },
+  );
+
+  if (!points.some((p) => p.avgPrice !== null)) {
+    return { points: [], error: "查無市場趨勢資料" };
+  }
+  return { points };
+}
+
 // Returns the top-3 crops by total trading volume over the last 7 days.
 // Uses a 5-page cap (vs global MAX_PAGES=50) to stay within Vercel function budgets.
 export async function fetchSeasonalCrops(): Promise<{
