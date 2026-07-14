@@ -920,7 +920,7 @@ export async function fetchMarketWeatherObservations(
       ].filter((item) => item.stationName);
     },
     ["moa-weather-by-county-v2", county],
-    { revalidate: 900 },
+    { revalidate: 900, tags: ["moa-weather-observations"] },
   );
 
   try {
@@ -2790,7 +2790,7 @@ const fetchLivestockPricesCached = unstable_cache(
     };
   },
   ["moa-livestock-prices-v3"],
-  { revalidate: 300 },
+  { revalidate: 300, tags: ["moa-livestock-prices"] },
 );
 
 export async function fetchLivestockPrices(): Promise<LivestockPrices> {

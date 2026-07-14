@@ -6,6 +6,7 @@ import {
 } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
 import { DEFAULT_MARKET } from '@/lib/constants'
+import { bustCacheOnReload } from '@/lib/server/freshReload'
 
 export const maxDuration = 60;
 export const revalidate = 3600;
@@ -31,6 +32,7 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get('category') || 'vegetable'
 
   if (category === 'meat') {
+    bustCacheOnReload(req, ['moa-livestock-prices'])
     const livestock = await fetchLivestockPrices();
     if (!livestock.porkAvgPrice) {
       return overviewErrorResponse('查無市場概況資料', 404)
@@ -49,6 +51,7 @@ export async function GET(req: NextRequest) {
 
   if (category === 'seafood') {
     try {
+      bustCacheOnReload(req, ['moa-latest-seafood-data'])
       const seafood = await fetchSeafoodMarketOverview(market)
       if (seafood.error) {
         return overviewErrorResponse(seafood.error, 404)

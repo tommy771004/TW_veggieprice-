@@ -5,6 +5,7 @@ import {
   fetchLivestockPrices,
   type SeafoodRawRecord,
 } from "@/lib/server/moa";
+import { bustCacheOnReload } from "@/lib/server/freshReload";
 
 export const maxDuration = 60;
 
@@ -14,6 +15,7 @@ export async function GET(req: Request) {
 
   if (category === "meat") {
     try {
+      bustCacheOnReload(req, ["moa-livestock-prices"]);
       const livestock = await fetchLivestockPrices();
       const movers = [
         {
@@ -78,6 +80,7 @@ export async function GET(req: Request) {
     }
   } else if (category === "seafood") {
     try {
+      bustCacheOnReload(req, ["moa-latest-seafood-data"]);
       const records = await fetchLatestSeafoodData();
 
       const tradingDates = [
@@ -206,6 +209,7 @@ export async function GET(req: Request) {
   const mType = category === "fruit" ? "Fruit" : "Veg";
   const { fetchRecentOpenData } = await import("@/lib/server/moa");
 
+  bustCacheOnReload(req, ["moa-recent-opendata"]);
   let recentRecords = await fetchRecentOpenData();
   const allRecords = recentRecords.filter(
     (r) =>

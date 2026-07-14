@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { fetchMarketWeatherObservations, resolveCountyFromMarketName } from '@/lib/server/moa'
 import type { MarketWeatherRiskSummary } from '@/lib/types'
 import { DEFAULT_MARKET } from '@/lib/constants'
+import { bustCacheOnReload } from '@/lib/server/freshReload'
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic'
@@ -99,6 +100,8 @@ export async function GET(req: NextRequest) {
 
   let weatherItems: any[] = []
   let errorMsg = ''
+
+  bustCacheOnReload(req, ['moa-weather-observations'])
 
   try {
     const weatherRes = await fetchMarketWeatherObservations(county, 40)

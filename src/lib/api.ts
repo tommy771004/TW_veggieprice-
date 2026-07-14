@@ -28,10 +28,33 @@ async function safeFetch(url: string, init?: RequestInit): Promise<Response> {
   }
 }
 
+let isBrowserReloadCache: boolean | null = null
+
+// True only when the current page load is an actual browser refresh (F5 /
+// reload button), not a normal client-side navigation or re-render.
+function isBrowserReload(): boolean {
+  if (isBrowserReloadCache !== null) return isBrowserReloadCache
+  if (typeof window === 'undefined' || !window.performance?.getEntriesByType) return false
+  const [nav] = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
+  isBrowserReloadCache = nav?.type === 'reload'
+  return isBrowserReloadCache
+}
+
+// Some endpoints cache their underlying JSON snapshot for up to an hour (CDN
+// s-maxage + server unstable_cache). On a real reload, bust both layers
+// instead of quietly serving stale data: a unique query param defeats the
+// CDN cache, and the x-fresh-reload header tells the route handler to
+// revalidate its data cache tag before reading.
+function freshReloadFetch(url: string, params: URLSearchParams): Promise<Response> {
+  if (!isBrowserReload()) return safeFetch(`${url}?${params}`)
+  params.set('_r', Date.now().toString())
+  return safeFetch(`${url}?${params}`, { headers: { 'x-fresh-reload': '1' } })
+}
+
 export async function fetchMarketOverview(date?: string, market = DEFAULT_MARKET): Promise<MarketOverview> {
   const params = new URLSearchParams({ market })
   if (date) params.set('date', date)
-  const res = await safeFetch(`${BASE}/prices/overview?${params}`)
+  const res = await freshReloadFetch(`${BASE}/prices/overview`, params)
   if (!res.ok) throw new Error('Failed to fetch overview')
   return res.json()
 }
@@ -40,7 +63,7 @@ export async function fetchTopMovers(date?: string, category?: string): Promise<
   const params = new URLSearchParams()
   if (date) params.set('date', date)
   if (category) params.set('category', category)
-  const res = await safeFetch(`${BASE}/prices/movers?${params}`)
+  const res = await freshReloadFetch(`${BASE}/prices/movers`, params)
   const json = await res.json()
   if (!res.ok) {
     const errorMsg = (json as { error?: string }).error
@@ -152,7 +175,7 @@ export async function fetchProductCostInsight(cropName: string): Promise<Product
 
 export async function fetchMarketWeatherRisk(market: string): Promise<MarketWeatherRiskSummary> {
   const params = new URLSearchParams({ market })
-  const res = await safeFetch(`${BASE}/insights/weather-risk?${params}`)
+  const res = await freshReloadFetch(`${BASE}/insights/weather-risk`, params)
   const json = await res.json()
   if (!res.ok) throw new Error((json as { error?: string }).error ?? 'Failed to fetch market weather risk')
   return json as MarketWeatherRiskSummary
