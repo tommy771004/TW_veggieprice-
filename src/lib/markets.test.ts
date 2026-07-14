@@ -1,6 +1,18 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
+import { isAggregateMarket } from "./constants.ts";
 import { marketsMatch, resolveMarketInList } from "./markets.ts";
+
+describe("isAggregateMarket", () => {
+  it("recognizes both aggregate market labels", () => {
+    assert.equal(isAggregateMarket("全部市場"), true);
+    assert.equal(isAggregateMarket("全國平均"), true);
+  });
+
+  it("keeps physical markets eligible for weather data", () => {
+    assert.equal(isAggregateMarket("台北一"), false);
+  });
+});
 
 describe("marketsMatch", () => {
   it("matches exact names", () => {

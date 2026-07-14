@@ -13,7 +13,7 @@ import type {
   MarketWeatherRiskSummary,
   MarketWeatherForecast,
 } from './types'
-import { DEFAULT_MARKET } from './constants'
+import { DEFAULT_MARKET, isAggregateMarket } from './constants'
 
 const BASE = '/api'
 
@@ -173,12 +173,14 @@ export async function fetchProductCostInsight(cropName: string): Promise<Product
   return (json as { insight: ProductCostInsight | null }).insight
 }
 
-export async function fetchMarketWeatherRisk(market: string): Promise<MarketWeatherRiskSummary> {
+export async function fetchMarketWeatherRisk(market: string): Promise<MarketWeatherRiskSummary | null> {
+  if (isAggregateMarket(market)) return null
+
   const params = new URLSearchParams({ market })
   const res = await freshReloadFetch(`${BASE}/insights/weather-risk`, params)
   const json = await res.json()
   if (!res.ok) throw new Error((json as { error?: string }).error ?? 'Failed to fetch market weather risk')
-  return json as MarketWeatherRiskSummary
+  return (json as MarketWeatherRiskSummary | null) ?? null
 }
 
 export async function fetchMarketWeatherForecast(market: string): Promise<MarketWeatherForecast> {

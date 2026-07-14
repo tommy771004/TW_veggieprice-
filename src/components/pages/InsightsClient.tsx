@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 import { fetchMarketRestDays, fetchMarketWeatherRisk, fetchMarketWeatherForecast } from '@/lib/api'
+import { isAggregateMarket } from '@/lib/constants'
 import type { MarketRestDay, MarketWeatherRiskSummary, MarketWeatherForecast } from '@/lib/types'
 
 export function InsightsClient() {
@@ -55,7 +56,7 @@ export function InsightsClient() {
 
   useEffect(() => {
     async function loadWeather() {
-      if (market === '全部市場') {
+      if (isAggregateMarket(market)) {
         setWeatherRisk(null)
         return
       }
@@ -71,7 +72,7 @@ export function InsightsClient() {
 
   useEffect(() => {
     async function loadForecast() {
-      if (market === '全部市場') {
+      if (isAggregateMarket(market)) {
         setForecast(null)
         return
       }

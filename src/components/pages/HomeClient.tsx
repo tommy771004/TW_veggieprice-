@@ -13,7 +13,11 @@ import {
   SkeletonRow,
 } from "@/components/ui/SkeletonCard";
 import { formatPrice } from "@/lib/utils";
-import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from "@/lib/constants";
+import {
+  DEFAULT_MARKET,
+  DEFAULT_HOME_MARKETS,
+  isAggregateMarket,
+} from "@/lib/constants";
 import { resolveMarketInList } from "@/lib/markets";
 import { AffiliateMarquee } from "@/components/affiliate/AffiliateMarquee";
 import { HomeLoadingBar } from "@/components/ui/HomeLoadingBar";
@@ -323,7 +327,9 @@ export function HomeClient({
           startDate: today,
           endDate: addDaysISO(today, 45),
         }),
-        fetchMarketWeatherRisk(selectedMarket),
+        isAggregateMarket(selectedMarket)
+          ? Promise.resolve(null)
+          : fetchMarketWeatherRisk(selectedMarket),
       ]);
 
       if (restResult.status === "fulfilled") {

@@ -15,8 +15,6 @@ export const revalidate = 3600
 const CATEGORY_LINKS = [
   { value: 'vegetable', label: '蔬菜類', emoji: '🥬' },
   { value: 'fruit', label: '水果類', emoji: '🍎' },
-  { value: 'mushroom', label: '菇類', emoji: '🍄' },
-  { value: 'flower', label: '花卉類', emoji: '🌸' },
 ] as const
 
 const SEASONAL_FAQ_ITEMS: FaqItem[] = [

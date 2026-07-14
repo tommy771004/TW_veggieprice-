@@ -2,10 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { resolveCountyFromMarketName } from '@/lib/server/moa'
 import { fetchCurrentWeatherObservations } from '@/lib/server/cwa'
 import type { MarketWeatherRiskSummary } from '@/lib/types'
-import { DEFAULT_MARKET } from '@/lib/constants'
+import { DEFAULT_MARKET, isAggregateMarket } from '@/lib/constants'
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic'
+
+const noDataHeaders = {
+  'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
+}
 
 function buildRiskSummary(market: string, county: string, observations: {
   temperatureC: number | null
@@ -98,21 +102,25 @@ export async function GET(req: NextRequest) {
   const market = searchParams.get('market') || DEFAULT_MARKET
   const county = searchParams.get('county') || resolveCountyFromMarketName(market)
 
+  // A nationwide/aggregate market has no single production area to map to a
+  // county. Return an empty optional insight instead of a noisy 404 request.
+  if (isAggregateMarket(market) || !county) {
+    return NextResponse.json(null, { headers: noDataHeaders })
+  }
+
   const weatherItems = await fetchCurrentWeatherObservations(county, 40)
 
   if (weatherItems.length === 0) {
     console.log(`[API weather-risk] No CWA weather observations for county: ${county}`)
     // Do not fabricate readings — a risk score built from synthetic data
-    // would misrepresent actual conditions. Callers already treat a
-    // failed/errored request as "no weather risk data available".
-    return NextResponse.json({ error: '查無天氣測站資料' }, { status: 404 })
+    // would misrepresent actual conditions. This optional insight uses 200 +
+    // null so expected upstream data gaps do not become browser errors.
+    return NextResponse.json(null, { headers: noDataHeaders })
   }
 
   const summary = buildRiskSummary(market, county, weatherItems)
 
   return NextResponse.json(summary, {
-    headers: {
-      'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
-    },
+    headers: noDataHeaders,
   })
 }
