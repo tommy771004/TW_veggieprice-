@@ -7,6 +7,7 @@ import {
 } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
 import { DEFAULT_MARKET } from '@/lib/constants'
+import { marketsMatch } from '@/lib/markets'
 
 export const maxDuration = 60;
 export const revalidate = 3600;
@@ -41,10 +42,14 @@ export async function GET(req: NextRequest) {
   if (category === 'seafood') {
     try {
       const records = await fetchLatestSeafoodData();
-      const marketRecords = records.filter(
-        (r: SeafoodRawRecord) =>
-          r['市場名稱'] === market || market === '全部市場',
-      );
+      const marketRecords = records.filter((r: SeafoodRawRecord) => {
+        const name = String(r['市場名稱'] ?? '')
+        return (
+          market === '全部市場' ||
+          name === market ||
+          marketsMatch(name, market)
+        )
+      });
       if (marketRecords.length > 0) {
         const avgPrice =
           marketRecords.reduce(

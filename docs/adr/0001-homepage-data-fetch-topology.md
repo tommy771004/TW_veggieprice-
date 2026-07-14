@@ -215,3 +215,4 @@ F5 = Client（或 Server）拿資料時「打幾槍」？（細粒度多 endpoin
 |------|------|
 | 2026-07-14 | 初版 Proposed：F5+F6 綁定同一決策；實作閘門 = 量測 + Decision |
 | 2026-07-14 | 對 https://tw-veggieprice.vercel.app/ 完成 curl 基線；**Accepted 選項 D**；落地 F6：`src/lib/server/home-prefetch.ts` + `page.tsx` async prefetch + HomeClient 略過預設殼第一次 round-trip |
+| 2026-07-14 | Production 驗證：F6 生效（SSR 均價 $72.7，TTFB HIT ~75ms）。修復分類切換市場別名／race（`markets.ts` + HomeClient gate + seafood overview fuzzy）。F5 仍延後。 |

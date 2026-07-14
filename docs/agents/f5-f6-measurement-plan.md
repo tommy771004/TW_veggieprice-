@@ -216,6 +216,17 @@ cold_penalty  = 假設每次 cold 額外 C ms  // 從 Vercel 估
 - 再跑本節 curl 基線 + 瀏覽器 wall-clock（含切市場）。  
 - 對照 ADR-0001「再評估條件」決定是否開 F5。
 
+### 2026-07-14 部署後複測摘要
+
+詳見 [post-deploy-f6-verification.md](./post-deploy-f6-verification.md)。
+
+| 指標 | 結果 |
+|------|------|
+| Document TTFB HIT | ~74–78 ms |
+| F6 嵌資料 | ✅ 台北一 avgPrice 72.7 已在 HTML |
+| 冷 overview MISS | 仍可 ~10s → F5 仍延後 |
+| 新發現 | 切海鮮 + 台北一 404（市場別名）；已在本機修，待部署 |
+
 ---
 
 ## 6. 完成定義（DoD）

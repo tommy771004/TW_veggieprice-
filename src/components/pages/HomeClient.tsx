@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/SkeletonCard";
 import { formatPrice } from "@/lib/utils";
 import { DEFAULT_MARKET, DEFAULT_HOME_MARKETS } from "@/lib/constants";
+import { resolveMarketInList } from "@/lib/markets";
 import { AffiliateMarquee } from "@/components/affiliate/AffiliateMarquee";
 import { HomeLoadingBar } from "@/components/ui/HomeLoadingBar";
 
@@ -147,6 +148,10 @@ export function HomeClient({
   const [marketTrend, setMarketTrend] =
     useState<PriceHistoryPoint[]>(initialTrend);
   const [markets, setMarkets] = useState<string[]>(DEFAULT_HOME_MARKETS);
+  /** Category for which `markets` is valid — gates overview fetch to avoid races. null = loading. */
+  const [marketsCategory, setMarketsCategory] = useState<
+    ProduceCategory | null
+  >("vegetable");
   const [loadingOverview, setLoadingOverview] = useState(!initialOverview);
   const [loadingMovers, setLoadingMovers] = useState(true);
   const [activeCategory, setActiveCategory] =
@@ -224,32 +229,43 @@ export function HomeClient({
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
     let marketType = "Veg";
     if (activeCategory === "fruit") marketType = "Fruit";
     else if (activeCategory === "meat") marketType = "meat";
     else if (activeCategory === "seafood") marketType = "seafood";
 
+    // Block overview until this category's market list is applied (prevents
+    // e.g. vegetable market 台北一 being queried against seafood data).
+    setMarketsCategory((prev) => (prev === activeCategory ? prev : null));
+
     fetchMarketList(marketType)
       .then((list) => {
+        if (cancelled) return;
         const filtered = list.filter((m) => m !== "全部市場");
         setMarkets(filtered);
 
-        // If the current market is not in this new list, fallback to preferred or first
-        if (
-          filtered.length > 0 &&
-          !filtered.includes(selectedMarketRef.current)
-        ) {
-          const prefs = getUserPreferences();
-          if (filtered.includes(prefs.preferredMarket)) {
-            setSelectedMarket(prefs.preferredMarket);
-          } else if (filtered.includes("台北一")) {
-            setSelectedMarket("台北一");
-          } else {
-            setSelectedMarket(filtered[0]);
-          }
+        const prefs = getUserPreferences();
+        const resolved = resolveMarketInList(
+          selectedMarketRef.current,
+          filtered,
+          prefs.preferredMarket,
+        );
+        if (resolved !== selectedMarketRef.current) {
+          setSelectedMarket(resolved);
         }
+        setMarketsCategory(activeCategory);
       })
-      .catch(console.error);
+      .catch((err) => {
+        if (cancelled) return;
+        console.error(err);
+        // Allow overview to proceed with current market rather than hang forever.
+        setMarketsCategory(activeCategory);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [activeCategory]);
 
   useEffect(() => {
@@ -312,6 +328,14 @@ export function HomeClient({
 
   // ── Category-Dependent Overview & Trend Fetch ────────────────
   useEffect(() => {
+    // Wait until market list for this category is ready (avoids 台北一+seafood 404 race).
+    if (marketsCategory !== activeCategory) {
+      if (!hasInitialOverview.current) setLoadingOverview(true);
+      return;
+    }
+
+    const ac = new AbortController();
+
     async function loadOverviewAndTrend() {
       // First mount only: keep SSR default shell, skip redundant client fetch.
       if (
@@ -331,42 +355,52 @@ export function HomeClient({
       hasInitialOverview.current = false;
       setOverviewError("");
 
-      const [ovResult, trendResult] = await Promise.allSettled([
-        fetch(
-          `/api/prices/overview?market=${encodeURIComponent(selectedMarket)}&category=${activeCategory}`,
-        ).then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
-        fetch(
-          `/api/prices/overview/trend?market=${encodeURIComponent(selectedMarket)}&days=7&category=${activeCategory}`,
-        ).then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
-      ]);
+      try {
+        const [ovResult, trendResult] = await Promise.allSettled([
+          fetch(
+            `/api/prices/overview?market=${encodeURIComponent(selectedMarket)}&category=${activeCategory}`,
+            { signal: ac.signal },
+          ).then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
+          fetch(
+            `/api/prices/overview/trend?market=${encodeURIComponent(selectedMarket)}&days=7&category=${activeCategory}`,
+            { signal: ac.signal },
+          ).then((r) => r.json().then((j: unknown) => ({ ok: r.ok, json: j }))),
+        ]);
 
-      if (ovResult.status === "fulfilled" && ovResult.value.ok) {
-        setOverview(ovResult.value.json as MarketOverview);
-      } else {
-        const json =
-          ovResult.status === "fulfilled"
-            ? (ovResult.value.json as { error?: string })
-            : null;
-        let errStr =
-          json?.error ||
-          (ovResult.status === "rejected"
-            ? ovResult.reason.message
-            : "暫時無法取得市場概況");
-        if (errStr.includes("fetch"))
-          errStr = "連線至伺服器失敗，請檢查網路狀態或稍後再試";
-        setOverviewError(errStr);
+        if (ac.signal.aborted) return;
+
+        if (ovResult.status === "fulfilled" && ovResult.value.ok) {
+          setOverview(ovResult.value.json as MarketOverview);
+          setOverviewError("");
+        } else {
+          const json =
+            ovResult.status === "fulfilled"
+              ? (ovResult.value.json as { error?: string })
+              : null;
+          let errStr =
+            json?.error ||
+            (ovResult.status === "rejected"
+              ? String(ovResult.reason?.message ?? ovResult.reason)
+              : "暫時無法取得市場概況");
+          if (errStr.includes("fetch") || errStr.includes("abort"))
+            errStr = "連線至伺服器失敗，請檢查網路狀態或稍後再試";
+          // Ignore abort-driven rejections from a superseded request.
+          if (ovResult.status === "rejected" && ac.signal.aborted) return;
+          setOverviewError(errStr);
+        }
+
+        if (trendResult.status === "fulfilled" && trendResult.value.ok) {
+          setMarketTrend(trendResult.value.json as PriceHistoryPoint[]);
+        } else if (!ac.signal.aborted) {
+          setMarketTrend([]);
+        }
+      } finally {
+        if (!ac.signal.aborted) setLoadingOverview(false);
       }
-
-      if (trendResult.status === "fulfilled" && trendResult.value.ok) {
-        setMarketTrend(trendResult.value.json as PriceHistoryPoint[]);
-      } else {
-        setMarketTrend([]);
-      }
-
-      setLoadingOverview(false);
     }
     loadOverviewAndTrend();
-  }, [selectedMarket, activeCategory, reloadKey]);
+    return () => ac.abort();
+  }, [selectedMarket, activeCategory, reloadKey, marketsCategory]);
 
   const filteredMovers = useMemo(
     () =>
