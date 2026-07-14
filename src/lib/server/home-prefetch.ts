@@ -14,7 +14,8 @@ export async function prefetchDefaultHomeData(): Promise<{
   const market = DEFAULT_MARKET
 
   try {
-    const trendRes = await fetchMarketOverviewTrend(market, 7)
+    // Default homepage shell is vegetable — filter N04 so fruit is not mixed in.
+    const trendRes = await fetchMarketOverviewTrend(market, 7, undefined, 'Veg')
     if (trendRes.error || trendRes.points.length === 0) {
       return { overview: null, trend: [] }
     }

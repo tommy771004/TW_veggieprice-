@@ -7,7 +7,17 @@ export function isoToROC(iso: string): string {
 }
 
 export function rocToISO(roc: string): string {
-  const parts = roc.replace(/\//g, '.').split('.')
+  const raw = roc.trim()
+  if (!raw) return ''
+
+  // Compact ROC YYYMMDD (e.g. 1150708 → 2026-07-08), used by seafood / pork feeds.
+  const compact = raw.match(/^(\d{3})(\d{2})(\d{2})$/)
+  if (compact) {
+    const year = parseInt(compact[1], 10) + 1911
+    return `${year}-${compact[2]}-${compact[3]}`
+  }
+
+  const parts = raw.replace(/\//g, '.').split('.')
   if (parts.length < 3 || !parts[0] || !parts[1] || !parts[2]) {
     return ''
   }

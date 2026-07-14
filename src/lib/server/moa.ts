@@ -22,6 +22,7 @@ import { CROP_DESCRIPTIONS, getProduceCategory } from "@/lib/produce";
 import { getCropEmoji } from "@/lib/utils";
 import { resolveCountyFromMarketName as resolveCountyFromMarketDataset } from "@/lib/server/marketCountyMap";
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from "@/lib/constants";
+import { marketsMatch } from "@/lib/markets";
 import { buildInterpolatedHistory } from "@/lib/server/historyAggregation";
 import { makeLogger } from "@/lib/server/logger";
 
@@ -233,12 +234,19 @@ function normalizeMoaDate(raw: string): string {
   const value = raw.trim();
   if (!value) return "";
 
-  if (/^\d{3,4}\d{2}\d{2}$/.test(value)) {
-    return rocToISO(value);
+  // Compact ROC YYYMMDD / rare 4-digit-year compact — delegate to rocToISO.
+  if (/^\d{7,8}$/.test(value)) {
+    const iso = rocToISO(value);
+    if (iso) return iso;
   }
 
   if (/^\d{4}[\/.-]\d{2}[\/.-]\d{2}$/.test(value)) {
     return value.replace(/[/.]/g, "-");
+  }
+
+  // Dotted / slashed ROC (115.07.08)
+  if (/^\d{2,3}[\/.]\d{1,2}[\/.]\d{1,2}$/.test(value)) {
+    return rocToISO(value);
   }
 
   return value;
@@ -2231,8 +2239,11 @@ export async function fetchMarketOverviewTrend(
   market: string,
   days: number,
   endDate: string = todayISO(),
+  /** Veg | Fruit — when set, only that crop type is aggregated into the market average. */
+  marketType?: string,
 ): Promise<MarketOverviewTrendResult> {
   const normalizedDays = Math.min(Math.max(Math.floor(days), 1), 30);
+  const typeKey = marketType || "all";
 
   const cachedFn = unstable_cache(
     async (): Promise<{ points: MarketOverviewTrendPoint[] }> => {
@@ -2241,6 +2252,7 @@ export async function fetchMarketOverviewTrend(
         market,
         startDate,
         endDate,
+        marketType,
       );
 
       if (bulkRes.error) {
@@ -2277,7 +2289,13 @@ export async function fetchMarketOverviewTrend(
 
       return { points };
     },
-    ["moa-market-overview-trend-v2", market, String(normalizedDays), endDate],
+    [
+      "moa-market-overview-trend-v3",
+      market,
+      String(normalizedDays),
+      endDate,
+      typeKey,
+    ],
     { revalidate: 120 },
   );
 
@@ -2293,6 +2311,133 @@ export async function fetchMarketOverviewTrend(
       error: error instanceof Error ? error.message : "Unknown MOA fetch error",
     };
   }
+}
+
+export interface SeafoodMarketDaySummary {
+  date: string;
+  avgPrice: number;
+  totalVolume: number;
+}
+
+/** Aggregate seafood snapshot rows for one market, keyed by ISO trading date. */
+export async function fetchSeafoodMarketDailySummaries(
+  market: string,
+): Promise<SeafoodMarketDaySummary[]> {
+  const records = await fetchLatestSeafoodData();
+  const byDate = new Map<string, { priceSum: number; volSum: number; n: number }>();
+
+  for (const r of records) {
+    const name = String(r["市場名稱"] ?? "");
+    if (
+      market !== "全部市場" &&
+      name !== market &&
+      !marketsMatch(name, market)
+    ) {
+      continue;
+    }
+    const date = normalizeMoaDate(String(r["交易日期"] ?? ""));
+    if (!date) continue;
+    const avgPrice = Number(r["平均價"]) || 0;
+    const vol = Number(r["交易量"]) || 0;
+    if (avgPrice <= 0) continue;
+    const cur = byDate.get(date) ?? { priceSum: 0, volSum: 0, n: 0 };
+    cur.priceSum += avgPrice;
+    cur.volSum += vol;
+    cur.n += 1;
+    byDate.set(date, cur);
+  }
+
+  return [...byDate.entries()]
+    .map(([date, cur]) => ({
+      date,
+      avgPrice: Math.round((cur.priceSum / cur.n) * 10) / 10,
+      totalVolume: Math.round(cur.volSum * 10) / 10,
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+export async function fetchSeafoodMarketOverview(market: string): Promise<{
+  date: string;
+  avgPrice: number;
+  totalVolume: number;
+  priceChange: number;
+  volumeChange: number;
+  marketName: string;
+  error?: string;
+}> {
+  const days = await fetchSeafoodMarketDailySummaries(market);
+  if (days.length === 0) {
+    return {
+      date: todayISO(),
+      avgPrice: 0,
+      totalVolume: 0,
+      priceChange: 0,
+      volumeChange: 0,
+      marketName: market,
+      error: "查無市場概況資料",
+    };
+  }
+
+  const latest = days[days.length - 1];
+  const previous = days.length > 1 ? days[days.length - 2] : null;
+  const priceChange =
+    previous && previous.avgPrice > 0
+      ? ((latest.avgPrice - previous.avgPrice) / previous.avgPrice) * 100
+      : 0;
+  const volumeChange =
+    previous && previous.totalVolume > 0
+      ? ((latest.totalVolume - previous.totalVolume) / previous.totalVolume) *
+        100
+      : 0;
+
+  return {
+    date: latest.date,
+    avgPrice: latest.avgPrice,
+    totalVolume: latest.totalVolume,
+    priceChange: Math.round(priceChange * 10) / 10,
+    volumeChange: Math.round(volumeChange * 10) / 10,
+    marketName: market,
+  };
+}
+
+export async function fetchSeafoodMarketTrend(
+  market: string,
+  days: number,
+): Promise<MarketOverviewTrendResult> {
+  const normalizedDays = Math.min(Math.max(Math.floor(days), 1), 30);
+  const summaries = await fetchSeafoodMarketDailySummaries(market);
+  if (summaries.length === 0) {
+    return { points: [], error: "查無市場趨勢資料" };
+  }
+
+  const byDate = new Map(summaries.map((s) => [s.date, s]));
+  const endDate = summaries[summaries.length - 1].date;
+  const startDate = subtractDays(endDate, Math.max(normalizedDays - 1, 0));
+
+  const points: MarketOverviewTrendPoint[] = dateRange(startDate, endDate).map(
+    (date) => {
+      const hit = byDate.get(date);
+      if (!hit) {
+        return {
+          date,
+          label: dateLabel(date),
+          avgPrice: null,
+          volume: null,
+        };
+      }
+      return {
+        date,
+        label: dateLabel(date),
+        avgPrice: hit.avgPrice,
+        volume: hit.totalVolume,
+      };
+    },
+  );
+
+  if (!points.some((p) => p.avgPrice !== null)) {
+    return { points: [], error: "查無市場趨勢資料" };
+  }
+  return { points };
 }
 
 /** 雞蛋/白肉雞行情 API 回傳結構（PoultryTransType_BoiledChicken_Eggs）
@@ -2598,10 +2743,18 @@ const fetchLivestockPricesCached = unstable_cache(
           ) / 10
         : null;
 
-    const eggDate = latestEgg?.TransDate?.replace(/\//g, "-") ?? todayISO();
+    // Prefer pork trading day when the homepage meat hero shows pork avg price.
+    const porkIso = latestPorkDate
+      ? normalizeMoaDate(String(latestPorkDate))
+      : "";
+    const eggIso = latestEgg?.TransDate
+      ? normalizeMoaDate(String(latestEgg.TransDate))
+      : "";
+    const livestockDate =
+      porkIso || eggIso || todayISO();
 
     return {
-      date: eggDate,
+      date: livestockDate,
       eggPrice,
       eggProducerPrice: safeNumericField(latestEgg, "egg_Producer_Price"),
       porkAvgPrice,

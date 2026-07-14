@@ -1,65 +1,82 @@
-# F6 部署後驗證報告（自動）
+# 部署後驗證報告
 
 **環境：** https://tw-veggieprice.vercel.app/  
-**日期：** 2026-07-14  
-**部署：** ADR-0001 選項 D（F6 SSR 預取）已上線  
+**驗證時間：** 2026-07-14  
 
 ---
 
 ## 測試計畫
 
-| # | 檢查項 | 方法 | 通過標準 |
-|---|--------|------|----------|
-| T1 | Document TTFB | curl `/` | HIT/STALE 大致 &lt; 300ms |
-| T2 | F6 嵌資料 | HTML 含 `initialOverview` + 可見均價 | 預設台北一有真實數字 |
-| T3 | overview API 預設市場 | curl vegetable 台北一 | 200 + 與 SSR 一致 |
-| T4 | 暖 cache | 連續 curl API | 第二次明顯變快 |
-| T5 | 分類市場相容 | seafood + 台北一 | 不應長期 404（需別名或先換市場） |
-| T6 | 錯誤路徑 | 假市場 vegetable | 404 + `{error}` 無假資料 |
-| T7 | movers / markets | curl | 200 |
-| T8 | 單元 | `npm run test:unit` | pass |
+| ID | 項目 | 預期 |
+|----|------|------|
+| T1 | Homepage TTFB HIT/STALE | 大致 &lt; 500ms |
+| T2 | F6 `initialOverview` 嵌 HTML | 有真實均價 |
+| T3 | vegetable / fruit / meat / seafood overview | 200；錯誤路徑 404 |
+| T4 | seafood + **台北一**（別名） | 200（非 404） |
+| T5 | movers / markets list | 200 |
+| T6 | insights（weather-risk / rest-days / forecast） | 200 |
+| T7 | history / seasonal | 200 |
+| T8 | `npm run test:unit` | 全過 |
 
 ---
 
-## 結果（部署當下）
+## Loop 第 1 輪（2026-07-14 ~18:59 UTC+8）
 
-| # | 結果 | 摘要 |
-|---|------|------|
-| T1 | ✅ | STALE ttfb ~300ms；HIT ~74–78ms |
-| T2 | ✅ | `initialOverview.avgPrice=72.7`，SSR HTML 有「台北一 今日均價 $72.7」 |
-| T3 | ✅ | overview 台北一 vegetable 200，與 SSR 一致 |
-| T4 | ✅ | overview/trend/movers HIT ~70–90ms；冷 MISS 仍可到數秒～10s |
-| T5 | ❌→修 | **prod 仍：** `category=seafood&market=台北一` → **404**（漁產市場名為「台北」） |
-| T6 | ✅ | 假市場 404 `查無市場趨勢資料` |
-| T7 | ✅ | movers / markets list 200 |
-| T8 | ✅ | `markets` 單元 8/8；既有 cwa 測試仍可用 |
+### 正式站 smoke（修復 **尚未** 上線時）
 
-### 額外觀察
+| 檢查 | 結果 |
+|------|------|
+| Homepage TTFB | ✅ ~420ms，SSR 今日均價 $72.7 |
+| vegetable overview 台北一 | ✅ 72.7 / priceChange -16.8 |
+| fruit overview 台北一 | ❌ **仍 = 72.7**（與蔬菜相同，N04/N05 未分） |
+| seafood overview 台北一 | ❌ avg **163.7**、priceChange **0**、date=今天（跨日混均） |
+| seafood trend | ❌ `[]` |
 
-- 首包 PRERENDER 後 HTML ~119KB，內嵌一週 trend（含休市 null 點）— 符合 F6。  
-- 冷路徑 API 仍貴（overview ~10s MISS）— **F5 仍延後**，見 ADR 再評估條件。  
-- 回應上 `Cache-Control` 常只見 `public`（Vercel 側仍有 `age` + HIT）；next.config 已再對齊 overview TTL，待下版部署觀察。  
-- 漁產 movers 偶有極端漲跌幅（資料面 outlier），非本次範圍。
+### 本輪動作
+
+- 確認 working tree 已有對應修復；`npm run test:unit` **27/27 pass**；`tsc --noEmit` 通過。
+- **Commit + push** 本輪修復（見下方「已修」），待 Vercel 部署後由 loop 第 2 輪再 smoke。
 
 ---
 
-## 已修復（本輪，待再部署）
+## 已修（本輪 ship）
 
-1. **`src/lib/markets.ts`** — `marketsMatch` / `resolveMarketInList`（台北一↔台北、台中市↔台中…）  
-2. **`HomeClient`** — 等該分類市場清單就緒才打 overview；AbortController 取消過期請求  
-3. **`overview` seafood** — 過濾時用 `marketsMatch`，即使仍帶「台北一」也能對到「台北」  
-4. **`markets.test.ts` + `package.json` test:unit**  
-5. **`next.config.ts`** — overview 預設 s-maxage=120，避免被 catch-all 60s 誤傷  
+| 嚴重度 | 問題 | 修復 |
+|--------|------|------|
+| **高** | 漁產 overview **跨所有交易日平均**，非最新日；`priceChange` 恒 0 | `fetchSeafoodMarketOverview` 依日彙總 + 對前一交易日漲跌 |
+| **中** | 漁產 trend 恒回 `[]` | `fetchSeafoodMarketTrend` 從 snapshot 建週走勢 |
+| **中** | 蔬果 overview **未分 N04/N05**，水果=蔬菜同數字 | `fetchMarketOverviewTrend(..., marketType)` |
+| **中** | 緊湊 ROC `1150708` 無法轉 ISO | `rocToISO` 支援 YYYMMDD |
+| **低** | 肉品 hero 日期用雞蛋日而非毛豬日 | livestock `date` 優先 pork |
+| **低** | 預設首頁 shell 混入水果 | `home-prefetch` 固定 `Veg` |
+
+### 預期部署後 seafood（台北一）大致
+
+- date ≈ **2026-07-08**（snapshot 最新日，非今天）  
+- avgPrice ≈ **180.1**（非跨日混均 163.7）  
+- priceChange ≈ **+9.4%**（相對 07-07）  
+- trend：近週有點的折線  
 
 ---
 
-## 再部署後建議 smoke（30 秒）
+## 仍延後
+
+- **F5** 多 endpoint fan-out（ADR-0001）  
+- 肉品 JSON `lastUpdated` 偏舊 — 需 data sync pipeline，非 API 邏輯  
+- `Cache-Control` 回應常只見 `public`（CDN 仍 HIT）  
+- 漁產 movers 極端漲跌幅 outlier  
+
+---
+
+## 再部署後 30 秒 smoke
 
 ```bash
 BASE=https://tw-veggieprice.vercel.app
-# 應為 200（別名修好後）
-curl -sS -o /dev/null -w "%{http_code}\n" \
-  "$BASE/api/prices/overview?market=%E5%8F%B0%E5%8C%97%E4%B8%80&category=seafood"
-# SSR 仍應有 72.x 或當日均價
-curl -sS "$BASE/" | rg -o '今日均價 \$<!-- -->[0-9.]+' | head -1
+curl -sS "$BASE/api/prices/overview?market=%E5%8F%B0%E5%8C%97%E4%B8%80&category=seafood"
+# 期望 date≈2026-07-08、priceChange 非 0
+curl -sS "$BASE/api/prices/overview/trend?market=%E5%8F%B0%E5%8C%97&days=7&category=seafood" | head -c 200
+# 期望非 []
+curl -sS "$BASE/api/prices/overview?market=%E5%8F%B0%E5%8C%97%E4%B8%80&category=fruit"
+curl -sS "$BASE/api/prices/overview?market=%E5%8F%B0%E5%8C%97%E4%B8%80&category=vegetable"
+# 期望兩者 avgPrice 不再必然相同
 ```

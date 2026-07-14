@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
-  fetchLatestSeafoodData,
   fetchMarketOverviewTrend,
   fetchLivestockPrices,
-  type SeafoodRawRecord,
+  fetchSeafoodMarketOverview,
 } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
 import { DEFAULT_MARKET } from '@/lib/constants'
-import { marketsMatch } from '@/lib/markets'
 
 export const maxDuration = 60;
 export const revalidate = 3600;
@@ -18,6 +16,12 @@ const SEAFOOD_CACHE_HEADERS = {
 
 function overviewErrorResponse(message: string, status: number) {
   return NextResponse.json({ error: message }, { status })
+}
+
+function categoryToMarketType(category: string): string | undefined {
+  if (category === 'fruit') return 'Fruit'
+  if (category === 'vegetable') return 'Veg'
+  return undefined
 }
 
 export async function GET(req: NextRequest) {
@@ -41,47 +45,30 @@ export async function GET(req: NextRequest) {
 
   if (category === 'seafood') {
     try {
-      const records = await fetchLatestSeafoodData();
-      const marketRecords = records.filter((r: SeafoodRawRecord) => {
-        const name = String(r['市場名稱'] ?? '')
-        return (
-          market === '全部市場' ||
-          name === market ||
-          marketsMatch(name, market)
-        )
-      });
-      if (marketRecords.length > 0) {
-        const avgPrice =
-          marketRecords.reduce(
-            (sum: number, r: SeafoodRawRecord) =>
-              sum + (Number(r['平均價']) || 0),
-            0,
-          ) / marketRecords.length;
-        const totalVolume = marketRecords.reduce(
-          (sum: number, r: SeafoodRawRecord) =>
-            sum + (Number(r['交易量']) || 0),
-          0,
-        );
-        return NextResponse.json(
-          {
-            date,
-            marketName: market,
-            avgPrice: Math.round(avgPrice * 10) / 10,
-            totalVolume: Math.round(totalVolume * 10) / 10,
-            priceChange: 0,
-            volumeChange: 0,
-            updatedAt: new Date().toISOString(),
-          },
-          { headers: SEAFOOD_CACHE_HEADERS },
-        );
+      const seafood = await fetchSeafoodMarketOverview(market)
+      if (seafood.error) {
+        return overviewErrorResponse(seafood.error, 404)
       }
-      return overviewErrorResponse('查無市場概況資料', 404);
+      return NextResponse.json(
+        {
+          date: seafood.date,
+          marketName: seafood.marketName,
+          avgPrice: seafood.avgPrice,
+          totalVolume: seafood.totalVolume,
+          priceChange: seafood.priceChange,
+          volumeChange: seafood.volumeChange,
+          updatedAt: new Date().toISOString(),
+        },
+        { headers: SEAFOOD_CACHE_HEADERS },
+      )
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : '讀取漁產市場概況失敗';
-      return overviewErrorResponse(message, 502);
+        e instanceof Error ? e.message : '讀取漁產市場概況失敗'
+      return overviewErrorResponse(message, 502)
     }
   }
+
+  const marketType = categoryToMarketType(category)
 
   let recentTradingPoints: {
     date: string
@@ -92,7 +79,7 @@ export async function GET(req: NextRequest) {
   let errorMsg = ''
 
   try {
-    const trendRes = await fetchMarketOverviewTrend(market, 7, date)
+    const trendRes = await fetchMarketOverviewTrend(market, 7, date, marketType)
     if (!trendRes.error) {
       recentTradingPoints = trendRes.points
         .slice()
