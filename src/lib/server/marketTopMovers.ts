@@ -3,9 +3,10 @@
  *
  * Product rules:
  * - National unit price per crop per day (volume-weighted when qty exists).
- * - Change = latest priced day vs previous priced day (price alone qualifies).
+ * - Change = latest *reliable* day vs previous *reliable* day
+ *   (soft min national volume so thin quotes are not a false baseline).
  * - Veg/fruit/seafood unit prices converted to 元/台斤 for display (from 元/公斤).
- * - Exclude miscellaneous "其他…" crop names.
+ * - Exclude miscellaneous "其他…" / "*-其他" crop names.
  */
 import type { TopMover } from "@/lib/types";
 import { getCropEmoji } from "@/lib/utils";
@@ -27,6 +28,16 @@ import { kgPriceToTaijin } from "@/lib/server/priceUnits";
 
 const DEFAULT_LIMIT = 5;
 
+/** Soft floors: day must clear this national volume to enter comparison. */
+const MIN_DAY_VOLUME_KG = {
+  vegetable: 200,
+  fruit: 200,
+  seafood: 30,
+} as const;
+
+/** Drop residual noise spikes from ranking (still computed from real days). */
+const MAX_ABS_CHANGE_PCT = 80;
+
 export type TopMoversResult = {
   movers: TopMover[];
   error?: string;
@@ -37,7 +48,10 @@ function rankByAbsChange(
   limit: number,
 ): TopMover[] {
   return items
-    .filter((m) => m.currentPrice > 0)
+    .filter(
+      (m) =>
+        m.currentPrice > 0 && Math.abs(m.priceChange) <= MAX_ABS_CHANGE_PCT,
+    )
     .sort((a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange))
     .slice(0, limit);
 }
@@ -47,9 +61,13 @@ function moversFromPricedRows(
   limit: number,
   /** Convert kg → 台斤 for display */
   toTaijin: boolean,
+  minDayVolume: number,
 ): TopMoversResult {
   const series = buildCropNationalPriceSeries(rows);
-  const changes = cropChangesFromNationalSeries(series);
+  const changes = cropChangesFromNationalSeries(series, {
+    minDayVolume,
+    minMarkets: 1,
+  });
   const movers: TopMover[] = changes.map((c) => {
     const displayPrice = toTaijin
       ? kgPriceToTaijin(c.latestPrice)
@@ -186,7 +204,7 @@ async function seafoodMovers(limit: number): Promise<TopMoversResult> {
     });
   }
 
-  return moversFromPricedRows(rows, limit, true);
+  return moversFromPricedRows(rows, limit, true, MIN_DAY_VOLUME_KG.seafood);
 }
 
 async function openDataMovers(
@@ -194,6 +212,10 @@ async function openDataMovers(
   limit: number,
 ): Promise<TopMoversResult> {
   const cropType = category === "fruit" ? CROP_TYPE_FRUIT : CROP_TYPE_VEG;
+  const minDayVolume =
+    category === "fruit"
+      ? MIN_DAY_VOLUME_KG.fruit
+      : MIN_DAY_VOLUME_KG.vegetable;
   const recentRecords = await fetchRecentOpenData();
   const rows: PricedTradeRow[] = recentRecords
     .filter(
@@ -212,7 +234,7 @@ async function openDataMovers(
       volume: r.transWeight,
     }));
 
-  return moversFromPricedRows(rows, limit, true);
+  return moversFromPricedRows(rows, limit, true, minDayVolume);
 }
 
 export async function getTopMovers(args: {

@@ -1,7 +1,10 @@
 /**
  * Pure helpers: national unit price per crop per day, and % change
- * between a crop's latest priced day and its previous priced day.
- * Volume is optional — price alone qualifies a day (product rule).
+ * between a crop's latest *reliable* priced day and its previous one.
+ *
+ * "有價即可" still holds for recording a quote, but a day only enters the
+ * movers comparison when national liquidity is above a soft floor — otherwise
+ * a 10–30kg thin trade becomes a false baseline and produces +300% noise.
  */
 
 export type PricedTradeRow = {
@@ -12,16 +15,30 @@ export type PricedTradeRow = {
   volume?: number;
 };
 
-export type NationalDayPrice = {
+export type DayPoint = {
   date: string;
   /** Unit price in source units (usually 元/公斤) */
   price: number;
-  cropCode: string;
+  /** National total volume that day (0 if unknown) */
+  volume: number;
+  /** Distinct market rows with a price */
+  marketCount: number;
+};
+
+export type SeriesOptions = {
+  /** Min national volume for a day to count in movers comparison */
+  minDayVolume?: number;
+  /** Min number of market quotes for a day to count (default 1) */
+  minMarkets?: number;
 };
 
 function isMiscCropName(name: string): boolean {
   const t = name.trim();
-  return t === "其他" || t.startsWith("其他");
+  if (!t) return true;
+  if (t === "其他" || t.startsWith("其他")) return true;
+  // MOA catch-all grades: 甘藍-其他、李-其他、西瓜-其他…
+  if (t.endsWith("-其他") || t.includes("-其他")) return true;
+  return false;
 }
 
 /**
@@ -30,7 +47,7 @@ function isMiscCropName(name: string): boolean {
  */
 export function nationalDayUnitPrice(
   rows: Array<{ avgPrice: number; volume?: number }>,
-): number | null {
+): { price: number; volume: number; marketCount: number } | null {
   const priced = rows.filter((r) => r.avgPrice > 0);
   if (priced.length === 0) return null;
 
@@ -43,20 +60,24 @@ export function nationalDayUnitPrice(
       weighted += r.avgPrice * v;
     }
   }
-  if (volSum > 0) {
-    return weighted / volSum;
-  }
-  return priced.reduce((s, r) => s + r.avgPrice, 0) / priced.length;
+  const price =
+    volSum > 0
+      ? weighted / volSum
+      : priced.reduce((s, r) => s + r.avgPrice, 0) / priced.length;
+
+  return {
+    price,
+    volume: volSum,
+    marketCount: priced.length,
+  };
 }
 
 /**
- * Build per-crop ascending date → national unit price (source units).
- * Skips miscellaneous "其他…" buckets.
+ * Build per-crop day series (unsorted map). Skips miscellaneous buckets.
  */
 export function buildCropNationalPriceSeries(
   rows: PricedTradeRow[],
-): Map<string, { cropCode: string; byDate: Map<string, number> }> {
-  // cropName -> date -> list of market rows
+): Map<string, { cropCode: string; days: DayPoint[] }> {
   const buckets = new Map<
     string,
     Map<string, Array<{ avgPrice: number; volume?: number; cropCode: string }>>
@@ -76,22 +97,38 @@ export function buildCropNationalPriceSeries(
     });
   }
 
-  const out = new Map<string, { cropCode: string; byDate: Map<string, number> }>();
+  const out = new Map<string, { cropCode: string; days: DayPoint[] }>();
 
   for (const [cropName, byDateRows] of buckets) {
-    const byDate = new Map<string, number>();
+    const days: DayPoint[] = [];
     let cropCode = "";
     for (const [date, dayRows] of byDateRows) {
-      const p = nationalDayUnitPrice(dayRows);
-      if (p === null) continue;
-      byDate.set(date, p);
+      const agg = nationalDayUnitPrice(dayRows);
+      if (!agg) continue;
+      days.push({
+        date,
+        price: agg.price,
+        volume: agg.volume,
+        marketCount: agg.marketCount,
+      });
       if (!cropCode && dayRows[0]?.cropCode) cropCode = dayRows[0].cropCode;
     }
-    if (byDate.size > 0) {
-      out.set(cropName, { cropCode, byDate });
+    days.sort((a, b) => a.date.localeCompare(b.date));
+    if (days.length > 0) {
+      out.set(cropName, { cropCode, days });
     }
   }
   return out;
+}
+
+function dayIsReliable(day: DayPoint, opts: SeriesOptions): boolean {
+  const minVol = opts.minDayVolume ?? 0;
+  const minMkts = opts.minMarkets ?? 1;
+  if (day.marketCount < minMkts) return false;
+  // Soft floor: ignore near-zero liquidity days that create fake baselines.
+  // Days with only prices and zero volume everywhere still pass if minDayVolume is 0.
+  if (minVol > 0 && day.volume < minVol) return false;
+  return day.price > 0;
 }
 
 export type CropDayChange = {
@@ -99,40 +136,42 @@ export type CropDayChange = {
   cropCode: string;
   latestDate: string;
   previousDate: string;
-  /** Source unit price on latest day (e.g. 元/公斤) */
   latestPrice: number;
   previousPrice: number;
+  latestVolume: number;
+  previousVolume: number;
   priceChange: number;
 };
 
 /**
- * For each crop: latest priced day vs immediately previous priced day.
+ * For each crop: among reliable days only, latest vs immediately previous.
  */
 export function cropChangesFromNationalSeries(
-  series: Map<string, { cropCode: string; byDate: Map<string, number> }>,
+  series: Map<string, { cropCode: string; days: DayPoint[] }>,
+  opts: SeriesOptions = {},
 ): CropDayChange[] {
   const results: CropDayChange[] = [];
 
-  for (const [cropName, { cropCode, byDate }] of series) {
-    const dates = [...byDate.keys()].sort();
-    if (dates.length < 2) continue;
+  for (const [cropName, { cropCode, days }] of series) {
+    const reliable = days.filter((d) => dayIsReliable(d, opts));
+    if (reliable.length < 2) continue;
 
-    const latestDate = dates[dates.length - 1];
-    const previousDate = dates[dates.length - 2];
-    const latestPrice = byDate.get(latestDate)!;
-    const previousPrice = byDate.get(previousDate)!;
-    if (!(previousPrice > 0)) continue;
+    const latest = reliable[reliable.length - 1];
+    const previous = reliable[reliable.length - 2];
+    if (!(previous.price > 0)) continue;
 
     const priceChange =
-      ((latestPrice - previousPrice) / previousPrice) * 100;
+      ((latest.price - previous.price) / previous.price) * 100;
 
     results.push({
       cropName,
       cropCode,
-      latestDate,
-      previousDate,
-      latestPrice,
-      previousPrice,
+      latestDate: latest.date,
+      previousDate: previous.date,
+      latestPrice: latest.price,
+      previousPrice: previous.price,
+      latestVolume: latest.volume,
+      previousVolume: previous.volume,
       priceChange: Math.round(priceChange * 10) / 10,
     });
   }

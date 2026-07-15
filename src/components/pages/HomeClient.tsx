@@ -795,7 +795,7 @@ export function HomeClient({
                 價格波動榜
               </h2>
               <p className="text-body-sm text-on-surface-variant mt-0.5">
-                全國品項均價（元/台斤）：較該品項上一有價交易日；排除「其他」雜項
+                全國品項均價（元/台斤）：較上一有量交易日；已排除雜項與過薄量噪音
               </p>
             </div>
             <Link
