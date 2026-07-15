@@ -25,7 +25,7 @@ The wholesale market label used for filtering and display (aliases may map 台�
 _Avoid_: venue, station
 
 **Top Mover**:
-A crop ranked by absolute % change of national high price (元/公斤): max of market 上價 (else 平均價) that day, vs the same max on the crop's previous priced day (volume ignored).
+A crop ranked by absolute % change of national avg price (元/公斤): simple mean of all markets' 平均價 that day, vs the same mean on the crop's previous priced day (volume ignored).
 _Avoid_: gainer, leaderboard item; 其他 (misc bucket, excluded)
 
 **Home Market Session**:

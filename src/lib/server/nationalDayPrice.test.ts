@@ -3,84 +3,43 @@ import { describe, it } from "node:test";
 import {
   buildCropNationalPriceSeries,
   cropChangesFromNationalSeries,
-  marketHighPrice,
-  nationalDayHighPrice,
+  nationalDayMeanAvgPrice,
 } from "./nationalDayPrice.ts";
 
-describe("marketHighPrice", () => {
-  it("prefers upper over avg", () => {
-    assert.equal(marketHighPrice({ avgPrice: 20, upperPrice: 35 }), 35);
-  });
-
-  it("falls back to avg when upper missing", () => {
-    assert.equal(marketHighPrice({ avgPrice: 20 }), 20);
-  });
-});
-
-describe("nationalDayHighPrice", () => {
-  it("takes max high across markets, ignores volume", () => {
-    const p = nationalDayHighPrice([
-      { avgPrice: 10, upperPrice: 12 },
-      { avgPrice: 30, upperPrice: 40 },
-      { avgPrice: 25, upperPrice: 28 },
+describe("nationalDayMeanAvgPrice", () => {
+  it("simple-means market avg prices and ignores volume", () => {
+    const p = nationalDayMeanAvgPrice([
+      { avgPrice: 10 },
+      { avgPrice: 30 },
     ]);
     assert.ok(p);
-    assert.equal(p!.price, 40);
-    assert.equal(p!.marketCount, 3);
+    assert.equal(p!.price, 20);
+    assert.equal(p!.marketCount, 2);
   });
 });
 
 describe("cropChangesFromNationalSeries", () => {
-  it("compares max high on latest day vs previous day", () => {
+  it("compares mean avg on latest day vs previous day", () => {
     const series = buildCropNationalPriceSeries([
-      {
-        cropName: "高麗菜",
-        cropCode: "A",
-        date: "2026-07-12",
-        avgPrice: 20,
-        upperPrice: 22,
-      },
-      {
-        cropName: "高麗菜",
-        cropCode: "A",
-        date: "2026-07-12",
-        avgPrice: 18,
-        upperPrice: 25,
-      },
-      {
-        cropName: "高麗菜",
-        cropCode: "A",
-        date: "2026-07-14",
-        avgPrice: 30,
-        upperPrice: 33,
-      },
-      {
-        cropName: "高麗菜",
-        cropCode: "A",
-        date: "2026-07-14",
-        avgPrice: 28,
-        upperPrice: 40,
-      },
-      {
-        cropName: "其他",
-        date: "2026-07-14",
-        avgPrice: 99,
-        upperPrice: 120,
-      },
+      { cropName: "高麗菜", cropCode: "A", date: "2026-07-12", avgPrice: 20 },
+      { cropName: "高麗菜", cropCode: "A", date: "2026-07-12", avgPrice: 30 },
+      { cropName: "高麗菜", cropCode: "A", date: "2026-07-14", avgPrice: 33 },
+      { cropName: "高麗菜", cropCode: "A", date: "2026-07-14", avgPrice: 27 },
+      { cropName: "其他", date: "2026-07-14", avgPrice: 99 },
     ]);
-    // day12 max high = 25, day14 max high = 40 → +60%
+    // day12 mean=25, day14 mean=30 → +20%
     const changes = cropChangesFromNationalSeries(series);
     assert.equal(changes.length, 1);
     assert.equal(changes[0].cropName, "高麗菜");
     assert.equal(changes[0].previousPrice, 25);
-    assert.equal(changes[0].latestPrice, 40);
-    assert.equal(changes[0].priceChange, 60);
+    assert.equal(changes[0].latestPrice, 30);
+    assert.equal(changes[0].priceChange, 20);
   });
 
   it("excludes -其他 catch-all grades", () => {
     const series = buildCropNationalPriceSeries([
-      { cropName: "甘藍-其他", date: "2026-07-12", avgPrice: 14, upperPrice: 20 },
-      { cropName: "甘藍-其他", date: "2026-07-14", avgPrice: 31, upperPrice: 40 },
+      { cropName: "甘藍-其他", date: "2026-07-12", avgPrice: 14 },
+      { cropName: "甘藍-其他", date: "2026-07-14", avgPrice: 31 },
     ]);
     assert.equal(cropChangesFromNationalSeries(series).length, 0);
   });

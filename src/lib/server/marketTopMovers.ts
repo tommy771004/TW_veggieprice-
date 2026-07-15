@@ -2,9 +2,9 @@
  * Category-aware top price movers.
  *
  * Product rules:
- * - Day price = max of all markets' high quotes for that crop (上價, else 平均價).
- * - Change = latest priced day vs previous priced day (price alone qualifies).
- * - Display unit = 元/公斤.
+ * - Day price = simple mean of all markets' 平均價 for that crop (no volume).
+ * - Change = latest priced day vs previous priced day (avg price alone qualifies).
+ * - Display unit = 元/公斤 (open data field unit).
  * - Exclude miscellaneous "其他…" / "*-其他" crop names.
  */
 import type { TopMover } from "@/lib/types";
@@ -47,8 +47,8 @@ function moversFromPricedRows(
   const movers: TopMover[] = changes.map((c) => ({
     cropCode: c.cropCode || "—",
     cropName: c.cropName,
-    marketName: "全國最高",
-    grade: "上價",
+    marketName: "全國平均",
+    grade: "均價",
     currentPrice: Math.round(c.latestPrice * 10) / 10,
     priceChange: c.priceChange,
     emoji: getCropEmoji(c.cropName),
@@ -63,7 +63,6 @@ function moversFromPricedRows(
 
 async function meatMovers(limit: number): Promise<TopMoversResult> {
   const livestock = await fetchLivestockPrices();
-  // Livestock feed has single national series (no multi-market upper ladder).
   const movers = [
     {
       name: "毛豬",
@@ -105,7 +104,7 @@ async function meatMovers(limit: number): Promise<TopMoversResult> {
       cropCode: "M01",
       cropName: item.name,
       marketName: "全國平均",
-      grade: "中平",
+      grade: "均價",
       currentPrice: Math.round((item.price || 0) * 10) / 10,
       priceChange: item.change || 0,
       emoji: getCropEmoji(item.name),
@@ -142,13 +141,13 @@ async function seafoodMovers(limit: number): Promise<TopMoversResult> {
     if (!name || name.startsWith("其他")) continue;
 
     const avgPrice = Number(record["平均價"]) || 0;
-    const upperPrice = Number(record["上價"]) || 0;
+    const upper = Number(record["上價"]);
     const middle = Number(record["中價"]);
     const lower = Number(record["下價"]);
     if (
-      upperPrice === middle &&
+      upper === middle &&
       middle === lower &&
-      upperPrice === avgPrice &&
+      upper === avgPrice &&
       avgPrice > 0
     ) {
       const key = `${record["市場名稱"]}|${record["交易日期"]}|${avgPrice}`;
@@ -156,14 +155,13 @@ async function seafoodMovers(limit: number): Promise<TopMoversResult> {
     }
 
     const date = normalizeMoaDate(String(record["交易日期"] ?? ""));
-    if (!date || !(avgPrice > 0 || upperPrice > 0)) continue;
+    if (!date || !(avgPrice > 0)) continue;
 
     rows.push({
       cropName: name,
       cropCode: String(record["品種代碼"] ?? ""),
       date,
       avgPrice,
-      upperPrice: upperPrice > 0 ? upperPrice : undefined,
     });
   }
 
@@ -181,7 +179,7 @@ async function openDataMovers(
       (r) =>
         r.marketName !== "全國平均" &&
         r._typeCode === cropType &&
-        (r.avgPrice > 0 || r.upperPrice > 0) &&
+        r.avgPrice > 0 &&
         !!r.date &&
         !!r.cropName,
     )
@@ -190,7 +188,6 @@ async function openDataMovers(
       cropCode: r.cropCode,
       date: r.date,
       avgPrice: r.avgPrice,
-      upperPrice: r.upperPrice > 0 ? r.upperPrice : undefined,
     }));
 
   return moversFromPricedRows(rows, limit);
