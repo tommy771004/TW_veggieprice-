@@ -25,6 +25,27 @@ export function rocToISO(roc: string): string {
   return `${year}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`
 }
 
+/** Normalize MOA raw date strings (compact ROC, dotted ROC, ISO-like) to YYYY-MM-DD. */
+export function normalizeMoaDate(raw: string): string {
+  const value = raw.trim()
+  if (!value) return ''
+
+  if (/^\d{7,8}$/.test(value)) {
+    const iso = rocToISO(value)
+    if (iso) return iso
+  }
+
+  if (/^\d{4}[\/.-]\d{2}[\/.-]\d{2}$/.test(value)) {
+    return value.replace(/[/.]/g, '-')
+  }
+
+  if (/^\d{2,3}[\/.]\d{1,2}[\/.]\d{1,2}$/.test(value)) {
+    return rocToISO(value)
+  }
+
+  return value
+}
+
 export function subtractDays(iso: string, days: number): string {
   const parts = iso.split('-').map(Number)
   if (parts.length < 3 || isNaN(parts[0]) || isNaN(parts[1]) || isNaN(parts[2])) {

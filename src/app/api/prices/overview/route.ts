@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import {
-  fetchMarketOverviewTrend,
-  fetchLivestockPrices,
-  fetchSeafoodMarketOverview,
-} from '@/lib/server/moa'
-import { todayISO } from '@/lib/server/dateUtils'
 import { DEFAULT_MARKET } from '@/lib/constants'
+import { todayISO } from '@/lib/server/dateUtils'
 import { bustCacheOnReload } from '@/lib/server/freshReload'
+import { getMarketOverview } from '@/lib/server/marketOverview'
 
 export const maxDuration = 60;
 export const revalidate = 3600;
@@ -15,14 +11,17 @@ const SEAFOOD_CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
 };
 
+const VEG_FRUIT_CACHE_HEADERS = {
+  'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+};
+
 function overviewErrorResponse(message: string, status: number) {
   return NextResponse.json({ error: message }, { status })
 }
 
-function categoryToMarketType(category: string): string | undefined {
-  if (category === 'fruit') return 'Fruit'
-  if (category === 'vegetable') return 'Veg'
-  return undefined
+function cacheHeadersForCategory(category: string): Record<string, string> | undefined {
+  if (category === 'seafood' || category === 'meat') return SEAFOOD_CACHE_HEADERS
+  return VEG_FRUIT_CACHE_HEADERS
 }
 
 export async function GET(req: NextRequest) {
@@ -33,105 +32,25 @@ export async function GET(req: NextRequest) {
 
   if (category === 'meat') {
     bustCacheOnReload(req, ['moa-livestock-prices'])
-    const livestock = await fetchLivestockPrices();
-    if (!livestock.porkAvgPrice) {
-      return overviewErrorResponse('查無市場概況資料', 404)
-    }
-    return NextResponse.json({
-      date: livestock.date,
-      marketName: '全國平均',
-      avgPrice: livestock.porkAvgPrice,
-      // Head count for the latest pork trading day (not kg — UI labels 量能 generically).
-      totalVolume: livestock.porkTotalHeads ?? 0,
-      priceChange: livestock.porkPriceChange || 0,
-      volumeChange: livestock.porkVolumeChange || 0,
-      updatedAt: new Date().toISOString(),
-    });
+  } else if (category === 'seafood') {
+    bustCacheOnReload(req, ['moa-latest-seafood-data'])
   }
 
-  if (category === 'seafood') {
-    try {
-      bustCacheOnReload(req, ['moa-latest-seafood-data'])
-      const seafood = await fetchSeafoodMarketOverview(market)
-      if (seafood.error) {
-        return overviewErrorResponse(seafood.error, 404)
-      }
-      return NextResponse.json(
-        {
-          date: seafood.date,
-          marketName: seafood.marketName,
-          avgPrice: seafood.avgPrice,
-          totalVolume: seafood.totalVolume,
-          priceChange: seafood.priceChange,
-          volumeChange: seafood.volumeChange,
-          updatedAt: new Date().toISOString(),
-        },
-        { headers: SEAFOOD_CACHE_HEADERS },
-      )
-    } catch (e) {
-      const message =
-        e instanceof Error ? e.message : '讀取漁產市場概況失敗'
-      return overviewErrorResponse(message, 502)
-    }
-  }
+  const result = await getMarketOverview({
+    market,
+    category,
+    asOf: date,
+    days: 7,
+  })
 
-  const marketType = categoryToMarketType(category)
-
-  let recentTradingPoints: {
-    date: string
-    label?: string
-    avgPrice: number | null
-    volume: number | null
-  }[] = []
-  let errorMsg = ''
-
-  try {
-    const trendRes = await fetchMarketOverviewTrend(market, 7, date, marketType)
-    if (!trendRes.error) {
-      recentTradingPoints = trendRes.points
-        .slice()
-        .reverse()
-        .filter((point) => point.avgPrice !== null)
-    } else {
-      errorMsg = trendRes.error
-    }
-  } catch (err) {
-    errorMsg = err instanceof Error ? err.message : String(err)
-  }
-
-  if (recentTradingPoints.length === 0) {
-    const message = errorMsg || '查無市場概況資料'
+  if (!result.overview) {
+    const message = result.error || '查無市場概況資料'
     const status =
-      errorMsg && !errorMsg.includes('查無') ? 502 : 404
+      result.error && !result.error.includes('查無') ? 502 : 404
     return overviewErrorResponse(message, status)
   }
 
-  const latestPoint = recentTradingPoints[0]
-  const previousPoint = recentTradingPoints[1]
-  const latestDate = latestPoint.date
-  const avgPrice = latestPoint.avgPrice ?? 0
-  const totalVolume = latestPoint.volume ?? 0
-  const previousAvgPrice = previousPoint?.avgPrice ?? 0
-  const previousTotalVolume = previousPoint?.volume ?? 0
-
-  const priceChange = previousAvgPrice > 0
-    ? ((avgPrice - previousAvgPrice) / previousAvgPrice) * 100
-    : 0
-  const volumeChange = previousTotalVolume > 0
-    ? ((totalVolume - previousTotalVolume) / previousTotalVolume) * 100
-    : 0
-
-  return NextResponse.json({
-    date: latestDate,
-    avgPrice: Math.round(avgPrice * 10) / 10,
-    totalVolume: Math.round(totalVolume),
-    priceChange: Math.round(priceChange * 10) / 10,
-    volumeChange: Math.round(volumeChange * 10) / 10,
-    marketName: market,
-    updatedAt: new Date().toISOString(),
-  }, {
-    headers: {
-      'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
-    },
+  return NextResponse.json(result.overview, {
+    headers: cacheHeadersForCategory(category),
   })
 }
