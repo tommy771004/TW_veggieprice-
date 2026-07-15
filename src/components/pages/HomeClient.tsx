@@ -684,35 +684,6 @@ export function HomeClient({
             />
           )}
 
-          {/* Pulse Marquee */}
-          {marketPulseCards.length > 0 && (
-            <div className="mb-4 overflow-hidden bg-surface/60 backdrop-blur-md border border-outline/20 rounded-2xl flex items-center shadow-glass-sm py-2 group/marquee cursor-default relative">
-              <m.div
-                className="flex whitespace-nowrap"
-                animate={{ x: ["0%", "-50%"] }}
-                transition={{ repeat: Infinity, ease: "linear", duration: 15 }}
-                style={{ width: "fit-content" }}
-              >
-                {[...marketPulseCards, ...marketPulseCards].map((card, i) => (
-                  <div
-                    key={`${card.label}-${i}`}
-                    className="inline-flex items-center gap-3 px-8 shrink-0 relative after:content-[''] after:absolute after:right-0 after:-translate-y-1/2 after:top-1/2 after:w-1 after:h-1 after:rounded-full after:bg-outline/50 last:after:hidden"
-                  >
-                    <span className="text-label-sm font-bold text-primary/80 uppercase tracking-widest">
-                      {card.label}
-                    </span>
-                    <strong className="text-body-md font-black text-on-surface tabular-nums">
-                      {card.value}
-                    </strong>
-                    <small className="text-xs font-medium text-on-surface-variant bg-surface-variant/50 px-2 py-0.5 rounded-md">
-                      {card.meta}
-                    </small>
-                  </div>
-                ))}
-              </m.div>
-            </div>
-          )}
-
           {/* Daily summary banner */}
           <AnimatePresence>
             {!summaryDismissed &&
@@ -977,6 +948,35 @@ export function HomeClient({
             )}
           </AnimatePresence>
         </m.section>
+
+        {/* Pulse Marquee — outside collapsible market overview, always below it */}
+        {marketPulseCards.length > 0 && (
+          <div className="-mt-2 -mb-1 md:-mt-4 md:-mb-2 overflow-hidden bg-surface/60 backdrop-blur-md border border-outline/20 rounded-xl flex items-center shadow-glass-sm py-1.5 group/marquee cursor-default relative">
+            <m.div
+              className="flex whitespace-nowrap"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, ease: "linear", duration: 15 }}
+              style={{ width: "fit-content" }}
+            >
+              {[...marketPulseCards, ...marketPulseCards].map((card, i) => (
+                <div
+                  key={`${card.label}-${i}`}
+                  className="inline-flex items-center gap-2 px-5 shrink-0 relative after:content-[''] after:absolute after:right-0 after:-translate-y-1/2 after:top-1/2 after:w-1 after:h-1 after:rounded-full after:bg-outline/50 last:after:hidden"
+                >
+                  <span className="text-2xs font-bold text-primary/80 uppercase tracking-widest">
+                    {card.label}
+                  </span>
+                  <strong className="text-body-sm font-black text-on-surface tabular-nums">
+                    {card.value}
+                  </strong>
+                  <small className="text-2xs font-medium text-on-surface-variant bg-surface-variant/50 px-1.5 py-0.5 rounded">
+                    {card.meta}
+                  </small>
+                </div>
+              ))}
+            </m.div>
+          </div>
+        )}
 
         {/* ── Category Filter & Market Select ───────────────────────────── */}
         <section className="-mx-section-margin px-section-margin overflow-x-auto hide-scrollbar">
