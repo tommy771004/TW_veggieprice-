@@ -1,11 +1,12 @@
 /**
- * Pure helpers: national unit price per crop per day, and % change
+ * Pure helpers: national high price per crop per day, and % change
  * between a crop's latest priced day and its previous priced day.
  *
- * Product rule (2026-07-15):
- * - Unit = 元/公斤 (source open-data unit).
- * - Day price = simple mean of market avg prices (volume ignored).
- * - A day qualifies if it has any positive price (no volume gate).
+ * Product rule:
+ * - Unit = 元/公斤.
+ * - Day price = max high quote across all markets that day (volume ignored).
+ *   Per market: prefer 上價 (upperPrice), else 平均價 (avgPrice).
+ * - A day qualifies if any positive high exists (no volume gate).
  */
 
 export type PricedTradeRow = {
@@ -13,13 +14,14 @@ export type PricedTradeRow = {
   cropCode?: string;
   date: string; // ISO preferred
   avgPrice: number;
-  /** Ignored for averaging; kept for call-site compatibility */
+  /** 上價 / high; preferred for "最高價" when > 0 */
+  upperPrice?: number;
   volume?: number;
 };
 
 export type DayPoint = {
   date: string;
-  /** Unit price 元/公斤 */
+  /** National high 元/公斤 that day */
   price: number;
   marketCount: number;
 };
@@ -32,22 +34,41 @@ function isMiscCropName(name: string): boolean {
   return false;
 }
 
+/** One market's high for the day: upper if set, else avg. */
+export function marketHighPrice(row: {
+  avgPrice: number;
+  upperPrice?: number;
+}): number {
+  if (row.upperPrice !== undefined && row.upperPrice > 0) {
+    return row.upperPrice;
+  }
+  return row.avgPrice > 0 ? row.avgPrice : 0;
+}
+
 /**
- * Simple mean of positive market avg prices (volume not used).
+ * Max of market highs across markets (volume not used).
  */
-export function nationalDayUnitPrice(
-  rows: Array<{ avgPrice: number; volume?: number }>,
+export function nationalDayHighPrice(
+  rows: Array<{ avgPrice: number; upperPrice?: number }>,
 ): { price: number; marketCount: number } | null {
-  const priced = rows.filter((r) => r.avgPrice > 0);
-  if (priced.length === 0) return null;
+  let max = 0;
+  let marketCount = 0;
+  for (const r of rows) {
+    const h = marketHighPrice(r);
+    if (h > 0) {
+      marketCount += 1;
+      if (h > max) max = h;
+    }
+  }
+  if (marketCount === 0 || max <= 0) return null;
+  return { price: max, marketCount };
+}
 
-  const price =
-    priced.reduce((s, r) => s + r.avgPrice, 0) / priced.length;
-
-  return {
-    price,
-    marketCount: priced.length,
-  };
+/** @deprecated alias — prefer nationalDayHighPrice */
+export function nationalDayUnitPrice(
+  rows: Array<{ avgPrice: number; upperPrice?: number; volume?: number }>,
+): { price: number; marketCount: number } | null {
+  return nationalDayHighPrice(rows);
 }
 
 /**
@@ -58,11 +79,15 @@ export function buildCropNationalPriceSeries(
 ): Map<string, { cropCode: string; days: DayPoint[] }> {
   const buckets = new Map<
     string,
-    Map<string, Array<{ avgPrice: number; cropCode: string }>>
+    Map<
+      string,
+      Array<{ avgPrice: number; upperPrice?: number; cropCode: string }>
+    >
   >();
 
   for (const r of rows) {
-    if (!r.cropName || !r.date || !(r.avgPrice > 0)) continue;
+    const high = marketHighPrice(r);
+    if (!r.cropName || !r.date || !(high > 0)) continue;
     if (isMiscCropName(r.cropName)) continue;
 
     if (!buckets.has(r.cropName)) buckets.set(r.cropName, new Map());
@@ -70,6 +95,7 @@ export function buildCropNationalPriceSeries(
     if (!byDate.has(r.date)) byDate.set(r.date, []);
     byDate.get(r.date)!.push({
       avgPrice: r.avgPrice,
+      upperPrice: r.upperPrice,
       cropCode: r.cropCode ?? "",
     });
   }
@@ -80,7 +106,7 @@ export function buildCropNationalPriceSeries(
     const days: DayPoint[] = [];
     let cropCode = "";
     for (const [date, dayRows] of byDateRows) {
-      const agg = nationalDayUnitPrice(dayRows);
+      const agg = nationalDayHighPrice(dayRows);
       if (!agg) continue;
       days.push({
         date,
@@ -108,7 +134,7 @@ export type CropDayChange = {
 };
 
 /**
- * For each crop: latest day with a price vs the previous day with a price.
+ * For each crop: latest day with a high vs the previous day with a high.
  */
 export function cropChangesFromNationalSeries(
   series: Map<string, { cropCode: string; days: DayPoint[] }>,
@@ -116,7 +142,6 @@ export function cropChangesFromNationalSeries(
   const results: CropDayChange[] = [];
 
   for (const [cropName, { cropCode, days }] of series) {
-    // Any day with a computed national mean price qualifies.
     const priced = days.filter((d) => d.price > 0);
     if (priced.length < 2) continue;
 

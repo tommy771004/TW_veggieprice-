@@ -795,7 +795,7 @@ export function HomeClient({
                 價格波動榜
               </h2>
               <p className="text-body-sm text-on-surface-variant mt-0.5">
-                全國各市場均價再平均（元/公斤）：較該品項上一有價交易日；已排除「其他」雜項
+                全國各市場最高價（上價）再取最大（元/公斤）：較該品項上一有價交易日；已排除「其他」雜項
               </p>
             </div>
             <Link
