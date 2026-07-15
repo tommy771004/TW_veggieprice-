@@ -25,7 +25,7 @@ The wholesale market label used for filtering and display (aliases may map 台�
 _Avoid_: venue, station
 
 **Top Mover**:
-A crop ranked by absolute % change of national unit price (shown as 元/台斤 for veg/fruit/seafood) between that crop's latest priced day and its previous priced day.
+A crop ranked by absolute % change of national unit price (元/公斤): simple mean of all markets' avg prices that day, vs the same mean on the crop's previous priced day (volume ignored).
 _Avoid_: gainer, leaderboard item; 其他 (misc bucket, excluded)
 
 **Home Market Session**:
