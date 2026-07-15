@@ -25,8 +25,8 @@ The wholesale market label used for filtering and display (aliases may map 台�
 _Avoid_: venue, station
 
 **Top Mover**:
-A crop (or livestock item) ranked by absolute price change between the latest and a recent baseline trading day.
-_Avoid_: gainer, leaderboard item
+A crop ranked by absolute % change of national unit price (shown as 元/台斤 for veg/fruit/seafood) between that crop's latest priced day and its previous priced day.
+_Avoid_: gainer, leaderboard item; 其他 (misc bucket, excluded)
 
 **Home Market Session**:
 The client-side coordination of market list, category, overview, trend, movers, and rest/weather for the homepage shell.

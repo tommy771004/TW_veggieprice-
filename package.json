@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:unit": "node --experimental-strip-types --test src/lib/server/cwaForecast.test.ts src/lib/server/cwaObservation.test.ts src/lib/server/dateUtils.test.ts src/lib/server/marketOverview.test.ts src/lib/markets.test.ts",
+    "test:unit": "node --experimental-strip-types --test src/lib/server/cwaForecast.test.ts src/lib/server/cwaObservation.test.ts src/lib/server/dateUtils.test.ts src/lib/server/marketOverview.test.ts src/lib/server/nationalDayPrice.test.ts src/lib/markets.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "fetch-data": "node scripts/fetch-moa-data.js",

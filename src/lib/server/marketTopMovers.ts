@@ -1,6 +1,11 @@
 /**
- * Category-aware top price movers (C1 phase 2).
- * HTTP route stays a thin adapter over getTopMovers.
+ * Category-aware top price movers.
+ *
+ * Product rules:
+ * - National unit price per crop per day (volume-weighted when qty exists).
+ * - Change = latest priced day vs previous priced day (price alone qualifies).
+ * - Veg/fruit/seafood unit prices converted to 元/台斤 for display (from 元/公斤).
+ * - Exclude miscellaneous "其他…" crop names.
  */
 import type { TopMover } from "@/lib/types";
 import { getCropEmoji } from "@/lib/utils";
@@ -12,8 +17,14 @@ import {
   fetchRecentOpenData,
   type SeafoodRawRecord,
 } from "@/lib/server/moa";
-const OPEN_DATA_MIN_VOLUME_KG = 2000;
-const MAX_BASELINE_TRADING_DAYS = 7;
+import { normalizeMoaDate } from "@/lib/server/dateUtils";
+import {
+  buildCropNationalPriceSeries,
+  cropChangesFromNationalSeries,
+  type PricedTradeRow,
+} from "@/lib/server/nationalDayPrice";
+import { kgPriceToTaijin } from "@/lib/server/priceUnits";
+
 const DEFAULT_LIMIT = 5;
 
 export type TopMoversResult = {
@@ -21,100 +32,119 @@ export type TopMoversResult = {
   error?: string;
 };
 
-type RankedMover = TopMover & { transWeight?: number };
-
-function rankMovers(
-  items: RankedMover[],
+function rankByAbsChange(
+  items: TopMover[],
   limit: number,
-): RankedMover[] {
+): TopMover[] {
   return items
-    .filter((m) => m.currentPrice >= 3)
+    .filter((m) => m.currentPrice > 0)
     .sort((a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange))
     .slice(0, limit);
 }
 
+function moversFromPricedRows(
+  rows: PricedTradeRow[],
+  limit: number,
+  /** Convert kg → 台斤 for display */
+  toTaijin: boolean,
+): TopMoversResult {
+  const series = buildCropNationalPriceSeries(rows);
+  const changes = cropChangesFromNationalSeries(series);
+  const movers: TopMover[] = changes.map((c) => {
+    const displayPrice = toTaijin
+      ? kgPriceToTaijin(c.latestPrice)
+      : Math.round(c.latestPrice * 10) / 10;
+    return {
+      cropCode: c.cropCode || "—",
+      cropName: c.cropName,
+      marketName: "全國平均",
+      grade: "不分",
+      currentPrice: displayPrice,
+      priceChange: c.priceChange,
+      emoji: getCropEmoji(c.cropName),
+    };
+  });
+
+  const ranked = rankByAbsChange(movers, limit);
+  if (ranked.length === 0) {
+    return { movers: [], error: "查無波動排行資料" };
+  }
+  return { movers: ranked };
+}
+
 async function meatMovers(limit: number): Promise<TopMoversResult> {
   const livestock = await fetchLivestockPrices();
+  // Livestock quotes are 元/公斤 for pork etc.; eggs often 台斤 — convert kg items.
   const movers = [
     {
       name: "毛豬",
       price: livestock.porkAvgPrice,
       change: livestock.porkPriceChange,
+      kg: true,
     },
     {
       name: "白肉雞",
       price: livestock.chickenPrice,
       change: livestock.chickenPriceChange,
+      kg: false, // 元/台斤 in feed
     },
     {
       name: "紅羽土雞",
       price: livestock.redFeatherChickenPrice,
       change: livestock.redFeatherChickenPriceChange,
+      kg: false,
     },
     {
       name: "肉鵝",
       price: livestock.goosePrice,
       change: livestock.goosePriceChange,
+      kg: false,
     },
     {
       name: "肉鴨",
       price: livestock.duckPrice,
       change: livestock.duckPriceChange,
+      kg: false,
     },
     {
       name: "羊",
       price: livestock.sheepAvgPrice,
       change: livestock.sheepAvgPriceChange,
+      kg: true,
     },
     {
       name: "雞蛋",
       price: livestock.eggPrice,
       change: livestock.eggPriceChange,
+      kg: false,
     },
   ]
-    .map((item) => ({
-      cropCode: "M01",
-      cropName: item.name,
-      marketName: "全國平均",
-      grade: "中平",
-      currentPrice: item.price || 0,
-      priceChange: item.change || 0,
-      emoji: getCropEmoji(item.name),
-      transWeight: 1000,
-    }))
-    .filter((m) => m.currentPrice > 0)
-    .sort((a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange))
-    .slice(0, limit);
+    .map((item) => {
+      const raw = item.price || 0;
+      const currentPrice = item.kg ? kgPriceToTaijin(raw) : Math.round(raw * 10) / 10;
+      return {
+        cropCode: "M01",
+        cropName: item.name,
+        marketName: "全國平均",
+        grade: "中平",
+        currentPrice,
+        priceChange: item.change || 0,
+        emoji: getCropEmoji(item.name),
+      };
+    })
+    .filter((m) => m.currentPrice > 0);
 
-  if (movers.length === 0) {
+  const ranked = rankByAbsChange(movers, limit);
+  if (ranked.length === 0) {
     return { movers: [], error: "查無波動排行資料" };
   }
-  return { movers };
+  return { movers: ranked };
 }
 
 async function seafoodMovers(limit: number): Promise<TopMoversResult> {
   const records = await fetchLatestSeafoodData();
 
-  const tradingDates = [
-    ...new Set(
-      records
-        .map((r: SeafoodRawRecord) => String(r["交易日期"] ?? ""))
-        .filter(Boolean),
-    ),
-  ]
-    .sort()
-    .reverse() as string[];
-  const latestDate = tradingDates[0];
-  if (!latestDate) {
-    return { movers: [], error: "查無波動排行資料" };
-  }
-
-  const cropDateSums: Record<
-    string,
-    Record<string, { sumPriceVol: number; sumVol: number; cropCode: string }>
-  > = {};
-
-  // Stub quotes: same upper=mid=lower=avg across many species on same market+day.
+  // Drop stub quotes (same upper=mid=lower=avg across many species).
   const priceClusters = new Map<string, Set<string>>();
   for (const record of records as SeafoodRawRecord[]) {
     const upper = Number(record["上價"]);
@@ -129,74 +159,34 @@ async function seafoodMovers(limit: number): Promise<TopMoversResult> {
     }
   }
 
+  const rows: PricedTradeRow[] = [];
   for (const record of records as SeafoodRawRecord[]) {
     const name = String(record["魚貨名稱"] ?? "");
-    if (name.startsWith("其他")) continue;
+    if (!name || name.startsWith("其他")) continue;
 
     const avgPrice = Number(record["平均價"]) || 0;
-    const transWeight = Number(record["交易量"]) || 0;
-
+    const volume = Number(record["交易量"]) || 0;
     const upper = Number(record["上價"]);
     const middle = Number(record["中價"]);
     const lower = Number(record["下價"]);
-    if (upper === middle && middle === lower && upper === avgPrice) {
+    if (upper === middle && middle === lower && upper === avgPrice && avgPrice > 0) {
       const key = `${record["市場名稱"]}|${record["交易日期"]}|${avgPrice}`;
       if ((priceClusters.get(key)?.size ?? 0) >= 3) continue;
     }
 
-    if (avgPrice > 0 && transWeight > 0) {
-      const d = String(record["交易日期"] ?? "");
-      if (!cropDateSums[name]) cropDateSums[name] = {};
-      if (!cropDateSums[name][d]) {
-        cropDateSums[name][d] = {
-          sumPriceVol: 0,
-          sumVol: 0,
-          cropCode: String(record["品種代碼"] ?? ""),
-        };
-      }
-      cropDateSums[name][d].sumPriceVol += avgPrice * transWeight;
-      cropDateSums[name][d].sumVol += transWeight;
-    }
+    const date = normalizeMoaDate(String(record["交易日期"] ?? ""));
+    if (!date || !(avgPrice > 0)) continue;
+
+    rows.push({
+      cropName: name,
+      cropCode: String(record["品種代碼"] ?? ""),
+      date,
+      avgPrice,
+      volume,
+    });
   }
 
-  const ranked = rankMovers(
-    Object.keys(cropDateSums)
-      .map((cropName) => {
-        const todayData = cropDateSums[cropName]?.[latestDate];
-        if (!todayData || todayData.sumVol < 50) return null;
-
-        const currentPrice = todayData.sumPriceVol / todayData.sumVol;
-        let baselinePrice = 0;
-        for (let i = 1; i < tradingDates.length && i <= 7; i++) {
-          const prevDate = tradingDates[i] as string;
-          const prevData = cropDateSums[cropName]?.[prevDate];
-          if (prevData && prevData.sumVol >= 50) {
-            baselinePrice = prevData.sumPriceVol / prevData.sumVol;
-            break;
-          }
-        }
-        if (baselinePrice <= 0) return null;
-
-        const change = ((currentPrice - baselinePrice) / baselinePrice) * 100;
-        return {
-          cropCode: todayData.cropCode,
-          cropName,
-          marketName: "全國平均",
-          grade: "不分",
-          currentPrice: Math.round(currentPrice * 10) / 10,
-          priceChange: Math.round(change * 10) / 10,
-          emoji: getCropEmoji(cropName),
-          transWeight: Math.round(todayData.sumVol),
-        };
-      })
-      .filter((m): m is NonNullable<typeof m> => m !== null),
-    limit,
-  );
-
-  if (ranked.length === 0) {
-    return { movers: [], error: "查無波動排行資料" };
-  }
-  return { movers: ranked };
+  return moversFromPricedRows(rows, limit, true);
 }
 
 async function openDataMovers(
@@ -205,88 +195,24 @@ async function openDataMovers(
 ): Promise<TopMoversResult> {
   const cropType = category === "fruit" ? CROP_TYPE_FRUIT : CROP_TYPE_VEG;
   const recentRecords = await fetchRecentOpenData();
-  const allRecords = recentRecords.filter(
-    (r) => r.marketName !== "全國平均" && r._typeCode === cropType,
-  );
+  const rows: PricedTradeRow[] = recentRecords
+    .filter(
+      (r) =>
+        r.marketName !== "全國平均" &&
+        r._typeCode === cropType &&
+        r.avgPrice > 0 &&
+        !!r.date &&
+        !!r.cropName,
+    )
+    .map((r) => ({
+      cropName: r.cropName,
+      cropCode: r.cropCode,
+      date: r.date,
+      avgPrice: r.avgPrice,
+      volume: r.transWeight,
+    }));
 
-  if (allRecords.length === 0) {
-    return { movers: [], error: "查無波動排行資料" };
-  }
-
-  const tradingDates = [
-    ...new Set(allRecords.map((r) => r.date).filter(Boolean)),
-  ]
-    .sort()
-    .reverse();
-  const latestDate = tradingDates[0] ?? "";
-  if (!latestDate) {
-    return { movers: [], error: "查無波動排行資料" };
-  }
-
-  const cropDateSums: Record<
-    string,
-    Record<string, { sumPriceVol: number; sumVol: number; cropCode: string }>
-  > = {};
-
-  for (const record of allRecords) {
-    if (record.avgPrice > 0 && record.transWeight > 0) {
-      const name = record.cropName;
-      const d = record.date;
-      if (!cropDateSums[name]) cropDateSums[name] = {};
-      if (!cropDateSums[name][d]) {
-        cropDateSums[name][d] = {
-          sumPriceVol: 0,
-          sumVol: 0,
-          cropCode: record.cropCode,
-        };
-      }
-      cropDateSums[name][d].sumPriceVol += record.avgPrice * record.transWeight;
-      cropDateSums[name][d].sumVol += record.transWeight;
-    }
-  }
-
-  const ranked = rankMovers(
-    Object.keys(cropDateSums)
-      .map((cropName) => {
-        const todayData = cropDateSums[cropName][latestDate];
-        if (!todayData || todayData.sumVol < OPEN_DATA_MIN_VOLUME_KG) {
-          return null;
-        }
-        const currentPrice = todayData.sumPriceVol / todayData.sumVol;
-        let baselinePrice = 0;
-        for (
-          let i = 1;
-          i < tradingDates.length && i <= MAX_BASELINE_TRADING_DAYS;
-          i++
-        ) {
-          const prevDate = tradingDates[i];
-          const prevData = cropDateSums[cropName][prevDate];
-          if (prevData && prevData.sumVol >= OPEN_DATA_MIN_VOLUME_KG) {
-            baselinePrice = prevData.sumPriceVol / prevData.sumVol;
-            break;
-          }
-        }
-        if (baselinePrice <= 0) return null;
-        const change = ((currentPrice - baselinePrice) / baselinePrice) * 100;
-        return {
-          cropCode: todayData.cropCode,
-          cropName,
-          marketName: "全國平均",
-          grade: "不分",
-          currentPrice: Math.round(currentPrice * 10) / 10,
-          priceChange: Math.round(change * 10) / 10,
-          emoji: getCropEmoji(cropName),
-          transWeight: Math.round(todayData.sumVol),
-        };
-      })
-      .filter((m): m is NonNullable<typeof m> => m !== null),
-    limit,
-  );
-
-  if (ranked.length === 0) {
-    return { movers: [], error: "查無波動排行資料" };
-  }
-  return { movers: ranked };
+  return moversFromPricedRows(rows, limit, true);
 }
 
 export async function getTopMovers(args: {

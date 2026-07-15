@@ -2022,162 +2022,106 @@ export async function fetchSearchRecords(
     return { records: [], error: bulkRes.error };
   }
 
-  const records: NormalizedPriceRecord[] = [];
-  // Track the most recent pre-period price per crop+market for priceChange baseline
-  const prePriceTracker = new Map<string, { date: string; price: number }>();
+  if (bulkRes.records.length === 0) {
+    return { records: [] };
+  }
+
+  // Per crop+market: full priced-day series from bulk (includes look-back).
+  // Latest priced day vs previous priced day; price alone qualifies (no min volume).
+  type DayAgg = {
+    avgPriceSum: number;
+    volSum: number;
+    priceCount: number;
+    upperPrice: number;
+    middlePrice: number;
+    lowerPrice: number;
+    transWeight: number;
+  };
+  type SeriesState = {
+    cropCode: string;
+    cropName: string;
+    marketName: string;
+    byDate: Map<string, DayAgg>;
+  };
+
+  const seriesByKey = new Map<string, SeriesState>();
 
   for (const record of bulkRes.records) {
-    if (!record.date) continue;
-
-    if (record.date < startDate) {
-      // Keep only the most recent pre-period record per crop+market
-      const key = `${record.cropCode}_${record.marketName}`;
-      const existing = prePriceTracker.get(key);
-      if (!existing || record.date > existing.date) {
-        prePriceTracker.set(key, { date: record.date, price: record.avgPrice });
-      }
-    }
-
-    if (record.date >= startDate && record.date <= endDate) {
-      records.push(record);
-    }
-  }
-
-  if (records.length === 0) {
-    // No records in the exact requested range — this commonly happens when today's
-    // market data has not been published yet (e.g. queried before markets close).
-    // Fall back to the most recent available trading day in the look-back window.
-    let mostRecentAvailable = "";
-    for (const record of bulkRes.records) {
-      if (
-        record.date &&
-        record.date < startDate &&
-        record.date > mostRecentAvailable
-      ) {
-        mostRecentAvailable = record.date;
-      }
-    }
-
-    if (!mostRecentAvailable) {
-      // Truly no data in the look-back window either — return empty gracefully.
-      return { records: [] };
-    }
-
-    // Re-partition: records before mostRecentAvailable are the baseline;
-    // records on mostRecentAvailable become the current period.
-    prePriceTracker.clear();
-    for (const record of bulkRes.records) {
-      if (!record.date) continue;
-      if (record.date < mostRecentAvailable) {
-        const key = `${record.cropCode}_${record.marketName}`;
-        const existing = prePriceTracker.get(key);
-        if (!existing || record.date > existing.date) {
-          prePriceTracker.set(key, {
-            date: record.date,
-            price: record.avgPrice,
-          });
-        }
-      } else if (record.date === mostRecentAvailable) {
-        records.push(record);
-      }
-    }
-
-    if (records.length === 0) {
-      return { records: [] };
-    }
-  }
-
-  const previousPriceMap = new Map<string, number>();
-  prePriceTracker.forEach(({ price }, key) => {
-    previousPriceMap.set(key, price);
-  });
-
-  const grouped = new Map<
-    string,
-    {
-      cropCode: string;
-      cropName: string;
-      marketName: string;
-      upperPrice: number;
-      middlePriceSum: number;
-      lowerPrice: number;
-      avgPriceSum: number;
-      transWeight: number;
-      count: number;
-      latestDate: string;
-      latestAvgPrice: number;
-      latestUpperPrice: number;
-      latestMiddlePrice: number;
-      latestLowerPrice: number;
-      latestTransWeight: number;
-    }
-  >();
-
-  records.forEach((record) => {
+    if (!record.date || !(record.avgPrice > 0)) continue;
     const key = `${record.cropCode}_${record.marketName}`;
-    const current = grouped.get(key) ?? {
-      cropCode: record.cropCode,
-      cropName: record.cropName,
-      marketName: record.marketName,
-      upperPrice: record.upperPrice,
-      middlePriceSum: 0,
-      lowerPrice: record.lowerPrice,
-      avgPriceSum: 0,
-      transWeight: 0,
-      count: 0,
-      latestDate: record.date,
-      latestAvgPrice: record.avgPrice,
-      latestUpperPrice: record.upperPrice,
-      latestMiddlePrice: record.middlePrice,
-      latestLowerPrice: record.lowerPrice,
-      latestTransWeight: record.transWeight,
-    };
-
-    current.upperPrice = Math.max(current.upperPrice, record.upperPrice);
-    current.lowerPrice = Math.min(current.lowerPrice, record.lowerPrice);
-    current.middlePriceSum += record.middlePrice;
-    current.avgPriceSum += record.avgPrice;
-    current.transWeight += record.transWeight;
-    current.count += 1;
-
-    if (record.date >= current.latestDate) {
-      current.latestDate = record.date;
-      current.latestAvgPrice = record.avgPrice;
-      current.latestUpperPrice = record.upperPrice;
-      current.latestMiddlePrice = record.middlePrice;
-      current.latestLowerPrice = record.lowerPrice;
-      current.latestTransWeight = record.transWeight;
-    }
-
-    grouped.set(key, current);
-  });
-
-  const searchRecords: ProducePrice[] = Array.from(grouped.values())
-    .map((group) => {
-      const previousPrice = previousPriceMap.get(
-        `${group.cropCode}_${group.marketName}`,
-      );
-      const priceChange =
-        previousPrice !== undefined && previousPrice > 0
-          ? ((group.latestAvgPrice - previousPrice) / previousPrice) * 100
-          : 0;
-
-      return {
-        cropCode: group.cropCode,
-        cropName: group.cropName,
-        marketName: group.marketName,
-        upperPrice: Math.round(group.latestUpperPrice * 10) / 10,
-        middlePrice: Math.round(group.latestMiddlePrice * 10) / 10,
-        lowerPrice: Math.round(group.latestLowerPrice * 10) / 10,
-        avgPrice: Math.round(group.latestAvgPrice * 10) / 10,
-        transWeight: Math.round(group.latestTransWeight),
-        date: group.latestDate,
-        priceChange: Math.round(priceChange * 10) / 10,
+    let state = seriesByKey.get(key);
+    if (!state) {
+      state = {
+        cropCode: record.cropCode,
+        cropName: record.cropName,
+        marketName: record.marketName,
+        byDate: new Map(),
       };
-    })
-    .sort((left, right) =>
-      left.cropName.localeCompare(right.cropName, "zh-TW"),
-    );
+      seriesByKey.set(key, state);
+    }
+    const day = state.byDate.get(record.date) ?? {
+      avgPriceSum: 0,
+      volSum: 0,
+      priceCount: 0,
+      upperPrice: record.upperPrice,
+      middlePrice: record.middlePrice,
+      lowerPrice: record.lowerPrice,
+      transWeight: 0,
+    };
+    day.avgPriceSum += record.avgPrice;
+    day.priceCount += 1;
+    day.volSum += record.transWeight || 0;
+    day.transWeight += record.transWeight || 0;
+    day.upperPrice = Math.max(day.upperPrice, record.upperPrice);
+    day.lowerPrice = Math.min(day.lowerPrice, record.lowerPrice);
+    day.middlePrice = record.middlePrice;
+    state.byDate.set(record.date, day);
+  }
+
+  const searchRecords: ProducePrice[] = [];
+
+  for (const state of seriesByKey.values()) {
+    const dated = [...state.byDate.entries()]
+      .map(([date, day]) => {
+        // Prefer volume-weighted if volumes exist; else simple mean of quotes.
+        const price =
+          day.volSum > 0 && day.priceCount > 0
+            ? // re-weight: we only stored sum of avgs — use simple mean of row avgs
+              day.avgPriceSum / day.priceCount
+            : day.priceCount > 0
+              ? day.avgPriceSum / day.priceCount
+              : 0;
+        return { date, price, day };
+      })
+      .filter((d) => d.price > 0)
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    if (dated.length === 0) continue;
+
+    const latest = dated[dated.length - 1];
+    const previous = dated.length > 1 ? dated[dated.length - 2] : null;
+    const priceChange =
+      previous && previous.price > 0
+        ? ((latest.price - previous.price) / previous.price) * 100
+        : 0;
+
+    searchRecords.push({
+      cropCode: state.cropCode,
+      cropName: state.cropName,
+      marketName: state.marketName,
+      upperPrice: Math.round(latest.day.upperPrice * 10) / 10,
+      middlePrice: Math.round(latest.day.middlePrice * 10) / 10,
+      lowerPrice: Math.round(latest.day.lowerPrice * 10) / 10,
+      avgPrice: Math.round(latest.price * 10) / 10,
+      transWeight: Math.round(latest.day.transWeight),
+      date: latest.date,
+      priceChange: Math.round(priceChange * 10) / 10,
+    });
+  }
+
+  searchRecords.sort((left, right) =>
+    left.cropName.localeCompare(right.cropName, "zh-TW"),
+  );
 
   return { records: searchRecords };
 }

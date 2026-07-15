@@ -59,7 +59,6 @@ const SeasonalGuideSection = dynamic(
 );
 
 import {
-  getProduceCategory,
   getSeasonalGuide,
   type ProduceCategory,
 } from "@/lib/produce";
@@ -210,13 +209,8 @@ export function HomeClient({
     setAlertDismissed(false);
   }, [selectedMarket]);
 
-  const filteredMovers = useMemo(
-    () =>
-      movers.filter(
-        (item) => getProduceCategory(item.cropName) === activeCategory,
-      ),
-    [activeCategory, movers],
-  );
+  // API already filters by category (TcType / feed); do not re-filter by name keywords.
+  const filteredMovers = movers;
 
   const trendMetrics = useMemo(() => {
     const trendSeries = marketTrend;
@@ -801,7 +795,7 @@ export function HomeClient({
                 價格波動榜
               </h2>
               <p className="text-body-sm text-on-surface-variant mt-0.5">
-                最新交易日相較前一有效交易日，依全市場加權均價計算
+                全國品項均價（元/台斤）：較該品項上一有價交易日；排除「其他」雜項
               </p>
             </div>
             <Link
