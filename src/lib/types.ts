@@ -113,16 +113,18 @@ export interface LivestockPrices {
   sheepAvgPriceChange: number | null
 }
 
+export type MarketTypeValue = 'Veg' | 'Fruit' | 'meat' | 'seafood' // | 'Flower'
+
 export interface MarketTypeOption {
-  value: 'Veg' | 'Fruit' // | 'Flower'
+  value: MarketTypeValue
   label: string
   description: string
 }
 
 export interface MarketOptionsResponse {
   marketTypes: MarketTypeOption[]
-  marketsByType: Record<'Veg' | 'Fruit', string[]> // | 'Flower'
-  defaultMarketType: 'Veg' | 'Fruit' // | 'Flower'
+  marketsByType: Partial<Record<MarketTypeValue, string[]>>
+  defaultMarketType: MarketTypeValue
   defaultMarket: string
   dateRanges: Array<{ label: string; value: SearchFilters['dateRange'] }>
   pricePeriods: Array<PricePeriod>

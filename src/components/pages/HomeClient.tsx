@@ -799,15 +799,22 @@ export function HomeClient({
               </p>
             </div>
             <Link
-              href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
-                activeCategory === "fruit"
-                  ? "Fruit"
-                  : activeCategory === "meat"
-                    ? "meat"
+              href={`/search?${new URLSearchParams({
+                type:
+                  activeCategory === "fruit"
+                    ? "Fruit"
+                    : activeCategory === "meat"
+                      ? "meat"
+                      : activeCategory === "seafood"
+                        ? "seafood"
+                        : "Veg",
+                market:
+                  activeCategory === "meat"
+                    ? "全國平均"
                     : activeCategory === "seafood"
-                      ? "seafood"
-                      : "Veg"
-              }`}
+                      ? "全部市場"
+                      : selectedMarket,
+              }).toString()}`}
               className="text-primary text-label-bold hover:underline flex items-center gap-0.5"
             >
               查看全部
@@ -844,7 +851,21 @@ export function HomeClient({
                       style={{ animationDelay: `${i * 0.05}s` }}
                     >
                       <Link
-                        href={`/produce/${encodeURIComponent(item.cropName)}`}
+                        href={`/search?${new URLSearchParams({
+                          q: item.cropName,
+                          type:
+                            activeCategory === "fruit"
+                              ? "Fruit"
+                              : activeCategory === "meat"
+                                ? "meat"
+                                : activeCategory === "seafood"
+                                  ? "seafood"
+                                  : "Veg",
+                          market:
+                            activeCategory === "meat"
+                              ? "全國平均"
+                              : "全部市場",
+                        }).toString()}`}
                         prefetch={false}
                         className="glass-card card-lift rounded-2xl flex items-center justify-between p-3.5 hover:bg-white/60 transition-colors touch-target block"
                       >

@@ -85,9 +85,11 @@ function CustomTooltip({
       <p className="text-on-surface-variant text-xs mb-1">{formattedDate}</p>
       <p className="text-primary font-bold text-base">${point.avgPrice?.toFixed(1)}</p>
       {point.upperPrice != null && (
-        <div className="text-label-sm text-on-surface-variant mt-1 space-y-0.5">
+        <div className="text-label-sm text-on-surface mt-1 space-y-0.5">
           <div>上價 ${point.upperPrice.toFixed(1)}</div>
-          <div>下價 ${point.lowerPrice?.toFixed(1)}</div>
+          <div className="text-on-surface-variant">
+            下價 ${point.lowerPrice?.toFixed(1)}
+          </div>
         </div>
       )}
     </div>
@@ -304,7 +306,7 @@ export function PriceLineChart({ data, closedDays = [], height = 180, showPriceR
                       <p className="text-on-surface-variant text-label-sm mb-1">
                         上價
                       </p>
-                      <p className="text-[#43a047] font-semibold text-base sm:text-lg tabular-nums">
+                      <p className="text-on-surface font-semibold text-base sm:text-lg tabular-nums">
                         {detailPoint.upperPrice != null
                           ? `$${detailPoint.upperPrice.toFixed(1)}`
                           : '—'}

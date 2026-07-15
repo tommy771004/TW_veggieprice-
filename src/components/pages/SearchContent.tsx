@@ -57,7 +57,8 @@ const SORT_OPTIONS: ReadonlyArray<{ label: string; value: SearchFilters['sortBy'
 const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
   { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
-  // { value: 'Flower', label: '花市', description: '花卉批發市場即時行情' },
+  { value: 'meat', label: '肉品家禽', description: '畜產品交易行情' },
+  { value: 'seafood', label: '漁產市場', description: '漁產品交易行情' },
 ]
 
 const FALLBACK_MARKETS = [ALL_MARKET_SENTINEL]
@@ -112,6 +113,15 @@ export function SearchContent() {
   
   const lastSearchId = useRef(0)
 
+  // Apply URL query (q / type / market) when landing from home movers etc.
+  useEffect(() => {
+    const urlQ = searchParams?.get('q')
+    if (urlQ != null && urlQ !== query) {
+      setQuery(urlQ)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
+
   useEffect(() => {
     let cancelled = false
 
@@ -124,20 +134,28 @@ export function SearchContent() {
     fetchMarketOptions().then((meta) => {
       if (cancelled) return
 
-      setMarketTypeOptions(meta.marketTypes)
-      setMarketsByType(meta.marketsByType)
+      // Ensure meat/seafood tabs exist even if meta is partial
+      const types = [...meta.marketTypes]
+      for (const fb of FALLBACK_MARKET_TYPES) {
+        if (!types.some((t) => t.value === fb.value)) types.push(fb)
+      }
+      setMarketTypeOptions(types)
+      const byType: Record<string, string[]> = { ...meta.marketsByType }
+      if (!byType.meat?.length) byType.meat = ['全國平均', '全部市場']
+      if (!byType.seafood?.length) byType.seafood = ['全部市場']
+      setMarketsByType(byType)
 
       // Determine starting market
       const initialMarket = urlMarket || preferredMarket || DEFAULT_MARKET
 
       // Find which marketType contains initialMarket, prioritizing urlType or preferredMarketType if set
       let resolvedType: MarketTypeOption['value'] | null = null
-      if (urlType && meta.marketsByType[urlType as MarketTypeOption['value']]) {
+      if (urlType && (byType[urlType]?.length || types.some((t) => t.value === urlType))) {
         resolvedType = urlType as MarketTypeOption['value']
-      } else if (preferredMarketType && meta.marketsByType[preferredMarketType]?.includes(initialMarket)) {
+      } else if (preferredMarketType && byType[preferredMarketType]?.includes(initialMarket)) {
         resolvedType = preferredMarketType
       } else {
-        for (const [mType, list] of Object.entries(meta.marketsByType)) {
+        for (const [mType, list] of Object.entries(byType)) {
           if (list.includes(initialMarket)) {
             resolvedType = mType as MarketTypeOption['value']
             break
@@ -146,18 +164,29 @@ export function SearchContent() {
       }
 
       if (!resolvedType) {
-        resolvedType = (preferredMarketType && meta.marketTypes.some((option) => option.value === preferredMarketType))
+        resolvedType = (preferredMarketType && types.some((option) => option.value === preferredMarketType))
           ? preferredMarketType
           : meta.defaultMarketType
       }
 
       setMarketType(resolvedType)
 
-      const list = meta.marketsByType[resolvedType] ?? FALLBACK_MARKETS
+      const list = byType[resolvedType] ?? FALLBACK_MARKETS
       setMarketsList(list)
 
       if (list.includes(initialMarket)) {
         setMarket(initialMarket)
+      } else if (urlMarket && list.length) {
+        // URL asked for a market not in this type (e.g. 全部市場 on meat) — prefer list default
+        const fallback =
+          list.includes('全部市場')
+            ? '全部市場'
+            : list.includes('全國平均')
+              ? '全國平均'
+              : list.includes(meta.defaultMarket)
+                ? meta.defaultMarket
+                : (list.find((name) => name !== '全部市場') ?? list[0] ?? DEFAULT_MARKET)
+        setMarket(fallback)
       } else {
         const fallback = list.includes(meta.defaultMarket) ? meta.defaultMarket : (list.find((name) => name !== '全部市場') ?? list[0] ?? DEFAULT_MARKET)
         setMarket(fallback)
@@ -167,8 +196,9 @@ export function SearchContent() {
     return () => {
       cancelled = true
     }
+    // Re-run when type/market deep-link params change (e.g. from home movers)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [searchParams])
 
 
   useEffect(() => {
