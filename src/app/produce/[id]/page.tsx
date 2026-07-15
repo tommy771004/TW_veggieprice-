@@ -74,11 +74,15 @@ export default async function ProducePage({ params }: Props) {
       <ProduceClient
         cropName={cropName}
         initialPrice={initialPrice}
-        initialCropInfo={{
-          feature: baseInfo.feature,
-          season: baseInfo.season,
-          origin: baseInfo.staticOrigin,
-        }}
+        initialCropInfo={
+          baseInfo
+            ? {
+                feature: baseInfo.feature,
+                season: baseInfo.season,
+                origin: baseInfo.staticOrigin,
+              }
+            : null
+        }
       />
       <FoodGuideSection cropName={cropName} />
       <GovernmentDataSection cropName={cropName} wholesalePrice={initialPrice} />

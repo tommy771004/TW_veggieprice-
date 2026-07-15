@@ -10,7 +10,8 @@ export interface AggregatedMetadata {
   markets: MarketComparison[]
   traceability: TraceabilitySummaryItem[]
   costInsight: ProductCostInsight | null
-  cropInfo: CropInfo
+  /** null when no curated static intro exists for this crop name */
+  cropInfo: CropInfo | null
 }
 
 export async function fetchProduceMetadata(cropName: string): Promise<AggregatedMetadata> {
@@ -52,31 +53,33 @@ export async function fetchProduceMetadata(cropName: string): Promise<Aggregated
   const costInsight = costResult?.insight ?? null
 
   const base = getCropBaseInfo(cropName)
-  let origin = base.staticOrigin
+  let cropInfo: CropInfo | null = null
 
-  if (traceItems.length > 0) {
-    const countyCounts = new Map<string, number>()
-    for (const item of traceItems) {
-      const raw = (item.county ?? '').replace(/臺/g, '台').trim()
-      const full = resolveCountyFromMarketName(raw).replace(/臺/g, '台').replace(/[市縣]$/, '')
-      const county = full || resolveCountyFromTownship(raw) || raw.replace(/[市縣區鄉鎮]$/, '')
-      if (county && county !== '未知' && county.length >= 2) {
-        countyCounts.set(county, (countyCounts.get(county) ?? 0) + 1)
+  if (base) {
+    let origin = base.staticOrigin
+    if (traceItems.length > 0) {
+      const countyCounts = new Map<string, number>()
+      for (const item of traceItems) {
+        const raw = (item.county ?? '').replace(/臺/g, '台').trim()
+        const full = resolveCountyFromMarketName(raw).replace(/臺/g, '台').replace(/[市縣]$/, '')
+        const county = full || resolveCountyFromTownship(raw) || raw.replace(/[市縣區鄉鎮]$/, '')
+        if (county && county !== '未知' && county.length >= 2) {
+          countyCounts.set(county, (countyCounts.get(county) ?? 0) + 1)
+        }
+      }
+      if (countyCounts.size >= 2) {
+        const top = [...countyCounts.entries()]
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3)
+          .map(([c]) => c)
+        origin = top.join('、')
       }
     }
-    if (countyCounts.size >= 2) {
-      const top = [...countyCounts.entries()]
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 3)
-        .map(([c]) => c)
-      origin = top.join('、')
+    cropInfo = {
+      feature: base.feature,
+      season: base.season,
+      origin,
     }
-  }
-
-  const cropInfo: CropInfo = {
-    feature: base.feature,
-    season: base.season,
-    origin,
   }
 
   return {

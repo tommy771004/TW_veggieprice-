@@ -93,10 +93,11 @@ export function ProduceMarketSummary({
           </p>
         ) : (
           <p className="text-body-md text-on-surface-variant leading-relaxed">
-            {cropName}近期逢市場休市或暫無成交資料，價格不列入計算。可查看下方產季與產地資訊，或稍後再查最新批發行情。
+            {cropName}近期逢市場休市或暫無成交資料，價格不列入計算。請稍後再查最新批發行情。
           </p>
         )}
 
+        {info ? (
         <div className="overflow-x-auto">
           <table className="w-full text-left text-body-sm">
             <caption className="sr-only">{cropName} 作物產季與產地基本資料</caption>
@@ -116,6 +117,7 @@ export function ProduceMarketSummary({
             </tbody>
           </table>
         </div>
+        ) : null}
 
         {recentRows.length > 0 && (
           <div>

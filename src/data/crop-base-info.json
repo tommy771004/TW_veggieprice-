@@ -1,0 +1,1546 @@
+{
+  "version": "1.1.0",
+  "lastReviewed": "2026-07-15",
+  "sources": [
+    {
+      "label": "農業部農產品交易行情／批發市場品名",
+      "url": "https://data.moa.gov.tw/"
+    },
+    {
+      "label": "農業知識與產地產季（綜合公開農情）",
+      "url": "https://www.moa.gov.tw/"
+    },
+    {
+      "label": "維基百科等公開百科之物種與栽培概述（改寫為簡短市場向文案）",
+      "url": "https://zh.wikipedia.org/"
+    },
+    {
+      "label": "農業部食農教育資訊整合平臺（產季／品項）",
+      "url": "https://fae.moa.gov.tw/"
+    },
+    {
+      "label": "農傳媒：餐桌魚種與產地",
+      "url": "https://www.agriharvest.tw/"
+    },
+    {
+      "label": "臺中區農業改良場：茭白等產業現況",
+      "url": "https://www.tcdares.gov.tw/"
+    }
+  ],
+  "items": [
+    {
+      "name": "九層塔",
+      "aliases": [],
+      "feature": "唇形科香草，葉片揉搓後有強烈茴香辛香，台式三杯、炒蜆必備",
+      "season": "暖季較盛，全年可見設施栽培",
+      "staticOrigin": "彰化、雲林、屏東"
+    },
+    {
+      "name": "人參葉",
+      "aliases": [],
+      "feature": "羽葉狀嫩葉，口感清甜微香，近年設施與山區栽培增多",
+      "season": "春夏",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "冬瓜",
+      "aliases": [],
+      "feature": "果型大、皮薄肉白，水分高，適煮湯與燉盅",
+      "season": "夏秋為主",
+      "staticOrigin": "雲林、嘉義、台南"
+    },
+    {
+      "name": "加鱲",
+      "aliases": [],
+      "feature": "鰤／ハマチ 近緣或同商品群，油脂豐、刺身與燒烤常見",
+      "season": "依養殖與進口",
+      "staticOrigin": "養殖與進口"
+    },
+    {
+      "name": "包心白",
+      "aliases": [
+        "大白菜",
+        "包心白菜"
+      ],
+      "feature": "結球白菜類，球體緊實、水分足，口感甜嫩，適煮火鍋、滷煮",
+      "season": "冬作 11–2 月為主產期",
+      "staticOrigin": "雲林、彰化、南投"
+    },
+    {
+      "name": "午仔魚",
+      "aliases": [],
+      "feature": "石首魚科，肉質細嫩帶彈性，養殖與捕撈皆有，高價魚種之一",
+      "season": "依養殖批次與漁期，秋冬至春較常見",
+      "staticOrigin": "南部沿海養殖與魚市場"
+    },
+    {
+      "name": "半天筍",
+      "aliases": [],
+      "feature": "山區特有筍類時令，產量有限",
+      "season": "春夏",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "半天花",
+      "aliases": [],
+      "feature": "花卉交易品項，多作切花或盆花觀賞",
+      "season": "依品種",
+      "staticOrigin": "台中、彰化"
+    },
+    {
+      "name": "南瓜",
+      "aliases": [],
+      "feature": "果肉粉糯偏甜，品種含東昇、栗子等，適蒸煮、烤與濃湯",
+      "season": "秋至春皆有產，秋冬風味佳",
+      "staticOrigin": "雲林、嘉義、台南"
+    },
+    {
+      "name": "吳郭魚",
+      "aliases": [
+        "台灣鯛",
+        "其他吳郭",
+        "尼羅紅魚"
+      ],
+      "feature": "即台灣鯛，淡水養殖大宗，成長快、價格親民，可全魚或片",
+      "season": "全年供應，夏秋盛產",
+      "staticOrigin": "雲林、台南、嘉義、桃園"
+    },
+    {
+      "name": "土魠",
+      "aliases": [],
+      "feature": "鯖科大型魚，肉厚刺少，煎煮皆宜；資源需留意捕撈強度",
+      "season": "近海漁期為主",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "地瓜葉",
+      "aliases": [
+        "甘薯葉"
+      ],
+      "feature": "甘藷嫩葉與嫩梢，營養密集、適快炒或汆燙",
+      "season": "全年供應",
+      "staticOrigin": "雲林、台南、嘉義"
+    },
+    {
+      "name": "大蒜",
+      "aliases": [],
+      "feature": "鱗莖辛香濃烈，青蒜與蒜頭分期供應，調味基底",
+      "season": "春 3–5 月蒜頭產季",
+      "staticOrigin": "雲林、彰化、台南"
+    },
+    {
+      "name": "奇異果",
+      "aliases": [],
+      "feature": "獼猴桃，綠肉或金肉，進口為主，酸甜維 C 高",
+      "season": "全年進口輪替",
+      "staticOrigin": "紐西蘭、義大利等"
+    },
+    {
+      "name": "小番茄",
+      "aliases": [],
+      "feature": "果型小巧、甜度高，多作鮮食與沙拉",
+      "season": "秋冬至春為主",
+      "staticOrigin": "嘉義、台南、高雄"
+    },
+    {
+      "name": "小白菜",
+      "aliases": [],
+      "feature": "葉片嫩綠、梗白細嫩，質地鮮脆多汁，為台灣餐桌常見葉菜",
+      "season": "秋冬較佳，全年可供應",
+      "staticOrigin": "雲林、彰化、嘉義"
+    },
+    {
+      "name": "尖梭",
+      "aliases": [],
+      "feature": "梭魚類，近海與河口",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "山竹",
+      "aliases": [],
+      "feature": "熱帶果，果肉乳白酸甜，進口時令",
+      "season": "夏",
+      "staticOrigin": "東南亞進口"
+    },
+    {
+      "name": "巴西利",
+      "aliases": [],
+      "feature": "歐芹類香草，葉片捲曲或平葉，常用於西式擺盤與調味",
+      "season": "冷涼季與設施栽培為主",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "扁蒲",
+      "aliases": [],
+      "feature": "即菜瓜／蒲瓜，果形長或梨形，肉質細嫩適煮湯",
+      "season": "夏秋",
+      "staticOrigin": "雲林、彰化、台南"
+    },
+    {
+      "name": "敏豆",
+      "aliases": [],
+      "feature": "長豆／菜豆族，含白豆、粉豆、翼豆等，莢長脆嫩",
+      "season": "暖季為主",
+      "staticOrigin": "彰化、雲林、屏東"
+    },
+    {
+      "name": "文旦柚",
+      "aliases": [],
+      "feature": "柚類，果肉微甜清香，中秋前後時令",
+      "season": "秋 9–10 月",
+      "staticOrigin": "台南麻豆、花蓮瑞穗"
+    },
+    {
+      "name": "文蛤",
+      "aliases": [
+        "文蛤養",
+        "蛤蜊"
+      ],
+      "feature": "雙殼貝，俗稱蛤蜊、粉蟯，西海岸魚塭混養大宗",
+      "season": "全年有產，盛產約 5–8 月量較多",
+      "staticOrigin": "雲林、彰化、嘉義、台南"
+    },
+    {
+      "name": "晚香玉筍",
+      "aliases": [],
+      "feature": "晚香玉地下莖嫩芽，山產風味，產量少",
+      "season": "春夏",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "木瓜",
+      "aliases": [],
+      "feature": "果肉橙紅細嫩，可青食涼拌或熟食鮮甜",
+      "season": "全年",
+      "staticOrigin": "屏東、台南、高雄"
+    },
+    {
+      "name": "朴菜",
+      "aliases": [],
+      "feature": "山區野菜類葉菜，風味清新帶野趣，產量較少",
+      "season": "春夏",
+      "staticOrigin": "南投、花蓮"
+    },
+    {
+      "name": "李",
+      "aliases": [],
+      "feature": "核果，紅肉或黃肉，酸甜爽口",
+      "season": "春夏",
+      "staticOrigin": "台中、苗栗、南投"
+    },
+    {
+      "name": "杏鮑菇",
+      "aliases": [],
+      "feature": "菌柄肥厚、口感如鮑魚，設施栽培為主，全年供應",
+      "season": "全年",
+      "staticOrigin": "台中、彰化、南投"
+    },
+    {
+      "name": "枇杷",
+      "aliases": [],
+      "feature": "薔薇科核果，果皮橙黃、果肉柔甜微酸，春令時令水果",
+      "season": "春 3–5 月",
+      "staticOrigin": "台中、南投、苗栗"
+    },
+    {
+      "name": "柑橘",
+      "aliases": [],
+      "feature": "芸香科橘橙類總稱，果肉多汁，冬令水果",
+      "season": "冬 11–2 月",
+      "staticOrigin": "台中、南投、嘉義"
+    },
+    {
+      "name": "柳松菇",
+      "aliases": [],
+      "feature": "菌蓋黃褐、柄細長的食用菇，口感脆嫩，設施瓶栽為主",
+      "season": "全年設施",
+      "staticOrigin": "台中、彰化、南投"
+    },
+    {
+      "name": "柳橙",
+      "aliases": [
+        "柳丁"
+      ],
+      "feature": "甜橙類，果肉細嫩多汁，可鮮食或榨汁；含柳丁等商品名",
+      "season": "冬 11–2 月為主",
+      "staticOrigin": "雲林古坑、嘉義、台南"
+    },
+    {
+      "name": "柿子",
+      "aliases": [],
+      "feature": "甜柿果肉脆甜，亦有軟柿與柿餅加工",
+      "season": "秋",
+      "staticOrigin": "嘉義番路、台中、新竹"
+    },
+    {
+      "name": "桃子",
+      "aliases": [],
+      "feature": "核果，水蜜桃與甜桃粉嫩多汁",
+      "season": "春夏",
+      "staticOrigin": "台中、苗栗、南投與進口"
+    },
+    {
+      "name": "桶柑",
+      "aliases": [],
+      "feature": "又稱年柑，果形較圓、皮厚耐貯，農曆年前後上市為多",
+      "season": "冬至春，約 12–3 月（品種略異）",
+      "staticOrigin": "新竹、苗栗、台北、宜蘭"
+    },
+    {
+      "name": "桶筍",
+      "aliases": [],
+      "feature": "桶裝加工筍，延長保存、方便料理",
+      "season": "加工品全年",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "梅",
+      "aliases": [],
+      "feature": "核果，未熟青梅多作醃漬、脆梅，完熟可釀梅酒",
+      "season": "春 3–5 月採收為主",
+      "staticOrigin": "南投、台中、嘉義"
+    },
+    {
+      "name": "梨",
+      "aliases": [
+        "高接梨"
+      ],
+      "feature": "溫帶仁果，含高接梨、新興、豐水等，果肉細脆多汁",
+      "season": "夏秋高接梨季為主",
+      "staticOrigin": "台中、苗栗、宜蘭"
+    },
+    {
+      "name": "椪柑",
+      "aliases": [],
+      "feature": "寬皮柑橘，果皮易剝、果肉多汁偏甜，秋冬柑橘主力之一",
+      "season": "盛產約 10 月中旬至 12 月底",
+      "staticOrigin": "台南、嘉義、台中、南投"
+    },
+    {
+      "name": "椰子",
+      "aliases": [],
+      "feature": "棕櫚科核果，椰青水清甜，成熟椰肉可加工",
+      "season": "全年熱帶產區",
+      "staticOrigin": "屏東、高雄與進口"
+    },
+    {
+      "name": "楊桃",
+      "aliases": [],
+      "feature": "五稜狀漿果，未熟偏酸、完熟清甜多汁，可鮮食或入菜",
+      "season": "夏至冬皆有，夏秋較盛",
+      "staticOrigin": "台南、高雄、屏東、彰化"
+    },
+    {
+      "name": "榨菜",
+      "aliases": [],
+      "feature": "榨菜用芥菜瘤莖經醃漬加工，質地脆爽、鹹鮮",
+      "season": "加工品全年供應",
+      "staticOrigin": "進口與本地加工並存"
+    },
+    {
+      "name": "榴槤",
+      "aliases": [],
+      "feature": "熱帶果，氣味濃烈、果肉奶香甜稠，進口為主",
+      "season": "夏",
+      "staticOrigin": "東南亞進口"
+    },
+    {
+      "name": "榴槤蜜",
+      "aliases": [],
+      "feature": "榴槤相關蜜餞或果漿加工品",
+      "season": "加工品",
+      "staticOrigin": "進口加工"
+    },
+    {
+      "name": "樊花",
+      "aliases": [],
+      "feature": "花卉市場品項，以觀賞用途為主，非預設可食",
+      "season": "依品種與節慶",
+      "staticOrigin": "台中、彰化、南投"
+    },
+    {
+      "name": "橄欖",
+      "aliases": [],
+      "feature": "油橄欖或青橄欖，鮮食偏苦澀、多加工",
+      "season": "依品種",
+      "staticOrigin": "進口與少量國產"
+    },
+    {
+      "name": "檸檬",
+      "aliases": [
+        "萊姆"
+      ],
+      "feature": "芸香科酸果，果皮濃香、果汁酸爽，可鮮搾、醃漬或入菜提味",
+      "season": "全年有產，夏 6–9 月量較豐",
+      "staticOrigin": "屏東、高雄、台南"
+    },
+    {
+      "name": "檸檬葉",
+      "aliases": [],
+      "feature": "香檬／檸檬嫩葉，東南亞料理提香用",
+      "season": "暖季",
+      "staticOrigin": "南部"
+    },
+    {
+      "name": "櫻桃",
+      "aliases": [],
+      "feature": "溫帶核果，果小色豔、甜酸，進口為主",
+      "season": "春末夏初進口高峰",
+      "staticOrigin": "美國、智利、紐西蘭等"
+    },
+    {
+      "name": "毛豆",
+      "aliases": [],
+      "feature": "未成熟大豆連莢或豆仁，富蛋白質，適水煮與涼拌",
+      "season": "夏秋",
+      "staticOrigin": "高雄、屏東、嘉義"
+    },
+    {
+      "name": "毛豬",
+      "aliases": [
+        "豬",
+        "豬肉",
+        "豬隻"
+      ],
+      "feature": "豬隻活體／胴體批發行情品項，為台灣大宗畜產蛋白質來源",
+      "season": "全年供應，節慶前後需求較高",
+      "staticOrigin": "全台畜牧場與拍賣市場"
+    },
+    {
+      "name": "油菜",
+      "aliases": [],
+      "feature": "葉柄寬厚、葉色翠綠，適清炒、煮湯，亦見小松菜等近緣品種",
+      "season": "冷涼季 10–3 月為主",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "波蘿蜜",
+      "aliases": [],
+      "feature": "波羅蜜，聚花果巨大，果肉香甜或做菜",
+      "season": "夏",
+      "staticOrigin": "台東、屏東與進口"
+    },
+    {
+      "name": "洋菇",
+      "aliases": [],
+      "feature": "雙孢菇，菌蓋圓潤、風味溫和，西式料理常用",
+      "season": "全年設施",
+      "staticOrigin": "彰化、台中"
+    },
+    {
+      "name": "洋蔥",
+      "aliases": [],
+      "feature": "百合科鱗莖，辛甜分層；屏東恆春半島為台灣代表性產區（恆春三寶之一）",
+      "season": "主產期約 3–5 月（黃皮較早、紫皮略晚）",
+      "staticOrigin": "屏東恆春、枋山、車城"
+    },
+    {
+      "name": "洋香瓜",
+      "aliases": [],
+      "feature": "網紋洋香瓜，果肉橘或綠，香氣馥郁",
+      "season": "春至秋",
+      "staticOrigin": "台南、嘉義、雲林"
+    },
+    {
+      "name": "海菜",
+      "aliases": [],
+      "feature": "含水蓮、海帶等水生／藻類食材，口感脆或滑",
+      "season": "依品項而異",
+      "staticOrigin": "宜蘭、花蓮、沿海養殖"
+    },
+    {
+      "name": "海鰻",
+      "aliases": [],
+      "feature": "海鰻，肉質細可蒲燒或煮湯",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "海鱺",
+      "aliases": [],
+      "feature": "海鱺／海鰱，箱網養殖著名，肉質細、魚肚受歡迎",
+      "season": "全年養殖供應",
+      "staticOrigin": "澎湖、屏東、高雄等地"
+    },
+    {
+      "name": "濕木耳",
+      "aliases": [],
+      "feature": "鮮木耳，胶质脆彈，適涼拌與炒菜",
+      "season": "全年",
+      "staticOrigin": "台中、南投、彰化"
+    },
+    {
+      "name": "濕香菇",
+      "aliases": [],
+      "feature": "鮮香菇，含水高、香氣足，宜儘快料理",
+      "season": "秋冬為主，設施可延",
+      "staticOrigin": "台中、南投、彰化"
+    },
+    {
+      "name": "熟卷",
+      "aliases": [],
+      "feature": "加工熟成卷類（多為小管／透抽加工），即食或再料理",
+      "season": "加工品全年",
+      "staticOrigin": "沿海加工與批發"
+    },
+    {
+      "name": "熟筍",
+      "aliases": [],
+      "feature": "經預煮處理的筍製品，可直接入菜",
+      "season": "加工品全年",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "牛蒡",
+      "aliases": [],
+      "feature": "直根細長、帶土香微苦甘，適滷煮與茶飲",
+      "season": "冬春",
+      "staticOrigin": "台南、嘉義、彰化"
+    },
+    {
+      "name": "牡蠣",
+      "aliases": [
+        "牡蠣養",
+        "蚵"
+      ],
+      "feature": "蚵，固著性雙殼貝，蒸烤煎皆宜；西部沿海養殖著名",
+      "season": "全年有產，春夏至秋較盛",
+      "staticOrigin": "嘉義東石、雲林、彰化、金門"
+    },
+    {
+      "name": "狗母",
+      "aliases": [],
+      "feature": "狗母魚，近海底棲，油炸常見",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "玉米",
+      "aliases": [],
+      "feature": "籽粒飽滿鮮甜，有硬質、糯質與超甜玉米等，適蒸烤",
+      "season": "春夏 4–8 月為主",
+      "staticOrigin": "雲林、嘉義、台南"
+    },
+    {
+      "name": "珊瑚菇",
+      "aliases": [],
+      "feature": "分枝如珊瑚，口感脆，設施栽培",
+      "season": "全年設施",
+      "staticOrigin": "台中、彰化"
+    },
+    {
+      "name": "甘瓜仔",
+      "aliases": [],
+      "feature": "近海小型魚商品名",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "甘蔗",
+      "aliases": [],
+      "feature": "蔗莖多汁，可生食嚼吮或壓汁",
+      "season": "冬春採收為主",
+      "staticOrigin": "雲林、嘉義、台南、屏東"
+    },
+    {
+      "name": "甘薯",
+      "aliases": [
+        "地瓜"
+      ],
+      "feature": "地瓜，肉質有黃、紫等，粉糯或綿密，可作主食與點心",
+      "season": "秋冬 9–2 月為主",
+      "staticOrigin": "雲林、台南、台東"
+    },
+    {
+      "name": "甘藍",
+      "aliases": [
+        "捲心菜",
+        "高麗菜"
+      ],
+      "feature": "十字花科結球甘藍（高麗菜），球體扁圓、葉層緊密，口感清甜，台灣大宗葉菜",
+      "season": "平地秋冬至春為主；高冷地夏季亦可供應",
+      "staticOrigin": "雲林、彰化、嘉義、南投等高冷與平地產區"
+    },
+    {
+      "name": "甜椒",
+      "aliases": [],
+      "feature": "果肉厚實、色彩多樣，辣味低，適炒、焗與生食",
+      "season": "秋冬 10–3 月為主",
+      "staticOrigin": "嘉義、台南、屏東"
+    },
+    {
+      "name": "甜橙",
+      "aliases": [],
+      "feature": "甜橙類，果形圓、汁多偏甜，進口與國產皆有",
+      "season": "冬春",
+      "staticOrigin": "台南、嘉義與進口"
+    },
+    {
+      "name": "甜瓜",
+      "aliases": [],
+      "feature": "香瓜類，果香濃、甜度高，美濃瓜等在地品種",
+      "season": "春夏",
+      "staticOrigin": "台南、高雄、嘉義"
+    },
+    {
+      "name": "田蛙",
+      "aliases": [],
+      "feature": "養殖青蛙，肉質細，可炸可湯，南部養殖較多",
+      "season": "全年養殖",
+      "staticOrigin": "屏東、高雄、台南"
+    },
+    {
+      "name": "番石榴",
+      "aliases": [
+        "芭樂"
+      ],
+      "feature": "芭樂，果肉厚脆或軟綿，珍珠、紅心等品種",
+      "season": "全年，夏秋量豐",
+      "staticOrigin": "彰化、高雄、台南、屏東"
+    },
+    {
+      "name": "番茄",
+      "aliases": [],
+      "feature": "漿果類果菜，色澤紅或粉，富含茄紅素，適鮮食、炒蛋與醬汁",
+      "season": "秋冬至春 10–4 月為主產",
+      "staticOrigin": "嘉義、台南、屏東"
+    },
+    {
+      "name": "白口",
+      "aliases": [],
+      "feature": "石首魚科近緣，肉質細，近海與養殖可見",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "白帶魚",
+      "aliases": [
+        "（日本）白帶魚"
+      ],
+      "feature": "帶形海水魚，肉質細嫩，火鍋與乾煎常見；含進口貨",
+      "season": "近海漁期與進口輪替",
+      "staticOrigin": "台灣近海與進口"
+    },
+    {
+      "name": "白肉雞",
+      "aliases": [
+        "雞肉"
+      ],
+      "feature": "白羽肉雞，生長快、肉質細嫩，為國人最常見禽肉來源之一",
+      "season": "全年供應",
+      "staticOrigin": "全台契作與家禽市場"
+    },
+    {
+      "name": "白蝦",
+      "aliases": [],
+      "feature": "白蝦／南美白對蝦等養殖蝦，台灣餐桌常見",
+      "season": "全年養殖供應",
+      "staticOrigin": "雲林、嘉義、屏東、宜蘭等地"
+    },
+    {
+      "name": "白鯧",
+      "aliases": [],
+      "feature": "鯧魚類，體側扁、肉厚，近海與養殖供應",
+      "season": "依漁期與養殖排程",
+      "staticOrigin": "台灣近海與養殖"
+    },
+    {
+      "name": "百香果",
+      "aliases": [],
+      "feature": "西番蓮，果汁酸香，維生素 C 豐富",
+      "season": "夏秋 6–10 月",
+      "staticOrigin": "南投、台東、屏東、嘉義"
+    },
+    {
+      "name": "皇宮菜",
+      "aliases": [],
+      "feature": "葉片略黏、口感滑嫩，俗稱天皇菜，適快炒",
+      "season": "夏秋為主",
+      "staticOrigin": "雲林、彰化、嘉義"
+    },
+    {
+      "name": "盤仔",
+      "aliases": [],
+      "feature": "鯛科或近緣中小型魚商品名，煎煮皆可",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "石斑魚",
+      "aliases": [
+        "珍珠龍膽/龍虎斑",
+        "龍虎斑",
+        "龍膽石斑"
+      ],
+      "feature": "海水高經濟魚種，肉質結實；含龍膽石斑等，養殖與捕撈並存",
+      "season": "全年可見，依品種與養殖排程",
+      "staticOrigin": "屏東、高雄、澎湖等地"
+    },
+    {
+      "name": "石蓮花",
+      "aliases": [],
+      "feature": "多肉植物，部分品種作觀賞，可食品種需確認標示",
+      "season": "設施全年",
+      "staticOrigin": "彰化、南投"
+    },
+    {
+      "name": "硬尾",
+      "aliases": [],
+      "feature": "近海底棲魚商品名，肉質結實",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "秀珍菇",
+      "aliases": [],
+      "feature": "菌蓋扇形、肉質結實，適快炒與火鍋",
+      "season": "全年設施",
+      "staticOrigin": "台中、彰化、南投"
+    },
+    {
+      "name": "秋刀",
+      "aliases": [
+        "秋刀(凍)"
+      ],
+      "feature": "北太平洋洄游魚，多冷凍進口，油脂豐富適炭烤",
+      "season": "秋冬進口高峰",
+      "staticOrigin": "進口為主"
+    },
+    {
+      "name": "竹筍",
+      "aliases": [],
+      "feature": "竹類嫩筍，含綠竹、麻竹、孟宗等，鮮嫩清甜",
+      "season": "品種不同產期各異，夏筍較盛",
+      "staticOrigin": "南投、嘉義、台南、新竹"
+    },
+    {
+      "name": "筍乾",
+      "aliases": [],
+      "feature": "竹筍乾製，濃縮筍香，適燉湯與扣肉",
+      "season": "加工品全年",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "筍片",
+      "aliases": [],
+      "feature": "筍的切片加工品，方便快炒與火鍋",
+      "season": "加工品全年",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "筍絲",
+      "aliases": [],
+      "feature": "筍絲加工品，常用於魯肉與湯品",
+      "season": "加工品全年",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "筍茸",
+      "aliases": [],
+      "feature": "筍茸碎料加工品，適炊粿與餡料",
+      "season": "加工品全年",
+      "staticOrigin": "南投、嘉義"
+    },
+    {
+      "name": "紅毛丹",
+      "aliases": [],
+      "feature": "果皮具軟刺、果肉晶瑩，近荔枝風味",
+      "season": "夏",
+      "staticOrigin": "進口為主，南部少量"
+    },
+    {
+      "name": "紅目鰱",
+      "aliases": [],
+      "feature": "海水魚，眼睛相對大，近海批發常見中價魚",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "紅羽土雞",
+      "aliases": [],
+      "feature": "紅羽系土雞，活動力與風味較重，適燉煮與宴席",
+      "season": "全年供應",
+      "staticOrigin": "全台土雞飼養區"
+    },
+    {
+      "name": "紅魚",
+      "aliases": [],
+      "feature": "紅魚／赤魚等商品統稱，依市場到貨品項而異",
+      "season": "依漁期與進口",
+      "staticOrigin": "台灣近海與進口"
+    },
+    {
+      "name": "紅鳳菜",
+      "aliases": [],
+      "feature": "葉背紫紅、清炒後色澤鮮明，口感柔嫩微澀",
+      "season": "春夏至秋",
+      "staticOrigin": "雲林、南投、花蓮"
+    },
+    {
+      "name": "紅龍果",
+      "aliases": [
+        "火龍果"
+      ],
+      "feature": "仙人掌科火龍果，紅皮白肉或紅肉，果肉多籽清甜，可鮮食或打汁",
+      "season": "國產主產期約 6–11 月",
+      "staticOrigin": "屏東、台南、彰化、嘉義"
+    },
+    {
+      "name": "絲瓜",
+      "aliases": [],
+      "feature": "果肉鮮嫩多汁，清甜，台式絲瓜蛤蜊湯經典",
+      "season": "夏 5–10 月盛產",
+      "staticOrigin": "雲林、嘉義、台南"
+    },
+    {
+      "name": "羅勒",
+      "aliases": [],
+      "feature": "西洋羅勒葉片寬大、甜香明顯，適義式與東南亞料理",
+      "season": "暖季至秋",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "羊",
+      "aliases": [],
+      "feature": "山羊／綿羊屠體或分切，屬小宗畜產，市場集中特定產區",
+      "season": "全年可見",
+      "staticOrigin": "彰化、雲林、屏東等地"
+    },
+    {
+      "name": "肉魚",
+      "aliases": [],
+      "feature": "批發常用商品名，涵蓋多種中價位海水魚，依市場到貨而定",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海與進口"
+    },
+    {
+      "name": "胡瓜",
+      "aliases": [],
+      "feature": "黃瓜，果型粗長有刺，清脆多汁，適涼拌與炒",
+      "season": "春夏 4–9 月",
+      "staticOrigin": "雲林、嘉義、屏東"
+    },
+    {
+      "name": "胡蘿蔔",
+      "aliases": [],
+      "feature": "橙紅肉質根，β-胡蘿蔔素豐富，甜度高",
+      "season": "冬 11–2 月",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "芋",
+      "aliases": [
+        "芋頭"
+      ],
+      "feature": "芋頭球莖粉糯香，含檳榔心芋等品種，適蒸、炸、甜湯",
+      "season": "秋 9–11 月為主",
+      "staticOrigin": "高雄、屏東、台中"
+    },
+    {
+      "name": "芒果",
+      "aliases": [],
+      "feature": "熱帶核果，愛文、金煌等品種著名；果皮轉色、果肉香甜多汁",
+      "season": "盛產約 5–9 月（愛文約 5–7 月較集中）",
+      "staticOrigin": "台南玉井、屏東枋山／枋寮、高雄、台東"
+    },
+    {
+      "name": "芥菜",
+      "aliases": [],
+      "feature": "葉片有芥子辛香，可鮮炒或醃漬成酸菜、福菜",
+      "season": "冬作為主",
+      "staticOrigin": "雲林、彰化、台中"
+    },
+    {
+      "name": "芥藍菜",
+      "aliases": [],
+      "feature": "莖粗葉厚、帶微苦甘香，適快炒蒜蓉或焯燙",
+      "season": "秋冬至初春",
+      "staticOrigin": "雲林、彰化、屏東"
+    },
+    {
+      "name": "芫荽",
+      "aliases": [],
+      "feature": "香菜，具獨特香氣，多作配料與湯頭提味",
+      "season": "冷涼季品質較佳",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "花椰菜",
+      "aliases": [],
+      "feature": "白花椰，花蕾緊密潔白，口感鬆脆，高纖",
+      "season": "冬 11–3 月",
+      "staticOrigin": "雲林、彰化、嘉義"
+    },
+    {
+      "name": "花胡瓜",
+      "aliases": [
+        "小黃瓜"
+      ],
+      "feature": "小黃瓜，果細皮薄、清脆，適生食與醃漬",
+      "season": "春夏為主",
+      "staticOrigin": "雲林、嘉義、屏東"
+    },
+    {
+      "name": "芹菜",
+      "aliases": [],
+      "feature": "莖葉具特有清香，常用於炒菜、湯品與調味提香",
+      "season": "秋冬 10–3 月為主",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "芽菜類",
+      "aliases": [],
+      "feature": "豆芽、苜蓿等芽苗菜總稱，口感爽脆、生長周期短，多為設施生產",
+      "season": "全年設施供應",
+      "staticOrigin": "全台設施栽培"
+    },
+    {
+      "name": "苦瓜",
+      "aliases": [],
+      "feature": "果面瘤突、苦中回甘，可清炒、鹹蛋或鑲肉",
+      "season": "夏 5–10 月",
+      "staticOrigin": "雲林、嘉義、屏東"
+    },
+    {
+      "name": "英哥",
+      "aliases": [],
+      "feature": "鸚哥魚等珊瑚礁區魚種，批發偶見",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "茄子",
+      "aliases": [],
+      "feature": "果皮多呈紫黑光澤，肉質細嫩，適紅燒、煎炸與烤",
+      "season": "春夏 4–10 月",
+      "staticOrigin": "雲林、嘉義、屏東"
+    },
+    {
+      "name": "茭白筍",
+      "aliases": [],
+      "feature": "禾本科菰的嫩莖，色白清甜、口感爽脆；台灣夏季重要蔬菜",
+      "season": "主產期約 5–10 月，中部可收成兩次",
+      "staticOrigin": "南投埔里、魚池，台中，台南官田、美濃等地"
+    },
+    {
+      "name": "茴香",
+      "aliases": [],
+      "feature": "傘形科香草，莖葉具甜香，籽可作香料，西式與印歐料理常見",
+      "season": "冷涼季與設施",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "茼蒿",
+      "aliases": [],
+      "feature": "葉緣裂刻、具特殊清香，火鍋與快炒常見冬令葉菜",
+      "season": "秋冬 10–3 月",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "草莓",
+      "aliases": [],
+      "feature": "聚合瘦果，鮮紅酸甜，冬春溫帶果品",
+      "season": "冬春 12–4 月",
+      "staticOrigin": "苗栗大湖、台中新社"
+    },
+    {
+      "name": "草菇",
+      "aliases": [],
+      "feature": "高溫型菇，菌柄粗短，適合熱帶氣候產季",
+      "season": "夏",
+      "staticOrigin": "台南、高雄、屏東"
+    },
+    {
+      "name": "草魚",
+      "aliases": [],
+      "feature": "淡水鯉科，成長快，可清蒸或酸菜魚",
+      "season": "全年養殖",
+      "staticOrigin": "西部淡水養殖區"
+    },
+    {
+      "name": "荔枝",
+      "aliases": [],
+      "feature": "果肉晶瑩、香甜多汁，產期短而集中",
+      "season": "夏 5–7 月",
+      "staticOrigin": "高雄、屏東、台南、南投"
+    },
+    {
+      "name": "荸薺",
+      "aliases": [],
+      "feature": "馬蹄，球莖脆甜多汁，適甜品與炒菜",
+      "season": "冬",
+      "staticOrigin": "台南、彰化"
+    },
+    {
+      "name": "莧菜",
+      "aliases": [],
+      "feature": "葉色有綠、紅等品系，口感柔滑，夏季常見葉菜",
+      "season": "春夏 4–9 月盛產",
+      "staticOrigin": "雲林、彰化、台南"
+    },
+    {
+      "name": "菜豆",
+      "aliases": [],
+      "feature": "四季豆類，豆莢細長翠綠，適快炒與煮湯",
+      "season": "春與秋作較佳",
+      "staticOrigin": "彰化、雲林、南投"
+    },
+    {
+      "name": "菠菜",
+      "aliases": [],
+      "feature": "葉片厚實深綠、口感柔嫩，鐵質與葉酸含量受重視，適快炒或汆燙",
+      "season": "冬作 10–3 月為主",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "菱角",
+      "aliases": [],
+      "feature": "水生角果，煮熟粉糯微甜，秋令時令",
+      "season": "秋季 8–10 月",
+      "staticOrigin": "台南官田、嘉義"
+    },
+    {
+      "name": "菾菜",
+      "aliases": [],
+      "feature": "即甜菜葉／牛皮菜類，葉柄厚實可炒可湯",
+      "season": "秋冬",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "萵苣菜",
+      "aliases": [],
+      "feature": "包含結球、散葉等多型萵苣，清脆清甜，適沙拉或涮火鍋",
+      "season": "冷涼季品質較佳",
+      "staticOrigin": "雲林、彰化、南投"
+    },
+    {
+      "name": "落花生",
+      "aliases": [],
+      "feature": "莢果地下結實，可鮮煮水煮花生或乾焙",
+      "season": "夏作與秋作",
+      "staticOrigin": "雲林、彰化、嘉義"
+    },
+    {
+      "name": "葡萄",
+      "aliases": [],
+      "feature": "漿果串生，巨峰等品種，鮮食與加工",
+      "season": "夏 6–10 月",
+      "staticOrigin": "彰化、台中、苗栗"
+    },
+    {
+      "name": "葡萄柚",
+      "aliases": [],
+      "feature": "果肉紅或白、微苦甘，進口為主亦有國產",
+      "season": "冬春",
+      "staticOrigin": "進口與南部試種"
+    },
+    {
+      "name": "蓮藕",
+      "aliases": [],
+      "feature": "地下莖膨大、切面多孔，清甜微粉，適排骨湯與涼拌",
+      "season": "夏秋",
+      "staticOrigin": "台南、嘉義"
+    },
+    {
+      "name": "蓮霧",
+      "aliases": [],
+      "feature": "桃金孃科，果皮鮮紅、果肉清脆多汁；黑糖芭比等品種知名",
+      "season": "冬春 12–4 月為主（產期調節可延長）",
+      "staticOrigin": "屏東、高雄"
+    },
+    {
+      "name": "蕎頭",
+      "aliases": [
+        "藠頭"
+      ],
+      "feature": "薤的鱗莖，辛香微甜，常見糖醋醃漬或炒肉",
+      "season": "冬春",
+      "staticOrigin": "彰化、雲林、嘉義"
+    },
+    {
+      "name": "蕨菜",
+      "aliases": [],
+      "feature": "野生或半栽培山菜，嫩芽清脆微苦，山區春季時令",
+      "season": "春季 3–5 月",
+      "staticOrigin": "南投、花蓮、台東"
+    },
+    {
+      "name": "蕹菜",
+      "aliases": [
+        "空心菜"
+      ],
+      "feature": "莖中空、葉翠綠，即空心菜，口感爽脆，夏季大宗葉菜",
+      "season": "春夏 4–10 月盛產",
+      "staticOrigin": "雲林、彰化、台南"
+    },
+    {
+      "name": "薑",
+      "aliases": [],
+      "feature": "根莖辛香，老薑、嫩薑用途不同，煮湯與調味不可或缺",
+      "season": "秋冬採收為主",
+      "staticOrigin": "南投、花蓮、苗栗"
+    },
+    {
+      "name": "薯蕷",
+      "aliases": [],
+      "feature": "山藥，塊莖黏滑或粉質，可蒸食、煲湯",
+      "season": "冬",
+      "staticOrigin": "台南、高雄、嘉義"
+    },
+    {
+      "name": "藍莓",
+      "aliases": [],
+      "feature": "小漿果藍紫、花青素豐富，進口為主",
+      "season": "全年進口",
+      "staticOrigin": "美國、智利、秘魯等"
+    },
+    {
+      "name": "藤川七",
+      "aliases": [],
+      "feature": "山區野菜／藥食同源嫩葉，風味獨特，產量少、多見於溫帶山區產季",
+      "season": "春夏",
+      "staticOrigin": "南投、嘉義山區"
+    },
+    {
+      "name": "蘆筍",
+      "aliases": [],
+      "feature": "嫩莖翠綠或白化，纖維細緻，適清炒與沙拉",
+      "season": "春至秋設施與露天並存",
+      "staticOrigin": "彰化、雲林、嘉義"
+    },
+    {
+      "name": "蘋果",
+      "aliases": [],
+      "feature": "溫帶仁果，口感酥脆，台灣市場以進口為主",
+      "season": "全年進口輪替",
+      "staticOrigin": "日本、美國、紐西蘭等"
+    },
+    {
+      "name": "蘿蔔",
+      "aliases": [
+        "白蘿蔔"
+      ],
+      "feature": "根部潔白碩大，口感爽脆，適滷、湯、蘿蔔糕",
+      "season": "冬 10–2 月盛產",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "蘿蔔乾",
+      "aliases": [],
+      "feature": "蘿蔔日曬醃製乾品，香氣濃郁，適炒青菜與炊粿",
+      "season": "加工品全年",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "虱目魚",
+      "aliases": [
+        "虱目魚肚",
+        "虱目魚頭"
+      ],
+      "feature": "熱帶養殖魚，肉質細、魚肚尤受歡迎；台灣南部魚塭大宗",
+      "season": "全年可供應，盛產約 7–11 月（夏秋量豐）",
+      "staticOrigin": "台南、嘉義、高雄、屏東、雲林"
+    },
+    {
+      "name": "蛋黃果",
+      "aliases": [],
+      "feature": "熱帶果實，果肉橙黃粉質似蛋黃，香氣濃郁",
+      "season": "夏秋",
+      "staticOrigin": "屏東、台東"
+    },
+    {
+      "name": "蜜棗",
+      "aliases": [
+        "印度棗",
+        "棗子",
+        "青棗"
+      ],
+      "feature": "印度棗（青棗），果皮翠綠轉蜜色、肉質爽脆清甜，冬令水果",
+      "season": "冬 12–2 月盛產",
+      "staticOrigin": "高雄、屏東、台南"
+    },
+    {
+      "name": "蠔菇",
+      "aliases": [],
+      "feature": "平菇類，菌蓋扇形、菌柄側生，口感柔韌",
+      "season": "全年設施",
+      "staticOrigin": "台中、彰化"
+    },
+    {
+      "name": "西瓜",
+      "aliases": [],
+      "feature": "夏季大宗瓜果，果肉紅或多彩，清甜多汁",
+      "season": "春夏 4–8 月",
+      "staticOrigin": "雲林、嘉義、台南、花蓮"
+    },
+    {
+      "name": "豆薯",
+      "aliases": [],
+      "feature": "涼薯，塊根雪白爽脆多汁，適生食",
+      "season": "秋冬",
+      "staticOrigin": "台南、高雄、屏東"
+    },
+    {
+      "name": "豌豆",
+      "aliases": [],
+      "feature": "可採嫩莢或籽粒，甜脆，適快炒與湯品",
+      "season": "冬春",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "赤宗",
+      "aliases": [],
+      "feature": "赤鯮等近海魚商品名",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "赤筆",
+      "aliases": [],
+      "feature": "近海小型魚商品名",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "越瓜",
+      "aliases": [],
+      "feature": "瓜形細長、皮薄，可鮮炒或醃漬成花瓜",
+      "season": "夏",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "辣椒",
+      "aliases": [],
+      "feature": "辛辣果菜，品種從朝天椒到尖椒不一，調味與配菜皆宜",
+      "season": "暖季至秋",
+      "staticOrigin": "屏東、高雄、台南"
+    },
+    {
+      "name": "透抽",
+      "aliases": [
+        "小卷",
+        "鎖管"
+      ],
+      "feature": "鎖管類頭足類，體型中等、肉質爽脆，夜釣與箱網常見",
+      "season": "依漁期，暖季至秋較盛",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "酪梨",
+      "aliases": [],
+      "feature": "酪梨果肉奶油質地，富油脂，適沙拉與抹醬",
+      "season": "夏秋",
+      "staticOrigin": "台東、屏東、嘉義"
+    },
+    {
+      "name": "醃瓜",
+      "aliases": [],
+      "feature": "多為越瓜等醃漬加工品，酸甜爽脆作配菜",
+      "season": "加工品全年可見",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "釋迦",
+      "aliases": [],
+      "feature": "番荔枝，成熟果肉乳白軟甜，含大果與鳳梨釋迦",
+      "season": "秋冬 9–1 月",
+      "staticOrigin": "台東、花蓮"
+    },
+    {
+      "name": "金目鱸",
+      "aliases": [
+        "七星鱸",
+        "鱸魚"
+      ],
+      "feature": "尖吻鱸，成長快、肉質細嫩，南部海水／半淡鹹水養殖重要魚種",
+      "season": "全年養殖供應，秋冬上市量常較大",
+      "staticOrigin": "高雄、屏東、台南"
+    },
+    {
+      "name": "金絲菇",
+      "aliases": [],
+      "feature": "金針菇近緣或同屬商品名，細柄金黃或白",
+      "season": "全年設施",
+      "staticOrigin": "台中、彰化"
+    },
+    {
+      "name": "金針筍",
+      "aliases": [],
+      "feature": "金針菇尚未開傘的幼嫩菇體，口感更細緻",
+      "season": "全年設施",
+      "staticOrigin": "台中、彰化"
+    },
+    {
+      "name": "金針花",
+      "aliases": [],
+      "feature": "萱草花蕾乾鮮皆有，台式金針排骨湯經典",
+      "season": "夏產鮮貨，乾品全年",
+      "staticOrigin": "花蓮、台東"
+    },
+    {
+      "name": "金針菇",
+      "aliases": [],
+      "feature": "菌柄細長雪白，口感爽脆，多為瓶栽設施",
+      "season": "全年",
+      "staticOrigin": "台中、彰化、南投"
+    },
+    {
+      "name": "金龍",
+      "aliases": [
+        "金龍、石鱸",
+        "石鱸"
+      ],
+      "feature": "金龍／石鱸等海水魚商品組合名，肉質結實",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "隼人瓜",
+      "aliases": [],
+      "feature": "即龍鬚菜／佛手瓜嫩梢，口感清脆，台灣夏秋常見野菜口感菜",
+      "season": "夏秋",
+      "staticOrigin": "南投、嘉義、台中"
+    },
+    {
+      "name": "雜柑",
+      "aliases": [
+        "帝王柑",
+        "茂谷",
+        "茂谷柑"
+      ],
+      "feature": "桶柑、茂谷等雜交柑類，甜酸適中",
+      "season": "冬至初春",
+      "staticOrigin": "台中、南投、嘉義、新竹"
+    },
+    {
+      "name": "雞蛋",
+      "aliases": [],
+      "feature": "蛋雞鮮蛋，蛋白質與烹調用途廣泛；批發行情多以台斤計價",
+      "season": "全年供應",
+      "staticOrigin": "全台蛋雞場"
+    },
+    {
+      "name": "雪里紅",
+      "aliases": [],
+      "feature": "芥菜近緣，葉緣皺縮，多醃漬成雪菜使用",
+      "season": "冬作",
+      "staticOrigin": "彰化、雲林"
+    },
+    {
+      "name": "青椒",
+      "aliases": [],
+      "feature": "未熟採收的辣椒／甜椒類，青綠色、微苦清香",
+      "season": "秋冬為主",
+      "staticOrigin": "嘉義、台南、屏東"
+    },
+    {
+      "name": "青江白菜",
+      "aliases": [],
+      "feature": "葉柄青白、葉片柔軟，口感清甜，適快炒或煮湯",
+      "season": "秋冬為主，全年可見",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "青花苔",
+      "aliases": [],
+      "feature": "未結球的青花菜側苔與花梗，細嫩甘甜",
+      "season": "冬春",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "青花菜",
+      "aliases": [
+        "青花椰菜"
+      ],
+      "feature": "綠花椰，花球翠綠，適清炒、烤箱與沙拉",
+      "season": "冬 11–3 月",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "青蔥",
+      "aliases": [],
+      "feature": "蔥白細長、葉翠綠，辛香為中式料理基礎；宜蘭三星蔥最具知名度",
+      "season": "全年供應，冬春品質與價格波動較大",
+      "staticOrigin": "宜蘭三星、雲林、彰化"
+    },
+    {
+      "name": "韭菜",
+      "aliases": [],
+      "feature": "葉片扁平細長、辛香濃郁，可炒蛋、餃餡或火鍋配菜",
+      "season": "全年有產，春夏品質較佳",
+      "staticOrigin": "雲林、嘉義、高雄"
+    },
+    {
+      "name": "香茅",
+      "aliases": [],
+      "feature": "禾本科香草，莖基部芳香濃郁，東南亞湯品與烤肉常用",
+      "season": "暖季為主",
+      "staticOrigin": "屏東、高雄、台南"
+    },
+    {
+      "name": "香菇",
+      "aliases": [],
+      "feature": "菌傘厚、香味濃，乾鮮皆重要，湯品與炒菜常用",
+      "season": "秋冬鮮菇較盛，乾菇全年",
+      "staticOrigin": "台中、南投、彰化"
+    },
+    {
+      "name": "香蕉",
+      "aliases": [],
+      "feature": "芭蕉科漿果，果肉香甜，成熟度影響甜度與香氣",
+      "season": "全年，夏秋量較大",
+      "staticOrigin": "屏東、高雄、台南、南投"
+    },
+    {
+      "name": "香魚",
+      "aliases": [],
+      "feature": "清溪性魚類，體型小、香氣特殊，養殖為主",
+      "season": "夏秋較盛",
+      "staticOrigin": "宜蘭、花蓮、南投等地養殖"
+    },
+    {
+      "name": "馬鈴薯",
+      "aliases": [],
+      "feature": "塊莖富澱粉，口感粉或綿，全球主糧之一，台式燉滷常用",
+      "season": "冬春採收為主",
+      "staticOrigin": "雲林、台中、彰化"
+    },
+    {
+      "name": "魷魚",
+      "aliases": [],
+      "feature": "頭足類，鮮冷凍皆有，可炒、烤、滷或煮湯，台灣近海與進口皆常見",
+      "season": "近海與進口輪替",
+      "staticOrigin": "台灣近海與進口"
+    },
+    {
+      "name": "鮭魚",
+      "aliases": [
+        "鮭魚(凍)"
+      ],
+      "feature": "冷水性魚，台灣市場以進口生鮮／冷凍為主",
+      "season": "全年進口輪替",
+      "staticOrigin": "挪威、智利等進口"
+    },
+    {
+      "name": "鯖魚",
+      "aliases": [
+        "花飛"
+      ],
+      "feature": "洄游性青皮魚，油脂豐富，多為近海或進口冷凍／鮮貨",
+      "season": "近海漁期與進口輪替，秋冬較盛",
+      "staticOrigin": "台灣近海與進口"
+    },
+    {
+      "name": "鱝",
+      "aliases": [
+        "鱝(魴仔)",
+        "魴仔"
+      ],
+      "feature": "鰩／魴仔類軟骨魚",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "鳳梨",
+      "aliases": [],
+      "feature": "聚花果，果肉金黃酸甜，鮮食與加工並重",
+      "season": "春夏 3–8 月盛產",
+      "staticOrigin": "屏東、台南、嘉義、高雄"
+    },
+    {
+      "name": "鴨",
+      "aliases": [],
+      "feature": "肉鴨與番鴨等，可烤、滷、燉；亦見鴨蛋行情",
+      "season": "全年供應",
+      "staticOrigin": "宜蘭、彰化、雲林等地"
+    },
+    {
+      "name": "鴻喜菇",
+      "aliases": [],
+      "feature": "小叢生菌蓋，口感彈牙，常見褐、白品系",
+      "season": "全年設施",
+      "staticOrigin": "台中、彰化"
+    },
+    {
+      "name": "鵝",
+      "aliases": [],
+      "feature": "肉鵝飼養，節慶與餐廳需求明顯，批發行情波動較大",
+      "season": "全年供應，節慶前量增",
+      "staticOrigin": "雲林、彰化、嘉義等地"
+    },
+    {
+      "name": "鹹菜",
+      "aliases": [],
+      "feature": "多為芥菜等醃漬半成品，鹹香適煮湯、炒肉絲",
+      "season": "全年可見加工品",
+      "staticOrigin": "雲林、彰化"
+    },
+    {
+      "name": "黃秋葵",
+      "aliases": [],
+      "feature": "果莢嫩綠有黏液，口感滑脆，適快炒或凉拌",
+      "season": "夏秋",
+      "staticOrigin": "屏東、高雄、台南"
+    },
+    {
+      "name": "黃臘鰺",
+      "aliases": [
+        "黃臘鰺(紅杉)",
+        "紅杉"
+      ],
+      "feature": "紅杉／黃臘鰺，海水魚，肉結實",
+      "season": "依漁期與養殖",
+      "staticOrigin": "台灣近海與養殖"
+    },
+    {
+      "name": "黃花",
+      "aliases": [],
+      "feature": "黃魚／黃花魚類商品名，肉質細嫩，養殖與進口常見",
+      "season": "全年可見，節慶需求高",
+      "staticOrigin": "養殖與進口為主"
+    },
+    {
+      "name": "黃金果",
+      "aliases": [],
+      "feature": "蛋黃果，果肉橙黃粉質，熱帶風味",
+      "season": "夏秋",
+      "staticOrigin": "屏東、台東"
+    },
+    {
+      "name": "黃鍚鯛",
+      "aliases": [],
+      "feature": "錫鯛／黃鍚鯛類，海水底棲魚",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "黑口",
+      "aliases": [],
+      "feature": "石首魚科近緣商品名",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海"
+    },
+    {
+      "name": "黑鯛",
+      "aliases": [],
+      "feature": "鯛科，肉質結實，養殖與近海捕撈皆有",
+      "season": "全年可見",
+      "staticOrigin": "西部沿海與養殖場"
+    },
+    {
+      "name": "黑鯧",
+      "aliases": [],
+      "feature": "鯧科深色品系，肉質細緻，批發常見",
+      "season": "依漁期",
+      "staticOrigin": "台灣近海與進口"
+    },
+    {
+      "name": "龍眼",
+      "aliases": [],
+      "feature": "桂圓鮮果，果肉甘甜，亦可焙製乾元",
+      "season": "夏末 7–9 月",
+      "staticOrigin": "台南、高雄、南投、彰化"
+    }
+  ]
+}

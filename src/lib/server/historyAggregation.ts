@@ -1,3 +1,15 @@
+/**
+ * Aggregate multi-market daily quotes into one history series.
+ *
+ * Product rules (detail page U/A/L band):
+ * - Scheme B (single market): caller filters to one market first; this
+ *   module then averages that market's rows only (usually one row/day).
+ * - Scheme C (national / all markets): simple mean of each market's
+ *   上價 / 平均價 / 下價 — not max(上)/min(下), which exaggerates the band.
+ * - Volume = sum of market volumes that day.
+ * - Closed days (no priced rows) are marked isClosed and price-interpolated.
+ */
+
 export interface AggregationInputRecord {
   date: string
   avgPrice: number
@@ -23,10 +35,10 @@ export interface BuildInterpolatedHistoryOptions {
 }
 
 interface DailyAggregate {
-  sumPrice: number
+  sumAvg: number
+  sumUpper: number
+  sumLower: number
   sumVolume: number
-  upper: number
-  lower: number
   count: number
 }
 
@@ -62,17 +74,17 @@ export function buildInterpolatedHistory({
     if (!record.date || record.avgPrice <= 0) continue
 
     const current = byDate.get(record.date) ?? {
-      sumPrice: 0,
+      sumAvg: 0,
+      sumUpper: 0,
+      sumLower: 0,
       sumVolume: 0,
-      upper: 0,
-      lower: 0,
       count: 0,
     }
 
-    current.sumPrice += record.avgPrice
+    current.sumAvg += record.avgPrice
+    current.sumUpper += record.upperPrice
+    current.sumLower += record.lowerPrice
     current.sumVolume += record.transWeight
-    current.upper = current.upper ? Math.max(current.upper, record.upperPrice) : record.upperPrice
-    current.lower = current.lower ? Math.min(current.lower, record.lowerPrice) : record.lowerPrice
     current.count += 1
     byDate.set(record.date, current)
   }
@@ -97,9 +109,9 @@ export function buildInterpolatedHistory({
     return {
       date,
       label: labelForDate(date),
-      avgPrice: roundTenth(current.sumPrice / current.count),
-      upperPrice: roundTenth(current.upper),
-      lowerPrice: roundTenth(current.lower),
+      avgPrice: roundTenth(current.sumAvg / current.count),
+      upperPrice: roundTenth(current.sumUpper / current.count),
+      lowerPrice: roundTenth(current.sumLower / current.count),
       volume: Math.round(current.sumVolume),
       isClosed: false,
     }

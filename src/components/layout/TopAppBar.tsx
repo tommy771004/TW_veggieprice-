@@ -473,7 +473,7 @@ export function TopAppBar() {
                           <div className="flex-1 min-w-0">
                             <div className="font-semibold text-on-surface truncate">{crop}</div>
                             <div className="text-body-xs text-outline truncate">
-                              {getCropBaseInfo(crop).feature}
+                              {getCropBaseInfo(crop)?.feature ?? '查看行情與歷史走勢'}
                             </div>
                           </div>
                           <span className="material-symbols-outlined text-outline shrink-0" style={{ fontSize: '1.2rem' }}>chevron_right</span>

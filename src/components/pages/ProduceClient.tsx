@@ -35,8 +35,11 @@ import type {
   CropInfo,
 } from '@/lib/types'
 import Link from 'next/link'
+import { ALL_MARKET_SENTINEL } from '@/lib/constants'
 
 const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
+/** Empty string = national view (scheme C: mean of markets' U/A/L). */
+const NATIONAL_HISTORY_MARKET = ''
 
 export function ProduceClient({
   cropName,
@@ -68,6 +71,8 @@ export function ProduceClient({
   const [enhancementsReady, setEnhancementsReady] = useState(false)
 
   const [period, setPeriod] = useState<PricePeriod>('1W')
+  /** '' = 全國 (scheme C); specific market name = scheme B for that market. */
+  const [historyMarket, setHistoryMarket] = useState(NATIONAL_HISTORY_MARKET)
   const [cropInfo, setCropInfo] = useState<CropInfo | null>(initialCropInfo ?? null)
   const [history, setHistory] = useState<PriceHistoryPoint[]>([])
   const [closedDays, setClosedDays] = useState<string[]>([])
@@ -134,6 +139,23 @@ export function ProduceClient({
       const todayStr = todayISO()
       function getDaysAgoISO(days: number): string {
         return subtractDays(todayStr, days)
+      }
+
+      function historyUrl(startDate: string, endDate: string): string {
+        const params = new URLSearchParams({
+          crop: cropName,
+          startDate,
+          endDate,
+        })
+        // Only attach market for single-market scheme B; national omits param.
+        if (
+          historyMarket &&
+          historyMarket !== ALL_MARKET_SENTINEL &&
+          historyMarket !== '全國平均'
+        ) {
+          params.set('market', historyMarket)
+        }
+        return `/api/prices/history?${params.toString()}`
       }
 
       try {
@@ -262,7 +284,7 @@ export function ProduceClient({
 
         if (period === '1W') {
           const startStr = getDaysAgoISO(7)
-          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr}&endDate=${todayStr}`)
+          const hRes = await fetch(historyUrl(startStr, todayStr))
           if (!active) return
           const json = await hRes.json()
           if (!active) return
@@ -276,7 +298,7 @@ export function ProduceClient({
           }
         } else if (period === '1M') {
           const startStr = getDaysAgoISO(30)
-          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr}&endDate=${todayStr}`)
+          const hRes = await fetch(historyUrl(startStr, todayStr))
           if (!active) return
           const json = await hRes.json()
           if (!active) return
@@ -291,7 +313,7 @@ export function ProduceClient({
         } else if (period === '3M') {
           // Stage 1: Load 1 Month instant data
           const startStr30 = getDaysAgoISO(30)
-          const hRes = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStr30}&endDate=${todayStr}`)
+          const hRes = await fetch(historyUrl(startStr30, todayStr))
           if (!active) return
           const json = await hRes.json()
           if (!active) return
@@ -318,7 +340,7 @@ export function ProduceClient({
           const endStrRemaining = getDaysAgoISO(31)
 
           try {
-            const hRes2 = await fetch(`/api/prices/history?crop=${encodeURIComponent(cropName)}&startDate=${startStrRemaining}&endDate=${endStrRemaining}`)
+            const hRes2 = await fetch(historyUrl(startStrRemaining, endStrRemaining))
             if (!active) return
             const json2 = await hRes2.json()
             if (!active) return
@@ -360,7 +382,7 @@ export function ProduceClient({
     return () => {
       active = false
     }
-  }, [cropName, period, reloadKey])
+  }, [cropName, period, historyMarket, reloadKey])
 
   useEffect(() => {
     if (!enhancementsReady) return
@@ -454,7 +476,8 @@ export function ProduceClient({
 
   useEffect(() => {
     if (!enhancementsReady) return
-    if (initialCropInfo && reloadKey === 0) return
+    // SSR already supplied a curated intro (or explicit null) on first paint.
+    if (reloadKey === 0 && initialCropInfo !== undefined) return
     let active = true
     async function loadInfo() {
       setInfoLoading(true)
@@ -462,13 +485,11 @@ export function ProduceClient({
         const infoRes = await fetch(`/api/produce/info?crop=${encodeURIComponent(cropName)}`)
         const infoJson = await infoRes.json()
         if (!active) return
-        setCropInfo(infoRes.ok
-          ? (infoJson as CropInfo)
-          : { feature: '天然新鮮農產品', season: '全年供應', origin: '台灣各地' }
-        )
+        // 404 / error → no curated intro; hide the brief card (no placeholders).
+        setCropInfo(infoRes.ok ? (infoJson as CropInfo) : null)
       } catch {
         if (!active) return
-        setCropInfo({ feature: '天然新鮮農產品', season: '全年供應', origin: '台灣各地' })
+        setCropInfo(null)
       } finally {
         if (active) setInfoLoading(false)
       }
@@ -517,6 +538,11 @@ export function ProduceClient({
   const compareMax = Math.max(latestPrice, avgCost ?? 0, 1)
   // Only show markets that actually traded today; a row of "$0.0" reads as broken/free.
   const pricedMarkets = markets.filter((m) => m.avgPrice > 0)
+  // National first, then priced markets for scheme B filter chips.
+  const historyMarketOptions: string[] = [
+    NATIONAL_HISTORY_MARKET,
+    ...pricedMarkets.map((m) => m.marketName),
+  ]
   const showCostCard = costLoading || (costInsight !== null && avgCost !== null) || costFiles.length > 0
   const showMarketCard = marketsLoading || pricedMarkets.length > 0
   const showTraceabilityCard = traceabilityLoading || traceability.length > 0
@@ -539,6 +565,7 @@ export function ProduceClient({
     : 'Veg'
   const displayAlias = cropName.replace(/（.*）|\(.*\)/g, '').trim()
   const historyWindowLabel = period === '1W' ? '近 7 日' : period === '1M' ? '近 30 日' : '近 90 日'
+  const historyScopeLabel = historyMarket || '全國均價'
   const heroSummaryCards = [
     {
       label: '觀察週期',
@@ -556,20 +583,13 @@ export function ProduceClient({
       meta: costGap === null ? '等待成本資料' : '元 / 公斤',
     },
   ]
-  const fieldNoteRows = [
-    {
-      label: '特徵',
-      value: infoLoading ? '整理中' : cropInfo?.feature ?? '天然新鮮農產品',
-    },
-    {
-      label: '產季',
-      value: infoLoading ? '整理中' : cropInfo?.season ?? '全年供應',
-    },
-    {
-      label: '主要產地',
-      value: infoLoading ? '整理中' : cropInfo?.origin ?? '台灣各地',
-    },
-  ]
+  const fieldNoteRows = cropInfo
+    ? [
+        { label: '特徵', value: cropInfo.feature },
+        { label: '產季', value: cropInfo.season },
+        { label: '主要產地', value: cropInfo.origin },
+      ]
+    : []
 
   // Whether the loaded history dataset includes upper/lower price columns
   const hasHistoryRangeData = history.some((d) => d.upperPrice != null)
@@ -750,7 +770,8 @@ export function ProduceClient({
                 </div>
               </div>
 
-              {/* 產地與生長背景側邊欄 */}
+              {/* 產地與生長背景：僅在有策展簡介時顯示，不塞硬編碼預設 */}
+              {fieldNoteRows.length > 0 ? (
               <div className="hidden lg:block">
                 <div className={`hero-info-card space-y-3.5 ${showFieldNotes ? 'h-[230px] flex flex-col justify-center' : ''}`}>
                   <button
@@ -775,6 +796,7 @@ export function ProduceClient({
                   )}
                 </div>
               </div>
+              ) : null}
             </div>
             )}
           </div>
@@ -787,7 +809,10 @@ export function ProduceClient({
                 <p className="section-kicker">Trend desk</p>
                 <h2 className="text-headline-md font-semibold text-on-surface">價格趨勢</h2>
                 <p className="text-body-sm text-on-surface-variant">
-                  觀察 {cropName} 在 {historyWindowLabel} 的均價變化與休市補點。
+                  觀察 {cropName}（{historyScopeLabel}）在 {historyWindowLabel} 的均價變化與休市補點。
+                  {historyMarket
+                    ? ' 顯示該市場本身的上/中/下價。'
+                    : ' 全國視角為各市場上/均/下價之平均。'}
                 </p>
                 {streamingStatus === 'loading_chunks' && (
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-label-sm font-medium animate-pulse self-start transition-opacity duration-300">
@@ -827,6 +852,29 @@ export function ProduceClient({
                 ))}
               </div>
             </div>
+
+            {historyMarketOptions.length > 1 && cropCategory !== 'meat' && cropCategory !== 'seafood' ? (
+              <div className="flex flex-wrap gap-1.5 mb-4" role="group" aria-label="歷史走勢市場範圍">
+                {historyMarketOptions.map((market) => {
+                  const label = market || '全國'
+                  const selected = historyMarket === market
+                  return (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => setHistoryMarket(market)}
+                      className={`px-2.5 py-1 rounded-full text-label-sm font-medium transition-colors ${
+                        selected
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'bg-surface-container text-on-surface-variant border border-outline-variant/40 hover:bg-surface-container-high'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  )
+                })}
+              </div>
+            ) : null}
 
             {historyLoading ? (
               <div className="skeleton h-56 rounded-xl" />
@@ -869,7 +917,15 @@ export function ProduceClient({
           </div>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        {(() => {
+          const hasOriginWeather = Boolean(
+            cropInfo?.origin && cropInfo.origin !== '台灣各地' && !cropInfo.origin.includes('進口'),
+          )
+          const showCropBrief = infoLoading || Boolean(cropInfo)
+          if (!showCropBrief && !hasOriginWeather) return null
+          return (
+        <section className={`grid gap-4 ${showCropBrief && hasOriginWeather ? 'lg:grid-cols-2' : ''}`}>
+          {showCropBrief ? (
           <div className="section-shell">
             <div className="section-heading-row gap-3 mb-5">
               <div>
@@ -877,9 +933,9 @@ export function ProduceClient({
                 <h2 className="text-headline-md font-semibold text-on-surface">作物簡介</h2>
               </div>
             </div>
-            {infoLoading || !cropInfo ? (
+            {infoLoading ? (
               <SkeletonCard />
-            ) : (
+            ) : cropInfo ? (
               <div className="space-y-3">
                 {[
                   { icon: 'info', label: '特徵', value: cropInfo.feature },
@@ -895,10 +951,11 @@ export function ProduceClient({
                   </div>
                 ))}
               </div>
-            )}
+            ) : null}
           </div>
+          ) : null}
 
-          {cropInfo?.origin && cropInfo.origin !== '台灣各地' ? (
+          {hasOriginWeather && cropInfo ? (
             <div className="section-shell">
               <div className="section-heading-row gap-3 mb-5">
                 <div>
@@ -941,6 +998,8 @@ export function ProduceClient({
             </div>
           ) : null}
         </section>
+          )
+        })()}
 
         {(showCostCard || showMarketCard) ? (
           <section className={`grid gap-4 ${showCostCard && showMarketCard ? 'lg:grid-cols-2' : ''}`}>

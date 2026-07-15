@@ -41,6 +41,16 @@ export async function GET(req: NextRequest) {
   }
 
   const base = getCropBaseInfo(cropName)
+  if (!base) {
+    // No curated intro — client should hide the crop-brief card (no placeholders).
+    return NextResponse.json(
+      { error: '查無此作物簡介' },
+      {
+        status: 404,
+        headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
+      },
+    )
+  }
 
   let origin = base.staticOrigin
   try {
