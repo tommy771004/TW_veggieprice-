@@ -25,6 +25,19 @@ interface TooltipPayload {
   payload: PriceHistoryPoint
 }
 
+function VolumeRow({ volume }: { volume: number | null }) {
+  if (volume == null) return null
+
+  return (
+    <div className="mt-2 flex items-center justify-between gap-4 border-t border-outline-variant/20 pt-2">
+      <span className="text-on-surface-variant text-label-sm">成交量</span>
+      <span className="text-on-surface font-semibold tabular-nums">
+        {volume.toLocaleString()} 公斤
+      </span>
+    </div>
+  )
+}
+
 function CustomTooltip({
   active,
   payload,
@@ -59,6 +72,7 @@ function CustomTooltip({
             <p className="text-on-surface-variant font-semibold text-sm mt-0.5">${point.avgPrice.toFixed(1)}</p>
           </div>
         )}
+        <VolumeRow volume={point.volume} />
       </div>
     )
   }
@@ -75,6 +89,7 @@ function CustomTooltip({
           </div>
         </div>
       )}
+      <VolumeRow volume={point.volume} />
     </div>
   )
 }
