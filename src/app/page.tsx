@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 }
 
 /**
- * ADR-0001 option D (F6 phase): prefetch default market overview + week trend
+ * ADR-0001 option D (F6 phase): prefetch National Overview + week trend
  * into the RSC payload so first paint can show real numbers.
  * CDN still serves STALE HTML quickly (revalidate=60); regeneration may wait on MOA.
  * F5 request fan-out is deferred until post-deploy re-measure.

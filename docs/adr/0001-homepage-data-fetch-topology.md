@@ -30,7 +30,7 @@ F5 = Client（或 Server）拿資料時「打幾槍」？（細粒度多 endpoin
 | 若只做… | 風險 |
 |---------|------|
 | 只做 F5 合併 | 仍 hydrate 後才有資料；skeleton 時間可能幾乎不變 |
-| 只做 F6 預取 | 預設市場有資料，但切市場又變回 5–6 槍；且可能拉高 TTFB |
+| 只做 F6 預取 | 預設 National Overview 有資料，但分類切換仍會重打多支 API；且可能拉高 TTFB |
 | 兩者各做各的 | 重複抓取、cache 語意衝突、Loading bar 語意混亂 |
 
 **流程硬性約定：**
@@ -51,7 +51,7 @@ F5 = Client（或 Server）拿資料時「打幾槍」？（細粒度多 endpoin
 | D2 TTFB | HTML 是否仍要極致快？ | M4 |
 | D3 Cold start | 多 function 同時冷啟是否常見？ | M2、M7 |
 | D4 Cache 粒度 | 合併後是否犧牲 s-maxage／命中率？ | M1、M5 |
-| D5 增量互動 | 切市場／分類是否可接受整包重打？ | 切換 wall-clock |
+| D5 增量互動 | 分類／明確市場篩選是否可接受整包重打？ | 切換 wall-clock |
 | D6 複雜度 | 是否願意改 `CLAUDE.md` Route 表與前端載入模型？ | 工程評估 |
 | D7 正確性 | Partial error（O1/O2 模式）是否保持？ | 產品 |
 
@@ -103,10 +103,10 @@ F5 = Client（或 Server）拿資料時「打幾槍」？（細粒度多 endpoin
 
 ### 選項 C — F6 only：SSR／ISR 預取預設首屏
 
-- **做法：** `page.tsx` 預取預設 market+category 的關鍵資料（至少 overview；可選 movers），props 進 `HomeClient`；`revalidate` 對齊現有 ISR 思路。  
+- **做法：** `page.tsx` 預取首頁預設 scope+category 的關鍵資料（至少 overview；可選 movers），props 進 `HomeClient`；`revalidate` 對齊現有 ISR 思路。
 - **優：** 首次 paint 可能已有數字；減少 skeleton。  
 - **缺：** 可能拉高 TTFB；個人化偏好市場難；與現註解「fast TTFB」衝突需明示。  
-- **F5：** 切市場／分類仍用現有多 endpoint（或另開 follow-up）。  
+- **F5：** 分類／明確市場篩選仍用現有多 endpoint（或另開 follow-up）。
 - **工作量：** M  
 
 ### 選項 D — 分階段：F6 預設預取 → 再評估 F5
@@ -142,11 +142,11 @@ F5 = Client（或 Server）拿資料時「打幾槍」？（細粒度多 endpoin
 |------|------|
 | **選擇** | **D** — 分階段：先 F6 預設預取 → 再評估 F5 |
 | **日期** | 2026-07-14 |
-| **理由（對應 Drivers）** | **D2** TTFB 已佳（~100ms STALE），不應為巨型 bootstrap 先動刀。**D1** 冷路徑 overview ~10s，首屏空白主因是 paint 後才取數 → F6 直接把預設 shell 嵌進 RSC。**D3** 多 function 同時 MISS 仍可能痛，但先讓預設市場在 HTML 重生時一次取完 overview/trend；**F5 延後**，上線後重測切市場 wall-clock 再決定 B/A。 |
+| **理由（對應 Drivers）** | **D2** TTFB 已佳（~100ms STALE），不應為巨型 bootstrap 先動刀。**D1** 冷路徑 overview ~10s，首屏空白主因是 paint 後才取數 → F6 直接把首頁 National Overview shell 嵌進 RSC。**D3** 多 function 同時 MISS 仍可能痛，但先讓 National Overview 在 HTML 重生時一次取完 overview/trend；**F5 延後**，上線後重測分類／明確市場篩選 wall-clock 再決定 B/A。 |
 | **明確不做的事（本階段）** | 不上 `/home-bootstrap` 或雙端點（F5）；不改動其他頁 API；不恢復假資料；不為個人化偏好市場做 SSR（仍 client）。 |
-| **F6 範圍（本階段實作）** | `prefetchDefaultHomeData()`：`DEFAULT_MARKET`（台北一）+ 蔬菜；產出 `initialOverview` + `initialTrend`；失敗則 null/[] 由 client 重試。預設殼跳過第一次 client overview/trend round-trip。 |
+| **F6 範圍（本階段實作）** | `prefetchDefaultHomeData()`：National Overview（`ALL_MARKET_SENTINEL`／全部市場）+ 蔬菜；產出 `initialOverview` + `initialTrend`；失敗則 null/[] 由 client 重試。預設殼跳過第一次 client overview/trend round-trip。 |
 | **F5** | **延後**。再評估觸發見下。 |
-| **再評估條件（F5）** | F6 上 production 後：**(1)** 切市場／分類的 client wall-clock p75 仍 &gt; 1.5s，或 **(2)** 同時多支 API cold 仍常見；則重開選項 B（雙端點）優先於 A。90 天內無觸發則維持現多 endpoint。 |
+| **再評估條件（F5）** | F6 上 production 後：**(1)** 分類／明確市場篩選的 client wall-clock p75 仍 &gt; 1.5s，或 **(2)** 同時多支 API cold 仍常見；則重開選項 B（雙端點）優先於 A。90 天內無觸發則維持現多 endpoint。 |
 | **成功指標（F6）** | 預設首訪：HTML 內嵌可信均價（非 skeleton）；ISR HIT/STALE 下 document TTFB 仍大致 &lt; 200ms；prefetch 失敗不白屏（client fallback）。 |
 
 ### 4.1 決策場檢查清單

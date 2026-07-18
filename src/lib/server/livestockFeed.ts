@@ -13,18 +13,16 @@ import {
   todayISO,
 } from "@/lib/server/dateUtils";
 import type { LivestockPrices } from "@/lib/types";
+import {
+  buildMarketOverviewTrendPoints,
+  type MarketOverviewTrendValue,
+} from "@/lib/server/marketOverviewCore";
+import type { MarketOverviewTrendResult } from "@/lib/server/marketOverviewTypes";
 
-export interface MarketOverviewTrendPoint {
-  date: string;
-  label: string;
-  avgPrice: number | null;
-  volume: number | null;
-}
-
-export interface MarketOverviewTrendResult {
-  points: MarketOverviewTrendPoint[];
-  error?: string;
-}
+export type {
+  MarketOverviewTrendPoint,
+  MarketOverviewTrendResult,
+} from "@/lib/server/marketOverviewTypes";
 
 /** 雞蛋/白肉雞行情 API 回傳結構（PoultryTransType_BoiledChicken_Eggs）
  *  欄位名稱可能隨農業部改版異動，使用 safeNumericField 存取以便偵測。 */
@@ -431,29 +429,26 @@ export async function fetchLivestockPorkTrend(
   const endDate = tradingDates[tradingDates.length - 1];
   const startDate = subtractDays(endDate, Math.max(normalizedDays - 1, 0));
 
-  const points: MarketOverviewTrendPoint[] = dateRange(startDate, endDate).map(
-    (date) => {
-      const rows = byDate.get(date);
-      if (!rows || rows.length === 0) {
-        return {
-          date,
-          label: dateLabel(date),
-          avgPrice: null,
-          volume: null,
-        };
-      }
-      const avgPrice = weightedPorkAvg(rows);
-      const volume = rows.reduce(
-        (s, r) => s + (Number(r.TransNum_Total) || 0),
-        0,
-      );
-      return {
-        date,
-        label: dateLabel(date),
-        avgPrice,
-        volume: volume > 0 ? volume : null,
-      };
-    },
+  const valuesByDate = new Map<string, MarketOverviewTrendValue>();
+  for (const date of dateRange(startDate, endDate)) {
+    const rows = byDate.get(date);
+    if (!rows || rows.length === 0) continue;
+
+    const avgPrice = weightedPorkAvg(rows);
+    const volume = rows.reduce(
+      (s, r) => s + (Number(r.TransNum_Total) || 0),
+      0,
+    );
+    valuesByDate.set(date, {
+      avgPrice,
+      volume: volume > 0 ? volume : null,
+    });
+  }
+
+  const points = buildMarketOverviewTrendPoints(
+    dateRange(startDate, endDate),
+    valuesByDate,
+    dateLabel,
   );
 
   if (!points.some((p) => p.avgPrice !== null)) {

@@ -27,6 +27,14 @@ import { marketsMatch } from "@/lib/markets";
 import { buildInterpolatedHistory } from "@/lib/server/historyAggregation";
 import { makeLogger } from "@/lib/server/logger";
 import {
+  buildMarketOverviewTrendPoints,
+  type MarketOverviewTrendValue,
+} from "@/lib/server/marketOverviewCore";
+import type {
+  MarketOverviewTrendPoint,
+  MarketOverviewTrendResult,
+} from "@/lib/server/marketOverviewTypes";
+import {
   fetchLivestockPrices,
   fetchLivestockPorkTrend,
   safeNumericField,
@@ -179,17 +187,10 @@ export interface SearchRecordsResult {
   error?: string;
 }
 
-export interface MarketOverviewTrendPoint {
-  date: string;
-  label: string;
-  avgPrice: number | null;
-  volume: number | null;
-}
-
-export interface MarketOverviewTrendResult {
-  points: MarketOverviewTrendPoint[];
-  error?: string;
-}
+export type {
+  MarketOverviewTrendPoint,
+  MarketOverviewTrendResult,
+} from "@/lib/server/marketOverviewTypes";
 
 interface MarketDailyAggregate {
   priceSum: number;
@@ -2184,27 +2185,27 @@ export async function fetchMarketOverviewTrend(
 
       const grouped = aggregateMarketByDate(bulkRes.records);
 
-      const points = dateRange(startDate, endDate).map((date) => {
+      const valuesByDate = new Map<string, MarketOverviewTrendValue>();
+      for (const date of dateRange(startDate, endDate)) {
         const current = grouped.get(date);
         if (!current || current.recordCount === 0) {
-          return {
-            date,
-            label: dateLabel(date),
-            avgPrice: null,
-            volume: null,
-          };
+          continue;
         }
 
-        return {
-          date,
-          label: dateLabel(date),
+        valuesByDate.set(date, {
           avgPrice:
             current.priceCount > 0
               ? Math.round((current.priceSum / current.priceCount) * 10) / 10
               : null,
           volume: Math.round(current.volumeSum),
-        };
-      });
+        });
+      }
+
+      const points = buildMarketOverviewTrendPoints(
+        dateRange(startDate, endDate),
+        valuesByDate,
+        dateLabel,
+      );
 
       return { points };
     },

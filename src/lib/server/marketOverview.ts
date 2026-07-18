@@ -12,15 +12,18 @@ import {
   fetchLivestockPorkTrend,
   fetchMarketOverviewTrend,
   fetchSeafoodMarketTrend,
-  type MarketOverviewTrendPoint,
 } from "@/lib/server/moa";
 import {
+  getMarketOverviewScopeLabel,
   overviewFromSeries,
+  toHistoryPoints,
   type TradingDayPoint,
 } from "@/lib/server/marketOverviewCore";
 
 export {
+  getMarketOverviewScopeLabel,
   overviewFromSeries,
+  toHistoryPoints,
   type TradingDayPoint,
 } from "@/lib/server/marketOverviewCore";
 
@@ -48,18 +51,6 @@ function categoryToMoaMarketType(
   if (category === "fruit") return "Fruit";
   if (category === "vegetable") return "Veg";
   return undefined;
-}
-
-function toHistoryPoints(
-  points: MarketOverviewTrendPoint[] | TradingDayPoint[],
-): PriceHistoryPoint[] {
-  return points.map((p) => ({
-    date: p.date,
-    label: p.label ?? p.date,
-    avgPrice: p.avgPrice,
-    volume: p.volume ?? null,
-    isClosed: "isClosed" in p ? p.isClosed : undefined,
-  }));
 }
 
 /**
@@ -116,7 +107,7 @@ export async function getMarketTrend(args: {
 
 /**
  * Category-aware single-day market overview (latest trading day vs previous).
- * Meat uses national pork average; marketName is fixed to 全國平均.
+ * Meat and aggregate scopes use the National Overview label.
  */
 export async function getMarketOverview(args: {
   market: string;
@@ -127,7 +118,7 @@ export async function getMarketOverview(args: {
   days?: number;
 }): Promise<MarketOverviewResult> {
   const category = args.category || "vegetable";
-  const marketName = category === "meat" ? "全國平均" : args.market;
+  const marketName = getMarketOverviewScopeLabel(category, args.market);
 
   const trend = await getMarketTrend({
     market: args.market,

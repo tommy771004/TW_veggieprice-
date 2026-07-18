@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
+import Link from "next/link";
 import { m } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SkeletonCard } from "@/components/ui/SkeletonCard";
@@ -8,6 +9,7 @@ import { TrendChip } from "@/components/ui/TrendChip";
 import { fetchLivestock } from "@/lib/api";
 import type { LivestockPrices } from "@/lib/types";
 import { formatTaipeiDate } from "@/lib/utils";
+import { NATIONWIDE_MARKET } from "@/lib/constants";
 
 const staggerContainer = {
   hidden: {},
@@ -23,6 +25,69 @@ const cardVariant = {
     transition: { type: "spring", stiffness: 300, damping: 24 },
   },
 };
+
+function livestockSearchHref(cropName: string): string {
+  return `/search?${new URLSearchParams({
+    market: NATIONWIDE_MARKET,
+    type: "meat",
+    q: cropName,
+  }).toString()}`;
+}
+
+interface LivestockSearchCardProps {
+  cropName: string;
+  icon: string;
+  label: string;
+  price: number | null | undefined;
+  priceChange: number | null | undefined;
+  children?: ReactNode;
+}
+
+function LivestockSearchCard({
+  cropName,
+  icon,
+  label,
+  price,
+  priceChange,
+  children,
+}: LivestockSearchCardProps) {
+  return (
+    <m.div variants={cardVariant}>
+      <Link
+        href={livestockSearchHref(cropName)}
+        className="block h-full rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        <GlassCard className="p-container-padding h-full card-lift">
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl" aria-hidden="true">
+                {icon}
+              </span>
+              <span className="text-body-sm text-on-surface-variant">
+                {label}
+              </span>
+            </div>
+            <span
+              className="material-symbols-outlined text-outline text-base"
+              aria-hidden="true"
+            >
+              arrow_forward
+            </span>
+          </div>
+          <div className="flex items-end justify-between">
+            <span className="text-headline-lg font-bold text-on-surface tabular-nums">
+              {price != null ? `$${price.toFixed(1)}` : "—"}
+            </span>
+            {priceChange != null && (
+              <TrendChip change={priceChange} size="sm" />
+            )}
+          </div>
+          {children}
+        </GlassCard>
+      </Link>
+    </m.div>
+  );
+}
 
 export function LivestockSection({
   initialLivestock = null,
@@ -87,57 +152,33 @@ export function LivestockSection({
           </GlassCard>
         ) : (
           <>
-            <m.div variants={cardVariant}>
-              <GlassCard className="p-container-padding h-full">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl">🥚</span>
-                  <span className="text-body-sm text-on-surface-variant">
-                    雞蛋大運輸價（元/台斤）
-                  </span>
-                </div>
-                <div className="flex items-end justify-between">
-                  <span className="text-headline-lg font-bold text-on-surface tabular-nums">
-                    {livestock?.eggPrice != null
-                      ? `$${livestock.eggPrice.toFixed(1)}`
-                      : "—"}
-                  </span>
-                  {livestock?.eggPriceChange != null && (
-                    <TrendChip change={livestock.eggPriceChange} size="sm" />
-                  )}
-                </div>
-                {livestock?.eggProducerPrice != null && (
-                  <p className="text-body-sm text-on-surface-variant mt-1">
-                    產地價 ${livestock.eggProducerPrice.toFixed(1)} / 台斤
-                  </p>
-                )}
-              </GlassCard>
-            </m.div>
+            <LivestockSearchCard
+              cropName="雞蛋"
+              icon="🥚"
+              label="雞蛋大運輸價（元/台斤）"
+              price={livestock?.eggPrice}
+              priceChange={livestock?.eggPriceChange}
+            >
+              {livestock?.eggProducerPrice != null && (
+                <p className="text-body-sm text-on-surface-variant mt-1">
+                  產地價 ${livestock.eggProducerPrice.toFixed(1)} / 台斤
+                </p>
+              )}
+            </LivestockSearchCard>
 
-            <m.div variants={cardVariant}>
-              <GlassCard className="p-container-padding h-full">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl">🐷</span>
-                  <span className="text-body-sm text-on-surface-variant">
-                    毛豬全國加權均價（元/公斤）
-                  </span>
-                </div>
-                <div className="flex items-end justify-between">
-                  <span className="text-headline-lg font-bold text-on-surface tabular-nums">
-                    {livestock?.porkAvgPrice != null
-                      ? `$${livestock.porkAvgPrice.toFixed(1)}`
-                      : "—"}
-                  </span>
-                  {livestock?.porkPriceChange != null && (
-                    <TrendChip change={livestock.porkPriceChange} size="sm" />
-                  )}
-                </div>
-                {livestock?.date && (
-                  <p className="text-body-sm text-on-surface-variant mt-1">
-                    資料日期：{formatTaipeiDate(livestock.date)}
-                  </p>
-                )}
-              </GlassCard>
-            </m.div>
+            <LivestockSearchCard
+              cropName="毛豬"
+              icon="🐷"
+              label="毛豬全國加權均價（元/公斤）"
+              price={livestock?.porkAvgPrice}
+              priceChange={livestock?.porkPriceChange}
+            >
+              {livestock?.date && (
+                <p className="text-body-sm text-on-surface-variant mt-1">
+                  資料日期：{formatTaipeiDate(livestock.date)}
+                </p>
+              )}
+            </LivestockSearchCard>
           </>
         )}
       </m.div>

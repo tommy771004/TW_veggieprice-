@@ -116,20 +116,33 @@ test("shows the top loading bar during initial and category data loads", async (
   const loadingBar = page.getByTestId("homepage-loading-bar");
   await expect(loadingBar).toBeVisible();
   await expect(loadingBar).toHaveAttribute("aria-hidden", "true");
-  await expect.poll(() => overviewRequests).toBe(1);
   await expect.poll(() => moversRequests).toBe(1);
 
-  overviewGates[0].resolve();
-  moversGates[0].resolve();
+  for (let i = 0; i < overviewRequests; i += 1) {
+    overviewGates[Math.min(i, overviewGates.length - 1)].resolve();
+  }
+  for (let i = 0; i < moversRequests; i += 1) {
+    moversGates[Math.min(i, moversGates.length - 1)].resolve();
+  }
   await expect(loadingBar).toBeHidden();
 
+  const initialOverviewRequests = overviewRequests;
+  const initialMoversRequests = moversRequests;
   await page.getByRole("button", { name: /水果類/ }).click();
   await expect(loadingBar).toBeVisible();
-  await expect.poll(() => overviewRequests).toBe(2);
-  await expect.poll(() => moversRequests).toBe(2);
+  await expect
+    .poll(() => overviewRequests)
+    .toBeGreaterThan(initialOverviewRequests);
+  await expect
+    .poll(() => moversRequests)
+    .toBeGreaterThan(initialMoversRequests);
 
-  overviewGates[1].resolve();
-  moversGates[1].resolve();
+  for (let i = initialOverviewRequests; i < overviewRequests; i += 1) {
+    overviewGates[Math.min(i, overviewGates.length - 1)].resolve();
+  }
+  for (let i = initialMoversRequests; i < moversRequests; i += 1) {
+    moversGates[Math.min(i, moversGates.length - 1)].resolve();
+  }
   await expect(loadingBar).toBeHidden();
 });
 

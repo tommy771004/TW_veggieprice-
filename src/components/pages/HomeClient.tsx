@@ -7,6 +7,7 @@ import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { TrendChip } from "@/components/ui/TrendChip";
 import { CropIcon } from "@/components/ui/CropIcon";
+import { HomeWeeklyTrendChart } from "@/components/charts/HomeWeeklyTrendChart";
 import {
   SkeletonCard,
   SkeletonList,
@@ -16,10 +17,6 @@ import { formatPrice } from "@/lib/utils";
 import { AffiliateMarquee } from "@/components/affiliate/AffiliateMarquee";
 import { HomeLoadingBar } from "@/components/ui/HomeLoadingBar";
 import { useHomeMarketSession } from "@/lib/client/useHomeMarketSession";
-
-const MarketInsightsPanel = dynamic(() =>
-  import("@/components/ui/MarketInsightsPanel").then((mod) => mod.MarketInsightsPanel),
-);
 const ExploreSection = dynamic(
   () =>
     import("@/components/ui/ExploreSection").then((mod) => mod.ExploreSection),
@@ -67,6 +64,11 @@ import type {
   PriceHistoryPoint,
   LivestockPrices,
 } from "@/lib/types";
+import {
+  ALL_MARKET_SENTINEL,
+  NATIONAL_OVERVIEW_LABEL,
+  NATIONWIDE_MARKET,
+} from "@/lib/constants";
 
 const CATEGORIES: ReadonlyArray<{ label: string; value: ProduceCategory }> = [
   { label: "🥬 蔬菜類", value: "vegetable" },
@@ -76,6 +78,18 @@ const CATEGORIES: ReadonlyArray<{ label: string; value: ProduceCategory }> = [
   { label: "🐖 肉品家禽", value: "meat" },
   { label: "🐟 漁產", value: "seafood" },
 ];
+
+const HOME_SEARCH_TARGETS: Record<
+  ProduceCategory,
+  { market: string; type: string }
+> = {
+  vegetable: { market: ALL_MARKET_SENTINEL, type: "Veg" },
+  fruit: { market: ALL_MARKET_SENTINEL, type: "Fruit" },
+  flower: { market: ALL_MARKET_SENTINEL, type: "Veg" },
+  mushroom: { market: ALL_MARKET_SENTINEL, type: "Veg" },
+  meat: { market: NATIONWIDE_MARKET, type: "meat" },
+  seafood: { market: ALL_MARKET_SENTINEL, type: "seafood" },
+};
 
 function formatTaipeiUpdatedAt(value: string): string {
   const date = new Date(value);
@@ -150,20 +164,14 @@ export function HomeClient({
     overview,
     movers,
     marketTrend,
-    markets,
     loadingOverview,
     loadingMovers,
     activeCategory,
-    selectedMarket,
     overviewError,
     moversError,
     reloadKey,
-    nextRestDay,
-    isClosedToday,
-    weatherRisk,
     preferences,
     setActiveCategory,
-    setSelectedMarket,
     reload,
     primaryDataLoading,
   } = session;
@@ -204,10 +212,11 @@ export function HomeClient({
         .at(-1) ?? "蔬菜類",
     [activeCategory],
   );
+  const activeSearchTarget = HOME_SEARCH_TARGETS[activeCategory];
 
   useEffect(() => {
     setAlertDismissed(false);
-  }, [selectedMarket]);
+  }, [activeCategory]);
 
   // API already filters by category (TcType / feed); do not re-filter by name keywords.
   const filteredMovers = movers;
@@ -265,13 +274,6 @@ export function HomeClient({
     trendChange,
     heroLinePoints,
   } = trendMetrics;
-  const weatherRiskLevelLabel =
-    weatherRisk?.level === "high"
-      ? "高風險"
-      : weatherRisk?.level === "medium"
-        ? "中風險"
-        : "低風險";
-
   const marketPulseCards = useMemo(() => {
     if (!overview) return [];
 
@@ -279,7 +281,7 @@ export function HomeClient({
       {
         label: "今日均價",
         value: `$${formatPrice(overview.avgPrice)}`,
-        meta: `${overview.marketName}`,
+        meta: NATIONAL_OVERVIEW_LABEL,
       },
       {
         label: "交易量",
@@ -297,24 +299,11 @@ export function HomeClient({
 
   const heroStatusChips = useMemo(() => {
     const chips: Array<{ label: string; tone?: "critical" | "warm" }> = [
+      { label: NATIONAL_OVERVIEW_LABEL },
       { label: activeCategoryLabel },
-      { label: isClosedToday ? "今日休市" : "正常交易" },
     ];
-
-    if (weatherRisk) {
-      chips.push({
-        label: `天氣${weatherRisk.score}分`,
-        tone:
-          weatherRisk.level === "high"
-            ? "critical"
-            : weatherRisk.level === "medium"
-              ? "warm"
-              : undefined,
-      });
-    }
-
     return chips;
-  }, [activeCategoryLabel, isClosedToday, selectedMarket, weatherRisk]);
+  }, [activeCategoryLabel]);
 
   const heroInsightCards = useMemo(() => {
     if (!overview) return [];
@@ -326,31 +315,21 @@ export function HomeClient({
         meta: "相較昨日交易量",
       },
       {
-        label: "市場節奏",
-        value: isClosedToday ? "今日休市" : "正常交易",
-        meta: nextRestDay
-          ? `下次休市 ${nextRestDay.date.replace(/-/g, "/")}${nextRestDay.note ? ` · ${nextRestDay.note}` : ""}`
-          : "近 45 日暫無休市公告",
+        label: "資料範圍",
+        value: NATIONAL_OVERVIEW_LABEL,
+        meta: "全市場聚合",
       },
       {
-        label: weatherRisk ? "天氣風險" : "近週走勢",
-        value: weatherRisk
-          ? `${weatherRisk.score} 分`
-          : `${trendChange >= 0 ? "+" : ""}${trendChange.toFixed(1)}%`,
-        meta: weatherRisk
-          ? `${weatherRiskLevelLabel} · ${weatherRisk.reasons[0] ?? "近期天氣條件平穩"}`
-          : `${trendSeries.length || trendPoints.length} 日樣本`,
+        label: "近週走勢",
+        value: `${trendChange >= 0 ? "+" : ""}${trendChange.toFixed(1)}%`,
+        meta: `${trendSeries.length || trendPoints.length} 日樣本`,
       },
     ];
   }, [
-    isClosedToday,
-    nextRestDay,
     overview,
     trendChange,
     trendPoints.length,
     trendSeries.length,
-    weatherRisk,
-    weatherRiskLevelLabel,
   ]);
 
   const showErrorCard =
@@ -360,12 +339,6 @@ export function HomeClient({
     moversError !== "";
   const combinedError = overviewError || moversError;
   const sparkColor = trendChange >= 0 ? "#fcd34d" : "#86efac";
-  const weatherMarkerTone =
-    weatherRisk?.level === "high"
-      ? "bg-error text-white"
-      : weatherRisk?.level === "medium"
-        ? "bg-amber-500 text-white"
-        : "bg-primary text-white";
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -402,7 +375,7 @@ export function HomeClient({
                 </span>
               </button>
               <p className="text-body-md text-on-surface-variant mt-2 max-w-2xl font-medium">
-                掌握 {selectedMarket} 的均價、量能與近週節奏。
+                掌握全國概況的均價、量能與近週節奏。
               </p>
               {overview?.updatedAt && (
                 <p className="text-label-sm text-outline flex items-center gap-1 mt-1 font-mono">
@@ -450,14 +423,6 @@ export function HomeClient({
                 className="overflow-hidden"
               >
 
-          {(nextRestDay || weatherRisk) && (
-            <MarketInsightsPanel
-              nextRestDay={nextRestDay}
-              isClosedToday={isClosedToday}
-              weatherRisk={weatherRisk}
-            />
-          )}
-
           {/* Daily summary banner */}
           <AnimatePresence>
             {!summaryDismissed &&
@@ -480,7 +445,7 @@ export function HomeClient({
                       >
                         analytics
                       </span>
-                      {overview.marketName} 今日均價 $
+                      {NATIONAL_OVERVIEW_LABEL} 今日均價 $
                       {formatPrice(overview.avgPrice)}，較昨日&nbsp;
                       <TrendChip change={overview.priceChange} size="sm" />
                       ，總交易量 {(overview.totalVolume / 1000).toFixed(0)} 公噸
@@ -573,33 +538,15 @@ export function HomeClient({
                 transition={{ type: "spring", stiffness: 280, damping: 24 }}
               >
                 <Link
-                  href={`/search?market=${encodeURIComponent(selectedMarket)}&type=${
-                    activeCategory === "fruit"
-                      ? "Fruit"
-                      : activeCategory === "meat"
-                        ? "meat"
-                        : activeCategory === "seafood"
-                          ? "seafood"
-                          : "Veg"
-                  }`}
+                  href={`/search?${new URLSearchParams(activeSearchTarget).toString()}`}
                   className="block home-hero-card rounded-3xl overflow-hidden card-lift"
                 >
-                  <div
-                    className={`px-6 pt-6 pb-5 relative ${isClosedToday ? "opacity-60 grayscale transition-all" : ""}`}
-                  >
-                    {isClosedToday && (
-                      <div className="absolute top-4 right-6 bg-surface-variant/90 text-on-surface-variant px-2 py-1 rounded text-xs font-bold ring-1 ring-outline/20 backdrop-blur-md flex items-center gap-1 z-10 shadow-sm">
-                        <span className="material-symbols-outlined text-sm">
-                          event_busy
-                        </span>
-                        本日休市
-                      </div>
-                    )}
+                  <div className="px-6 pt-6 pb-5 relative">
                     <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_19rem]">
                       <div className="min-w-0 space-y-5">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="market-status-chip market-status-chip--hero">
-                            {overview.marketName}
+                            {NATIONAL_OVERVIEW_LABEL}
                           </span>
                           <span className="market-status-chip market-status-chip--hero">
                             {activeCategoryLabel}
@@ -639,7 +586,7 @@ export function HomeClient({
 
                   {trendPoints.length > 1 && (
                     <div
-                      className={`px-5 pb-5 ${isClosedToday ? "opacity-60 grayscale transition-all" : ""}`}
+                      className="px-5 pb-5"
                     >
                       <svg
                         viewBox="0 0 400 44"
@@ -752,22 +699,9 @@ export function HomeClient({
           </div>
         )}
 
-        {/* ── Category Filter & Market Select ───────────────────────────── */}
+        {/* ── Category Filter ───────────────────────────────────────────── */}
         <section className="-mx-section-margin px-section-margin overflow-x-auto hide-scrollbar">
           <div className="flex gap-2 w-max pb-1 items-center">
-            <select
-              suppressHydrationWarning
-              value={selectedMarket}
-              onChange={(e) => setSelectedMarket(e.target.value)}
-              className="bg-white border border-outline-variant/40 rounded-full px-4 py-2 text-label-bold text-sm text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 shadow-sm touch-target shrink-0"
-            >
-              {markets.map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
-            <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
             {CATEGORIES.map((cat) => (
               <m.button
                 key={cat.value}
@@ -799,22 +733,7 @@ export function HomeClient({
               </p>
             </div>
             <Link
-              href={`/search?${new URLSearchParams({
-                type:
-                  activeCategory === "fruit"
-                    ? "Fruit"
-                    : activeCategory === "meat"
-                      ? "meat"
-                      : activeCategory === "seafood"
-                        ? "seafood"
-                        : "Veg",
-                market:
-                  activeCategory === "meat"
-                    ? "全國平均"
-                    : activeCategory === "seafood"
-                      ? "全部市場"
-                      : selectedMarket,
-              }).toString()}`}
+              href={`/search?${new URLSearchParams(activeSearchTarget).toString()}`}
               className="text-primary text-label-bold hover:underline flex items-center gap-0.5"
             >
               查看全部
@@ -853,18 +772,7 @@ export function HomeClient({
                       <Link
                         href={`/search?${new URLSearchParams({
                           q: item.cropName,
-                          type:
-                            activeCategory === "fruit"
-                              ? "Fruit"
-                              : activeCategory === "meat"
-                                ? "meat"
-                                : activeCategory === "seafood"
-                                  ? "seafood"
-                                  : "Veg",
-                          market:
-                            activeCategory === "meat"
-                              ? "全國平均"
-                              : "全部市場",
+                          ...activeSearchTarget,
                         }).toString()}`}
                         prefetch={false}
                         className="glass-card card-lift rounded-2xl flex items-center justify-between p-3.5 hover:bg-white/60 transition-colors touch-target block"
@@ -940,10 +848,10 @@ export function HomeClient({
             <GlassCard className="p-container-padding flex flex-col justify-between min-h-[160px] h-full">
               <div>
                 <h3 className="text-body-lg font-semibold text-on-surface">
-                  本週蔬菜均價走勢
+                  本週{activeCategoryLabel}均價走勢
                 </h3>
                 <p className="text-body-sm text-on-surface-variant mt-1">
-                  {selectedMarket} 近 {trendSeries.length} 日&nbsp;
+                  {NATIONAL_OVERVIEW_LABEL} · 近 {trendSeries.length} 日&nbsp;
                   <span
                     className={trendChange >= 0 ? "text-error" : "text-primary"}
                   >
@@ -953,45 +861,11 @@ export function HomeClient({
                 </p>
               </div>
               {trendSeries.length > 0 ? (
-                <div className="h-20 flex items-end justify-between gap-1.5 mt-4">
-                  {trendSeries.map((point, i) => {
-                    const isClosedDay = point.avgPrice === null;
-                    const currentValue = point.avgPrice ?? minTrend;
-                    const height = isClosedDay
-                      ? 22
-                      : 24 + ((currentValue - minTrend) / trendRange) * 76;
-                    return (
-                      <div
-                        key={point.date}
-                        className={`w-full relative overflow-visible ${isClosedDay ? "border-t border-dashed border-outline/70" : "rounded-t-md"}`}
-                        style={{
-                          height: `${height}%`,
-                          backgroundColor: isClosedDay
-                            ? "transparent"
-                            : `rgba(46, 125, 50, ${0.35 + (height / 100) * 0.35})`,
-                        }}
-                      >
-                        {isClosedDay && (
-                          <span className="absolute -top-5 left-1/2 -translate-x-1/2 bg-surface-container text-outline text-2xs font-semibold px-1.5 py-0.5 rounded border border-outline-variant/40 whitespace-nowrap">
-                            休
-                          </span>
-                        )}
-                        {i === trendSeries.length - 1 && (
-                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-white text-primary text-2xs font-bold px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap">
-                            今日
-                          </span>
-                        )}
-                        {i === trendSeries.length - 1 && weatherRisk && (
-                          <span
-                            className={`absolute -top-12 left-1/2 -translate-x-1/2 text-2xs font-bold px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap ${weatherMarkerTone}`}
-                          >
-                            風險 {weatherRisk.score}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                <HomeWeeklyTrendChart
+                  points={trendSeries}
+                  scopeLabel={NATIONAL_OVERVIEW_LABEL}
+                  categoryLabel={activeCategoryLabel}
+                />
               ) : (
                 <div className="h-20 flex items-center justify-center text-body-sm text-on-surface-variant mt-4">
                   近 7 日暫無足夠趨勢資料
@@ -1042,7 +916,7 @@ export function HomeClient({
                     【波動警報】
                   </span>
                   <span className="text-zinc-800 dark:text-zinc-100 text-xs sm:text-sm truncate">
-                    {overview.marketName} 今日均價 $
+                    {NATIONAL_OVERVIEW_LABEL} 今日均價 $
                     {formatPrice(overview.avgPrice)}，較昨日
                     {overview.priceChange >= 0 ? "上漲" : "下跌"}{" "}
                     <span

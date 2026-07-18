@@ -5,12 +5,20 @@
 ## Language
 
 **Market Overview**:
-A single market's latest trading-day average price, volume, and change versus the previous trading day for one produce category.
+A scope's latest trading-day average price, volume, and change versus the previous trading day for one produce category. The scope may be a named wholesale market or the National Overview.
 _Avoid_: dashboard snapshot, hero stats (UI-only)
 
 **Market Trend**:
-An ordered series of daily market averages (null on closed or missing days) used for charts and for deriving Market Overview.
+An ordered series of daily averages for one market scope (null on closed or missing days) used for charts and for deriving Market Overview.
 _Avoid_: price history (crop-level), sparkline (UI-only)
+
+**Homepage Weekly Trend**:
+The homepage's 7-day National Overview chart for the active produce category. It is a readable line chart with a price scale, date labels, hover tooltip, and explicit closed-day markers; it is not a decorative sparkline.
+_Avoid_: relative-height bar chart, unnamed weekly trend
+
+**National Overview**:
+The homepage's default scope: a national aggregate across eligible wholesale markets for an active produce category, used to understand broad price and supply movement rather than one named venue.
+_Avoid_: 全國市場, market selector, single-market overview
 
 **Produce Category**:
 The user-facing feed slice: vegetable, fruit, meat, or seafood (maps to distinct upstream sources).
@@ -29,5 +37,5 @@ A crop ranked by absolute % change of national avg price (元/公斤): simple me
 _Avoid_: gainer, leaderboard item; 其他 (misc bucket, excluded)
 
 **Home Market Session**:
-The client-side coordination of market list, category, overview, trend, movers, and rest/weather for the homepage shell.
+The client-side coordination of the homepage's National Overview category, overview, trend, and Top Mover data. Named-market filtering and market-specific rest/weather remain outside the homepage shell.
 _Avoid_: HomeClient state (implementation), bootstrap endpoint (F5, deferred)

@@ -12,18 +12,16 @@ import {
   todayISO,
 } from "@/lib/server/dateUtils";
 import { marketsMatch } from "@/lib/markets";
+import {
+  buildMarketOverviewTrendPoints,
+  type MarketOverviewTrendValue,
+} from "@/lib/server/marketOverviewCore";
+import type { MarketOverviewTrendResult } from "@/lib/server/marketOverviewTypes";
 
-export interface MarketOverviewTrendPoint {
-  date: string;
-  label: string;
-  avgPrice: number | null;
-  volume: number | null;
-}
-
-export interface MarketOverviewTrendResult {
-  points: MarketOverviewTrendPoint[];
-  error?: string;
-}
+export type {
+  MarketOverviewTrendPoint,
+  MarketOverviewTrendResult,
+} from "@/lib/server/marketOverviewTypes";
 
 /** Shape of one record in public/data/latest-seafood.json written by fetch-moa-data.js */
 export interface SeafoodRawRecord {
@@ -164,24 +162,16 @@ export async function fetchSeafoodMarketTrend(
   const endDate = summaries[summaries.length - 1].date;
   const startDate = subtractDays(endDate, Math.max(normalizedDays - 1, 0));
 
-  const points: MarketOverviewTrendPoint[] = dateRange(startDate, endDate).map(
-    (date) => {
-      const hit = byDate.get(date);
-      if (!hit) {
-        return {
-          date,
-          label: dateLabel(date),
-          avgPrice: null,
-          volume: null,
-        };
-      }
-      return {
-        date,
-        label: dateLabel(date),
-        avgPrice: hit.avgPrice,
-        volume: hit.totalVolume,
-      };
-    },
+  const valuesByDate = new Map<string, MarketOverviewTrendValue>(
+    [...byDate.entries()].map(([date, hit]) => [
+      date,
+      { avgPrice: hit.avgPrice, volume: hit.totalVolume },
+    ]),
+  );
+  const points = buildMarketOverviewTrendPoints(
+    dateRange(startDate, endDate),
+    valuesByDate,
+    dateLabel,
   );
 
   if (!points.some((p) => p.avgPrice !== null)) {
