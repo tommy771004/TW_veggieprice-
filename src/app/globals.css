@@ -878,8 +878,17 @@
     }
   }
 
-  /* Affiliate marquee — seamless horizontal scroll (track is rendered twice) */
-  @keyframes vp-marquee {
+  /* Affiliate marquee — two seamless tracks moving in opposite directions. */
+  @keyframes vp-marquee-right {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes vp-marquee-left {
     from {
       transform: translateX(0);
     }

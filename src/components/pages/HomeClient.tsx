@@ -881,7 +881,7 @@ export function HomeClient({
         <ExploreSection />
 
         {/* ── Affiliate Marquee (跑馬燈) ─────────────────── */}
-        <AffiliateMarquee placement="home" />
+        <AffiliateMarquee placement="home" twoRows />
 
         {/* ── About + FAQ ───────────────────────────────── */}
         <AboutSection />

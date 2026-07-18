@@ -13,9 +13,88 @@ type Props = {
   className?: string
   /** 版位來源標記,寫入 audit metadata(例:home / search)。 */
   placement?: string
+  /** 首頁使用雙排反向跑馬燈;其他版位維持單排。 */
+  twoRows?: boolean
 }
 
 const MASK = 'linear-gradient(to right, transparent, black 4%, black 96%, transparent)'
+
+type MarqueeDirection = 'right' | 'left'
+
+type MarqueeRowProps = {
+  offers: ResolvedOffer[]
+  reduceMotion: boolean
+  paused: boolean
+  duration: number
+  direction: MarqueeDirection
+  onOfferClick: (offer: ResolvedOffer) => void
+}
+
+function AffiliateMarqueeRow({
+  offers,
+  reduceMotion,
+  paused,
+  duration,
+  direction,
+  onOfferClick,
+}: MarqueeRowProps) {
+  const rendered = reduceMotion ? offers : [...offers, ...offers]
+  const animationName = direction === 'right' ? 'vp-marquee-right' : 'vp-marquee-left'
+
+  return (
+    <div
+      data-testid={`affiliate-marquee-row-${direction}`}
+      className={
+        reduceMotion ? 'flex gap-3 overflow-x-auto px-3 no-scrollbar' : 'flex w-max'
+      }
+      style={
+        reduceMotion
+          ? undefined
+          : {
+              animation: `${animationName} ${duration}s linear infinite`,
+              animationPlayState: paused ? 'paused' : 'running',
+            }
+      }
+    >
+      {rendered.map((offer, i) => {
+        const isClone = !reduceMotion && i >= offers.length
+        return (
+          <a
+            key={`${offer.id}-${i}`}
+            href={offer.href}
+            target="_blank"
+            rel="sponsored nofollow noopener noreferrer"
+            onClick={() => onOfferClick(offer)}
+            aria-hidden={isClone}
+            tabIndex={isClone ? -1 : 0}
+            className={`${reduceMotion ? '' : 'mr-3'} shrink-0 inline-flex items-center gap-2 rounded-full bg-white/70 border border-white/50 px-4 py-2 whitespace-nowrap hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
+          >
+            <span
+              className="material-symbols-outlined text-primary"
+              style={{ fontSize: '1.1rem' }}
+              aria-hidden="true"
+            >
+              {offer.icon ?? 'storefront'}
+            </span>
+            <span className="text-label-bold text-on-surface">{offer.partner ?? offer.title}</span>
+            {offer.sponsored && (
+              <span className="text-2xs px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium">
+                贊助
+              </span>
+            )}
+            <span
+              className="material-symbols-outlined text-outline"
+              style={{ fontSize: '0.95rem' }}
+              aria-hidden="true"
+            >
+              arrow_outward
+            </span>
+          </a>
+        )
+      })}
+    </div>
+  )
+}
 
 /**
  * 首頁／搜尋頁的聯盟推廣「跑馬燈」(連續水平捲動)。
@@ -28,6 +107,7 @@ export function AffiliateMarquee({
   secondsPerItem = 3.6,
   className,
   placement = 'marquee',
+  twoRows = false,
 }: Props) {
   const offers = useMemo(() => getMarqueeOffers(), [])
   const reduceMotion = useReducedMotion() ?? false
@@ -62,9 +142,18 @@ export function AffiliateMarquee({
 
   if (offers.length === 0) return null
 
-  const duration = Math.max(24, offers.length * secondsPerItem)
-  // 動畫版需要把清單渲染兩份才能無縫接續;reduce-motion 版只渲染一份並可手動捲動。
-  const rendered = reduceMotion ? offers : [...offers, ...offers]
+  const midpoint = Math.ceil(offers.length / 2)
+  const firstRowOffers = offers.slice(0, midpoint)
+  const secondRowOffers = offers.slice(midpoint)
+  const rows = twoRows
+    ? secondRowOffers.length > 0
+      ? [firstRowOffers, secondRowOffers]
+      : [offers, offers]
+    : [offers]
+
+  // 每排各自複製清單,動畫才能在左右方向都無縫接續。
+  const durationFor = (rowOffers: ResolvedOffer[]) =>
+    Math.max(24, rowOffers.length * secondsPerItem)
 
   function handleClick(offer: ResolvedOffer) {
     trackEvent('affiliate_click', offer.id, {
@@ -95,55 +184,18 @@ export function AffiliateMarquee({
         onFocusCapture={() => setPaused(true)}
         onBlurCapture={() => setPaused(false)}
       >
-        <div
-          className={
-            reduceMotion ? 'flex gap-3 overflow-x-auto px-3 no-scrollbar' : 'flex w-max'
-          }
-          style={
-            reduceMotion
-              ? undefined
-              : {
-                  animation: `vp-marquee ${duration}s linear infinite`,
-                  animationPlayState: paused ? 'paused' : 'running',
-                }
-          }
-        >
-          {rendered.map((offer, i) => {
-            const isClone = !reduceMotion && i >= offers.length
-            return (
-              <a
-                key={`${offer.id}-${i}`}
-                href={offer.href}
-                target="_blank"
-                rel="sponsored nofollow noopener noreferrer"
-                onClick={() => handleClick(offer)}
-                aria-hidden={isClone}
-                tabIndex={isClone ? -1 : 0}
-                className={`${reduceMotion ? '' : 'mr-3'} shrink-0 inline-flex items-center gap-2 rounded-full bg-white/70 border border-white/50 px-4 py-2 whitespace-nowrap hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
-              >
-                <span
-                  className="material-symbols-outlined text-primary"
-                  style={{ fontSize: '1.1rem' }}
-                  aria-hidden="true"
-                >
-                  {offer.icon ?? 'storefront'}
-                </span>
-                <span className="text-label-bold text-on-surface">{offer.partner ?? offer.title}</span>
-                {offer.sponsored && (
-                  <span className="text-2xs px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium">
-                    贊助
-                  </span>
-                )}
-                <span
-                  className="material-symbols-outlined text-outline"
-                  style={{ fontSize: '0.95rem' }}
-                  aria-hidden="true"
-                >
-                  arrow_outward
-                </span>
-              </a>
-            )
-          })}
+        <div className={twoRows ? 'flex flex-col gap-2' : ''}>
+          {rows.map((rowOffers, index) => (
+            <AffiliateMarqueeRow
+              key={index}
+              offers={rowOffers}
+              reduceMotion={reduceMotion}
+              paused={paused}
+              duration={durationFor(rowOffers)}
+              direction={twoRows && index === 0 ? 'right' : 'left'}
+              onOfferClick={handleClick}
+            />
+          ))}
         </div>
       </div>
     </section>
