@@ -85,14 +85,18 @@ export function SearchContent() {
   const [query, setQuery] = useState(initialQuery)
   const [results, setResults] = useState<ProducePrice[]>([])
   const [loading, setLoading] = useState(false)
-  const [market, setMarket] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const prefs = getUserPreferences()
-      return searchParams?.get('market') || prefs.preferredMarket || DEFAULT_MARKET
-    }
-    return searchParams?.get('market') || DEFAULT_MARKET
+  // Keep the first render identical on the server and client. Preferences are
+  // applied by the metadata effect below after hydration; URL deep links are
+  // safe to use immediately because they are available in both environments.
+  const [market, setMarket] = useState(() =>
+    searchParams?.get('market') || DEFAULT_MARKET,
+  )
+  const [marketType, setMarketType] = useState<MarketTypeOption['value']>(() => {
+    const requestedType = searchParams?.get('type')
+    return FALLBACK_MARKET_TYPES.some((option) => option.value === requestedType)
+      ? (requestedType as MarketTypeOption['value'])
+      : 'Veg'
   })
-  const [marketType, setMarketType] = useState<MarketTypeOption['value']>('Veg')
   const [marketTypeOptions, setMarketTypeOptions] = useState<MarketTypeOption[]>([...FALLBACK_MARKET_TYPES])
   const [marketsByType, setMarketsByType] = useState<Record<string, string[]>>({})
   const [marketsList, setMarketsList] = useState<string[]>(FALLBACK_MARKETS)

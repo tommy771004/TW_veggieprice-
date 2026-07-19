@@ -14,7 +14,9 @@ export function ServiceWorkerRegistrar() {
           scope: '/',
           updateViaCache: 'none',
         })
-        await registration.update()
+        // Playwright and some privacy-focused browsers can expose the
+        // serviceWorker API while returning no registration object.
+        if (registration?.update) await registration.update()
       } catch (error) {
         console.error('Service worker registration failed', error)
       }

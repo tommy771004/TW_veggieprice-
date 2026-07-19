@@ -92,25 +92,18 @@ const HOME_SEARCH_TARGETS: Record<
 };
 
 function formatTaipeiUpdatedAt(value: string): string {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
+  const timestamp = Date.parse(value);
+  if (Number.isNaN(timestamp)) return "";
 
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Taipei",
-    numberingSystem: "latn",
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-  }).formatToParts(date);
-  const fields = Object.fromEntries(
-    parts
-      .filter((part) => part.type !== "literal")
-      .map((part) => [part.type, part.value]),
-  );
+  // Taipei has a fixed UTC+8 offset. Formatting from UTC parts keeps the
+  // server and browser output identical even when their ICU locale data differ.
+  const date = new Date(timestamp + 8 * 60 * 60 * 1000);
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const hour = String(date.getUTCHours()).padStart(2, "0");
+  const minute = String(date.getUTCMinutes()).padStart(2, "0");
 
-  return `${fields.month}/${fields.day} ${fields.hour}:${fields.minute}`;
+  return `${month}/${day} ${hour}:${minute}`;
 }
 
 // ── Shared animation variants ──────────────────────────────────

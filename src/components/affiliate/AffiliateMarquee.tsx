@@ -110,10 +110,20 @@ export function AffiliateMarquee({
   twoRows = false,
 }: Props) {
   const offers = useMemo(() => getMarqueeOffers(), [])
-  const reduceMotion = useReducedMotion() ?? false
+  const prefersReducedMotion = useReducedMotion()
+  const [hasHydrated, setHasHydrated] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const seenRef = useRef<Set<string>>(new Set())
   const [paused, setPaused] = useState(false)
+
+  // `matchMedia` is client-only. Keep the server render and the first client
+  // render on the same DOM shape, then opt into the user's preference after
+  // hydration to avoid React #418.
+  useEffect(() => {
+    setHasHydrated(true)
+  }, [])
+
+  const reduceMotion = hasHydrated && (prefersReducedMotion ?? false)
 
   // 進入可視範圍時,為每個商家記一次曝光(跑馬燈會把所有商家輪播過)。
   useEffect(() => {

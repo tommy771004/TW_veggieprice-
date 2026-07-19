@@ -50,6 +50,27 @@ function formatROCDate(dateStr) {
   return `${parseInt(y) - 1911}.${m}.${d}`;
 }
 
+function readSeafoodSnapshot(filePath) {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    return {
+      metadata: parsed?.metadata ?? {},
+      data: Array.isArray(parsed?.data) ? parsed.data : [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+function hasUsableSeafoodRecords(records) {
+  return Array.isArray(records) && records.some((record) => (
+    record &&
+    typeof record === 'object' &&
+    record['交易日期'] &&
+    Number(record['平均價']) > 0
+  ));
+}
+
 async function main() {
   const publicDataDir = path.join(__dirname, '..', 'public', 'data');
   const dailyDataDir = path.join(publicDataDir, 'daily');
@@ -234,6 +255,7 @@ async function main() {
 
   let livestockData = {};
   let seafoodData = [];
+  let seafoodFetchSucceeded = false;
 
   for (const ep of apiEndpoints) {
     if (ep.name === 'pork') {
@@ -284,7 +306,13 @@ async function main() {
     try {
       const data = await fetchWithRetry(ep.url);
       if (ep.name === 'seafood') {
-        seafoodData = Array.isArray(data) ? data : (data.Data || []);
+        const candidate = Array.isArray(data) ? data : data?.Data;
+        if (hasUsableSeafoodRecords(candidate)) {
+          seafoodData = candidate;
+          seafoodFetchSucceeded = true;
+        } else {
+          console.warn('   ⚠️ 漁產端點回傳空或無效資料，保留既有 snapshot。');
+        }
       } else {
         if (data && data.Data) {
           livestockData[ep.name] = data.Data;
@@ -294,7 +322,7 @@ async function main() {
       }
     } catch (err) {
       console.warn(`   ⚠️ 失敗: ${ep.name}`, err.message);
-      if (ep.name === 'seafood') seafoodData = [];
+      if (ep.name === 'seafood') seafoodFetchSucceeded = false;
       else livestockData[ep.name] = [];
     }
   }
@@ -314,18 +342,32 @@ async function main() {
   console.log(`🎉 Successfully saved livestock records to ${livestockPath}`);
 
   const seafoodPath = path.join(publicDataDir, 'latest-seafood.json');
-  const tempSeafoodPath = seafoodPath + '.tmp';
-  const seafoodPayload = {
-    metadata: {
-      lastUpdated: new Date().toISOString(),
-      startISO: startISOSeafood,
-      endISO
-    },
-    data: seafoodData
-  };
-  fs.writeFileSync(tempSeafoodPath, JSON.stringify(seafoodPayload), 'utf-8');
-  fs.renameSync(tempSeafoodPath, seafoodPath);
-  console.log(`🎉 Successfully saved seafood records to ${seafoodPath}`);
+  if (seafoodFetchSucceeded) {
+    const tempSeafoodPath = seafoodPath + '.tmp';
+    const seafoodPayload = {
+      metadata: {
+        lastUpdated: new Date().toISOString(),
+        startISO: startISOSeafood,
+        endISO
+      },
+      data: seafoodData
+    };
+    fs.writeFileSync(tempSeafoodPath, JSON.stringify(seafoodPayload), 'utf-8');
+    fs.renameSync(tempSeafoodPath, seafoodPath);
+    console.log(`🎉 Successfully saved seafood records to ${seafoodPath}`);
+  } else if (readSeafoodSnapshot(seafoodPath)?.data.length) {
+    console.warn(`⚠️ 漁產同步沒有有效資料，保留既有 snapshot: ${seafoodPath}`);
+  } else if (!fs.existsSync(seafoodPath)) {
+    // Keep the first-run behavior explicit, but never erase a valid snapshot
+    // just because the upstream request was temporarily unavailable.
+    fs.writeFileSync(seafoodPath, JSON.stringify({
+      metadata: { lastUpdated: new Date().toISOString(), startISO: startISOSeafood, endISO },
+      data: [],
+    }), 'utf-8');
+    console.warn(`⚠️ 漁產尚無可用 snapshot，建立空檔待下次同步: ${seafoodPath}`);
+  } else {
+    console.warn(`⚠️ 漁產同步沒有有效資料，保留現有檔案: ${seafoodPath}`);
+  }
 
   // -------------------------------------------------------------
   // Phase 3: Market Rest Days
