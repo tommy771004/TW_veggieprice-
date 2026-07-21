@@ -50,6 +50,7 @@ function categoryToMoaMarketType(
 ): string | undefined {
   if (category === "fruit") return "Fruit";
   if (category === "vegetable") return "Veg";
+  if (category === "flower") return "Flower";
   return undefined;
 }
 

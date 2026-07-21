@@ -1,20 +1,13 @@
 import { getCropEmoji } from '@/lib/utils'
+import { getProduceCategory, CATEGORY_KEYWORDS, type ProduceCategory } from '@/lib/produceCategory'
 
-export type ProduceCategory = 'vegetable' | 'fruit' | 'flower' | 'mushroom' | 'meat' | 'seafood'
+// Re-export the pure classification API so existing `@/lib/produce` imports keep working.
+export { getProduceCategory, CATEGORY_KEYWORDS, type ProduceCategory }
 
 interface SeasonalGuideItem {
   cropName: string
   reason: string
   note: string
-}
-
-const CATEGORY_KEYWORDS: Record<ProduceCategory, string[]> = {
-  vegetable: ['菜', '高麗', '蘿蔔', '番茄', '洋蔥', '胡蘿蔔', '青椒', '花椰菜', '地瓜', '玉米', '南瓜', '茄子', '小黃瓜', '黃瓜', '蔥', '韭', '芹', '空心', '茼蒿', '生菜', '萵苣'],
-  fruit: ['果', '蘋果', '香蕉', '芭樂', '鳳梨', '芒果', '葡萄', '西瓜', '柳橙', '橘', '檸檬', '草莓', '桃', '梨', '木瓜'],
-  flower: ['花', '菊', '玫瑰', '百合', '蘭'],
-  mushroom: ['菇', '香菇', '金針', '杏鮑'],
-  meat: ['豬', '雞', '鵝', '鴨', '羊', '白肉雞', '毛豬', '蛋'],
-  seafood: ['魚', '蝦', '蟹', '蛤', '貝', '魷', '卷', '鯧', '鮭', '鯛', '鱸', '鰱', '鯖', '鰻', '鮪', '鱈', '蚵', '牡蠣', '秋刀', '虱目', '旗', '魩', '鱙', '透抽', '花枝', '軟絲', '干貝', '海帶', '紫菜', '魴', '鱺', '鯉', '鯽', '鰆', '鰺', '鱵', '鮟鱇']
 }
 
 const SEASONAL_GUIDE: Record<number, SeasonalGuideItem[]> = {
@@ -87,14 +80,6 @@ export const CROP_DESCRIPTIONS: Record<string, { reason: string; note: string }>
     .flat()
     .map((item) => [item.cropName, { reason: item.reason, note: item.note }])
 )
-
-export function getProduceCategory(cropName: string): ProduceCategory {
-  const matchedCategory = (Object.entries(CATEGORY_KEYWORDS) as Array<[ProduceCategory, string[]]>).find(([, keywords]) =>
-    keywords.some((keyword) => cropName.includes(keyword))
-  )
-
-  return matchedCategory?.[0] ?? 'vegetable'
-}
 
 export function getSeasonalGuide(month = new Date().getMonth() + 1) {
   return (SEASONAL_GUIDE[month] ?? SEASONAL_GUIDE[1]).map((item) => ({

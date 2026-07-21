@@ -7,9 +7,8 @@ import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
 import { FoodGuideSection } from '@/components/produce/FoodGuideSection'
 import { GovernmentDataSection } from '@/components/produce/GovernmentDataSection'
 import { SITE_URL } from '@/lib/env'
-import { getProduceCategory } from '@/lib/produce'
 import { getCropBaseInfo } from '@/lib/cropInfo'
-import { fetchLocalMarketDataByDates, type HistoryPoint } from '@/lib/server/moa'
+import { fetchLocalMarketDataByDates, resolveCropCategory, type HistoryPoint } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -62,7 +61,8 @@ export default async function ProducePage({ params }: Props) {
   const baseInfo = getCropBaseInfo(cropName)
   const initialPrice =
     history.filter((p) => p.avgPrice !== null && p.avgPrice > 0).slice(-1)[0]?.avgPrice ?? 0
-  const category = getProduceCategory(cropName)
+  // Resolve via MOA 種類代碼 so flower crops (康乃馨, 洋桔梗…) classify correctly.
+  const category = await resolveCropCategory(cropName)
   const categoryLabel = CATEGORY_LABEL[category] ?? '作物'
   const hasCategoryHub = ['vegetable', 'fruit', 'mushroom', 'flower'].includes(category)
 
@@ -73,6 +73,7 @@ export default async function ProducePage({ params }: Props) {
       <ProduceDatasetJsonLd cropName={cropName} url={pageUrl} />
       <ProduceClient
         cropName={cropName}
+        category={category}
         initialPrice={initialPrice}
         initialCropInfo={
           baseInfo

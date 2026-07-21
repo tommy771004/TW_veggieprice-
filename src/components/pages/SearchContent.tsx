@@ -57,6 +57,7 @@ const SORT_OPTIONS: ReadonlyArray<{ label: string; value: SearchFilters['sortBy'
 const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
   { value: 'Veg', label: '蔬菜市場', description: '蔬菜批發市場即時行情' },
   { value: 'Fruit', label: '水果市場', description: '水果批發市場即時行情' },
+  { value: 'Flower', label: '花卉市場', description: '花卉批發市場交易行情' },
   { value: 'meat', label: '肉品家禽', description: '畜產品交易行情' },
   { value: 'seafood', label: '漁產市場', description: '漁產品交易行情' },
 ]
@@ -147,6 +148,8 @@ export function SearchContent() {
       const byType: Record<string, string[]> = { ...meta.marketsByType }
       if (!byType.meat?.length) byType.meat = ['全國平均', '全部市場']
       if (!byType.seafood?.length) byType.seafood = ['全部市場']
+      if (!byType.Flower?.length)
+        byType.Flower = ['全部市場', '台北市場', '台中市場', '彰化市場', '台南市場', '高雄市場']
       setMarketsByType(byType)
 
       // Determine starting market
@@ -561,7 +564,7 @@ export function SearchContent() {
                   : 'glass-chip text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              {opt.label === '蔬菜市場' ? '🥬 蔬菜類' : opt.label === '水果市場' ? '🍎 水果類' : opt.label === '肉品家禽' ? '🐖 肉品家禽' : '🐟 漁產市場'}
+              {opt.label === '蔬菜市場' ? '🥬 蔬菜類' : opt.label === '水果市場' ? '🍎 水果類' : opt.label === '花卉市場' ? '🌸 花卉類' : opt.label === '肉品家禽' ? '🐖 肉品家禽' : '🐟 漁產市場'}
             </m.button>
           ))}
           <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>

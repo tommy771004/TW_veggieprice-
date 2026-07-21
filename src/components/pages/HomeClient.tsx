@@ -73,7 +73,7 @@ import {
 const CATEGORIES: ReadonlyArray<{ label: string; value: ProduceCategory }> = [
   { label: "🥬 蔬菜類", value: "vegetable" },
   { label: "🍎 水果類", value: "fruit" },
-  // { label: '🌸 花卉類', value: 'flower' },
+  { label: "🌸 花卉類", value: "flower" },
   //{ label: '🍄 菇類', value: 'mushroom' },
   { label: "🐖 肉品家禽", value: "meat" },
   { label: "🐟 漁產", value: "seafood" },
@@ -85,7 +85,7 @@ const HOME_SEARCH_TARGETS: Record<
 > = {
   vegetable: { market: ALL_MARKET_SENTINEL, type: "Veg" },
   fruit: { market: ALL_MARKET_SENTINEL, type: "Fruit" },
-  flower: { market: ALL_MARKET_SENTINEL, type: "Veg" },
+  flower: { market: ALL_MARKET_SENTINEL, type: "Flower" },
   mushroom: { market: ALL_MARKET_SENTINEL, type: "Veg" },
   meat: { market: NATIONWIDE_MARKET, type: "meat" },
   seafood: { market: ALL_MARKET_SENTINEL, type: "seafood" },

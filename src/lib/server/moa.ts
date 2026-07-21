@@ -19,7 +19,7 @@ import type {
   ProductCostInsight,
   CostSurveyFile,
 } from "@/lib/types";
-import { CROP_DESCRIPTIONS, getProduceCategory } from "@/lib/produce";
+import { CROP_DESCRIPTIONS, getProduceCategory, type ProduceCategory } from "@/lib/produce";
 import { getCropEmoji } from "@/lib/utils";
 import { resolveCountyFromMarketName as resolveCountyFromMarketDataset } from "@/lib/server/marketCountyMap";
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from "@/lib/constants";
@@ -64,12 +64,14 @@ const MOA_FETCH_RETRIES = 2;
 /** MOA 農產品種類代碼（農業部 OpenData 規格） */
 export const CROP_TYPE_VEG = "N04" as const; // 蔬菜
 export const CROP_TYPE_FRUIT = "N05" as const; // 水果
+export const CROP_TYPE_FLOWER = "N06" as const; // 花卉
 /** 每批次的平行 HTTP 請求數量；數字過大會造成 Serverless 函數的並發限制 */
 const MOA_PAGE_BATCH = 3 as const;
 
 const MARKET_TYPE_OPTIONS = [
   { value: "Veg", label: "蔬菜市場", description: "蔬菜批發市場即時行情" },
   { value: "Fruit", label: "水果市場", description: "水果批發市場即時行情" },
+  { value: "Flower", label: "花卉市場", description: "花卉批發市場交易行情" },
   { value: "meat", label: "肉品家禽", description: "畜產品交易行情" },
   { value: "seafood", label: "漁產市場", description: "漁產品交易行情" },
 ] as const;
@@ -523,13 +525,14 @@ const FALLBACK_FRUIT_MARKETS = [
   "員林鎮",
 ];
 
+// 花卉批發市場名稱，需與 daily 資料裡的 MarketName 完全一致（依市場精確比對）。
 const FALLBACK_FLOWER_MARKETS = [
   "全部市場",
-  "台北花市",
-  "台中市",
-  "彰化地區",
-  "台南市",
-  "高雄市",
+  "台北市場",
+  "台中市場",
+  "彰化市場",
+  "台南市場",
+  "高雄市場",
 ];
 
 export interface MOAMarket {
@@ -604,6 +607,11 @@ export async function fetchMarkets(type: string = "Veg"): Promise<string[]> {
       { revalidate: 86400 }, // 24 hours
     );
     return cachedFn();
+  }
+  if (normalizedType === "Flower") {
+    // MOA 的 CropMarketType 端點不含花卉市場；花卉固定為 5 個花卉批發市場，
+    // 直接回傳（名稱與 daily 資料的 MarketName 一致，供精確比對）。
+    return FALLBACK_FLOWER_MARKETS;
   }
 
   const cachedFn = unstable_cache(
@@ -691,6 +699,7 @@ export async function fetchMarketOptions(): Promise<MarketOptionsResult> {
       marketsByType: {
         Veg: ["全部市場"],
         Fruit: ["全部市場"],
+        Flower: ["全部市場"],
         meat: ["全國平均"],
         seafood: ["全部市場"],
       },
@@ -1309,6 +1318,49 @@ export async function fetchRecentOpenData(): Promise<
   return cachedRecentOpenData();
 }
 
+/**
+ * Resolve a crop's display category using the MOA 種類代碼 (N04/N05/N06) from recent
+ * data, which is authoritative — many flower names carry no flower keyword (康乃馨,
+ * 洋桔梗…) and some fruits/vegetables match the wrong keyword, so name-only guessing
+ * misclassifies them. Crops absent from the produce feed (meat/seafood) fall back to
+ * name-based classification. See getProduceCategory.
+ */
+export async function resolveCropCategory(
+  cropName: string,
+): Promise<ProduceCategory> {
+  try {
+    const records = await fetchRecentOpenData();
+    const match = records.find((r) => r.cropName === cropName);
+    if (match?._typeCode) {
+      return getProduceCategory(cropName, match._typeCode);
+    }
+  } catch {
+    // fall through to name-only classification
+  }
+  return getProduceCategory(cropName);
+}
+
+/**
+ * Distinct flower (N06) crop names from recent data, most-traded first. Used by the
+ * flower category hub, which can't rely on the static COMMON_CROPS list (it holds only
+ * a few flower names) — real flower products are data-driven and change over time.
+ */
+export async function fetchFlowerCropNames(): Promise<string[]> {
+  try {
+    const records = await fetchRecentOpenData();
+    const volume = new Map<string, number>();
+    for (const r of records) {
+      if (r._typeCode !== CROP_TYPE_FLOWER || !r.cropName) continue;
+      volume.set(r.cropName, (volume.get(r.cropName) ?? 0) + (r.transWeight || 0));
+    }
+    return [...volume.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([name]) => name);
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchPriceRecords(
   options: PriceQueryOptions,
 ): Promise<{ records: NormalizedPriceRecord[]; error?: string }> {
@@ -1356,7 +1408,10 @@ export async function fetchPriceRecords(
           filteredData = filteredData.filter(
             (d) => d._typeCode === CROP_TYPE_FRUIT,
           );
-        // else if (options.marketType === 'Flower') filteredData = filteredData.filter(d => d._typeCode === 'N06')
+        else if (options.marketType === "Flower")
+          filteredData = filteredData.filter(
+            (d) => d._typeCode === CROP_TYPE_FLOWER,
+          );
       }
       let filtered = filteredData
         .filter((r) => r.date >= startDate && r.date <= endDate)
@@ -1405,8 +1460,10 @@ export async function fetchPriceRecords(
       params.set("TcType", CROP_TYPE_VEG);
     } else if (options.marketType === "Fruit") {
       params.set("TcType", CROP_TYPE_FRUIT);
-      // } else if (options.marketType === 'Flower' as __type) {
-      //   params.set('TcType', 'N06')
+    } else if (options.marketType === "Flower") {
+      // MOA 的 v1/OpenData 端點不供應花卉；此分支通常取不到資料，
+      // 花卉一律由本地 daily 檔（fetchLocalDailyData）供應。
+      params.set("TcType", CROP_TYPE_FLOWER);
     }
   }
 
@@ -1464,6 +1521,8 @@ async function fetchLocalDailyData(
           if (marketType) {
             if (marketType === "Veg" && d.TcType !== CROP_TYPE_VEG) continue;
             if (marketType === "Fruit" && d.TcType !== CROP_TYPE_FRUIT)
+              continue;
+            if (marketType === "Flower" && d.TcType !== CROP_TYPE_FLOWER)
               continue;
           }
 
@@ -1747,6 +1806,8 @@ async function fetchSearchBulkRecords(
         filtered = filtered.filter((r) => r._typeCode === CROP_TYPE_VEG);
       } else if (options.marketType === "Fruit") {
         filtered = filtered.filter((r) => r._typeCode === CROP_TYPE_FRUIT);
+      } else if (options.marketType === "Flower") {
+        filtered = filtered.filter((r) => r._typeCode === CROP_TYPE_FLOWER);
       }
       if (options.market && options.market !== "全部市場") {
         filtered = filtered.filter((r) => r.marketName === options.market);

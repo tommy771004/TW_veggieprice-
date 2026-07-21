@@ -24,7 +24,7 @@ import { CropIcon } from '@/components/ui/CropIcon'
 import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
 import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
-import { getProduceCategory } from '@/lib/produce'
+import { getProduceCategory, type ProduceCategory } from '@/lib/produce'
 import type {
   PricePeriod,
   MarketComparison,
@@ -43,6 +43,7 @@ const NATIONAL_HISTORY_MARKET = ''
 
 export function ProduceClient({
   cropName,
+  category: categoryProp,
   initialPrice = 0,
   initialMarkets,
   initialTraceability,
@@ -50,12 +51,16 @@ export function ProduceClient({
   initialCropInfo,
 }: {
   cropName: string
+  /** Category resolved server-side via MOA 種類代碼 (authoritative for flowers). */
+  category?: ProduceCategory
   initialPrice?: number
   initialMarkets?: MarketComparison[]
   initialTraceability?: TraceabilitySummaryItem[]
   initialCostInsight?: ProductCostInsight | null
   initialCropInfo?: CropInfo | null
 }) {
+  // Prefer the server-resolved category; fall back to name-only when absent.
+  const resolvedCategory = categoryProp ?? getProduceCategory(cropName)
   const router = useRouter()
 
   interface WeatherData {
@@ -159,7 +164,7 @@ export function ProduceClient({
       }
 
       try {
-        const category = getProduceCategory(cropName)
+        const category = resolvedCategory
         if (category === 'meat') {
           const res = await fetch('/data/latest-livestock.json')
           if (!active) return
@@ -391,7 +396,7 @@ export function ProduceClient({
     async function loadMarkets() {
       setMarketsLoading(true)
       setMarketsError('')
-      const category = getProduceCategory(cropName)
+      const category = resolvedCategory
       const st = category === 'fruit' ? 'Fruit'
         : category === 'meat' ? 'meat'
         : category === 'seafood' ? 'seafood'
@@ -546,7 +551,7 @@ export function ProduceClient({
   const showCostCard = costLoading || (costInsight !== null && avgCost !== null) || costFiles.length > 0
   const showMarketCard = marketsLoading || pricedMarkets.length > 0
   const showTraceabilityCard = traceabilityLoading || traceability.length > 0
-  const cropCategory = getProduceCategory(cropName)
+  const cropCategory = resolvedCategory
   const cropCategoryLabel = cropCategory === 'fruit'
     ? '水果類'
     : cropCategory === 'mushroom'

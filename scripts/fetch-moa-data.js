@@ -71,6 +71,235 @@ function hasUsableSeafoodRecords(records) {
   ));
 }
 
+// -------------------------------------------------------------
+// 花卉 (Flowers, 種類代碼 N06)
+// -------------------------------------------------------------
+// 農業部 OpenData 的 FarmTransData.aspx 只提供蔬菜(N04)與水果(N05)，
+// TcType=N06 會回傳 0 筆 —— 花卉行情並不在 OpenData。花卉資料僅存在於
+// 「田邊好幫手」的內部查詢 API（POST，回傳 JSON、免登入），且必須「逐一花卉
+// 批發市場」查詢。此處把結果彙總成與蔬果完全相同的記錄格式（TcType=N06）併入
+// daily 檔，讓既有資料流（fetchLocalDailyData / latest-opendata）可直接消費。
+const FLOWER_API_URL = 'https://m.moa.gov.tw/Transaction/AgriculturalProduct/IndexPost';
+const FLOWER_MARKETS = [
+  { id: '105', name: '台北市場' },
+  { id: '400', name: '台中市場' },
+  { id: '514', name: '彰化市場' },
+  { id: '700', name: '台南市場' },
+  { id: '800', name: '高雄市場' },
+];
+// 每次查詢的天數。單一市場單日約 260 筆，10 天約 2600 筆，遠低於 PageSize(9999)
+// 上限，避免回傳被截斷；同時把總請求數壓在合理範圍。
+const FLOWER_CHUNK_DAYS = 10;
+
+function isoToDotROC(iso) {
+  const [y, m, d] = iso.split('-');
+  return `${parseInt(y, 10) - 1911}.${m}.${d}`;
+}
+
+// 把 MOA 花卉欄位(可能是字串、帶 + 或千分位)轉成數字，無法解析回傳 0。
+function toFlowerNumber(value) {
+  const n = Number(String(value ?? '').replace(/[+,\s]/g, ''));
+  return Number.isFinite(n) ? n : 0;
+}
+
+function round2(n) {
+  return Math.round(n * 100) / 100;
+}
+
+// 逐一花市、逐段日期呼叫田邊好幫手的 IndexPost，取得原始花卉品項列。
+async function fetchFlowerMarketRange(marketId, startISO, endISO) {
+  const body = new URLSearchParams({
+    TcType: 'N06',
+    MarketId: marketId,
+    TradeCode: '',
+    ByKeyword: '',
+    CropId: '',
+    IsFirstLoad: 'False',
+    NoRest: 'false',
+    NowPage: '1',
+    SortAction: 'DESC',
+    SortField: 'ID',
+    PageSize: '9999',
+    // 田邊好幫手 IndexPost 使用西元年 YYYY/MM/DD（非民國年）。
+    StartDate: startISO.replace(/-/g, '/'),
+    EndDate: endISO.replace(/-/g, '/'),
+  }).toString();
+
+  const data = await fetchWithRetry(FLOWER_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'X-Requested-With': 'XMLHttpRequest',
+      'Accept': 'application/json, text/javascript, */*; q=0.01',
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    },
+    body,
+  });
+
+  const rows = Array.isArray(data?.rows) ? data.rows : [];
+  if (typeof data?.total === 'number' && data.total > rows.length) {
+    console.warn(
+      `      ⚠️ 花卉 ${marketId} ${startISO}~${endISO} 疑似被截斷 (total ${data.total} > rows ${rows.length})，請調小 FLOWER_CHUNK_DAYS。`
+    );
+  }
+  return rows;
+}
+
+// 抓取指定區間內全部花市的花卉行情，回傳 Map<isoDate, dailyRecord[]>。
+// 同一花卉在同一市場同一天常有多個品項(TcCod)列，這裡以交易量加權平均價格、
+// 加總交易量，壓成單筆，對齊蔬果的每作物/市場/日粒度。
+// 彙總鍵用「花卉名稱 ScopName」而非分類碼 ScCod：ScCod 常為空字串或 null（同一個
+// 空碼對應數十種不同花卉），用它當鍵會把不相干的花卉錯併；名稱才是穩定識別。
+async function fetchFlowerRecordsByDate(startISO, endISO) {
+  // 切成多段日期區間，避免單次回傳超過 PageSize 上限。
+  const chunks = [];
+  let cursor = new Date(startISO);
+  const end = new Date(endISO);
+  while (cursor <= end) {
+    const chunkStart = new Date(cursor);
+    const chunkEnd = new Date(cursor);
+    chunkEnd.setDate(chunkEnd.getDate() + FLOWER_CHUNK_DAYS - 1);
+    const cappedEnd = chunkEnd < end ? chunkEnd : end;
+    chunks.push([
+      chunkStart.toISOString().split('T')[0],
+      cappedEnd.toISOString().split('T')[0],
+    ]);
+    cursor = new Date(cappedEnd);
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  const agg = new Map(); // iso -> Map(`${name}|${marketId}` -> accumulator)
+  let rawRows = 0;
+
+  for (const market of FLOWER_MARKETS) {
+    for (const [cs, ce] of chunks) {
+      try {
+        const rows = await fetchFlowerMarketRange(market.id, cs, ce);
+        for (const r of rows) {
+          const iso = String(r?.TDate ?? '').split('T')[0];
+          const scCod = String(r?.ScCod ?? '').trim();
+          const name = String(r?.ScopName ?? '').trim();
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(iso) || !name) continue;
+
+          if (!agg.has(iso)) agg.set(iso, new Map());
+          const dayMap = agg.get(iso);
+          const key = `${name}|${market.id}`;
+          let acc = dayMap.get(key);
+          if (!acc) {
+            acc = {
+              code: '',
+              name,
+              marketId: market.id,
+              marketName: r.MarketName || market.name,
+              up: 0,
+              down: Infinity,
+              wMid: 0,
+              wAvg: 0,
+              vol: 0,
+              sumMid: 0,
+              sumAvg: 0,
+              n: 0,
+            };
+            dayMap.set(key, acc);
+          }
+          // 用第一個非空的 ScCod 作為代表代號（多數為空/null）。
+          if (!acc.code && /^N06\d+/.test(scCod)) acc.code = scCod;
+          const up = toFlowerNumber(r.UpPrice);
+          const down = toFlowerNumber(r.DownPrice);
+          const mid = toFlowerNumber(r.MiddlePrice);
+          const avg = toFlowerNumber(r.AveragePrice);
+          const vol = toFlowerNumber(r.TradeVolumn);
+          if (up > 0) acc.up = Math.max(acc.up, up);
+          if (down > 0) acc.down = Math.min(acc.down, down);
+          acc.wMid += mid * vol;
+          acc.wAvg += avg * vol;
+          acc.vol += vol;
+          acc.sumMid += mid;
+          acc.sumAvg += avg;
+          acc.n += 1;
+          rawRows++;
+        }
+        await new Promise((res) => setTimeout(res, 300));
+      } catch (e) {
+        console.warn(`      ⚠️ 花卉擷取失敗 ${market.name} ${cs}~${ce}: ${e.message}`);
+      }
+    }
+  }
+
+  const byDate = new Map();
+  for (const [iso, dayMap] of agg) {
+    const records = [];
+    for (const acc of dayMap.values()) {
+      const avg = acc.vol > 0 ? acc.wAvg / acc.vol : acc.n ? acc.sumAvg / acc.n : 0;
+      const mid = acc.vol > 0 ? acc.wMid / acc.vol : acc.n ? acc.sumMid / acc.n : 0;
+      records.push({
+        TransDate: isoToDotROC(iso),
+        TcType: 'N06',
+        CropCode: acc.code,
+        CropName: acc.name,
+        MarketCode: acc.marketId,
+        MarketName: acc.marketName,
+        Upper_Price: round2(acc.up),
+        Middle_Price: round2(mid),
+        Lower_Price: Number.isFinite(acc.down) ? round2(acc.down) : 0,
+        Avg_Price: round2(avg),
+        Trans_Quantity: round2(acc.vol),
+      });
+    }
+    // 穩定排序，確保重跑時序列化位元組一致，避免無意義的 git diff。
+    // 以名稱為次要鍵（CropCode 多為空，不足以決定順序）。
+    records.sort(
+      (a, b) =>
+        a.MarketCode.localeCompare(b.MarketCode) ||
+        a.CropName.localeCompare(b.CropName)
+    );
+    byDate.set(iso, records);
+  }
+
+  console.log(`   ✅ 花卉彙總完成：${rawRows} 筆品項 → ${byDate.size} 個交易日`);
+  return byDate;
+}
+
+// 把花卉記錄併入既有的 daily 檔：保留原有蔬果(非 N06)記錄與順序，
+// 移除舊的 N06 後再附上最新花卉，內容未變則跳過寫入以維持 git 乾淨。
+function mergeFlowerIntoDaily(dailyDataDir, byDate) {
+  let wrote = 0;
+  let mergedRecords = 0;
+
+  for (const [iso, flowerRecords] of byDate) {
+    if (!flowerRecords.length) continue;
+    const dailyPath = path.join(dailyDataDir, `${iso}.json`);
+
+    let existingStr = null;
+    let existing = [];
+    if (fs.existsSync(dailyPath)) {
+      try {
+        existingStr = fs.readFileSync(dailyPath, 'utf-8');
+        const parsed = JSON.parse(existingStr);
+        if (Array.isArray(parsed)) existing = parsed;
+      } catch {
+        existing = [];
+        existingStr = null;
+      }
+    }
+
+    const nonFlower = existing.filter((r) => r && r.TcType !== 'N06');
+    const combined = [...nonFlower, ...flowerRecords];
+    const nextStr = JSON.stringify(combined);
+    if (nextStr === existingStr) continue; // 內容一致，免寫入。
+
+    const tmp = dailyPath + '.tmp';
+    fs.writeFileSync(tmp, nextStr, 'utf-8');
+    fs.renameSync(tmp, dailyPath);
+    wrote++;
+    mergedRecords += flowerRecords.length;
+  }
+
+  console.log(`   ✅ 花卉併入 daily：更新 ${wrote} 個檔案，共 ${mergedRecords} 筆花卉記錄`);
+  return wrote > 0;
+}
+
 async function main() {
   const publicDataDir = path.join(__dirname, '..', 'public', 'data');
   const dailyDataDir = path.join(publicDataDir, 'daily');
@@ -193,6 +422,29 @@ async function main() {
        fs.writeFileSync(tempDailyPath, JSON.stringify([]), 'utf-8');
        fs.renameSync(tempDailyPath, dailyPath);
     }
+  }
+
+  // -------------------------------------------------------------
+  // Phase 1.5: 花卉 (N06) — 併入 daily 檔，供既有蔬果資料流直接消費
+  // 需在 latest-opendata.json 合併前執行，最近 7 天的花卉才會一併進入該檔。
+  // -------------------------------------------------------------
+  console.log('\n🌸 開始擷取 花卉交易行情 (過去90天 / 5 個花卉批發市場)...');
+  try {
+    const flowerStart = new Date(today);
+    flowerStart.setDate(flowerStart.getDate() - 90);
+    const flowerStartISO = flowerStart.toISOString().split('T')[0];
+    const flowerByDate = await fetchFlowerRecordsByDate(flowerStartISO, todayStr);
+    const flowerMerged = mergeFlowerIntoDaily(dailyDataDir, flowerByDate);
+    if (flowerMerged) {
+      fetchedAny = true;
+      for (const recs of flowerByDate.values()) {
+        for (const r of recs) {
+          if (r.CropName) revalidateCrops.add(r.CropName);
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('   ⚠️ 花卉擷取階段發生未預期錯誤，已略過:', err.message);
   }
 
   // Combine the last 7 days into `latest-opendata.json` for backwards compatibility with front-end
@@ -484,7 +736,16 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error("Critical Error in fetch script:", err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(err => {
+    console.error("Critical Error in fetch script:", err);
+    process.exit(1);
+  });
+}
+
+// Exported for tests; the daily job still runs via `require.main === module` above.
+module.exports = {
+  fetchFlowerRecordsByDate,
+  mergeFlowerIntoDaily,
+  FLOWER_MARKETS,
+};

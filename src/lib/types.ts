@@ -113,7 +113,7 @@ export interface LivestockPrices {
   sheepAvgPriceChange: number | null
 }
 
-export type MarketTypeValue = 'Veg' | 'Fruit' | 'meat' | 'seafood' // | 'Flower'
+export type MarketTypeValue = 'Veg' | 'Fruit' | 'Flower' | 'meat' | 'seafood'
 
 export interface MarketTypeOption {
   value: MarketTypeValue

@@ -10,6 +10,7 @@
 import type { TopMover } from "@/lib/types";
 import { getCropEmoji } from "@/lib/utils";
 import {
+  CROP_TYPE_FLOWER,
   CROP_TYPE_FRUIT,
   CROP_TYPE_VEG,
   fetchLatestSeafoodData,
@@ -172,7 +173,12 @@ async function openDataMovers(
   category: string,
   limit: number,
 ): Promise<TopMoversResult> {
-  const cropType = category === "fruit" ? CROP_TYPE_FRUIT : CROP_TYPE_VEG;
+  const cropType =
+    category === "fruit"
+      ? CROP_TYPE_FRUIT
+      : category === "flower"
+        ? CROP_TYPE_FLOWER
+        : CROP_TYPE_VEG;
   const recentRecords = await fetchRecentOpenData();
   const rows: PricedTradeRow[] = recentRecords
     .filter(
