@@ -16,7 +16,6 @@ const NAV_LINKS = [
   { href: '/seasonal', label: '當季', icon: 'local_florist' },
   { href: '/watchlist', label: '關注', icon: 'monitoring' },
   { href: '/insights', label: '洞察', icon: 'insights' },
-  { href: '/settings', label: '設定', icon: 'settings' },
 ]
 
 function isNavActive(pathname: string | null, href: string) {
@@ -253,21 +252,32 @@ export function TopAppBar() {
         {/* Desktop Nav (Centered) */}
         <div className="hidden md:flex flex-1 justify-center items-center px-2 md:px-5">
           <nav aria-label="主要導覽" className="app-shell-nav-rail flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => trackEvent('nav_click', link.href, { source: 'topbar', label: link.label })}
-                className={`app-shell-nav-link px-3.5 py-2 rounded-full text-label-bold font-medium transition-colors whitespace-nowrap ${
-                  isNavActive(pathname, link.href)
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-on-surface-variant hover:bg-surface-container'
-                }`}
-              >
-                <span className="material-symbols-outlined text-base" aria-hidden="true">{link.icon}</span>
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const active = isNavActive(pathname, link.href)
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => trackEvent('nav_click', link.href, { source: 'topbar', label: link.label })}
+                  aria-label={link.label}
+                  title={link.label}
+                  aria-current={active ? 'page' : undefined}
+                  className={`app-shell-nav-link justify-center px-3 py-2 rounded-full transition-colors ${
+                    active
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-on-surface-variant hover:bg-surface-container'
+                  }`}
+                >
+                  <span
+                    className="material-symbols-outlined"
+                    aria-hidden="true"
+                    style={{ fontSize: '1.5rem', fontVariationSettings: active ? "'FILL' 1" : "'FILL' 0" }}
+                  >
+                    {link.icon}
+                  </span>
+                </Link>
+              )
+            })}
           </nav>
         </div>
 
@@ -332,6 +342,24 @@ export function TopAppBar() {
               </div>
             )}
           </div>
+
+          {/* Settings (moved out of the nav, sits to the right of notifications) */}
+          <Link
+            href="/settings"
+            onClick={() => trackEvent('nav_click', '/settings', { source: 'topbar', label: '設定' })}
+            aria-label="設定"
+            title="設定"
+            aria-current={isNavActive(pathname, '/settings') ? 'page' : undefined}
+            className="app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
+          >
+            <span
+              className="material-symbols-outlined"
+              aria-hidden="true"
+              style={{ fontSize: '1.5rem', fontVariationSettings: isNavActive(pathname, '/settings') ? "'FILL' 1" : "'FILL' 0" }}
+            >
+              settings
+            </span>
+          </Link>
         </div>
       </header>
 

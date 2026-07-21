@@ -10,7 +10,6 @@ const MAIN_ITEMS = [
   { href: '/seasonal', icon: 'local_florist', label: '當季' },
   { href: '/watchlist', icon: 'monitoring', label: '關注' },
   { href: '/insights', icon: 'insights', label: '洞察' },
-  { href: '/settings', icon: 'settings', label: '設定' },
 ]
 
 function isNavActive(pathname: string | null, href: string) {
@@ -34,7 +33,10 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               onClick={() => trackEvent('nav_click', item.href, { source: 'bottomnav', label: item.label })}
-              className={`relative flex flex-col items-center justify-center h-full flex-1 rounded-full transition-all duration-300 active:scale-95 ${
+              aria-label={item.label}
+              title={item.label}
+              aria-current={active ? 'page' : undefined}
+              className={`relative flex items-center justify-center h-full flex-1 rounded-full transition-all duration-300 active:scale-95 ${
                 active
                   ? 'text-[#0d631b] dark:text-[#88d982]'
                   : 'text-[#1c1c1e] dark:text-[#f2f2f7] opacity-60 hover:opacity-100'
@@ -43,20 +45,16 @@ export function BottomNav() {
               {active && (
                 <span className="absolute inset-0.5 rounded-full bg-[#0d631b]/[0.06] dark:bg-[#88d982]/[0.1] border border-[#0d631b]/[0.08] dark:border-[#88d982]/[0.15] shadow-[0_2px_12px_rgba(13,99,27,0.06),_inset_0_1px_1.5px_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] animate-in fade-in zoom-in-95 duration-200" />
               )}
-              {/* Icon */}
+              {/* Icon only — labels removed, icon enlarged for balance */}
               <span
                 className="material-symbols-outlined relative z-10 transition-all duration-300"
                 style={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.6rem',
                   fontVariationSettings: active ? "'FILL' 1, 'wght' 500" : "'FILL' 0, 'wght' 400",
                 }}
                 aria-hidden="true"
               >
                 {item.icon}
-              </span>
-              {/* Label */}
-              <span className={`text-[9px] font-semibold mt-0.5 relative z-10 tracking-tight transition-all duration-300 ${active ? 'font-bold' : ''}`}>
-                {item.label}
               </span>
             </Link>
           )
