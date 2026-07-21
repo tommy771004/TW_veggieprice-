@@ -80,8 +80,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="md:flex">
             <main className="flex-1 max-w-7xl mx-auto w-full">{children}</main>
           </div>
+          <BottomNav />
         </FramerMotionProvider>
-        <BottomNav />
         <OnboardingModal />
       </body>
     </html>
