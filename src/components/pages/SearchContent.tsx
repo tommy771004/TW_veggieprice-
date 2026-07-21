@@ -79,6 +79,27 @@ function getRangeDates(range: SearchFilters['dateRange']): RangeParams {
   return { kind: 'single', date: endDate }
 }
 
+// 花卉批發資料以「台北市場」為主要且最完整的來源，故花卉類預設帶此市場，
+// 避免落在空的「全部市場」聚合而查無資料。
+const FLOWER_DEFAULT_MARKET = '台北市場'
+
+function pickDefaultMarketForType(
+  type: MarketTypeOption['value'],
+  list: string[],
+  preferredMarket?: string,
+): string {
+  if (type === 'Flower' && list.includes(FLOWER_DEFAULT_MARKET)) {
+    return FLOWER_DEFAULT_MARKET
+  }
+  if (preferredMarket && list.includes(preferredMarket)) {
+    return preferredMarket
+  }
+  if (list.includes(DEFAULT_MARKET)) {
+    return DEFAULT_MARKET
+  }
+  return list.find((name) => name !== ALL_MARKET_SENTINEL) ?? list[0] ?? DEFAULT_MARKET
+}
+
 export function SearchContent() {
   const searchParams = useSearchParams()
   const initialQuery = searchParams?.get('q') || ''
@@ -181,7 +202,11 @@ export function SearchContent() {
       const list = byType[resolvedType] ?? FALLBACK_MARKETS
       setMarketsList(list)
 
-      if (list.includes(initialMarket)) {
+      if (resolvedType === 'Flower' && !list.includes(initialMarket)) {
+        // Flower has no meaningful default outside 台北市場; land there unless the
+        // deep link explicitly asked for another (valid) flower market.
+        setMarket(pickDefaultMarketForType('Flower', list, preferredMarket))
+      } else if (list.includes(initialMarket)) {
         setMarket(initialMarket)
       } else if (urlMarket && list.length) {
         // URL asked for a market not in this type (e.g. 全部市場 on meat) — prefer list default
@@ -533,7 +558,7 @@ export function SearchContent() {
         </div>
       )}
 
-      {/* Filter Chips */}
+      {/* Market type chips */}
       <div className="section-shell flex !overflow-x-auto no-scrollbar pb-2">
         <div className="flex gap-2 w-max items-center">
           {marketTypeOptions.map((opt) => (
@@ -544,17 +569,19 @@ export function SearchContent() {
               transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               onClick={() => {
                 const nextType = opt.value as MarketTypeOption['value']
+                const typeChanged = nextType !== marketType
                 setMarketType(nextType)
                 const metaMarkets = marketsByType[nextType]
                 if (metaMarkets) {
                   setMarketsList(metaMarkets)
-                  if (!metaMarkets.includes(market)) {
+                  // On a real type switch, pick a sensible default market. Flower
+                  // always resets to 台北市場 (its only reliably-populated market);
+                  // other types keep the current market when it's still valid.
+                  const needsNewMarket =
+                    typeChanged && (!metaMarkets.includes(market) || nextType === 'Flower')
+                  if (needsNewMarket) {
                     const prefs = typeof window !== 'undefined' ? getUserPreferences() : null
-                    const preferredMarket = prefs?.preferredMarket
-                    const nextMarket = (preferredMarket && metaMarkets.includes(preferredMarket))
-                      ? preferredMarket
-                      : (metaMarkets.includes(DEFAULT_MARKET) ? DEFAULT_MARKET : metaMarkets[0])
-                    setMarket(nextMarket)
+                    setMarket(pickDefaultMarketForType(nextType, metaMarkets, prefs?.preferredMarket))
                   }
                 }
               }}
@@ -567,8 +594,22 @@ export function SearchContent() {
               {opt.label === '蔬菜市場' ? '🥬 蔬菜類' : opt.label === '水果市場' ? '🍎 水果類' : opt.label === '花卉市場' ? '🌸 花卉類' : opt.label === '肉品家禽' ? '🐖 肉品家禽' : '🐟 漁產市場'}
             </m.button>
           ))}
-          <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
-          <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
+        </div>
+      </div>
+
+      {/* Results Count + inline market / date / sort controls */}
+      <div className="result-meta-bar flex-wrap gap-x-3 gap-y-3">
+        <p className="text-body-sm text-on-surface-variant shrink-0">
+          {loading ? '搜尋中…' : error ? '目前無法載入搜尋結果' : `共 ${sorted.length} 筆結果${pageCount > 1 ? `，第 ${currentPage}/${pageCount} 頁` : ''}`}
+          {hasPriceFilter && !loading && (
+            <span className="ml-2 text-primary font-medium">
+              (${minPrice || '0'} – ${maxPrice || '∞'} 元)
+            </span>
+          )}
+        </p>
+
+        <div className="flex items-center gap-2 w-full md:w-auto min-w-0 overflow-x-auto no-scrollbar -my-1 py-1">
+          <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-1.5 text-label-bold text-sm whitespace-nowrap shrink-0">
             <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>store</span>
             <select
               suppressHydrationWarning
@@ -581,56 +622,47 @@ export function SearchContent() {
             </select>
           </div>
 
-          <div className="w-[1px] h-6 bg-outline-variant/50 mx-1 shrink-0"></div>
+          <div className="w-[1px] h-5 bg-outline-variant/50 shrink-0"></div>
 
           {DATE_RANGES.map((d) => (
-          <button
-            key={d.value}
-            onClick={() => setDateRange(d.value)}
-            className={`flex items-center gap-1 px-4 py-2 rounded-full text-label-bold whitespace-nowrap backdrop-blur-sm border transition-colors touch-target ${
-              dateRange === d.value
-                ? 'bg-primary-container/10 border-primary-container/20 text-primary-container'
-                : 'bg-white/50 border-outline-variant/30 text-on-surface-variant hover:bg-white/60'
-            }`}
-          >
-            {d.label}
-          </button>
-        ))}
+            <button
+              key={d.value}
+              onClick={() => setDateRange(d.value)}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-label-bold text-sm whitespace-nowrap backdrop-blur-sm border transition-colors shrink-0 ${
+                dateRange === d.value
+                  ? 'bg-primary-container/10 border-primary-container/20 text-primary-container'
+                  : 'bg-white/50 dark:bg-zinc-800/60 dark:border-zinc-700/60 border-outline-variant/30 text-on-surface-variant hover:bg-white/60'
+              }`}
+            >
+              {d.label}
+            </button>
+          ))}
 
-        <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-2 text-label-bold text-sm whitespace-nowrap">
-          <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>sort</span>
-          <select
-            suppressHydrationWarning
-            aria-label="排序方式"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SearchFilters['sortBy'])}
-            className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
-          >
-            {SORT_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
-          </select>
-        </div>
-        </div>
-      </div>
+          <div className="w-[1px] h-5 bg-outline-variant/50 shrink-0"></div>
 
-      {/* Results Count */}
-      <div className="result-meta-bar">
-        <p className="text-body-sm text-on-surface-variant">
-          {loading ? '搜尋中…' : error ? '目前無法載入搜尋結果' : `共 ${sorted.length} 筆結果${pageCount > 1 ? `，第 ${currentPage}/${pageCount} 頁` : ''}`}
-          {hasPriceFilter && !loading && (
-            <span className="ml-2 text-primary font-medium">
-              (${minPrice || '0'} – ${maxPrice || '∞'} 元)
-            </span>
+          <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-1.5 text-label-bold text-sm whitespace-nowrap shrink-0">
+            <span className="material-symbols-outlined text-outline" aria-hidden="true" style={{ fontSize: '1rem' }}>sort</span>
+            <select
+              suppressHydrationWarning
+              aria-label="排序方式"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SearchFilters['sortBy'])}
+              className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
+            >
+              {SORT_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+            </select>
+          </div>
+
+          {query && !loading && (
+            <button
+              onClick={() => { setQuery(''); setAutocomplete([]) }}
+              className="text-label-bold text-outline hover:text-on-surface transition-colors flex items-center gap-1 shrink-0 ml-1"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>close</span>
+              清除
+            </button>
           )}
-        </p>
-        {query && !loading && (
-          <button
-            onClick={() => { setQuery(''); setAutocomplete([]) }}
-            className="text-label-bold text-outline hover:text-on-surface transition-colors flex items-center gap-1"
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>close</span>
-            清除
-          </button>
-        )}
+        </div>
       </div>
 
       {/* Affiliate Marquee (跑馬燈) */}
