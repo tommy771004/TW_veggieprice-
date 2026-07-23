@@ -1,15 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { PriceHistoryPoint } from "@/lib/types";
 import { formatPrice, formatVolume } from "@/lib/utils";
 
-const VIEWBOX_WIDTH = 640;
-const VIEWBOX_HEIGHT = 220;
+// The chart is rendered at its real pixel size (viewBox width === element width)
+// so nothing is stretched — text stays crisp and dots stay round on every screen.
+const CHART_HEIGHT = 220;
+const DEFAULT_WIDTH = 640;
 const PLOT_LEFT = 48;
 const PLOT_RIGHT = 16;
 const PLOT_TOP = 18;
 const PLOT_BOTTOM = 42;
+
+// Measure before paint on the client; fall back to a plain effect on the server.
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface HomeWeeklyTrendChartProps {
   points: PriceHistoryPoint[];
@@ -22,7 +28,7 @@ function pointY(
   minPrice: number,
   priceRange: number,
 ): number {
-  const plotHeight = VIEWBOX_HEIGHT - PLOT_TOP - PLOT_BOTTOM;
+  const plotHeight = CHART_HEIGHT - PLOT_TOP - PLOT_BOTTOM;
   const maxPrice = minPrice + priceRange;
   return PLOT_TOP + ((maxPrice - value) / priceRange) * plotHeight;
 }
@@ -33,6 +39,22 @@ export function HomeWeeklyTrendChart({
   categoryLabel,
 }: HomeWeeklyTrendChartProps) {
   const [activeDate, setActiveDate] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+
+  useIsoLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const measure = () => setWidth(el.clientWidth);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const measured = width > 0;
+  const chartWidth = measured ? width : DEFAULT_WIDTH;
+
   const metrics = useMemo(() => {
     const pricedPoints = points.filter(
       (point): point is PriceHistoryPoint & { avgPrice: number } =>
@@ -45,17 +67,19 @@ export function HomeWeeklyTrendChart({
       ? Math.max(...pricedPoints.map((point) => point.avgPrice))
       : 1;
     const priceRange = Math.max(maxPrice - minPrice, 1);
-    const plotWidth = VIEWBOX_WIDTH - PLOT_LEFT - PLOT_RIGHT;
+    const plotWidth = Math.max(chartWidth - PLOT_LEFT - PLOT_RIGHT, 1);
+    const midY = PLOT_TOP + (CHART_HEIGHT - PLOT_TOP - PLOT_BOTTOM) / 2;
     const xForIndex = (index: number) =>
-      PLOT_LEFT +
-      (index / Math.max(points.length - 1, 1)) * plotWidth;
+      PLOT_LEFT + (index / Math.max(points.length - 1, 1)) * plotWidth;
     const plottedPoints = points.map((point, index) => ({
       point,
       x: xForIndex(index),
-      y: point.avgPrice === null
-        ? PLOT_TOP + (VIEWBOX_HEIGHT - PLOT_TOP - PLOT_BOTTOM) / 2
-        : pointY(point.avgPrice, minPrice, priceRange),
+      // Null days have no real value; park the (invisible) hit-target at mid
+      // height but never draw a dot there — that is what created "orphans".
+      y: point.avgPrice === null ? midY : pointY(point.avgPrice, minPrice, priceRange),
     }));
+    // Single bridged line across the priced days (nulls are skipped, per the
+    // PriceHistoryPoint contract of connecting over closed/missing days).
     const linePoints = plottedPoints
       .filter((item) => item.point.avgPrice !== null)
       .map((item) => `${item.x.toFixed(1)},${item.y.toFixed(1)}`)
@@ -68,7 +92,7 @@ export function HomeWeeklyTrendChart({
       plottedPoints,
       linePoints,
     };
-  }, [points]);
+  }, [points, chartWidth]);
 
   const activePoint = metrics.plottedPoints.find(
     ({ point }) => point.date === activeDate,
@@ -85,15 +109,18 @@ export function HomeWeeklyTrendChart({
     <figure className="mt-4" aria-label={chartLabel}>
       <div className="relative rounded-2xl bg-surface-container/55 border border-outline/15 px-2 pt-2 pb-1">
         <div
+          ref={containerRef}
           role="img"
           aria-label={chartLabel}
-          className="w-full h-52"
+          className="relative w-full"
+          style={{ height: CHART_HEIGHT }}
         >
           <svg
             aria-hidden="true"
-            viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
-            className="w-full h-52"
-            preserveAspectRatio="none"
+            width={measured ? chartWidth : "100%"}
+            height={CHART_HEIGHT}
+            viewBox={`0 0 ${chartWidth} ${CHART_HEIGHT}`}
+            className="block"
           >
             <title>{chartLabel}</title>
             <desc>
@@ -106,7 +133,7 @@ export function HomeWeeklyTrendChart({
                 <g key={`${value}-${index}`}>
                   <line
                     x1={PLOT_LEFT}
-                    x2={VIEWBOX_WIDTH - PLOT_RIGHT}
+                    x2={chartWidth - PLOT_RIGHT}
                     y1={y}
                     y2={y}
                     stroke="currentColor"
@@ -127,7 +154,7 @@ export function HomeWeeklyTrendChart({
 
             <text
               x={PLOT_LEFT}
-              y={VIEWBOX_HEIGHT - 8}
+              y={CHART_HEIGHT - 8}
               className="fill-on-surface-variant text-[11px]"
             >
               價格（元/公斤）
@@ -138,7 +165,7 @@ export function HomeWeeklyTrendChart({
                 points={metrics.linePoints}
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="3"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="text-primary"
@@ -147,6 +174,7 @@ export function HomeWeeklyTrendChart({
 
             {metrics.plottedPoints.map(({ point, x, y }) => {
               const isClosed = point.isClosed === true;
+              const hasPrice = point.avgPrice !== null;
               return (
                 <g key={point.date}>
                   {isClosed && (
@@ -154,27 +182,25 @@ export function HomeWeeklyTrendChart({
                       x1={x}
                       x2={x}
                       y1={PLOT_TOP}
-                      y2={VIEWBOX_HEIGHT - PLOT_BOTTOM}
+                      y2={CHART_HEIGHT - PLOT_BOTTOM}
                       stroke="currentColor"
                       strokeOpacity="0.42"
                       strokeDasharray="4 5"
                     />
                   )}
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={isClosed ? 5 : 4.5}
-                    className={
-                      point.avgPrice === null
-                        ? "fill-outline"
-                        : "fill-primary"
-                    }
-                    stroke="white"
-                    strokeWidth="2"
-                  />
+                  {hasPrice && (
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r={4.5}
+                      className="fill-primary"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  )}
                   <text
                     x={x}
-                    y={VIEWBOX_HEIGHT - 19}
+                    y={CHART_HEIGHT - 19}
                     textAnchor="middle"
                     className="fill-on-surface-variant text-[11px]"
                   >
@@ -184,37 +210,38 @@ export function HomeWeeklyTrendChart({
               );
             })}
           </svg>
-        </div>
 
-        <div
-          className="pointer-events-none absolute inset-0"
-          role="group"
-          aria-label="每日資料點"
-        >
-          {metrics.plottedPoints.map(({ point, x, y }) => {
-            const price = point.avgPrice;
-            const pointLabel =
-              price === null
-                ? `${point.label}，${point.isClosed === true ? "休市" : "暫無資料"}，無均價`
-                : `${point.label}，均價 ${formatPrice(price)} 元/公斤`;
-            return (
-              <button
-                key={point.date}
-                type="button"
-                aria-label={pointLabel}
-                className="pointer-events-auto absolute min-h-11 min-w-11 -translate-x-1/2 -translate-y-1/2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface hover:bg-primary/10"
-                style={{
-                  left: `${(x / VIEWBOX_WIDTH) * 100}%`,
-                  top: `${(y / VIEWBOX_HEIGHT) * 100}%`,
-                }}
-                onMouseEnter={() => setActiveDate(point.date)}
-                onMouseLeave={() => setActiveDate(null)}
-                onFocus={() => setActiveDate(point.date)}
-                onBlur={() => setActiveDate(null)}
-                onClick={() => setActiveDate(point.date)}
-              />
-            );
-          })}
+          <div
+            className="pointer-events-none absolute inset-0"
+            role="group"
+            aria-label="每日資料點"
+          >
+            {measured &&
+              metrics.plottedPoints.map(({ point, x, y }) => {
+                const price = point.avgPrice;
+                const pointLabel =
+                  price === null
+                    ? `${point.label}，${point.isClosed === true ? "休市" : "暫無資料"}，無均價`
+                    : `${point.label}，均價 ${formatPrice(price)} 元/公斤`;
+                return (
+                  <button
+                    key={point.date}
+                    type="button"
+                    aria-label={pointLabel}
+                    className="pointer-events-auto absolute min-h-11 min-w-11 -translate-x-1/2 -translate-y-1/2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface hover:bg-primary/10"
+                    style={{
+                      left: `${x}px`,
+                      top: `${y}px`,
+                    }}
+                    onMouseEnter={() => setActiveDate(point.date)}
+                    onMouseLeave={() => setActiveDate(null)}
+                    onFocus={() => setActiveDate(point.date)}
+                    onBlur={() => setActiveDate(null)}
+                    onClick={() => setActiveDate(point.date)}
+                  />
+                );
+              })}
+          </div>
         </div>
 
         {activePoint && (
