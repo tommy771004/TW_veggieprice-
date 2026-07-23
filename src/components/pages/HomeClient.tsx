@@ -838,7 +838,7 @@ export function HomeClient({
             whileInView="show"
             viewport={{ once: true, margin: "-30px" }}
           >
-            <GlassCard className="p-container-padding flex flex-col justify-between min-h-[160px] h-full">
+            <GlassCard className="p-container-padding overflow-hidden flex flex-col justify-between min-h-[160px] h-full">
               <div>
                 <h3 className="text-body-lg font-semibold text-on-surface">
                   本週{activeCategoryLabel}均價走勢
