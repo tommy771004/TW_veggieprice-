@@ -106,8 +106,11 @@ export function HomeWeeklyTrendChart({
   const chartLabel = `${scopeLabel} ${categoryLabel}均價走勢圖`;
 
   return (
-    <figure className="mt-4" aria-label={chartLabel}>
-      <div className="relative rounded-2xl bg-surface-container/55 border border-outline/15 px-2 pt-2 pb-1">
+    <figure
+      className="mt-4 -mx-container-padding -mb-container-padding md:mx-0 md:mb-0"
+      aria-label={chartLabel}
+    >
+      <div className="relative bg-surface-container/55 border-t border-outline/15 px-0 pt-2 pb-1 md:rounded-2xl md:border md:px-2">
         <div
           ref={containerRef}
           role="img"
@@ -274,7 +277,7 @@ export function HomeWeeklyTrendChart({
       </div>
 
       {closedPoints.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-2 text-2xs text-on-surface-variant">
+        <div className="mt-2 px-container-padding pb-3 md:px-0 md:pb-0 flex flex-wrap gap-2 text-2xs text-on-surface-variant">
           {closedPoints.map((point) => (
             <span
               key={point.date}
