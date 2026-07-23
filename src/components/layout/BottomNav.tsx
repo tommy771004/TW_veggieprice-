@@ -68,7 +68,7 @@ export function BottomNav() {
     <nav aria-label="主要導覽" className="md:hidden fixed bottom-[calc(0.375rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] xs:w-[calc(100%-2rem)] max-w-[342px] z-50 flex items-center justify-center select-none">
       {/* Main Capsule Tab Bar with Liquid Glass styling; scales down on scroll-down */}
       <m.div
-        className="bg-white/45 dark:bg-black/30 backdrop-blur-[45px] border border-white/40 dark:border-zinc-800/40 shadow-[0_14px_45px_rgba(0,0,0,0.1),_inset_0_1px_2.5px_rgba(255,255,255,0.65),_0_1px_1px_rgba(0,0,0,0.02)] dark:shadow-[0_14px_45px_rgba(0,0,0,0.45),_inset_0_1px_1.5px_rgba(255,255,255,0.2)] rounded-full w-full h-[52px] p-0.5 will-change-transform"
+        className="bg-[#173a2c]/85 backdrop-blur-[45px] backdrop-saturate-150 border border-white/15 shadow-[0_16px_45px_rgba(11,36,25,0.42),_inset_0_1px_2px_rgba(255,255,255,0.18),_inset_0_-1px_2px_rgba(0,0,0,0.28)] rounded-full w-full h-[52px] p-0.5 will-change-transform"
         style={{ transformOrigin: 'bottom center' }}
         initial={false}
         animate={{ scale: shrunk ? 0.85 : 1, opacity: shrunk ? 0.9 : 1 }}
@@ -78,7 +78,7 @@ export function BottomNav() {
           {/* Sliding active highlight — glides between tabs */}
           <m.span
             aria-hidden="true"
-            className="pointer-events-none absolute top-0.5 bottom-0.5 left-0 rounded-full bg-[#0d631b]/[0.06] dark:bg-[#88d982]/[0.1] border border-[#0d631b]/[0.08] dark:border-[#88d982]/[0.15] shadow-[0_2px_12px_rgba(13,99,27,0.06),_inset_0_1px_1.5px_rgba(255,255,255,0.7)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]"
+            className="pointer-events-none absolute top-0.5 bottom-0.5 left-0 rounded-full bg-[#9cb356] border border-[#bacd77]/50 shadow-[0_3px_10px_rgba(0,0,0,0.22),_inset_0_1px_1.5px_rgba(255,255,255,0.42),_inset_0_-1px_2px_rgba(0,0,0,0.12)]"
             style={{ width: `${100 / MAIN_ITEMS.length}%` }}
             initial={false}
             animate={{
@@ -100,8 +100,8 @@ export function BottomNav() {
                 aria-current={active ? 'page' : undefined}
                 className={`relative z-10 flex items-center justify-center h-full flex-1 rounded-full transition-colors duration-300 active:scale-95 ${
                   active
-                    ? 'text-[#0d631b] dark:text-[#88d982]'
-                    : 'text-[#1c1c1e] dark:text-[#f2f2f7] opacity-60 hover:opacity-100'
+                    ? 'text-[#13362a]'
+                    : 'text-white/80 hover:text-white'
                 }`}
               >
                 {/* Icon only — pops slightly and fills when active */}
