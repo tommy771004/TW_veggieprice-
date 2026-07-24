@@ -54,6 +54,13 @@ const SeasonalGuideSection = dynamic(
     ),
   { loading: () => null },
 );
+const FeaturedRecipesSection = dynamic(
+  () =>
+    import("@/components/pages/HomeSections/FeaturedRecipesSection").then(
+      (mod) => mod.FeaturedRecipesSection,
+    ),
+  { loading: () => null },
+);
 
 import {
   getSeasonalGuide,
@@ -829,6 +836,9 @@ export function HomeClient({
           initialLivestock={initialLivestock}
           reloadKey={reloadKey}
         />
+
+        {/* ── Featured Recipes (今日精選食譜) ─────────────── */}
+        <FeaturedRecipesSection />
 
         {/* ── Weekly Trend + Seasonal Guide ─────────────── */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4">

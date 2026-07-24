@@ -1,0 +1,870 @@
+{
+  "version": "1.0.0",
+  "lastReviewed": "2026-07-24",
+  "notice": "本檔食譜步驟為農時價依常見台灣家常做法自行改寫之原創內容（食譜之做法／食材屬公開方法，不受著作權保護）。sources 為料理法、營養與選材之參考來源，非逐字引用；照片欄位一律留空，僅在確認為政府資料開放授權（OGDL）或 CC 授權後才補上。",
+  "sources": {
+    "foodEducation": {
+      "label": "農業部：食農教育資訊整合平臺",
+      "url": "https://fae.moa.gov.tw/theme_list.php?theme=topics&sub_theme=recipe"
+    },
+    "hpaPlate": {
+      "label": "衛福部國健署：我的餐盤",
+      "url": "https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=1405&pid=8629&sid=10109"
+    },
+    "seafoodSafety": {
+      "label": "農業部漁業署：生鮮漁產品選購與處理",
+      "url": "https://wm.moa.gov.tw/preview_fa/view.php?id=708&print=Y&subtheme=&theme=Press_release"
+    }
+  },
+  "categories": {
+    "vegetable": "蔬菜類",
+    "fruit": "水果類",
+    "meat": "肉品家禽",
+    "seafood": "漁產"
+  },
+  "recipes": [
+    {
+      "id": "veg-tomato-egg",
+      "name": "番茄炒蛋",
+      "category": "vegetable",
+      "mainIngredient": "番茄",
+      "relatedIngredients": ["番茄", "雞蛋", "蔥"],
+      "timeMinutes": 10,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["快炒", "下飯"],
+      "ingredients": ["牛番茄 2 顆", "雞蛋 3 顆", "青蔥 1 支", "鹽、糖 少許", "食用油 適量"],
+      "steps": [
+        "番茄切塊，蛋打散加一小撮鹽拌勻；蔥白蔥綠分開切段。",
+        "熱鍋下油，倒入蛋液炒至半熟凝固即先盛起，保留滑嫩口感。",
+        "同鍋下蔥白與番茄，中火炒到番茄出汁變軟。",
+        "加少許糖與鹽平衡酸味，回鍋拌入炒蛋略拌，撒蔥綠起鍋。"
+      ],
+      "tip": "番茄先炒出汁再回蛋，蛋才不會被水分泡老；怕酸可多加一點糖。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "veg-garlic-water-spinach",
+      "name": "蒜炒空心菜",
+      "category": "vegetable",
+      "mainIngredient": "空心菜",
+      "relatedIngredients": ["空心菜"],
+      "timeMinutes": 8,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["快炒", "3分鐘上桌"],
+      "ingredients": ["空心菜 1 把", "蒜頭 3 瓣", "辣椒 少許（可省）", "鹽 少許", "食用油 適量"],
+      "steps": [
+        "空心菜洗淨切段，梗與葉分開；蒜頭拍碎。",
+        "大火熱油爆香蒜末與辣椒。",
+        "先下菜梗快炒 30 秒，再下菜葉。",
+        "全程大火快炒，菜葉一軟立刻加鹽拌勻起鍋，避免出水變黑。"
+      ],
+      "tip": "梗葉分開下鍋、全程大火，是青菜翠綠不軟爛的關鍵。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "veg-stirfry-cabbage",
+      "name": "清炒高麗菜",
+      "category": "vegetable",
+      "mainIngredient": "高麗菜",
+      "relatedIngredients": ["高麗菜", "紅蘿蔔"],
+      "timeMinutes": 10,
+      "difficulty": "簡單",
+      "servings": "3 人份",
+      "tags": ["快炒", "常備菜"],
+      "ingredients": ["高麗菜 半顆", "蒜頭 2 瓣", "紅蘿蔔絲 少許", "鹽 少許", "水 2 大匙"],
+      "steps": [
+        "高麗菜用手剝成片，較大片撕小；蒜頭切末。",
+        "熱油爆香蒜末，下紅蘿蔔絲略炒。",
+        "下高麗菜大火翻炒，沿鍋邊嗆入 2 大匙水幫助軟化。",
+        "炒到菜葉半透明、仍帶脆度時加鹽拌勻起鍋。"
+      ],
+      "tip": "用手剝比刀切更能保留脆甜；起鍋前才調味可避免出水。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "veg-garlic-bokchoy",
+      "name": "蒜蓉青江菜",
+      "category": "vegetable",
+      "mainIngredient": "青江菜",
+      "relatedIngredients": ["青江菜"],
+      "timeMinutes": 8,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["快炒", "清爽"],
+      "ingredients": ["青江菜 4 株", "蒜頭 3 瓣", "鹽 少許", "香油 幾滴", "食用油 適量"],
+      "steps": [
+        "青江菜對半剖開洗淨，瀝乾；蒜頭切末。",
+        "熱油以中火爆香蒜末至微金黃。",
+        "下青江菜快炒，梗透亮、葉轉軟即可。",
+        "加鹽、滴幾滴香油拌勻起鍋。"
+      ],
+      "tip": "菜株剖開較易熟且入味；蒜末別炒焦以免發苦。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "veg-cucumber-salad",
+      "name": "涼拌小黃瓜",
+      "category": "vegetable",
+      "mainIngredient": "小黃瓜",
+      "relatedIngredients": ["小黃瓜"],
+      "timeMinutes": 15,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["涼拌", "開胃", "免開火"],
+      "ingredients": ["小黃瓜 3 條", "蒜頭 2 瓣", "鹽 1 小匙", "糖、白醋 各 1 小匙", "香油 少許"],
+      "steps": [
+        "小黃瓜拍裂再切段，加鹽抓拌靜置 10 分鐘。",
+        "倒掉出水並略沖，讓小黃瓜更脆。",
+        "蒜切末，與糖、白醋、香油調成醬汁。",
+        "醬汁拌入小黃瓜，冷藏 10 分鐘更入味。"
+      ],
+      "tip": "拍裂比刀切更能吸附醬汁；先用鹽殺青去生味也去多餘水分。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "veg-ginger-loofah",
+      "name": "薑絲炒絲瓜",
+      "category": "vegetable",
+      "mainIngredient": "絲瓜",
+      "relatedIngredients": ["絲瓜", "薑"],
+      "timeMinutes": 12,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["快炒", "清甜"],
+      "ingredients": ["絲瓜 1 條", "老薑 1 小塊", "鹽 少許", "水 3 大匙", "食用油 適量"],
+      "steps": [
+        "絲瓜削皮切滾刀塊；薑切細絲。",
+        "熱油爆香薑絲。",
+        "下絲瓜翻炒，加水後蓋鍋燜煮 3～4 分鐘。",
+        "絲瓜轉透明軟嫩、自然出甜汁時加鹽拌勻起鍋。"
+      ],
+      "tip": "絲瓜本身多水，加少量水燜煮即可，不必額外加高湯就很鮮甜。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "veg-bittergourd-saltedegg",
+      "name": "鹹蛋炒苦瓜",
+      "category": "vegetable",
+      "mainIngredient": "苦瓜",
+      "relatedIngredients": ["苦瓜", "雞蛋"],
+      "timeMinutes": 18,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["快炒", "下飯"],
+      "ingredients": ["白苦瓜 1 條", "鹹鴨蛋 2 顆", "蒜頭 2 瓣", "蔥 1 支", "食用油 適量"],
+      "steps": [
+        "苦瓜去籽切片，用鹽抓拌靜置後沖水，可減苦味。",
+        "鹹蛋黃壓碎、蛋白切小丁；蒜切末。",
+        "熱油炒香蒜末與鹹蛋黃至起泡冒沙。",
+        "下苦瓜翻炒到裹上金沙、蛋黃均勻附著，加蛋白丁與蔥花拌勻起鍋。"
+      ],
+      "tip": "鹹蛋黃炒到起泡冒沙才會香；鹹蛋本身有鹹度，通常不必再加鹽。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "veg-basil-eggplant",
+      "name": "塔香茄子",
+      "category": "vegetable",
+      "mainIngredient": "茄子",
+      "relatedIngredients": ["茄子", "九層塔"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["下飯", "三杯風味"],
+      "ingredients": ["茄子 2 條", "九層塔 1 把", "蒜頭 3 瓣", "醬油 1 大匙", "糖 少許", "食用油 適量"],
+      "steps": [
+        "茄子切段泡淡鹽水防止變黑，瀝乾。",
+        "鍋中多一點油，中火將茄子煎或半煎炸到軟並保持紫色，盛起。",
+        "同鍋爆香蒜末，下醬油、糖與少許水煮滾。",
+        "茄子回鍋裹醬，熄火拌入九層塔略拌即起。"
+      ],
+      "tip": "茄子先過油並保留油溫，能鎖住漂亮紫色不發黑；九層塔最後下才有香氣。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "veg-corn-egg-soup",
+      "name": "玉米蛋花湯",
+      "category": "vegetable",
+      "mainIngredient": "玉米",
+      "relatedIngredients": ["玉米", "雞蛋", "紅蘿蔔"],
+      "timeMinutes": 15,
+      "difficulty": "簡單",
+      "servings": "3 人份",
+      "tags": ["湯品", "清爽"],
+      "ingredients": ["甜玉米 1 根", "雞蛋 1 顆", "紅蘿蔔 少許", "鹽 少許", "水或高湯 800ml"],
+      "steps": [
+        "玉米切小段或削粒，紅蘿蔔切丁。",
+        "水煮滾後下玉米與紅蘿蔔，煮約 8 分鐘至軟甜。",
+        "蛋打散，湯滾時邊攪邊淋入蛋液成蛋花。",
+        "加鹽調味即可，喜歡濃稠可勾少許薄芡。"
+      ],
+      "tip": "玉米先煮出甜味湯底自然鮮；蛋液沿滾湯畫圈淋入，蛋花才會細緻。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "veg-pumpkin-soup",
+      "name": "南瓜濃湯",
+      "category": "vegetable",
+      "mainIngredient": "南瓜",
+      "relatedIngredients": ["南瓜", "洋蔥"],
+      "timeMinutes": 30,
+      "difficulty": "普通",
+      "servings": "3 人份",
+      "tags": ["湯品", "溫暖"],
+      "ingredients": ["南瓜 半顆（約 400g）", "洋蔥 半顆", "鮮奶或豆漿 200ml", "鹽 少許", "橄欖油 適量"],
+      "steps": [
+        "南瓜去籽切塊（帶皮亦可）、洋蔥切絲。",
+        "熱油炒軟洋蔥，下南瓜略炒後加水淹過食材，煮至南瓜鬆軟。",
+        "連湯用調理棒或果汁機打成細滑泥。",
+        "回鍋加鮮奶調整濃稠度，小火加熱、加鹽調味即可。"
+      ],
+      "tip": "南瓜連皮一起煮增加纖維與色澤；用豆漿取代鮮奶即為植物奶版本。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+
+    {
+      "id": "fruit-greenpapaya-salad",
+      "name": "涼拌青木瓜絲",
+      "category": "fruit",
+      "mainIngredient": "木瓜",
+      "relatedIngredients": ["木瓜", "紅蘿蔔", "檸檬"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["涼拌", "開胃", "免開火"],
+      "ingredients": ["青木瓜 半顆", "紅蘿蔔 少許", "檸檬 1 顆", "蒜、辣椒 少許", "魚露、糖 各 1 小匙"],
+      "steps": [
+        "青木瓜、紅蘿蔔刨絲，加少許鹽抓拌後沖水擠乾，保持爽脆。",
+        "蒜、辣椒拍碎，與檸檬汁、魚露、糖調成醬汁。",
+        "醬汁與木瓜絲、紅蘿蔔絲拌勻。",
+        "冷藏 15 分鐘入味，享用前可撒花生碎增香。"
+      ],
+      "tip": "青木瓜爽脆帶果酵素；不吃魚露可改用醬油與少許鹽。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "fruit-pineapple-friedrice",
+      "name": "鳳梨炒飯",
+      "category": "fruit",
+      "mainIngredient": "鳳梨",
+      "relatedIngredients": ["鳳梨", "雞蛋", "蝦仁"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["主食", "酸甜"],
+      "ingredients": ["白飯 2 碗（隔夜飯佳）", "鳳梨 1 碗切丁", "雞蛋 2 顆", "蝦仁 少許", "鹽、咖哩粉 少許"],
+      "steps": [
+        "熱油下蛋液炒散，加白飯拌炒至粒粒分明。",
+        "下蝦仁炒至變色。",
+        "加入鳳梨丁與少許咖哩粉、鹽拌炒均勻。",
+        "炒到飯粒吸附鳳梨甜香即可起鍋。"
+      ],
+      "tip": "用隔夜飯較不易黏鍋；鳳梨最後下略炒即可，保留酸甜與果汁。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "fruit-mango-salsa",
+      "name": "芒果莎莎醬",
+      "category": "fruit",
+      "mainIngredient": "芒果",
+      "relatedIngredients": ["芒果", "番茄", "檸檬"],
+      "timeMinutes": 15,
+      "difficulty": "簡單",
+      "servings": "3 人份",
+      "tags": ["醬料", "免開火", "夏日"],
+      "ingredients": ["芒果 1 顆", "小番茄 8 顆", "洋蔥 少許", "檸檬 半顆", "鹽、黑胡椒 少許"],
+      "steps": [
+        "芒果、小番茄、洋蔥切小丁。",
+        "全部放入碗中，擠入檸檬汁。",
+        "加鹽、黑胡椒拌勻。",
+        "冷藏 10 分鐘，搭配煎魚、雞肉或玉米片皆宜。"
+      ],
+      "tip": "洋蔥切丁先泡冰水可去嗆辣；當作煎肉煎魚的清爽淋醬很解膩。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "fruit-banana-oat-pancake",
+      "name": "香蕉燕麥煎餅",
+      "category": "fruit",
+      "mainIngredient": "香蕉",
+      "relatedIngredients": ["香蕉", "雞蛋"],
+      "timeMinutes": 15,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["早餐", "無麵粉"],
+      "ingredients": ["熟香蕉 2 根", "雞蛋 2 顆", "燕麥片 4 大匙", "肉桂粉 少許（可省）", "少許油"],
+      "steps": [
+        "香蕉用叉子壓成泥。",
+        "加入蛋液與燕麥片拌成濃稠麵糊，靜置 5 分鐘讓燕麥吸水。",
+        "小火熱鍋抹薄油，舀入麵糊煎成小圓餅。",
+        "一面定型後翻面煎熟，可撒少許肉桂粉。"
+      ],
+      "tip": "香蕉越熟越甜，不必另外加糖；無添加麵粉，適合當簡單早餐。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "fruit-apple-yogurt-salad",
+      "name": "蘋果優格沙拉",
+      "category": "fruit",
+      "mainIngredient": "蘋果",
+      "relatedIngredients": ["蘋果"],
+      "timeMinutes": 10,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["沙拉", "免開火", "清爽"],
+      "ingredients": ["蘋果 1 顆", "無糖優格 1 杯", "堅果 1 小把", "葡萄乾 少許", "蜂蜜 少許（可省）"],
+      "steps": [
+        "蘋果切小丁，可淋幾滴檸檬汁防止褐變。",
+        "堅果稍微捏碎。",
+        "蘋果丁拌入無糖優格。",
+        "撒上堅果與葡萄乾，喜歡甜一點可淋少許蜂蜜。"
+      ],
+      "tip": "用無糖優格搭水果本身的甜度較健康；堅果最後撒才保有脆度。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "fruit-pomelo-honey-tea",
+      "name": "蜂蜜柚子茶",
+      "category": "fruit",
+      "mainIngredient": "柚子",
+      "relatedIngredients": ["柚子", "檸檬"],
+      "timeMinutes": 60,
+      "difficulty": "普通",
+      "servings": "多次沖泡",
+      "tags": ["飲品", "常備"],
+      "ingredients": ["柚子 1 顆", "冰糖 適量", "蜂蜜 適量", "鹽 少許", "檸檬汁 少許"],
+      "steps": [
+        "柚子皮刷洗乾淨，用鹽搓過再刨下黃色外皮切細絲，白色瓤盡量去除以免苦。",
+        "柚子果肉剝出，與皮絲、冰糖一起入鍋。",
+        "小火慢熬並不時攪拌，煮到濃稠呈琥珀色。",
+        "放涼至微溫後拌入蜂蜜與檸檬汁，裝罐冷藏，沖溫水飲用。"
+      ],
+      "tip": "蜂蜜遇高溫易破壞風味，務必放涼再加；白色瓤要去乾淨才不會苦澀。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "fruit-grape-jam",
+      "name": "自製葡萄果醬",
+      "category": "fruit",
+      "mainIngredient": "葡萄",
+      "relatedIngredients": ["葡萄", "檸檬"],
+      "timeMinutes": 45,
+      "difficulty": "普通",
+      "servings": "1 小罐",
+      "tags": ["常備", "抹醬"],
+      "ingredients": ["葡萄 500g", "細砂糖 150g", "檸檬 半顆", "少許鹽"],
+      "steps": [
+        "葡萄洗淨對半切、去籽，與糖拌勻靜置 30 分鐘出汁。",
+        "連汁倒入鍋中，中火煮滾後轉小火。",
+        "邊煮邊撈浮沫，煮到果肉軟化、湯汁變濃稠。",
+        "擠入檸檬汁再煮 2～3 分鐘，趁熱裝入消毒過的玻璃罐倒扣放涼。"
+      ],
+      "tip": "檸檬汁提供天然果膠與酸度幫助凝結；裝罐倒扣可形成真空延長保存。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "fruit-lemon-aiyu",
+      "name": "檸檬愛玉",
+      "category": "fruit",
+      "mainIngredient": "檸檬",
+      "relatedIngredients": ["檸檬"],
+      "timeMinutes": 40,
+      "difficulty": "簡單",
+      "servings": "4 人份",
+      "tags": ["甜點", "消暑"],
+      "ingredients": ["愛玉子 適量（或市售愛玉凍）", "檸檬 2 顆", "冷開水 1000ml", "冰糖或蜂蜜 適量"],
+      "steps": [
+        "愛玉子裝入棉布袋，浸入常溫開水中反覆搓揉出膠質，靜置成凍後切塊（用市售愛玉凍可跳過）。",
+        "冰糖加少許熱水化開成糖水，放涼。",
+        "檸檬擠汁，與糖水、冷開水調成酸甜適口的檸檬水。",
+        "愛玉凍盛入碗中，倒入檸檬水，加冰塊冰涼享用。"
+      ],
+      "tip": "搓愛玉的水與手都不能有油，否則不會凝結；檸檬汁最後調入以保留清香。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+
+    {
+      "id": "meat-three-cup-chicken",
+      "name": "三杯雞",
+      "category": "meat",
+      "mainIngredient": "雞肉",
+      "relatedIngredients": ["雞肉", "九層塔", "薑"],
+      "timeMinutes": 30,
+      "difficulty": "普通",
+      "servings": "3 人份",
+      "tags": ["下飯", "經典"],
+      "ingredients": ["帶骨雞腿肉 500g", "老薑 1 塊", "蒜頭 6 瓣", "九層塔 1 把", "醬油、米酒、麻油 各適量", "冰糖 少許"],
+      "steps": [
+        "麻油小火將薑片煸到微捲，加蒜頭爆香。",
+        "下雞肉塊煎到表面上色。",
+        "加醬油、米酒與少許冰糖，蓋鍋中小火燒煮約 15 分鐘至收汁上色。",
+        "開大火收乾醬汁，熄火拌入大量九層塔略拌即起。"
+      ],
+      "tip": "麻油要小火煸薑才不苦；醬油、米酒、麻油三者約等量即為『三杯』風味基礎。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "meat-scallion-beef",
+      "name": "蔥爆牛肉",
+      "category": "meat",
+      "mainIngredient": "牛肉",
+      "relatedIngredients": ["牛肉", "蔥"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["快炒", "下飯"],
+      "ingredients": ["牛肉火鍋片 250g", "青蔥 4 支", "蒜頭 2 瓣", "醬油、米酒 各 1 大匙", "太白粉、糖 少許"],
+      "steps": [
+        "牛肉片加醬油、米酒、太白粉抓醃 10 分鐘。",
+        "蔥切段，蔥白蔥綠分開；蒜切末。",
+        "大火熱油快速將牛肉炒到變色即盛起，避免過老。",
+        "同鍋爆香蒜末與蔥白，牛肉回鍋，加醬油、糖與蔥綠大火快炒幾下起鍋。"
+      ],
+      "tip": "牛肉先過油炒半熟再回鍋，全程大火快炒才能嫩滑不出水。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "meat-lurou",
+      "name": "古早味滷肉",
+      "category": "meat",
+      "mainIngredient": "豬肉",
+      "relatedIngredients": ["豬肉", "雞蛋"],
+      "timeMinutes": 75,
+      "difficulty": "普通",
+      "servings": "4 人份",
+      "tags": ["滷味", "常備", "下飯"],
+      "ingredients": ["豬五花或胛心肉 600g", "水煮蛋 4 顆", "蒜頭 4 瓣", "醬油 4 大匙", "米酒、冰糖 適量", "八角 1 粒、五香少許"],
+      "steps": [
+        "豬肉切塊，冷水下鍋汆燙去血水後洗淨。",
+        "熱鍋少油炒香蒜頭，下肉塊煎到微焦上色。",
+        "加冰糖炒出糖色，倒入醬油、米酒、八角與淹過肉的水煮滾。",
+        "轉小火加蓋滷約 1 小時，中途放入去殼水煮蛋一起滷，至肉軟入味收汁。"
+      ],
+      "tip": "冰糖炒出糖色是古早味色澤的關鍵；小火慢滷肉才會軟嫩不柴。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "meat-kungpao-chicken",
+      "name": "宮保雞丁",
+      "category": "meat",
+      "mainIngredient": "雞肉",
+      "relatedIngredients": ["雞肉"],
+      "timeMinutes": 25,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["下飯", "微辣"],
+      "ingredients": ["雞胸或雞腿肉 300g", "乾辣椒 8 根", "蒜、薑 少許", "花生 1 把", "醬油、醋、糖 各 1 大匙", "太白粉 少許"],
+      "steps": [
+        "雞肉切丁，用醬油、太白粉抓醃 10 分鐘。",
+        "醬油、醋、糖與少許水調成醬汁備用。",
+        "熱油下雞丁炒到變色盛起；同鍋小火爆香乾辣椒、蒜薑。",
+        "雞丁回鍋，淋入醬汁大火快炒收汁，起鍋前拌入花生。"
+      ],
+      "tip": "乾辣椒用小火煸香但別燒焦；花生最後拌入才會脆。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "meat-mapo-tofu",
+      "name": "麻婆豆腐",
+      "category": "meat",
+      "mainIngredient": "豬肉",
+      "relatedIngredients": ["豬肉", "豆腐"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["下飯", "微辣"],
+      "ingredients": ["嫩豆腐 1 盒", "豬絞肉 150g", "蒜、蔥 少許", "豆瓣醬 1 大匙", "醬油、糖 少許", "太白粉水 適量"],
+      "steps": [
+        "豆腐切丁，用淡鹽水泡一下較不易破。",
+        "熱油炒香蒜末與豬絞肉至出油，加豆瓣醬炒出紅油。",
+        "加醬油、糖與半碗水煮滾，輕輕放入豆腐燒 3～5 分鐘。",
+        "淋太白粉水勾薄芡，撒蔥花起鍋。"
+      ],
+      "tip": "推豆腐時用鍋鏟背輕推、少翻動才不會散；愛麻香可撒少許花椒粉。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "meat-pad-krapow",
+      "name": "打拋豬",
+      "category": "meat",
+      "mainIngredient": "豬肉",
+      "relatedIngredients": ["豬肉", "番茄", "九層塔"],
+      "timeMinutes": 15,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["快炒", "下飯", "泰式"],
+      "ingredients": ["豬絞肉 250g", "小番茄 6 顆", "蒜、辣椒 少許", "九層塔 1 把", "醬油、魚露、糖 各 1 小匙"],
+      "steps": [
+        "蒜、辣椒切碎；小番茄對半切。",
+        "大火熱油爆香蒜與辣椒，下絞肉炒到出油上色。",
+        "加小番茄略炒出汁，調入醬油、魚露、糖。",
+        "熄火前拌入大量九層塔，炒香即起，搭配白飯與荷包蛋。"
+      ],
+      "tip": "全程大火保持鑊氣；番茄取代傳統打拋葉增加酸甜與台灣味。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "meat-sweetsour-ribs",
+      "name": "糖醋排骨",
+      "category": "meat",
+      "mainIngredient": "排骨",
+      "relatedIngredients": ["豬肉", "鳳梨"],
+      "timeMinutes": 40,
+      "difficulty": "普通",
+      "servings": "3 人份",
+      "tags": ["下飯", "酸甜"],
+      "ingredients": ["小排骨 500g", "蒜頭 2 瓣", "番茄醬 2 大匙", "白醋、糖 各 2 大匙", "醬油 1 大匙", "太白粉 適量"],
+      "steps": [
+        "排骨汆燙去血水，擦乾後裹薄太白粉，中油溫炸或半煎炸至金黃盛起。",
+        "番茄醬、白醋、糖、醬油與少許水調成糖醋醬。",
+        "鍋留少許油爆香蒜末，倒入糖醋醬煮滾略稠。",
+        "排骨回鍋快速拌炒裹醬即可起鍋。"
+      ],
+      "tip": "排骨先炸過再裹醬才外酥內嫩；醬汁比例白醋與糖約 1:1 最順口。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+    {
+      "id": "meat-onion-pork",
+      "name": "洋蔥炒豬肉片",
+      "category": "meat",
+      "mainIngredient": "豬肉",
+      "relatedIngredients": ["豬肉", "洋蔥"],
+      "timeMinutes": 18,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["快炒", "家常", "下飯"],
+      "ingredients": ["豬肉火鍋片 250g", "洋蔥 1 顆", "蒜頭 2 瓣", "醬油 1.5 大匙", "米酒、糖 少許", "黑胡椒 少許"],
+      "steps": [
+        "洋蔥切絲；豬肉片加少許醬油、米酒略抓。",
+        "熱油下豬肉片炒到變色盛起。",
+        "同鍋炒香蒜末與洋蔥絲，炒到洋蔥半透明出甜味。",
+        "豬肉回鍋，加醬油、糖、黑胡椒拌炒均勻起鍋。"
+      ],
+      "tip": "洋蔥炒到微微焦糖化最香甜；肉片先炒起再回鍋可避免過老。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "meat-pan-chicken-leg",
+      "name": "香煎雞腿排",
+      "category": "meat",
+      "mainIngredient": "雞肉",
+      "relatedIngredients": ["雞肉"],
+      "timeMinutes": 20,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["煎", "低調味", "便當"],
+      "ingredients": ["去骨雞腿排 2 片", "鹽、黑胡椒 適量", "米酒 少許", "蒜片 少許（可省）"],
+      "steps": [
+        "雞腿排用刀在筋膜處劃幾刀防止捲曲，兩面抹鹽、黑胡椒、米酒略醃 10 分鐘。",
+        "冷鍋不放油，雞皮朝下入鍋，中小火慢煎逼出雞油。",
+        "煎到雞皮金黃酥脆再翻面，蓋鍋燜煎至熟透。",
+        "起鍋靜置 2 分鐘再切，肉汁更飽滿。"
+      ],
+      "tip": "雞皮朝下冷鍋慢煎、用自身油脂就能煎得金黃酥脆，不必額外加油。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "meat-garlic-pork",
+      "name": "蒜泥白肉",
+      "category": "meat",
+      "mainIngredient": "豬肉",
+      "relatedIngredients": ["豬肉", "小黃瓜"],
+      "timeMinutes": 30,
+      "difficulty": "簡單",
+      "servings": "3 人份",
+      "tags": ["水煮", "清爽", "免油煙"],
+      "ingredients": ["豬五花肉塊 300g", "蒜頭 5 瓣", "薑片、蔥段 少許", "醬油膏 2 大匙", "糖、香油、辣油 少許"],
+      "steps": [
+        "五花肉整塊冷水下鍋，加薑蔥、米酒煮約 20 分鐘至熟。",
+        "撈起泡冰水降溫，肉質更緊實好切。",
+        "蒜頭磨泥，與醬油膏、糖、香油、辣油調成蒜蓉醬。",
+        "肉放涼切薄片排盤，淋上蒜蓉醬即可。"
+      ],
+      "tip": "煮好泡冰水能讓肉片更Q彈好切；醬汁可依喜好調整辣度。",
+      "sourceIds": ["foodEducation", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "meat-cola-wings",
+      "name": "可樂雞翅",
+      "category": "meat",
+      "mainIngredient": "雞肉",
+      "relatedIngredients": ["雞肉"],
+      "timeMinutes": 30,
+      "difficulty": "簡單",
+      "servings": "3 人份",
+      "tags": ["滷", "簡易", "下飯"],
+      "ingredients": ["二節雞翅 8 支", "可樂 1 罐（約 330ml）", "醬油 2 大匙", "薑片、蒜頭 少許", "蔥花 少許"],
+      "steps": [
+        "雞翅劃刀，汆燙去血水或直接煎到兩面金黃。",
+        "鍋中放雞翅，倒入可樂與醬油、薑蒜。",
+        "中火煮滾後轉小火燒約 15 分鐘。",
+        "開大火收汁到醬色濃亮、裹上雞翅，撒蔥花起鍋。"
+      ],
+      "tip": "可樂提供甜味與色澤，就不必再加糖；收汁時多翻動讓每支均勻上色。",
+      "sourceIds": ["foodEducation"],
+      "image": null
+    },
+
+    {
+      "id": "seafood-garlic-shrimp",
+      "name": "蒜蓉蒸蝦",
+      "category": "seafood",
+      "mainIngredient": "蝦",
+      "relatedIngredients": ["蝦"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["蒸", "宴客", "少油"],
+      "ingredients": ["白蝦 12 尾", "蒜頭 6 瓣", "蔥花 少許", "醬油、米酒 少許", "食用油 1 大匙"],
+      "steps": [
+        "蝦開背去腸泥，排入盤中淋少許米酒。",
+        "蒜切末，一半用熱油爆香、一半保持生蒜，混合成金銀蒜。",
+        "金銀蒜鋪在蝦上，水滾後大火蒸約 5～6 分鐘。",
+        "取出淋少許醬油、撒蔥花，可再淋一匙熱油增香。"
+      ],
+      "tip": "生蒜與炒過的蒜混用（金銀蒜）香氣層次最好；蝦蒸過久會老，時間別太長。",
+      "sourceIds": ["seafoodSafety", "foodEducation"],
+      "image": null
+    },
+    {
+      "id": "seafood-clam-loofah",
+      "name": "塔香蛤蜊絲瓜",
+      "category": "seafood",
+      "mainIngredient": "蛤蜊",
+      "relatedIngredients": ["蛤蜊", "絲瓜", "九層塔"],
+      "timeMinutes": 18,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["快炒", "清甜"],
+      "ingredients": ["蛤蜊 300g", "絲瓜 1 條", "薑絲、蒜末 少許", "九層塔 少許", "米酒、鹽 少許"],
+      "steps": [
+        "蛤蜊先泡鹽水吐沙；絲瓜削皮切塊。",
+        "熱油爆香薑蒜，下絲瓜略炒後加少許水燜軟。",
+        "放入蛤蜊、嗆米酒，蓋鍋燜到蛤蜊開口。",
+        "以絲瓜與蛤蜊自然鮮味為主，酌加少許鹽，熄火拌入九層塔起鍋。"
+      ],
+      "tip": "蛤蜊本身有鹹度，先嚐湯汁再決定加不加鹽；蛤蜊一開口就要起鍋才鮮嫩。",
+      "sourceIds": ["seafoodSafety", "foodEducation"],
+      "image": null
+    },
+    {
+      "id": "seafood-ginger-seabass-soup",
+      "name": "薑絲鱸魚湯",
+      "category": "seafood",
+      "mainIngredient": "鱸魚",
+      "relatedIngredients": ["鱸魚", "薑"],
+      "timeMinutes": 20,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["湯品", "清淡", "補身"],
+      "ingredients": ["鱸魚 1 尾（切塊）", "老薑 1 塊切絲", "蔥 1 支", "米酒 1 大匙", "鹽 少許", "水 800ml"],
+      "steps": [
+        "鱸魚塊洗淨擦乾；薑切絲、蔥切段。",
+        "水加薑絲煮滾，放入魚塊與米酒。",
+        "中火煮約 8 分鐘至魚肉轉白熟透，過程撈除浮沫保持清澈。",
+        "加鹽調味，撒蔥段即可。"
+      ],
+      "tip": "水滾再下魚肉可減少腥味並保持湯色清澈；鱸魚肉質細嫩，久煮易散。",
+      "sourceIds": ["seafoodSafety", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "seafood-pan-mackerel",
+      "name": "香煎鯖魚",
+      "category": "seafood",
+      "mainIngredient": "鯖魚",
+      "relatedIngredients": ["鯖魚", "檸檬"],
+      "timeMinutes": 15,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["煎", "便當", "高omega3"],
+      "ingredients": ["鹽漬或新鮮鯖魚片 2 片", "米酒 少許", "白胡椒 少許", "檸檬 1 角", "少許油"],
+      "steps": [
+        "鯖魚片擦乾水分，新鮮魚可抹少許鹽、米酒略醃。",
+        "平底鍋熱油，魚皮朝下中火入鍋。",
+        "煎到魚皮金黃酥脆再翻面，另一面煎熟。",
+        "起鍋擠上檸檬汁去腥提味。"
+      ],
+      "tip": "魚身務必擦乾、油溫足夠再下鍋，才能皮脆不沾鍋；鹽漬鯖魚不必再加鹽。",
+      "sourceIds": ["seafoodSafety", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "seafood-three-cup-squid",
+      "name": "三杯中卷",
+      "category": "seafood",
+      "mainIngredient": "中卷",
+      "relatedIngredients": ["中卷", "九層塔", "薑"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["快炒", "下飯"],
+      "ingredients": ["中卷（透抽）2 尾", "老薑 1 塊", "蒜頭 5 瓣", "九層塔 1 把", "醬油、米酒、麻油 各適量"],
+      "steps": [
+        "中卷去內臟切圈，汆燙 10 秒立即撈起備用。",
+        "麻油小火煸香薑片，加蒜頭爆香。",
+        "下中卷快炒，加醬油、米酒與少許糖大火快炒。",
+        "醬汁略收即熄火，拌入九層塔起鍋。"
+      ],
+      "tip": "中卷先汆燙定型可縮短拌炒時間、避免出水過老；全程動作要快。",
+      "sourceIds": ["seafoodSafety", "foodEducation"],
+      "image": null
+    },
+    {
+      "id": "seafood-pan-milkfish-belly",
+      "name": "香煎虱目魚肚",
+      "category": "seafood",
+      "mainIngredient": "虱目魚",
+      "relatedIngredients": ["虱目魚"],
+      "timeMinutes": 15,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["煎", "台南味", "便當"],
+      "ingredients": ["虱目魚肚 2 片", "薑絲 少許", "鹽 少許", "白胡椒 少許", "少許油"],
+      "steps": [
+        "魚肚擦乾水分，抹薄鹽略醃。",
+        "熱鍋熱油，魚皮朝下入鍋，小心油爆。",
+        "中火煎到魚皮金黃、油脂逼出後翻面，煎熟另一面。",
+        "起鍋撒白胡椒，可搭薑絲醬油。"
+      ],
+      "tip": "虱目魚肚油脂豐富，務必擦乾水分並注意熱油噴濺；煎時可蓋上鍋蓋防噴。",
+      "sourceIds": ["seafoodSafety", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "seafood-scallion-tilapia",
+      "name": "蔥燒台灣鯛",
+      "category": "seafood",
+      "mainIngredient": "台灣鯛",
+      "relatedIngredients": ["台灣鯛", "蔥"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "2 人份",
+      "tags": ["燒", "下飯"],
+      "ingredients": ["台灣鯛魚片 2 片", "青蔥 3 支", "薑、蒜 少許", "醬油 1.5 大匙", "米酒、糖 少許", "水 半碗"],
+      "steps": [
+        "魚片擦乾，熱油下鍋兩面煎到微金盛起。",
+        "同鍋爆香薑蒜與蔥白。",
+        "加醬油、米酒、糖與水煮滾，放回魚片。",
+        "小火燒 3～4 分鐘至入味，收汁後撒蔥綠起鍋。"
+      ],
+      "tip": "台灣鯛（吳郭魚）肉厚無細刺、價格親民，很適合紅燒；魚片先煎過較不易散。",
+      "sourceIds": ["seafoodSafety", "foodEducation"],
+      "image": null
+    },
+    {
+      "id": "seafood-salt-grilled-saury",
+      "name": "鹽烤秋刀魚",
+      "category": "seafood",
+      "mainIngredient": "秋刀魚",
+      "relatedIngredients": ["秋刀魚", "檸檬"],
+      "timeMinutes": 25,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["烤", "少油", "高omega3"],
+      "ingredients": ["秋刀魚 2 尾", "鹽 適量", "米酒 少許", "檸檬 1 角"],
+      "steps": [
+        "秋刀魚洗淨擦乾，兩面劃斜刀。",
+        "均勻抹上鹽與少許米酒，靜置 10 分鐘。",
+        "烤箱或氣炸鍋預熱後，約 200°C 烤 12～15 分鐘至表皮微焦。",
+        "起鍋擠上檸檬汁食用。"
+      ],
+      "tip": "劃刀幫助入味與熟透；用烤箱或氣炸鍋幾乎不需額外用油，較清爽健康。",
+      "sourceIds": ["seafoodSafety", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "seafood-oyster-omelette",
+      "name": "蚵仔煎",
+      "category": "seafood",
+      "mainIngredient": "牡蠣",
+      "relatedIngredients": ["牡蠣", "雞蛋", "茼蒿"],
+      "timeMinutes": 20,
+      "difficulty": "普通",
+      "servings": "1 人份",
+      "tags": ["夜市", "煎"],
+      "ingredients": ["鮮蚵 100g", "雞蛋 1 顆", "茼蒿或小白菜 少許", "地瓜粉 3 大匙加水調成粉漿", "甜辣醬 適量"],
+      "steps": [
+        "鮮蚵洗淨瀝乾；地瓜粉加水調成粉漿。",
+        "熱鍋下油，先鋪上鮮蚵略煎。",
+        "淋上粉漿煎到邊緣半透明，打入雞蛋、鋪上青菜。",
+        "翻面煎到金黃、蛋熟，盛盤淋上甜辣醬。"
+      ],
+      "tip": "地瓜粉漿不要太濃才會有透亮口感；鮮蚵先下鍋、青菜最後放才不出水。",
+      "sourceIds": ["seafoodSafety", "foodEducation"],
+      "image": null
+    },
+    {
+      "id": "seafood-steamed-cod",
+      "name": "清蒸鱈魚",
+      "category": "seafood",
+      "mainIngredient": "鱈魚",
+      "relatedIngredients": ["鱈魚", "蔥", "薑"],
+      "timeMinutes": 18,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["蒸", "清淡", "少油"],
+      "ingredients": ["鱈魚 1 片", "蔥 2 支", "薑絲 少許", "醬油、米酒 各 1 大匙", "食用油 1 大匙"],
+      "steps": [
+        "鱈魚擦乾，淋少許米酒、鋪上薑絲。",
+        "水滾後放入電鍋或蒸鍋，大火蒸約 8～10 分鐘。",
+        "倒掉蒸出的水，鋪上蔥絲。",
+        "淋上熱醬油，再澆一匙滾油激出蔥香即可。"
+      ],
+      "tip": "蒸好倒掉腥水再淋醬提味；最後澆熱油是餐廳清蒸魚香氣的關鍵。",
+      "sourceIds": ["seafoodSafety", "hpaPlate"],
+      "image": null
+    },
+    {
+      "id": "seafood-miso-salmon",
+      "name": "味噌煎鮭魚",
+      "category": "seafood",
+      "mainIngredient": "鮭魚",
+      "relatedIngredients": ["鮭魚"],
+      "timeMinutes": 20,
+      "difficulty": "簡單",
+      "servings": "2 人份",
+      "tags": ["煎", "便當", "高omega3"],
+      "ingredients": ["鮭魚 2 片", "味噌 1 大匙", "味醂、米酒 各 1 大匙", "少許糖", "少許油"],
+      "steps": [
+        "味噌、味醂、米酒、糖調成醃醬，抹上鮭魚冷藏醃 20 分鐘以上。",
+        "醃好的魚輕輕刮除表面多餘味噌（易焦）。",
+        "平底鍋小火熱少許油，下鮭魚慢煎。",
+        "兩面煎到金黃、魚肉熟透即可，注意味噌容易上色勿煎焦。"
+      ],
+      "tip": "味噌含糖易焦，全程用小火並先刮除表面醬料；醃越久越入味。",
+      "sourceIds": ["seafoodSafety", "hpaPlate"],
+      "image": null
+    }
+  ]
+}
