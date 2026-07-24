@@ -118,7 +118,8 @@ test('tapping a card opens the recipe detail overlay and it can be closed', asyn
   await expect(sheet.getByTestId('recipe-ingredients')).toBeVisible()
   await expect(sheet.getByTestId('recipe-steps')).toBeVisible()
 
-  await page.keyboard.press('Escape')
+  // The close button must be actionable — not covered by the panel content.
+  await page.getByTestId('recipe-sheet-close').click()
   await expect(sheet).toBeHidden()
 })
 

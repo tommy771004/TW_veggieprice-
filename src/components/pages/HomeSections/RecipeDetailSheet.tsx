@@ -81,22 +81,25 @@ export function RecipeDetailSheet({
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 320, damping: 34 }}
-        className="relative w-full md:max-w-lg max-h-[88vh] md:max-h-[85vh] overflow-y-auto rounded-t-3xl md:rounded-3xl glass-card border border-white/40 shadow-glass-md"
+        className="relative w-full md:max-w-lg max-h-[88vh] md:max-h-[85vh] flex flex-col overflow-hidden rounded-t-3xl md:rounded-3xl glass-card border border-white/40 shadow-glass-md"
       >
-        <button
-          ref={closeRef}
-          type="button"
-          onClick={onClose}
-          aria-label="關閉"
-          data-testid="recipe-sheet-close"
-          className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/15 text-on-surface-variant hover:text-on-surface transition-colors leading-none text-lg"
-        >
-          ×
-        </button>
+        {/* close bar — non-scrolling, centered, kept above the scrolling content */}
+        <div className="relative z-20 shrink-0 flex justify-center pt-3 pb-2">
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            aria-label="關閉"
+            data-testid="recipe-sheet-close"
+            className="w-9 h-9 rounded-full flex items-center justify-center bg-black/10 hover:bg-black/20 dark:bg-white/15 dark:hover:bg-white/25 text-on-surface transition-colors leading-none text-xl shadow-sm"
+          >
+            ×
+          </button>
+        </div>
 
-        <div className="p-container-padding">
+        <div className="min-h-0 overflow-y-auto p-container-padding pt-2">
           {/* header */}
-          <div className="flex items-center gap-3 mb-3 pr-8">
+          <div className="flex items-center gap-3 mb-3">
             {isLicensedRecipeImage(recipe.image) ? (
               <Image
                 src={recipe.image.src}
