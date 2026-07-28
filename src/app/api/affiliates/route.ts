@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { normalizeAffiliateOffer } from '@/lib/affiliates'
-import { getAffiliateSql } from '@/lib/server/db'
+import { affiliateProjectName, getAffiliateSql } from '@/lib/server/db'
 import { makeLogger } from '@/lib/server/logger'
 
 export const runtime = 'nodejs'
@@ -19,6 +19,7 @@ export async function GET() {
   try {
     const rows = await sql`
       SELECT
+        project_name AS "projectName",
         id,
         enabled,
         sponsored,
@@ -32,7 +33,8 @@ export async function GET() {
         priority,
         partner
       FROM affiliates
-      WHERE enabled = TRUE
+      WHERE project_name = ${affiliateProjectName}
+        AND enabled = TRUE
       ORDER BY priority DESC, id ASC
     `
 

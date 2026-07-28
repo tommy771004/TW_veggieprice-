@@ -2,6 +2,8 @@
 
 本文件說明如何設定作物詳情頁的「推薦服務」版位、如何向各聯盟/廣告平台註冊取得追蹤連結，以及如何用 `audit_log` 觀察點擊轉換（CTR）。
 
+跨系統共用資料表、其他系統匯入格式與完整 API 契約，請參考[聯盟／合作推廣跨系統整合規格](./affiliate-integration-spec.md)。
+
 相關檔案：
 
 | 用途 | 路徑 |
@@ -27,7 +29,7 @@
 ## 二、快速開始（3 步驟）
 
 1. 到目標平台註冊聯盟/分潤帳號，取得**帶有你專屬追蹤碼的連結**。
-2. 將 [db/affiliates.sql](../db/affiliates.sql) 在 `SUP_DATABASE_URL` 指向的獨立資料庫執行；後續由外部維護系統直接新增、修改或停用 `affiliates` 資料。
+2. 將 [db/affiliates.sql](../db/affiliates.sql) 在 `SUP_DATABASE_URL` 指向的獨立資料庫執行，並設定 `AFFILIATE_PROJECT_NAME=veggieprice-tw`；後續由外部維護系統直接新增、修改或停用該專案的 `affiliates` 資料。
 3. 部署。點擊與曝光會自動寫入主資料庫的 `audit_log`，用第六節的 SQL 查成效。
 
 > ⚠️ Vercel 免費（Hobby）方案限非商業用途。一旦放聯盟/廣告連結即屬商業使用，請升級到 **Vercel Pro** 或改用允許商用的免費平台（如 Cloudflare Pages）。
@@ -38,7 +40,8 @@
 
 | 欄位 | 必填 | 型別 | 說明 |
 | --- | --- | --- | --- |
-| `id` | ✔ | string | 唯一識別碼，用於追蹤統計。**請勿重複、勿事後更名**（會中斷歷史數據）。 |
+| `project_name` | ✔ | string | 所屬專案名稱，查詢時用來區分系統；本專案為 `veggieprice-tw`。 |
+| `id` | ✔ | string | 同一 `project_name` 內的唯一識別碼，用於追蹤統計。**請勿重複、勿事後更名**（會中斷歷史數據）。 |
 | `enabled` | ✔ | boolean | 是否啟用。`false` 時完全不顯示、不追蹤。 |
 | `sponsored` | ✔ | boolean | `true`＝付費贊助（「贊助」標籤）；`false`＝一般聯盟（「合作推薦」標籤）。**兩者都會加 `rel="sponsored nofollow"`**。 |
 | `title` | ✔ | string | 卡片標題，支援 `{crop}` 套版。 |
@@ -119,8 +122,8 @@
 
 | `action` | 觸發時機 | `target` | `metadata` |
 | --- | --- | --- | --- |
-| `affiliate_impression` | 卡片**捲動進可視範圍**（每檔位每次載入最多一次） | 檔位 `id` | `{ crop?, sponsored, partner, placement }` |
-| `affiliate_click` | 使用者**點擊**卡片 | 檔位 `id` | `{ crop?, sponsored, partner, placement }` |
+| `affiliate_impression` | 卡片**捲動進可視範圍**（每檔位每次載入最多一次） | 檔位 `id` | `{ project_name, crop?, sponsored, partner, placement }` |
+| `affiliate_click` | 使用者**點擊**卡片 | 檔位 `id` | `{ project_name, crop?, sponsored, partner, placement }` |
 
 > 曝光採 IntersectionObserver，只有真正被看到才計一次，因此 `clicks / impressions` 即為可信的 CTR。
 > `placement` 標示版位來源：`detail`（作物詳情頁輪播）、`home`（首頁跑馬燈）、`search`（搜尋頁跑馬燈）；`crop` 僅詳情頁有。

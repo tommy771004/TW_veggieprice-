@@ -20,6 +20,8 @@ import type { ProduceCategory } from './produce'
 export type AffiliateCategory = ProduceCategory | 'all'
 
 export interface AffiliateOffer {
+  /** 所屬專案名稱；由 API 依 AFFILIATE_PROJECT_NAME 分區查詢。 */
+  projectName?: string
   /** 唯一識別碼,用於 audit 追蹤與成效統計。請勿重複、勿任意更名(會中斷歷史統計)。 */
   id: string
   /** 是否啟用。false 時完全不顯示、不追蹤。 */
@@ -82,6 +84,9 @@ export function normalizeAffiliateOffer(value: unknown): AffiliateOffer | null {
   }
 
   return {
+    ...(typeof row.projectName === 'string' && row.projectName
+      ? { projectName: row.projectName }
+      : {}),
     id: row.id as string,
     enabled: row.enabled === true,
     sponsored: row.sponsored === true,

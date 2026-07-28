@@ -103,7 +103,7 @@ function AffiliateMarqueeRow({
 
 /**
  * 首頁／搜尋頁的聯盟推廣「跑馬燈」(連續水平捲動)。
- * - 不分作物,顯示所有啟用中的商家(來自 src/lib/affiliates.ts)。
+ * - 不分作物,顯示目前 project_name 下所有啟用中的商家。
  * - 滑入/聚焦會暫停;尊重 prefers-reduced-motion(改為可手動橫向捲動)。
  * - 進入可視範圍記一次 affiliate_impression、點擊記 affiliate_click(placement 由呼叫端帶入,如 home/search)。
  */
@@ -153,6 +153,7 @@ export function AffiliateMarquee({
           if (seenRef.current.has(offer.id)) continue
           seenRef.current.add(offer.id)
           trackEvent('affiliate_impression', offer.id, {
+            project_name: offer.projectName,
             sponsored: offer.sponsored,
             partner: offer.partner,
             placement,
@@ -183,6 +184,7 @@ export function AffiliateMarquee({
 
   function handleClick(offer: ResolvedOffer) {
     trackEvent('affiliate_click', offer.id, {
+      project_name: offer.projectName,
       sponsored: offer.sponsored,
       partner: offer.partner,
       placement,

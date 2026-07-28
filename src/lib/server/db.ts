@@ -15,6 +15,9 @@ let cached: NeonQueryFunction<false, false> | null = null
 const affiliateConnectionString = process.env.SUP_DATABASE_URL ?? ''
 let affiliateCached: NeonQueryFunction<false, false> | null = null
 
+/** 共用 affiliates 表中的專案分區名稱。 */
+export const affiliateProjectName = process.env.AFFILIATE_PROJECT_NAME ?? 'veggieprice-tw'
+
 /**
  * 取得 Neon serverless SQL 連線（HTTP，單次查詢免連線池）。
  * 未設定 DATABASE_URL 時回傳 null，呼叫端可據此優雅降級：

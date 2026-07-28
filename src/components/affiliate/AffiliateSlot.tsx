@@ -22,7 +22,7 @@ type Props = {
 
 /**
  * 作物詳情頁的「聯盟／贊助」版位，以輪播方式顯示。
- * - 內容由 src/lib/affiliates.ts 設定（資料驅動）。
+ * - 內容由 SUP_DATABASE_URL 指向的 affiliates 資料表提供（資料驅動）。
  * - 自動輪播：滑入/聚焦或按暫停鈕會停；尊重 prefers-reduced-motion。
  * - 點擊記 affiliate_click；每張捲到可視且輪到時記一次 affiliate_impression（算 CTR）。
  */
@@ -83,6 +83,7 @@ export function AffiliateSlot({ cropName, category, limit = 6, intervalMs = 5000
     if (!offer || seenRef.current.has(offer.id)) return
     seenRef.current.add(offer.id)
     trackEvent('affiliate_impression', offer.id, {
+      project_name: offer.projectName,
       crop: cropName,
       sponsored: offer.sponsored,
       partner: offer.partner,
@@ -103,6 +104,7 @@ export function AffiliateSlot({ cropName, category, limit = 6, intervalMs = 5000
 
   function handleClick(offer: ResolvedOffer) {
     trackEvent('affiliate_click', offer.id, {
+      project_name: offer.projectName,
       crop: cropName,
       sponsored: offer.sponsored,
       partner: offer.partner,
