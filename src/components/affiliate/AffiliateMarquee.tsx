@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
-import { getMarqueeOffers, type ResolvedOffer } from '@/lib/affiliates'
+import {
+  fetchAffiliateOffers,
+  getMarqueeOffers,
+  type AffiliateOffer,
+  type ResolvedOffer,
+} from '@/lib/affiliates'
 import { trackEvent } from '@/lib/analytics'
 
 type Props = {
@@ -109,12 +114,23 @@ export function AffiliateMarquee({
   placement = 'marquee',
   twoRows = false,
 }: Props) {
-  const offers = useMemo(() => getMarqueeOffers(), [])
+  const [affiliateOffers, setAffiliateOffers] = useState<AffiliateOffer[]>([])
+  const offers = useMemo(() => getMarqueeOffers(affiliateOffers), [affiliateOffers])
   const prefersReducedMotion = useReducedMotion()
   const [hasHydrated, setHasHydrated] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const seenRef = useRef<Set<string>>(new Set())
   const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    void fetchAffiliateOffers().then((loaded) => {
+      if (active) setAffiliateOffers(loaded)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
 
   // `matchMedia` is client-only. Keep the server render and the first client
   // render on the same DOM shape, then opt into the user's preference after

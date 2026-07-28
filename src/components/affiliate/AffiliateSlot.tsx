@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
-import { selectAffiliateOffers, type ResolvedOffer } from '@/lib/affiliates'
+import {
+  fetchAffiliateOffers,
+  selectAffiliateOffers,
+  type AffiliateOffer,
+  type ResolvedOffer,
+} from '@/lib/affiliates'
 import type { ProduceCategory } from '@/lib/produce'
 import { trackEvent } from '@/lib/analytics'
 
@@ -22,9 +27,10 @@ type Props = {
  * - 點擊記 affiliate_click；每張捲到可視且輪到時記一次 affiliate_impression（算 CTR）。
  */
 export function AffiliateSlot({ cropName, category, limit = 6, intervalMs = 5000 }: Props) {
+  const [affiliateOffers, setAffiliateOffers] = useState<AffiliateOffer[]>([])
   const offers = useMemo(
-    () => selectAffiliateOffers(cropName, category, limit),
-    [cropName, category, limit],
+    () => selectAffiliateOffers(affiliateOffers, cropName, category, limit),
+    [affiliateOffers, cropName, category, limit],
   )
 
   const reduceMotion = useReducedMotion() ?? false
@@ -35,6 +41,16 @@ export function AffiliateSlot({ cropName, category, limit = 6, intervalMs = 5000
   const [userPaused, setUserPaused] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    void fetchAffiliateOffers().then((loaded) => {
+      if (active) setAffiliateOffers(loaded)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
 
   const count = offers.length
   const canRotate = count > 1

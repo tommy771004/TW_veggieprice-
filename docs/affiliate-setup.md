@@ -6,18 +6,19 @@
 
 | 用途 | 路徑 |
 | --- | --- |
-| 版位內容設定（你主要編輯這裡） | [src/lib/affiliates.ts](../src/lib/affiliates.ts) |
+| 版位查詢與顯示規則 | [src/lib/affiliates.ts](../src/lib/affiliates.ts) |
 | 版位 UI 元件（通常不需改） | [src/components/affiliate/AffiliateSlot.tsx](../src/components/affiliate/AffiliateSlot.tsx) |
 | 行為事件白名單 | [src/lib/auditEvents.ts](../src/lib/auditEvents.ts) |
 | 隱私權與揭露頁 | [src/app/privacy/page.tsx](../src/app/privacy/page.tsx)（`/privacy#disclosure`） |
-| 資料表 schema | [db/schema.sql](../db/schema.sql)（`audit_log`） |
+| 聯盟資料表與初始資料 | [db/affiliates.sql](../db/affiliates.sql) |
+| 聯盟 API | [src/app/api/affiliates/route.ts](../src/app/api/affiliates/route.ts) |
 
 ---
 
 ## 一、版位長怎樣、出現在哪
 
 - 出現在每個**作物詳情頁**（`/produce/[作物]`）的「產地追溯摘要」上方。
-- 內容由 `AFFILIATE_OFFERS` 陣列驅動，依「作物類別／指定作物」自動挑選並以**輪播**顯示（預設最多 6 張，可自動播放、滑入/聚焦或按暫停鈕會停、尊重 reduce-motion）。
+- 內容由獨立 PostgreSQL 的 `affiliates` 資料表驅動，依「作物類別／指定作物」自動挑選並以**輪播**顯示（預設最多 6 張，可自動播放、滑入/聚焦或按暫停鈕會停、尊重 reduce-motion）。
 - 沒有任何符合條件且啟用的檔位時，**整個版位不會出現**（不留空白區塊）。
 - 本版位所有連結皆為推廣連結，UI 一律加上 `rel="sponsored nofollow"` 並顯示揭露說明。標示「贊助」者為付費推廣，「合作推薦」者為一般聯盟連結。
 
@@ -26,8 +27,8 @@
 ## 二、快速開始（3 步驟）
 
 1. 到目標平台註冊聯盟/分潤帳號，取得**帶有你專屬追蹤碼的連結**。
-2. 打開 [src/lib/affiliates.ts](../src/lib/affiliates.ts)，在 `AFFILIATE_OFFERS` 新增或修改一筆檔位，把 `url` 換成你的追蹤連結，並設 `enabled: true`。
-3. 部署。點擊與曝光會自動寫入 `audit_log`，用第六節的 SQL 查成效。
+2. 將 [db/affiliates.sql](../db/affiliates.sql) 在 `SUP_DATABASE_URL` 指向的獨立資料庫執行；後續由外部維護系統直接新增、修改或停用 `affiliates` 資料。
+3. 部署。點擊與曝光會自動寫入主資料庫的 `audit_log`，用第六節的 SQL 查成效。
 
 > ⚠️ Vercel 免費（Hobby）方案限非商業用途。一旦放聯盟/廣告連結即屬商業使用，請升級到 **Vercel Pro** 或改用允許商用的免費平台（如 Cloudflare Pages）。
 
@@ -89,7 +90,7 @@
 - 機制：在**任何** KKday 頁面網址後面加上 `?cid=25570`（若該網址已含 `?` 參數，改用 `&cid=25570`），即為你的專屬推廣連結。
 - 已內建 `kkday-farm`（採果體驗，鎖定水果類，並對草莓/葡萄/火龍果/藍莓/水梨/番茄/柑橘優先顯示）：
   `https://www.kkday.com/zh-tw/product/productlist?keyword=採果&cid=25570`
-- 要新增更多：在 KKday 挑特定行程頁 → 複製網址 → 接上 `?cid=25570` → 在 `AFFILIATE_OFFERS` 新增一筆。
+- 要新增更多：在 KKday 挑特定行程頁 → 複製網址 → 接上 `?cid=25570` → 由外部維護系統新增一筆 `affiliates` 資料。
 - 提醒：避免用 `keyword={crop}` 動態搜尋——部分作物會搜到不相關結果（例如「香蕉」可能跳出香蕉船水上活動），固定用「採果」較穩。
 - Klook 等其他平台同理，各自註冊取得追蹤連結後比照新增。
 
@@ -100,8 +101,8 @@
   - 注意對 Core Web Vitals 與版面的影響。
 - 低流量時 zh-TW 單價偏低，建議流量起來後再評估。
 
-### 7. 已內建的商家（預設啟用）
-[src/lib/affiliates.ts](../src/lib/affiliates.ts) 已填入從聯盟網／通路王取得的 13 個商家連結（生鮮買菜網、水餃、滴雞精、外送、機能食、特產等），並依作物類別做了初步鎖定與排序。可直接調整各筆的 `enabled`、`categories`、`crops`、`priority` 與文案。
+### 7. 初始商家資料（預設啟用）
+[db/affiliates.sql](../db/affiliates.sql) 已保留原本的商家連結（生鮮買菜網、水餃、滴雞精、外送、機能食、特產等），並依作物類別做了初步鎖定與排序。後續可由外部維護系統調整各筆的 `enabled`、`categories`、`crops`、`priority` 與文案。
 
 | 商家 | 平台 | 鎖定 |
 | --- | --- | --- |

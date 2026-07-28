@@ -10,6 +10,11 @@ const connectionString =
 
 let cached: NeonQueryFunction<false, false> | null = null
 
+// 聯盟版位使用獨立資料庫，該連線由外部聯盟維護系統管理。
+// 刻意不 fallback 到 connectionString，避免跨系統誤讀或誤用主資料庫。
+const affiliateConnectionString = process.env.SUP_DATABASE_URL ?? ''
+let affiliateCached: NeonQueryFunction<false, false> | null = null
+
 /**
  * 取得 Neon serverless SQL 連線（HTTP，單次查詢免連線池）。
  * 未設定 DATABASE_URL 時回傳 null，呼叫端可據此優雅降級：
@@ -26,4 +31,20 @@ export function getSql(): NeonQueryFunction<false, false> | null {
 /** 是否已設定資料庫連線字串。 */
 export function isDbConfigured(): boolean {
   return Boolean(connectionString)
+}
+
+/**
+ * 取得聯盟版位專用的 Neon-compatible SQL 連線。
+ * 未設定 SUP_DATABASE_URL 時回傳 null，聯盟版位會優雅地不顯示。
+ */
+export function getAffiliateSql(): NeonQueryFunction<false, false> | null {
+  if (!affiliateConnectionString) return null
+  if (!affiliateCached) {
+    affiliateCached = neon(affiliateConnectionString)
+  }
+  return affiliateCached
+}
+
+export function isAffiliateDbConfigured(): boolean {
+  return Boolean(affiliateConnectionString)
 }
