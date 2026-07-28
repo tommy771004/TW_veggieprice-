@@ -837,6 +837,9 @@ export function HomeClient({
           reloadKey={reloadKey}
         />
 
+        {/* ── Affiliate Marquee (合作推廣) ─────────────────── */}
+        <AffiliateMarquee placement="home" twoRows title="合作推廣" />
+
         {/* ── Featured Recipes (今日精選食譜) ─────────────── */}
         <FeaturedRecipesSection />
 
@@ -882,9 +885,6 @@ export function HomeClient({
 
         {/* ── Explore Features ──────────────────────────── */}
         <ExploreSection />
-
-        {/* ── Affiliate Marquee (跑馬燈) ─────────────────── */}
-        <AffiliateMarquee placement="home" twoRows />
 
         {/* ── About + FAQ ───────────────────────────────── */}
         <AboutSection />

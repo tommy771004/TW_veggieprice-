@@ -12,10 +12,10 @@ import { getCropBaseInfo, CROP_BASE_INFO } from '@/lib/cropInfo'
 
 const NAV_LINKS = [
   { href: '/', label: '首頁', icon: 'dashboard' },
-  { href: '/search', label: '搜尋', icon: 'search' },
-  { href: '/seasonal', label: '當季', icon: 'local_florist' },
-  { href: '/watchlist', label: '關注', icon: 'monitoring' },
-  { href: '/insights', label: '洞察', icon: 'insights' },
+  { href: '/search', label: '作物搜尋', icon: 'search' },
+  { href: '/seasonal', label: '盛產指南', icon: 'local_florist' },
+  { href: '/watchlist', label: '我的最愛作物', icon: 'monitoring' },
+  { href: '/insights', label: '休市日曆', icon: 'event' },
 ]
 
 function isNavActive(pathname: string | null, href: string) {
@@ -274,6 +274,9 @@ export function TopAppBar() {
                     style={{ fontSize: '1.5rem', fontVariationSettings: active ? "'FILL' 1" : "'FILL' 0" }}
                   >
                     {link.icon}
+                  </span>
+                  <span className="text-label-sm font-semibold whitespace-nowrap">
+                    {link.label}
                   </span>
                 </Link>
               )
