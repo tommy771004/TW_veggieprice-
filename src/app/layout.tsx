@@ -7,6 +7,7 @@ import { TopAppBar } from '@/components/layout/TopAppBar'
 import { WebAppJsonLd, OrganizationJsonLd, WebSiteJsonLd } from '@/components/seo/JsonLd'
 import { ServiceWorkerRegistrar } from '@/components/pwa/ServiceWorkerRegistrar'
 import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics'
 import { PreferencesHydrator } from '@/components/settings/PreferencesHydrator'
 import { ClientSettingsProviders } from '@/components/settings/ClientSettingsProviders'
 import { FramerMotionProvider } from '@/components/providers/FramerMotionProvider'
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClientSettingsProviders />
         <ServiceWorkerRegistrar />
         <AnalyticsTracker />
+        <GoogleAnalytics />
         <TopAppBar />
         <FramerMotionProvider>
           <div className="md:flex">

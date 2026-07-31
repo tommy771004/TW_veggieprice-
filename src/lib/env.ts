@@ -16,3 +16,7 @@ export const SITE_URL: string = normalizeSiteUrl(resolvedSiteUrl)
 
 export const GOOGLE_SITE_VERIFICATION: string | undefined =
   _env.GOOGLE_SITE_VERIFICATION
+
+// Google Analytics 4 評估 ID（gtag.js）。可用環境變數覆寫以切換測試用資源。
+export const GA_MEASUREMENT_ID: string =
+  _env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || 'G-HWRKZHBMNY'
