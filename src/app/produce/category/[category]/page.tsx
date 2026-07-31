@@ -5,6 +5,7 @@ import { SITE_URL } from '@/lib/env'
 import { COMMON_CROPS } from '@/lib/crops'
 import { getProduceCategory, type ProduceCategory } from '@/lib/produce'
 import { fetchFlowerCropNames } from '@/lib/server/moa'
+import { MOA_PRERENDER_BUDGET_MS, withFetchBudget } from '@/lib/server/fetchBudget'
 import { BreadcrumbListJsonLd } from '@/components/seo/JsonLd'
 import { CategoryHubSeoSummary } from '@/components/seo/CategoryHubSeoSummary'
 import { ScrollToTop } from '@/components/ui/ScrollToTop'
@@ -66,7 +67,15 @@ export default async function CategoryPage({ params }: Props) {
   // Flowers are data-driven (種類代碼 N06): real flower products (康乃馨, 洋桔梗…)
   // aren't in the static COMMON_CROPS list and can't be found by name keywords.
   // Fall back to the curated list if the feed is unavailable at build time.
-  const flowerCrops = category === 'flower' ? await fetchFlowerCropNames() : []
+  const flowerCrops =
+    category === 'flower'
+      ? await withFetchBudget(
+          fetchFlowerCropNames(),
+          MOA_PRERENDER_BUDGET_MS,
+          [],
+          'CategoryPage/fetchFlowerCropNames',
+        )
+      : []
   const cropsInCategory =
     category === 'flower' && flowerCrops.length > 0
       ? flowerCrops
