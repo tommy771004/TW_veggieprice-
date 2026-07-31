@@ -7,6 +7,7 @@ import { ItemListJsonLd } from '@/components/seo/JsonLd'
 import { SITE_URL } from '@/lib/env'
 import { getSeasonalGuide } from '@/lib/produce'
 import { fetchSeasonalCrops } from '@/lib/server/moa'
+import { MOA_PRERENDER_BUDGET_MS, withFetchBudget } from '@/lib/server/fetchBudget'
 
 // Revalidate every hour so the page reflects today's MOA data without always hitting the API
 export const revalidate = 3600
@@ -46,7 +47,12 @@ export const metadata: Metadata = {
 
 export default async function SeasonalPage() {
   const monthLabel = new Intl.DateTimeFormat('zh-TW', { month: 'long' }).format(new Date())
-  const { crops } = await fetchSeasonalCrops()
+  const { crops } = await withFetchBudget(
+    fetchSeasonalCrops(),
+    MOA_PRERENDER_BUDGET_MS,
+    { crops: [] },
+    'SeasonalPage/fetchSeasonalCrops',
+  )
   const items = crops.length > 0 ? crops : getSeasonalGuide()
 
   return (

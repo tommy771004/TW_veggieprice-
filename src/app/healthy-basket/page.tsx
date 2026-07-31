@@ -5,22 +5,25 @@ import { HowToJsonLd, WebPageJsonLd } from '@/components/seo/JsonLd'
 import { SITE_URL } from '@/lib/env'
 import { getSeasonalGuide } from '@/lib/produce'
 import { fetchSeasonalCrops } from '@/lib/server/moa'
+import { withFetchBudget } from '@/lib/server/fetchBudget'
 
 export const revalidate = 3600
 
+// Shorter than MOA_PRERENDER_BUDGET_MS: the planner reads fine on the curated
+// guide, so it favours a fast render over waiting for live volume data.
 const SEASONAL_DATA_TIMEOUT_MS = 1500
 
 async function getHealthyBasketItems() {
   const fallback = getSeasonalGuide()
 
-  const result = await Promise.race([
+  const { crops } = await withFetchBudget(
     fetchSeasonalCrops(),
-    new Promise<undefined>((resolve) => {
-      setTimeout(() => resolve(undefined), SEASONAL_DATA_TIMEOUT_MS)
-    }),
-  ])
+    SEASONAL_DATA_TIMEOUT_MS,
+    { crops: [] },
+    'HealthyBasketPage/fetchSeasonalCrops',
+  )
 
-  return result?.crops.length ? result.crops : fallback
+  return crops.length ? crops : fallback
 }
 
 const FAQ_ITEMS: FaqItem[] = [
