@@ -82,12 +82,14 @@ function getMuteDescription(muteUntil: UserPreferences['notifications']['muteUnt
 export function SettingsClient() {
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_USER_PREFERENCES)
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default')
+  const [browserNotificationsSupported, setBrowserNotificationsSupported] = useState<boolean | null>(null)
   const [permissionRequesting, setPermissionRequesting] = useState(false)
   const [, refreshMuteState] = useState(0)
   const [saveState, setSaveState] = useState<'idle' | 'saved' | 'error'>('idle')
   const [saveMessage, setSaveMessage] = useState('偏好會自動儲存')
   const [resetConfirmationOpen, setResetConfirmationOpen] = useState(false)
   const resetConfirmButtonRef = useRef<HTMLButtonElement>(null)
+  const resetTriggerButtonRef = useRef<HTMLButtonElement>(null)
   const [marketsByType, setMarketsByType] = useState<Record<string, string[]>>({})
   const [marketOptionsState, setMarketOptionsState] = useState<'loading' | 'ready' | 'error'>('loading')
   const [marketOptionsRequest, setMarketOptionsRequest] = useState(0)
@@ -131,9 +133,13 @@ export function SettingsClient() {
 
   useEffect(() => {
     const syncNotificationPermission = () => {
-      if (typeof Notification !== 'undefined') {
-        setNotificationPermission(Notification.permission)
+      if (typeof Notification === 'undefined') {
+        setBrowserNotificationsSupported(false)
+        return
       }
+
+      setBrowserNotificationsSupported(true)
+      setNotificationPermission(Notification.permission)
     }
 
     syncNotificationPermission()
@@ -349,7 +355,6 @@ export function SettingsClient() {
   const muteSelection = getMuteSelection(preferences.notifications.muteUntil)
   const priceActivity = preferences.notifications.priceActivity
   const dailySummary = preferences.notifications.dailySummary
-  const browserNotificationsSupported = typeof Notification !== 'undefined'
 
   useEffect(() => {
     if (resetConfirmationOpen) {
@@ -358,7 +363,7 @@ export function SettingsClient() {
   }, [resetConfirmationOpen])
 
   return (
-    <div className="home-dashboard-shell pb-8">
+    <div className="home-dashboard-shell pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-8">
       <div className="px-section-margin py-4 md:py-6 space-y-section-margin">
         <h1 className="sr-only">使用設定</h1>
 
@@ -375,14 +380,14 @@ export function SettingsClient() {
             <div className="space-y-5">
               <div className="space-y-2">
                 <p className="text-body-sm font-medium text-on-surface-variant">字體大小</p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {(['small', 'medium', 'large'] as FontSize[]).map((size) => (
                     <button
                       key={size}
                       type="button"
                       aria-pressed={preferences.fontSize === size}
                       onClick={() => persist({ fontSize: size })}
-                      className={`rounded-2xl border px-4 py-3 text-left transition-colors touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 ${
+                      className={`rounded-2xl border px-4 py-3 text-left transition-colors touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 ${
                         preferences.fontSize === size
                           ? 'border-primary/30 bg-primary/8 text-primary dark:bg-primary-container dark:text-on-primary-container shadow-sm'
                           : 'border-outline-variant/35 bg-surface-container-low text-on-surface hover:bg-surface-container'
@@ -401,7 +406,7 @@ export function SettingsClient() {
 
               <div className="space-y-2">
                 <p className="text-body-sm font-medium text-on-surface-variant">外觀主題</p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {([
                     { value: 'light', icon: 'light_mode', label: '淺色', note: '白天閱讀較輕快' },
                     { value: 'dark', icon: 'dark_mode', label: '深色', note: '夜間更柔和' },
@@ -412,7 +417,7 @@ export function SettingsClient() {
                       type="button"
                       aria-pressed={preferences.theme === themeOption.value}
                       onClick={() => persist({ theme: themeOption.value })}
-                      className={`rounded-2xl border px-4 py-4 transition-colors touch-target flex items-start gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 ${
+                      className={`rounded-2xl border px-4 py-4 transition-colors touch-target flex items-start gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 ${
                         preferences.theme === themeOption.value
                           ? 'border-primary/30 bg-primary/8 text-primary dark:bg-primary-container dark:text-on-primary-container shadow-sm'
                           : 'border-outline-variant/35 bg-surface-container-low text-on-surface hover:bg-surface-container'
@@ -475,7 +480,7 @@ export function SettingsClient() {
                       value={muteSelection}
                       onChange={(event) => handleMuteChange(event.target.value as MuteSelection)}
                       aria-describedby="notification-mute-description"
-                      className="w-full min-h-11 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                      className="w-full min-h-11 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
                     >
                       <option value="off">不暫停通知</option>
                       {muteSelection === 'active' && <option value="active">目前已暫停</option>}
@@ -502,7 +507,7 @@ export function SettingsClient() {
                       aria-busy={permissionRequesting}
                       disabled={permissionRequesting}
                       onClick={() => handleNotificationEnabledChange('priceActivity', !priceActivity.enabled)}
-                      className="touch-target relative flex w-14 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-wait disabled:opacity-60"
+                      className="touch-target relative flex w-14 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 disabled:cursor-wait disabled:opacity-60"
                     >
                       <span
                         aria-hidden="true"
@@ -542,9 +547,11 @@ export function SettingsClient() {
                       )
                     })}
                     <p className="text-body-sm text-on-surface-variant pl-2">
-                      {browserNotificationsSupported
-                        ? `瀏覽器權限：${notificationPermission === 'granted' ? '已允許' : notificationPermission === 'denied' ? '已拒絕，請到網站設定重新允許' : '尚未授權，開啟時會詢問'}。`
-                        : '目前瀏覽器不支援裝置通知。'}
+                      {browserNotificationsSupported === null
+                        ? '正在檢查裝置通知支援度…'
+                        : browserNotificationsSupported
+                          ? `瀏覽器權限：${notificationPermission === 'granted' ? '已允許' : notificationPermission === 'denied' ? '已拒絕，請到網站設定重新允許' : '尚未授權，開啟時會詢問'}。`
+                          : '目前瀏覽器不支援裝置通知。'}
                     </p>
                   </fieldset>
 
@@ -555,7 +562,7 @@ export function SettingsClient() {
                       value={priceActivity.frequency}
                       onChange={(event) => handleNotificationFrequencyChange('priceActivity', event.target.value as NotificationFrequency)}
                       aria-describedby="price-activity-frequency-description"
-                      className="w-full min-h-11 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                      className="w-full min-h-11 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
                     >
                       {FREQUENCY_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
                     </select>
@@ -577,7 +584,7 @@ export function SettingsClient() {
                       aria-checked={dailySummary.enabled}
                       aria-label="首頁每日行情摘要"
                       onClick={() => handleNotificationEnabledChange('dailySummary', !dailySummary.enabled)}
-                      className="touch-target relative flex w-14 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                      className="touch-target relative flex w-14 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
                     >
                       <span
                         aria-hidden="true"
@@ -680,7 +687,7 @@ export function SettingsClient() {
                       aria-pressed={selectedType === typeOption.value}
                       disabled={marketOptionsState !== 'ready'}
                       onClick={() => handleTypeChange(typeOption.value)}
-                      className={`rounded-2xl border px-4 py-3 text-left transition-colors touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 ${
+                      className={`rounded-2xl border px-4 py-3 text-left transition-colors touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 disabled:cursor-not-allowed disabled:opacity-60 ${
                         selectedType === typeOption.value
                           ? 'border-primary/30 bg-primary/8 text-primary dark:bg-primary-container dark:text-on-primary-container shadow-sm'
                           : 'border-outline-variant/35 bg-surface-container-low text-on-surface hover:bg-surface-container'
@@ -704,7 +711,7 @@ export function SettingsClient() {
                   value={selectedCounty}
                   disabled={marketOptionsState !== 'ready'}
                   onChange={(e) => handleCountyChange(e.target.value)}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
                 >
                   <option value="全部地區">全部地區</option>
                   {countiesForType.map((c) => (
@@ -726,7 +733,7 @@ export function SettingsClient() {
                     triggerHaptic(hapticPatterns.tick)
                     persist({ preferredMarket: event.target.value })
                   }}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-2xl px-4 py-3 text-body-md text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
                 >
                   {marketOptionsState !== 'ready' ? (
                     <option value={preferences.preferredMarket} disabled>
@@ -755,7 +762,10 @@ export function SettingsClient() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-body-sm text-on-surface">重設後會立即套用預設值，這個動作無法復原。</p>
               <button
+                ref={resetTriggerButtonRef}
                 type="button"
+                aria-expanded={resetConfirmationOpen}
+                aria-controls="reset-confirmation"
                 onClick={() => setResetConfirmationOpen(true)}
                 className="touch-target shrink-0 rounded-xl border border-error/35 px-3 py-2 text-body-sm font-semibold text-error hover:bg-error/12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/30"
               >
@@ -765,9 +775,18 @@ export function SettingsClient() {
 
             {resetConfirmationOpen && (
               <div
-                role="group"
+                id="reset-confirmation"
+                role="dialog"
+                aria-modal="false"
                 aria-labelledby="reset-confirmation-heading"
                 aria-describedby="reset-confirmation-description"
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    event.preventDefault()
+                    setResetConfirmationOpen(false)
+                    resetTriggerButtonRef.current?.focus()
+                  }
+                }}
                 className="mt-4 rounded-xl border border-error/30 bg-surface-container px-4 py-4"
               >
                 <h3 id="reset-confirmation-heading" className="text-body-md font-semibold text-on-surface">確認重設所有偏好？</h3>
@@ -777,8 +796,11 @@ export function SettingsClient() {
                 <div className="mt-4 flex flex-wrap gap-2">
                   <button
                     type="button"
-                    onClick={() => setResetConfirmationOpen(false)}
-                    className="touch-target rounded-xl px-3 py-2 text-body-sm font-semibold text-on-surface-variant hover:bg-surface-container-high focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                    onClick={() => {
+                      setResetConfirmationOpen(false)
+                      resetTriggerButtonRef.current?.focus()
+                    }}
+                    className="touch-target rounded-xl px-3 py-2 text-body-sm font-semibold text-on-surface-variant hover:bg-surface-container-high focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
                   >
                     先不要
                   </button>

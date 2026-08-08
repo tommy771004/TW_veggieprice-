@@ -31,7 +31,7 @@ export function FaqSection({
   }
 
   return (
-    <section className="px-section-margin max-w-3xl mx-auto py-6">
+    <section className="px-section-margin max-w-3xl mx-auto pt-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
@@ -39,10 +39,10 @@ export function FaqSection({
       <h2 className="text-headline-md font-bold text-on-surface mb-4">{heading}</h2>
       <div className="space-y-3">
         {items.map((item) => (
-          <details key={item.q} className="glass-card-solid rounded-2xl p-4 md:p-5 group">
-            <summary className="text-body-lg font-semibold text-on-surface cursor-pointer list-none [&::-webkit-details-marker]:hidden flex items-center justify-between gap-3">
+          <details key={item.q} className="glass-card-solid rounded-2xl p-4 md:p-5 group scroll-mt-24 scroll-mb-[calc(5.5rem+env(safe-area-inset-bottom))] md:scroll-mb-6">
+            <summary className="text-body-lg font-semibold text-on-surface cursor-pointer list-none [&::-webkit-details-marker]:hidden flex items-center justify-between gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2">
               {item.q}
-              <span className="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">
+              <span aria-hidden="true" className="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">
                 expand_more
               </span>
             </summary>

@@ -8,14 +8,14 @@ import dynamic from 'next/dynamic'
 const PriceLineChart = dynamic(
   () => import('@/components/charts/PriceLineChart').then(m => ({ default: m.PriceLineChart })),
   {
-    loading: () => <div className="h-56 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中...</div>,
+    loading: () => <div className="h-56 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中…</div>,
     ssr: false,
   }
 )
 const VolumeBarChart = dynamic(
   () => import('@/components/charts/VolumeBarChart').then(m => ({ default: m.VolumeBarChart })),
   {
-    loading: () => <div className="h-36 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中...</div>,
+    loading: () => <div className="h-36 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.05] animate-pulse flex items-center justify-center text-xs text-on-surface-variant opacity-60">圖表載入中…</div>,
     ssr: false,
   }
 )
@@ -82,6 +82,7 @@ export function ProduceClient({
   const [history, setHistory] = useState<PriceHistoryPoint[]>([])
   const [closedDays, setClosedDays] = useState<string[]>([])
   const [markets, setMarkets] = useState<MarketComparison[]>(initialMarkets ?? [])
+  const [marketsLoaded, setMarketsLoaded] = useState(initialMarkets !== undefined)
   const [historyLoading, setHistoryLoading] = useState(true)
   const [marketsLoading, setMarketsLoading] = useState(false)
   const [traceabilityLoading, setTraceabilityLoading] = useState(false)
@@ -387,7 +388,7 @@ export function ProduceClient({
     return () => {
       active = false
     }
-  }, [cropName, period, historyMarket, reloadKey])
+  }, [cropName, resolvedCategory, period, historyMarket, reloadKey])
 
   useEffect(() => {
     if (!enhancementsReady) return
@@ -395,6 +396,7 @@ export function ProduceClient({
     let active = true
     async function loadMarkets() {
       setMarketsLoading(true)
+      setMarketsLoaded(false)
       setMarketsError('')
       const category = resolvedCategory
       const st = category === 'fruit' ? 'Fruit'
@@ -417,12 +419,15 @@ export function ProduceClient({
         setMarkets([])
         setMarketsError('目前無法載入市場比價資料')
       } finally {
-        if (active) setMarketsLoading(false)
+        if (active) {
+          setMarketsLoading(false)
+          setMarketsLoaded(true)
+        }
       }
     }
     loadMarkets()
     return () => { active = false }
-  }, [cropName, reloadKey, initialMarkets, enhancementsReady])
+  }, [cropName, resolvedCategory, reloadKey, initialMarkets, enhancementsReady])
 
   useEffect(() => {
     if (!enhancementsReady) return
@@ -532,7 +537,7 @@ export function ProduceClient({
       fetchWeather(cropInfo.origin)
     }
     return () => { active = false }
-  }, [cropInfo?.origin, enhancementsReady])
+  }, [cropInfo?.origin, enhancementsReady, reloadKey])
 
   const validHistory = history.filter((point): point is PriceHistoryPoint & { avgPrice: number } => point.avgPrice !== null)
   const latestPrice = validHistory[validHistory.length - 1]?.avgPrice ?? initialPrice
@@ -549,7 +554,7 @@ export function ProduceClient({
     ...pricedMarkets.map((m) => m.marketName),
   ]
   const showCostCard = costLoading || (costInsight !== null && avgCost !== null) || costFiles.length > 0
-  const showMarketCard = marketsLoading || pricedMarkets.length > 0
+  const showMarketCard = marketsLoading || marketsLoaded || Boolean(marketsError)
   const showTraceabilityCard = traceabilityLoading || traceability.length > 0
   const cropCategory = resolvedCategory
   const cropCategoryLabel = cropCategory === 'fruit'
@@ -568,6 +573,9 @@ export function ProduceClient({
     : cropCategory === 'seafood' ? 'seafood'
     : cropCategory === 'flower' ? 'Flower'
     : 'Veg'
+  const categoryHubHref = ['vegetable', 'fruit', 'mushroom', 'flower'].includes(cropCategory)
+    ? `/produce/category/${cropCategory}`
+    : `/search?q=${encodeURIComponent(cropName)}&type=${searchType}`
   const displayAlias = cropName.replace(/（.*）|\(.*\)/g, '').trim()
   const historyWindowLabel = period === '1W' ? '近 7 日' : period === '1M' ? '近 30 日' : '近 90 日'
   const historyScopeLabel = historyMarket || '全國均價'
@@ -613,25 +621,48 @@ export function ProduceClient({
     }
   }
 
+  function handleBack() {
+    if (window.history.length > 1) {
+      router.back()
+      return
+    }
+    router.push(categoryHubHref)
+  }
+
   return (
     <div className="home-dashboard-shell pb-8">
       <div className="px-section-margin py-4">
         <div className="flex items-center justify-between gap-3">
-          <button
-            onClick={() => router.back()}
-            aria-label="返回上一頁"
-            className="w-11 h-11 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors border border-white/40 bg-white/60 backdrop-blur-sm"
-          >
-            <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-          </button>
+          <div className="flex items-center gap-2 min-w-0">
+            <button
+              type="button"
+              onClick={handleBack}
+              aria-label={`返回${cropCategoryLabel}行情`}
+              className="w-11 h-11 flex items-center justify-center rounded-full text-primary dark:text-primary-fixed hover:bg-surface-container transition-colors border border-white/40 bg-white/60 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2"
+            >
+              <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+            </button>
+            <nav aria-label="目前位置" className="hidden sm:flex items-center gap-1.5 text-body-sm min-w-0">
+              <Link href={categoryHubHref} className="text-primary dark:text-primary-fixed hover:text-on-surface transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 rounded">
+                {cropCategoryLabel}行情
+              </Link>
+              <span className="material-symbols-outlined text-on-surface-variant" aria-hidden="true" style={{ fontSize: '1rem' }}>
+                chevron_right
+              </span>
+              <span aria-current="page" className="text-on-surface-variant truncate max-w-[16rem]">{cropName}</span>
+            </nav>
+          </div>
           <div className="flex flex-wrap gap-2 justify-end">
             <span className="market-status-chip">{cropCategoryLabel}</span>
             <span className="market-status-chip">{historyWindowLabel}</span>
             <button
+              type="button"
               onClick={handleToggleWatchlist}
-              className={`market-status-chip transition-colors ${inWatchlist ? 'market-status-chip--critical' : ''}`}
+              aria-pressed={inWatchlist}
+              className={`market-status-chip transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 ${inWatchlist ? 'market-status-chip--critical' : ''}`}
             >
               <span
+                aria-hidden="true"
                 className="material-symbols-outlined text-base"
                 style={{ fontVariationSettings: inWatchlist ? "'FILL' 1" : "'FILL' 0" }}
               >
@@ -644,7 +675,7 @@ export function ProduceClient({
       </div>
 
       <div className="px-section-margin space-y-section-margin">
-        <section className="home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 py-2 md:py-3">
+        <section className="home-market-stage -mx-section-margin px-section-margin py-2 md:py-3">
           <div className="market-signal-tape mb-4" aria-hidden="true">
             <span>PRODUCE DETAIL</span>
             <span>WHOLESALE TREND</span>
@@ -660,7 +691,7 @@ export function ProduceClient({
                 onClick={() => setHeroCardCollapsed((v) => !v)}
                 aria-expanded={!heroCardCollapsed}
                 aria-controls="produce-hero-card"
-                className="flex items-center gap-2 group text-left"
+                className="flex items-center gap-2 group text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 rounded"
               >
                 <h1 className="text-headline-lg font-black text-on-surface">{cropName} 批發行情</h1>
                 <span
@@ -679,7 +710,7 @@ export function ProduceClient({
               </p>
               {updatedAt && (
                 <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-1.5">
-                  <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>update</span>
+                  <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '14px' }}>update</span>
                   最後更新：<span suppressHydrationWarning>{new Date(updatedAt).toLocaleString('zh-TW', {
                     month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
                   })}</span>
@@ -742,8 +773,9 @@ export function ProduceClient({
                 <div className="relative group/scroller">
                   {/* Scroll buttons for mobile/touch-enhanced feeling */}
                   <button
+                    type="button"
                     onClick={(e) => { e.preventDefault(); scrollPulse('left') }}
-                    className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
+                    className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-colors sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
                     aria-label="向左捲動"
                   >
                     <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_left</span>
@@ -766,8 +798,9 @@ export function ProduceClient({
                   </div>
 
                   <button
+                    type="button"
                     onClick={(e) => { e.preventDefault(); scrollPulse('right') }}
-                    className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-all sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5"
+                    className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-colors sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
                     aria-label="向右捲動"
                   >
                     <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_right</span>
@@ -782,23 +815,23 @@ export function ProduceClient({
                   <button
                     type="button"
                     onClick={() => setShowFieldNotes((v) => !v)}
-                    className="w-full flex items-center justify-between gap-2"
+                    aria-expanded={showFieldNotes}
+                    aria-controls="produce-field-notes"
+                    className="w-full flex items-center justify-between gap-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
                   >
                     <p className="text-label-sm font-bold tracking-wider text-white/65 uppercase">產地與生長背景</p>
-                    <span className="material-symbols-outlined text-white/50" style={{ fontSize: '18px' }}>
+                    <span aria-hidden="true" className="material-symbols-outlined text-white/50" style={{ fontSize: '18px' }}>
                       {showFieldNotes ? 'expand_less' : 'expand_more'}
                     </span>
                   </button>
-                  {showFieldNotes && (
-                    <div className="space-y-3">
+                  <div id="produce-field-notes" className="space-y-3" hidden={!showFieldNotes}>
                       {fieldNoteRows.map((note) => (
                         <div key={note.label} className="bg-white/5 border border-white/5 rounded-2xl p-2.5 flex flex-col">
                           <span className="text-2xs font-semibold text-white/60">{note.label}</span>
                           <strong className="text-body-sm font-bold text-white mt-0.5">{note.value}</strong>
                         </div>
                       ))}
-                    </div>
-                  )}
+                  </div>
                 </div>
               </div>
               ) : null}
@@ -820,35 +853,39 @@ export function ProduceClient({
                     : ' 全國視角為各市場上/均/下價之平均。'}
                 </p>
                 {streamingStatus === 'loading_chunks' && (
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-label-sm font-medium animate-pulse self-start transition-opacity duration-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    <span>串流載入歷史中... ({streamingProgress}/{streamingTotal})</span>
+                  <div role="status" aria-live="polite" className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary dark:text-primary-fixed text-label-sm font-medium animate-pulse self-start transition-opacity duration-300">
+                    <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span>串流載入歷史中… ({streamingProgress}/{streamingTotal})</span>
                   </div>
                 )}
                 {hasHistoryRangeData && (
                   <button
+                    type="button"
                     onClick={() => setShowPriceRange((v) => !v)}
-                    className={`inline-flex items-center gap-1 self-start px-2.5 py-0.5 rounded-full text-label-sm font-medium transition-colors ${
+                    aria-pressed={showPriceRange}
+                    className={`inline-flex items-center gap-1 self-start px-2.5 py-0.5 rounded-full text-label-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 ${
                       showPriceRange
-                        ? 'bg-primary/12 text-primary border border-primary/30'
+                        ? 'bg-primary/12 text-primary dark:bg-primary-fixed/15 dark:text-primary-fixed dark:border-primary-fixed/30 border border-primary/30'
                         : 'bg-surface-container text-on-surface-variant border border-outline-variant/40 hover:bg-surface-container-high'
                     }`}
                   >
-                    <span className="material-symbols-outlined" style={{ fontSize: '13px', lineHeight: 1 }}>
+                    <span aria-hidden="true" className="material-symbols-outlined" style={{ fontSize: '13px', lineHeight: 1 }}>
                       {showPriceRange ? 'visibility' : 'visibility_off'}
                     </span>
                     上/下價區間
                   </button>
                 )}
               </div>
-              <div className="flex bg-surface-container-high rounded-full p-1 gap-0.5 self-end sm:self-auto">
+              <div className="order-first sm:order-none flex bg-surface-container-high rounded-full p-1 gap-0.5 self-end sm:self-auto scroll-mb-[calc(5.5rem+env(safe-area-inset-bottom))]">
                 {PERIODS.map((p) => (
                   <button
                     key={p}
+                    type="button"
                     onClick={() => setPeriod(p)}
-                    className={`px-3 py-1 rounded-full text-label-bold transition-colors ${
+                    aria-pressed={period === p}
+                    className={`px-3 py-1 rounded-full text-label-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 ${
                       period === p
-                        ? 'bg-white text-primary shadow-sm'
+                        ? 'bg-white text-primary dark:text-on-primary-fixed shadow-sm'
                         : 'text-on-surface-variant hover:bg-white/50'
                     }`}
                   >
@@ -868,7 +905,8 @@ export function ProduceClient({
                       key={label}
                       type="button"
                       onClick={() => setHistoryMarket(market)}
-                      className={`px-2.5 py-1 rounded-full text-label-sm font-medium transition-colors ${
+                      aria-pressed={selected}
+                      className={`px-2.5 py-1 rounded-full text-label-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 ${
                         selected
                           ? 'bg-primary text-white shadow-sm'
                           : 'bg-surface-container text-on-surface-variant border border-outline-variant/40 hover:bg-surface-container-high'
@@ -884,18 +922,29 @@ export function ProduceClient({
             {historyLoading ? (
               <div className="skeleton h-56 rounded-xl" />
             ) : validHistory.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-56 text-on-surface-variant gap-3">
+              <div
+                role={historyError ? 'alert' : 'status'}
+                aria-live="polite"
+                className="flex flex-col items-center justify-center h-56 text-on-surface-variant gap-3"
+              >
                 <span className="text-5xl" aria-hidden="true">🧺</span>
                 <p className="text-body-md font-semibold">{historyError || '近期無成交資料（可能逢休市），請改看較長區間'}</p>
                 <button
+                  type="button"
                   onClick={() => setReloadKey((value) => value + 1)}
-                  className="text-primary text-label-bold hover:underline"
+                  className="text-primary dark:text-primary-fixed text-label-bold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 rounded"
                 >
                   重新載入
                 </button>
               </div>
             ) : (
-              <PriceLineChart data={history} closedDays={closedDays} height={220} showPriceRange={showPriceRange} />
+              <PriceLineChart
+                data={history}
+                closedDays={closedDays}
+                height={220}
+                showPriceRange={showPriceRange}
+                ariaLabel={`${cropName} ${historyScopeLabel} ${historyWindowLabel}價格趨勢`}
+              />
             )}
           </div>
 
@@ -913,11 +962,15 @@ export function ProduceClient({
             {historyLoading ? (
               <div className="skeleton h-36 rounded-xl" />
             ) : validHistory.length === 0 ? (
-              <div className="h-36 flex items-center justify-center text-body-sm text-on-surface-variant">
+              <div role="status" aria-live="polite" className="h-36 flex items-center justify-center text-body-sm text-on-surface-variant">
                 目前沒有可顯示的交易量資料
               </div>
             ) : (
-              <VolumeBarChart data={history.slice(-14)} height={156} />
+              <VolumeBarChart
+                data={history.slice(-14)}
+                height={156}
+                ariaLabel={`${cropName} 近 14 筆交易量`}
+              />
             )}
           </div>
         </section>
@@ -948,7 +1001,7 @@ export function ProduceClient({
                   { icon: 'location_on', label: '主要產地', value: cropInfo.origin },
                 ].map((row) => (
                   <div key={row.label} className="glass-card rounded-2xl px-4 py-3 flex items-start gap-3">
-                    <span className="material-symbols-outlined text-primary mt-0.5" style={{ fontSize: '1.25rem' }}>{row.icon}</span>
+                    <span aria-hidden="true" className="material-symbols-outlined text-primary dark:text-primary-fixed mt-0.5" style={{ fontSize: '1.25rem' }}>{row.icon}</span>
                     <div>
                       <h3 className="text-label-bold text-on-surface-variant">{row.label}</h3>
                       <p className="text-body-md text-on-surface">{row.value}</p>
@@ -973,9 +1026,16 @@ export function ProduceClient({
               {weatherLoading ? (
                 <div className="skeleton h-32 rounded-xl" />
               ) : weatherError ? (
-                <div className="flex flex-col items-center justify-center p-4 text-on-surface-variant gap-2">
+                <div role="alert" aria-live="polite" className="flex flex-col items-center justify-center p-4 text-on-surface-variant gap-2">
                   <span className="material-symbols-outlined text-3xl" aria-hidden="true">cloud_off</span>
                   <p className="text-body-md">{/[一-鿿]/.test(weatherError) ? weatherError : '查無此產地的氣象資料'}</p>
+                  <button
+                    type="button"
+                    onClick={() => setReloadKey((value) => value + 1)}
+                    className="text-primary dark:text-primary-fixed text-label-bold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 rounded"
+                  >
+                    重新載入氣象
+                  </button>
                 </div>
               ) : weather ? (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -986,7 +1046,7 @@ export function ProduceClient({
                   ].map((item) => (
                     <div key={item.label} className="market-pulse-chip">
                       <span className="inline-flex items-center gap-1">
-                        <span className="material-symbols-outlined text-primary text-base">{item.icon}</span>
+                        <span aria-hidden="true" className="material-symbols-outlined text-primary dark:text-primary-fixed text-base">{item.icon}</span>
                         {item.label}
                       </span>
                       <strong>{item.value}</strong>
@@ -995,8 +1055,8 @@ export function ProduceClient({
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center p-4 text-on-surface-variant gap-2">
-                  <span className="material-symbols-outlined text-3xl">cloud_off</span>
+                <div role="status" aria-live="polite" className="flex flex-col items-center justify-center p-4 text-on-surface-variant gap-2">
+                  <span aria-hidden="true" className="material-symbols-outlined text-3xl">cloud_off</span>
                   <p className="text-body-md">查無產地氣象</p>
                 </div>
               )}
@@ -1045,7 +1105,7 @@ export function ProduceClient({
                 <div className="glass-card rounded-2xl px-4 py-3">
                   <p className="text-body-md text-on-surface">
                     差額：
-                    <span className={`font-semibold ml-1 ${costGap !== null && costGap >= 0 ? 'text-primary' : 'text-error'}`}>
+                    <span className={`font-semibold ml-1 ${costGap !== null && costGap >= 0 ? 'text-primary dark:text-primary-fixed' : 'text-error'}`}>
                       {costGap === null ? '—' : `${costGap >= 0 ? '+' : ''}${costGap.toFixed(1)} 元/公斤`}
                     </span>
                   </p>
@@ -1068,9 +1128,9 @@ export function ProduceClient({
                         href={file.pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-shrink-0 flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1.5 text-label-sm text-primary font-medium hover:bg-primary/20 transition-colors"
+                        className="flex-shrink-0 flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1.5 text-label-sm text-primary dark:text-primary-fixed font-medium hover:bg-primary/20 transition-colors"
                       >
-                        <span className="material-symbols-outlined" style={{ fontSize: '0.9rem' }}>picture_as_pdf</span>
+                        <span aria-hidden="true" className="material-symbols-outlined" style={{ fontSize: '0.9rem' }}>picture_as_pdf</span>
                         開啟
                       </a>
                     </li>
@@ -1082,7 +1142,7 @@ export function ProduceClient({
           ) : null}
 
           {showMarketCard ? (
-          <div className="section-shell">
+          <div className="section-shell" aria-busy={marketsLoading}>
             <div className="section-heading-row gap-3 mb-5">
               <div>
                 <p className="section-kicker">Market compare</p>
@@ -1091,6 +1151,23 @@ export function ProduceClient({
             </div>
             {marketsLoading ? (
               <SkeletonCard />
+            ) : marketsError ? (
+              <div role="alert" aria-live="polite" className="flex flex-col items-center justify-center gap-2 p-4 text-center text-on-surface-variant">
+                <span className="material-symbols-outlined text-3xl" aria-hidden="true">sync_problem</span>
+                <p className="text-body-md">{marketsError}</p>
+                <p className="text-body-sm">市場資料來源暫時沒有回應，稍後可以再試一次。</p>
+                <button
+                  type="button"
+                  onClick={() => setReloadKey((value) => value + 1)}
+                  className="text-primary dark:text-primary-fixed text-label-bold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 rounded"
+                >
+                  重新載入比價
+                </button>
+              </div>
+            ) : pricedMarkets.length === 0 ? (
+              <div role="status" aria-live="polite" className="flex items-center justify-center p-4 text-body-sm text-on-surface-variant">
+                目前沒有可用的跨市場比價資料。
+              </div>
             ) : (
               <ul className="space-y-2">
                 {pricedMarkets.map((m) => (
@@ -1135,7 +1212,7 @@ export function ProduceClient({
                   <p className="text-body-sm text-on-surface-variant mt-0.5">
                     {item.producerName && item.producerName !== '未揭露' && `生產者：${item.producerName} ｜ `}
                     產地：{item.county}
-                    {item.mark && <span className="ml-1 text-primary font-medium">｜ {item.mark}</span>}
+                    {item.mark && <span className="ml-1 text-primary dark:text-primary-fixed font-medium">｜ {item.mark}</span>}
                   </p>
                   <p className="text-label-sm text-outline mt-1">溯源編號：{item.traceCode} ｜ 來源：{item.sourceSystem}</p>
                 </li>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
 
 const STORAGE_KEY = 'veggieprice_onboarding_seen'
@@ -24,6 +25,7 @@ const STEPS = [
 ]
 
 export function OnboardingModal() {
+  const pathname = usePathname()
   const [visible, setVisible] = useState(false)
   const [step, setStep] = useState(0)
   const [exiting, setExiting] = useState(false)
@@ -31,10 +33,15 @@ export function OnboardingModal() {
   const previouslyFocused = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
+    const isHomePage = pathname === '/'
+    if (!isHomePage) {
+      setVisible(false)
+      return
+    }
     if (!localStorage.getItem(STORAGE_KEY)) {
       setVisible(true)
     }
-  }, [])
+  }, [pathname])
 
   // Move focus into the dialog on open and restore it on close. Trap Tab and
   // close on Escape so keyboard users aren't stranded behind the backdrop.
@@ -123,11 +130,12 @@ export function OnboardingModal() {
       >
         {/* Close */}
         <button
+          type="button"
           onClick={dismiss}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-outline hover:bg-surface-container transition-colors"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-outline hover:bg-surface-container transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
           aria-label="關閉導覽"
         >
-          <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>close</span>
+          <span aria-hidden="true" className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>close</span>
         </button>
 
         {/* Step indicator */}
@@ -156,15 +164,17 @@ export function OnboardingModal() {
         {/* Actions */}
         <div className="mt-10 flex flex-col gap-3">
           <button
+            type="button"
             onClick={next}
-            className="w-full py-3.5 rounded-2xl bg-primary text-white font-bold text-label-bold transition-transform active:scale-95"
+            className="w-full py-3.5 rounded-2xl bg-primary text-white font-bold text-label-bold transition-colors hover:bg-primary-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
           >
             {step < STEPS.length - 1 ? '下一步' : '開始使用 🚀'}
           </button>
           {step < STEPS.length - 1 && (
             <button
+              type="button"
               onClick={dismiss}
-              className="text-outline text-label-bold py-1 hover:text-on-surface transition-colors"
+              className="text-outline text-label-bold py-1 hover:text-on-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 rounded"
             >
               跳過導覽
             </button>

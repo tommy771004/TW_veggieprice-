@@ -12,6 +12,14 @@
     font-size: calc(16px * var(--font-scale));
     color-scheme: light;
     --section-margin: 10px;
+    --chart-price: #1b5e20;
+    --chart-range-high: #43a047;
+    --chart-range-low: #f57c00;
+    --chart-axis: #707a6c;
+    --chart-grid: rgba(112, 122, 108, 0.15);
+    --chart-closed: rgba(112, 122, 108, 0.08);
+    --chart-volume: #88d982;
+    --chart-volume-current: #2e7d32;
   }
 
   @media (min-width: 768px) {
@@ -30,6 +38,14 @@
 
   html.dark {
     color-scheme: dark;
+    --chart-price: #a3f69c;
+    --chart-range-high: #a3f69c;
+    --chart-range-low: #ffb74d;
+    --chart-axis: #c2cbc0;
+    --chart-grid: rgba(194, 203, 192, 0.2);
+    --chart-closed: rgba(194, 203, 192, 0.14);
+    --chart-volume: #88d982;
+    --chart-volume-current: #a3f69c;
   }
 
   body {
