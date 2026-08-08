@@ -72,6 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <WebAppJsonLd />
       </head>
       <body className="font-sans min-h-dvh bg-background pb-32 md:pb-0" suppressHydrationWarning>
+        <a href="#main-content" className="skip-link">跳至主要內容</a>
         <PreferencesHydrator />
         <ClientSettingsProviders />
         <ServiceWorkerRegistrar />
@@ -80,7 +81,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <TopAppBar />
         <FramerMotionProvider>
           <div className="md:flex">
-            <main className="flex-1 max-w-7xl mx-auto w-full">{children}</main>
+            <main id="main-content" tabIndex={-1} className="flex-1 max-w-7xl mx-auto w-full">{children}</main>
           </div>
           <BottomNav />
         </FramerMotionProvider>

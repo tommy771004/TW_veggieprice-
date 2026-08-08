@@ -68,12 +68,35 @@ export function useHomeMarketSession(
   );
 
   useEffect(() => {
-    const prefs = getUserPreferences();
-    setPreferences(prefs);
-    if (prefs.preferredMarketType === "Fruit") {
-      setActiveCategory("fruit");
-    }
+    const syncPreferences = () => {
+      const prefs = getUserPreferences();
+      setPreferences(prefs);
+      setActiveCategory(prefs.preferredMarketType === "Fruit" ? "fruit" : "vegetable");
+    };
+
+    syncPreferences();
+    window.addEventListener("veggieprice:preferences-updated", syncPreferences);
+    document.addEventListener("visibilitychange", syncPreferences);
+
+    return () => {
+      window.removeEventListener("veggieprice:preferences-updated", syncPreferences);
+      document.removeEventListener("visibilitychange", syncPreferences);
+    };
   }, []);
+
+  useEffect(() => {
+    const muteUntil = preferences.notifications.muteUntil;
+    if (!muteUntil || muteUntil === "indefinite") return;
+
+    const expiresAt = Date.parse(muteUntil);
+    if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) return;
+
+    const timer = window.setTimeout(() => {
+      setPreferences(getUserPreferences());
+    }, expiresAt - Date.now() + 50);
+
+    return () => window.clearTimeout(timer);
+  }, [preferences.notifications.muteUntil]);
 
   useEffect(() => {
     setLoadingMovers(true);

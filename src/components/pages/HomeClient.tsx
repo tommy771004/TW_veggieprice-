@@ -76,6 +76,7 @@ import {
   NATIONAL_OVERVIEW_LABEL,
   NATIONWIDE_MARKET,
 } from "@/lib/constants";
+import { isNotificationsMuted } from "@/lib/preferences";
 
 const CATEGORIES: ReadonlyArray<{ label: string; value: ProduceCategory }> = [
   { label: "🥬 蔬菜類", value: "vegetable" },
@@ -426,7 +427,9 @@ export function HomeClient({
           {/* Daily summary banner */}
           <AnimatePresence>
             {!summaryDismissed &&
-              preferences.dailySummary &&
+              preferences.notifications.dailySummary.enabled &&
+              preferences.notifications.dailySummary.channels.inApp &&
+              !isNotificationsMuted(preferences) &&
               overview &&
               !loadingOverview && (
                 <m.div
@@ -441,6 +444,7 @@ export function HomeClient({
                     <span className="flex items-center gap-2">
                       <span
                         className="material-symbols-outlined text-primary"
+                        aria-hidden="true"
                         style={{ fontSize: "1.125rem" }}
                       >
                         analytics
@@ -739,6 +743,7 @@ export function HomeClient({
               查看全部
               <span
                 className="material-symbols-outlined"
+                aria-hidden="true"
                 style={{ fontSize: "1.125rem" }}
               >
                 chevron_right

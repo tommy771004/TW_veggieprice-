@@ -318,7 +318,7 @@ export function TopAppBar() {
                 if (!showNotifications) trackEvent('notifications_open')
                 setShowNotifications(!showNotifications)
               }}
-              aria-label="最新通知"
+              aria-label="通知"
               aria-expanded={showNotifications}
               className="app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
             >
@@ -328,10 +328,11 @@ export function TopAppBar() {
             {showNotifications && (
               <div className="absolute right-0 top-full mt-2 w-72 glass-card-solid rounded-2xl overflow-hidden shadow-glass z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="p-4 border-b border-white/20">
-                  <h3 className="text-label-bold font-semibold text-primary">最新通知</h3>
+                  <h3 className="text-label-bold font-semibold text-primary">通知</h3>
                 </div>
                 <div className="p-4 text-center text-body-md text-on-surface-variant">
-                  目前沒有新通知
+                  <p>目前沒有可在網站內查看的通知。</p>
+                  <p className="mt-2 text-body-sm">價格異動會由瀏覽器顯示，每日摘要會出現在首頁。</p>
                 </div>
                 <div className="p-3 border-t border-white/20 bg-white/30 text-center">
                   <Link
