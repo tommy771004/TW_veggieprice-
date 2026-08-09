@@ -344,7 +344,7 @@ export function HomeClient({
   return (
     <LazyMotion features={domAnimation} strict>
       <HomeLoadingBar active={primaryDataLoading} />
-      <div className="home-dashboard-shell px-section-margin py-6 space-y-section-margin">
+      <div className="home-dashboard-shell px-section-margin py-6 pb-[calc(6.5rem+env(safe-area-inset-bottom))] space-y-section-margin md:pb-8">
         {/* ── Market Overview Hero ───────────────────────── */}
         <m.section
           variants={fadeUp}
@@ -727,7 +727,7 @@ export function HomeClient({
 
         {/* ── Top Movers ────────────────────────────────── */}
         <section>
-          <div className="flex justify-between items-start mb-4 gap-3">
+          <div className="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
             <div>
               <h2 className="text-headline-md font-bold text-on-surface">
                 價格波動榜
@@ -738,7 +738,7 @@ export function HomeClient({
             </div>
             <Link
               href={`/search?${new URLSearchParams(activeSearchTarget).toString()}`}
-              className="text-primary text-label-bold hover:underline flex items-center gap-0.5"
+              className="inline-flex min-h-11 shrink-0 items-center gap-0.5 rounded px-1 text-label-bold text-primary transition-colors hover:text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 sm:self-auto"
             >
               查看全部
               <span
@@ -750,6 +750,48 @@ export function HomeClient({
               </span>
             </Link>
           </div>
+
+          <AnimatePresence initial={false}>
+            {overview &&
+              !loadingOverview &&
+              !alertDismissed &&
+              Math.abs(overview.priceChange) >= 10 && (
+                <m.div
+                  initial={false}
+                  animate={{ y: 0 }}
+                  exit={{ y: -8 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  role="status"
+                  aria-live="polite"
+                  className="mb-3 flex min-h-11 items-center gap-2 rounded-2xl border border-primary/15 bg-primary/6 px-3 py-2 text-body-sm text-on-surface"
+                >
+                  <span
+                    className={`material-symbols-outlined shrink-0 ${overview.priceChange >= 0 ? "text-error" : "text-primary"}`}
+                    aria-hidden="true"
+                    style={{ fontSize: "1.125rem" }}
+                  >
+                    {overview.priceChange >= 0 ? "trending_up" : "trending_down"}
+                  </span>
+                  <p className="min-w-0 flex-1 leading-snug">
+                    <span className="font-bold text-on-surface">波動警報：</span>
+                    {NATIONAL_OVERVIEW_LABEL} 今日均價 ${formatPrice(overview.avgPrice)}，較昨日
+                    <span className={overview.priceChange >= 0 ? "font-bold text-error" : "font-bold text-primary"}>
+                      {overview.priceChange >= 0 ? "上漲" : "下跌"} {Math.abs(overview.priceChange).toFixed(1)}%
+                    </span>
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setAlertDismissed(true)}
+                    className="touch-target inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
+                    aria-label="關閉波動警報"
+                  >
+                    <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: "1.125rem" }}>
+                      close
+                    </span>
+                  </button>
+                </m.div>
+              )}
+          </AnimatePresence>
 
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -900,50 +942,6 @@ export function HomeClient({
         {/* ── Other Projects ────────────────────────────── */}
         <RecommendedLinks />
 
-        {/* ── Floating Price Alert (Glassmorphism) ───────── */}
-        <AnimatePresence>
-          {overview &&
-            !loadingOverview &&
-            !alertDismissed &&
-            Math.abs(overview.priceChange) >= 10 && (
-              <m.div
-                initial={{ opacity: 0, y: 36, scale: 0.95, x: "-50%" }}
-                animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
-                exit={{ opacity: 0, y: 24, scale: 0.95, x: "-50%" }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="fixed bottom-[5.25rem] md:bottom-6 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2.5 px-4.5 py-2.5 rounded-full glass-card border border-white/45 dark:bg-zinc-900/90 dark:border-zinc-700/50 shadow-glass-md dark:shadow-black/60 text-zinc-900 dark:text-zinc-100 text-body-sm font-medium w-max max-w-[calc(100vw-2.5rem)] text-ellipsis overflow-hidden"
-              >
-                <div className="flex items-center gap-1.5 min-w-0 truncate">
-                  <span
-                    className="text-base leading-none shrink-0"
-                    aria-hidden="true"
-                  >
-                    {overview.priceChange >= 0 ? "📈" : "📉"}
-                  </span>
-                  <span className="text-secondary dark:text-orange-300 font-extrabold tracking-tight shrink-0 text-xs sm:text-sm">
-                    【波動警報】
-                  </span>
-                  <span className="text-zinc-800 dark:text-zinc-100 text-xs sm:text-sm truncate">
-                    {NATIONAL_OVERVIEW_LABEL} 今日均價 $
-                    {formatPrice(overview.avgPrice)}，較昨日
-                    {overview.priceChange >= 0 ? "上漲" : "下跌"}{" "}
-                    <span
-                      className={`font-black ${overview.priceChange >= 0 ? "text-error dark:text-red-400" : "text-primary dark:text-emerald-400"}`}
-                    >
-                      {Math.abs(overview.priceChange).toFixed(1)}%
-                    </span>
-                  </span>
-                </div>
-                <button
-                  onClick={() => setAlertDismissed(true)}
-                  className="w-5 h-5 rounded-full flex items-center justify-center bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/15 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 leading-none text-xs flex-shrink-0 transition-colors"
-                  aria-label="關閉警報"
-                >
-                  ×
-                </button>
-              </m.div>
-            )}
-        </AnimatePresence>
       </div>
     </LazyMotion>
   );

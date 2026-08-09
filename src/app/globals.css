@@ -279,6 +279,50 @@
     color: #ffffff;
   }
 
+  /* 三項氣象統計在手機也維持同一水平列：縮內距、縮字級換取寬度 */
+  .market-pulse-chip--metric {
+    padding: 0.55rem 0.5rem;
+    border-radius: 0.875rem;
+  }
+
+  .market-pulse-chip .metric-chip-label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .market-pulse-chip .metric-chip-label .material-symbols-outlined {
+    flex: 0 0 auto;
+    font-size: calc(15px * var(--font-scale));
+    line-height: 1;
+  }
+
+  .market-pulse-chip .metric-chip-label__text {
+    min-width: 0;
+  }
+
+  /* 數值永遠單行：不容許 128.5mm 被斷成兩行 */
+  .market-pulse-chip--metric strong {
+    overflow: hidden;
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 639.98px) {
+    .market-pulse-chip--metric span,
+    .market-pulse-chip--metric small {
+      font-size: calc(10px * var(--font-scale));
+    }
+
+    /* 窄螢幕時字級跟著欄寬縮，確保三欄同列且數值不換行 */
+    .market-pulse-chip--metric strong {
+      font-size: min(calc(15px * var(--font-scale)), 4.2vw);
+    }
+  }
+
   .section-heading-row {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { TrendChip } from '@/components/ui/TrendChip'
 import dynamic from 'next/dynamic'
@@ -122,14 +122,6 @@ export function ProduceClient({
     const timeoutId = window.setTimeout(markReady, 500)
     return () => window.clearTimeout(timeoutId)
   }, [])
-
-  const pulseScrollRef = useRef<HTMLDivElement>(null)
-  const scrollPulse = (dir: 'left' | 'right') => {
-    if (pulseScrollRef.current) {
-      const scrollAmount = dir === 'left' ? -280 : 280
-      pulseScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-    }
-  }
 
   // Fetch History
   useEffect(() => {
@@ -630,7 +622,7 @@ export function ProduceClient({
   }
 
   return (
-    <div className="home-dashboard-shell pb-8">
+    <div className="home-dashboard-shell pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-8">
       <div className="px-section-margin py-4">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 min-w-0">
@@ -743,8 +735,8 @@ export function ProduceClient({
             <div className="px-6 pt-6 pb-5 grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_19rem]">
               <div className="min-w-0 space-y-5">
                 <div className="flex items-center gap-4">
-                  <div className="w-24 h-24 rounded-full bg-white/10 border border-white/10 flex items-center justify-center shadow-lg">
-                    <CropIcon name={cropName} className="w-14 h-14" />
+                  <div className="shrink-0 w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-white/10 border border-white/10 flex items-center justify-center shadow-lg">
+                    <CropIcon name={cropName} className="w-10 h-10 sm:w-14 sm:h-14" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex flex-wrap gap-2 mb-2">
@@ -770,41 +762,17 @@ export function ProduceClient({
                   </div>
                 </div>
 
-                <div className="relative group/scroller">
-                  {/* Scroll buttons for mobile/touch-enhanced feeling */}
-                  <button
-                    type="button"
-                    onClick={(e) => { e.preventDefault(); scrollPulse('left') }}
-                    className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-colors sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                    aria-label="向左捲動"
-                  >
-                    <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_left</span>
-                  </button>
-
-                  <div
-                    ref={pulseScrollRef}
-                    className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-2.5 sm:grid sm:grid-cols-3 sm:overflow-visible sm:gap-2.5 -mx-2 px-2 sm:mx-0 sm:px-0"
-                  >
+                <div className="grid grid-cols-3 gap-2.5">
                     {heroSummaryCards.map((card) => (
                       <div
                         key={card.label}
-                        className="market-pulse-chip market-pulse-chip--hero shrink-0 w-[85%] snap-center sm:w-auto sm:snap-align-none"
+                        className="market-pulse-chip market-pulse-chip--hero"
                       >
                         <span>{card.label}</span>
                         <strong>{card.value}</strong>
                         <small>{card.meta}</small>
                       </div>
                     ))}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={(e) => { e.preventDefault(); scrollPulse('right') }}
-                    className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 text-white/40 transition-colors sm:group-hover/scroller:bg-black/20 sm:group-hover/scroller:text-white/80 md:w-10 md:h-10 border border-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                    aria-label="向右捲動"
-                  >
-                    <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_right</span>
-                  </button>
                 </div>
               </div>
 
@@ -1038,21 +1006,26 @@ export function ProduceClient({
                   </button>
                 </div>
               ) : weather ? (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                  {[
-                    { icon: 'device_thermostat', label: '溫度', value: weather.temp !== null ? `${weather.temp}°C` : '--' },
-                    { icon: 'rainy', label: '日雨量', value: weather.rainfall !== null ? `${weather.rainfall}mm` : '--' },
-                    { icon: 'humidity_percentage', label: '濕度', value: weather.humidity !== null ? `${weather.humidity}%` : '--' },
-                  ].map((item) => (
-                    <div key={item.label} className="market-pulse-chip">
-                      <span className="inline-flex items-center gap-1">
-                        <span aria-hidden="true" className="material-symbols-outlined text-primary dark:text-primary-fixed text-base">{item.icon}</span>
-                        {item.label}
-                      </span>
-                      <strong>{item.value}</strong>
-                      <small>來自產地即時觀測</small>
-                    </div>
-                  ))}
+                <div>
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    {[
+                      { icon: 'device_thermostat', label: '溫度', value: weather.temp !== null ? `${weather.temp}°C` : '--' },
+                      // 豪雨時雨量可達四位數，四位數再帶小數會撐爆窄螢幕欄位，故 >=100mm 取整數
+                      { icon: 'rainy', label: '日雨量', value: weather.rainfall !== null ? `${weather.rainfall >= 100 ? Math.round(weather.rainfall) : weather.rainfall}mm` : '--' },
+                      { icon: 'humidity_percentage', label: '濕度', value: weather.humidity !== null ? `${weather.humidity}%` : '--' },
+                    ].map((item) => (
+                      <div key={item.label} className="market-pulse-chip market-pulse-chip--metric">
+                        <span className="metric-chip-label">
+                          <span aria-hidden="true" className="material-symbols-outlined">
+                            {item.icon}
+                          </span>
+                          <span className="metric-chip-label__text">{item.label}</span>
+                        </span>
+                        <strong>{item.value}</strong>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-label-sm text-on-surface-variant mt-2.5">來自產地即時觀測</p>
                 </div>
               ) : (
                 <div role="status" aria-live="polite" className="flex flex-col items-center justify-center p-4 text-on-surface-variant gap-2">

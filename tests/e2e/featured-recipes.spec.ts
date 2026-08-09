@@ -123,6 +123,25 @@ test('tapping a card opens the recipe detail overlay and it can be closed', asyn
   await expect(sheet).toBeHidden()
 })
 
+test('the recipe detail overlay is portalled, traps focus, and closes with Escape', async ({ page }) => {
+  await gotoRecipes(page)
+
+  const card = page.getByTestId('recipe-card').first()
+  const sheet = page.getByTestId('recipe-sheet')
+
+  await retryUntilInteractive(async () => {
+    await card.click()
+    await expect(sheet).toBeVisible()
+  })
+
+  expect(await sheet.evaluate((element) => element.parentElement === document.body)).toBe(true)
+  await expect(page.getByTestId('recipe-sheet-close')).toBeFocused()
+
+  await page.keyboard.press('Escape')
+  await expect(sheet).toBeHidden()
+  await expect(card).toBeFocused()
+})
+
 test('an ingredient link leads to the price search', async ({ page }) => {
   await gotoRecipes(page)
 

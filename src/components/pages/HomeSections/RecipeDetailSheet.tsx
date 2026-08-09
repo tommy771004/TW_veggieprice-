@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
 import { m } from 'framer-motion'
@@ -27,12 +28,47 @@ export function RecipeDetailSheet({
   onClose: () => void
 }) {
   const closeRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const previouslyFocused = useRef<HTMLElement | null>(null)
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
+    setPortalRoot(document.body)
+  }, [])
+
+  useEffect(() => {
+    if (!portalRoot) return
+
+    previouslyFocused.current = document.activeElement as HTMLElement | null
     closeRef.current?.focus()
 
+    const focusable = () =>
+      Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((element) => !element.hasAttribute('disabled'))
+
     function onKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+        return
+      }
+      if (event.key !== 'Tab') return
+
+      const items = focusable()
+      if (items.length === 0) return
+
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
     document.addEventListener('keydown', onKey)
 
@@ -42,8 +78,9 @@ export function RecipeDetailSheet({
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = previousOverflow
+      previouslyFocused.current?.focus?.()
     }
-  }, [onClose])
+  }, [onClose, portalRoot])
 
   const sources = resolveRecipeSources(recipe.sourceIds)
   const meta = [
@@ -56,12 +93,11 @@ export function RecipeDetailSheet({
       ? recipe.relatedIngredients
       : [recipe.mainIngredient]
 
-  return (
+  if (!portalRoot) return null
+
+  return createPortal(
     <m.div
-      className="fixed inset-0 z-[70] flex items-end md:items-center justify-center"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="recipe-sheet-title"
+      className="fixed inset-0 z-[70] isolate flex items-end md:items-center justify-center"
       data-testid="recipe-sheet"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -72,16 +108,20 @@ export function RecipeDetailSheet({
         type="button"
         aria-label="關閉食譜"
         onClick={onClose}
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 z-0 bg-black/40 backdrop-blur-sm"
       />
 
       {/* panel */}
       <m.div
+        ref={dialogRef}
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 320, damping: 34 }}
-        className="relative w-full md:max-w-lg max-h-[88vh] md:max-h-[85vh] flex flex-col overflow-hidden rounded-t-3xl md:rounded-3xl glass-card border border-white/40 shadow-glass-md"
+        className="relative z-10 w-full md:max-w-lg max-h-[88vh] md:max-h-[85vh] flex flex-col overflow-hidden rounded-t-3xl md:rounded-3xl glass-card border border-white/40 shadow-glass-md"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="recipe-sheet-title"
       >
         {/* close bar — non-scrolling, centered, kept above the scrolling content */}
         <div className="relative z-20 shrink-0 flex justify-center pt-3 pb-2">
@@ -91,7 +131,7 @@ export function RecipeDetailSheet({
             onClick={onClose}
             aria-label="關閉"
             data-testid="recipe-sheet-close"
-            className="w-9 h-9 rounded-full flex items-center justify-center bg-black/10 hover:bg-black/20 dark:bg-white/15 dark:hover:bg-white/25 text-on-surface transition-colors leading-none text-xl shadow-sm"
+            className="w-9 h-9 rounded-full flex items-center justify-center bg-black/10 hover:bg-black/20 dark:bg-white/15 dark:hover:bg-white/25 text-on-surface transition-colors leading-none text-xl shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2"
           >
             ×
           </button>
@@ -238,6 +278,7 @@ export function RecipeDetailSheet({
           <AffiliateSlot cropName={recipe.mainIngredient} category={recipe.category} limit={4} />
         </div>
       </m.div>
-    </m.div>
+    </m.div>,
+    portalRoot,
   )
 }

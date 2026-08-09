@@ -1,4 +1,7 @@
 {
+  "env": {
+    "BASH_ENV": "/c/Users/FH2133/.bashrc"
+  },
   "permissions": {
     "allow": [
       "Bash(/c/Users/FH2133/AppData/Roaming/npm/npm install *)",
@@ -7,7 +10,8 @@
       "Read(//c/Users/FH2133/AppData/Roaming/**)"
     ]
   },
-    "env": {
-    "BASH_ENV": "/c/Users/FH2133/.bashrc"
-  }
+  "enabledMcpjsonServers": [
+    "code-review-graph"
+  ],
+  "enableAllProjectMcpServers": true
 }
