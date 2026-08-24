@@ -1,11 +1,11 @@
 {
     "schema_version": 2,
-    "commit": "45355275b3896addfe3089f3927114b1fc949115",
-    "indexed_at": "2026-08-08T15:03:32Z",
-    "project": "veggieprice-tw",
-    "nodes": 5020,
-    "edges": 7850,
-    "original_size": 5898240,
-    "compressed_size": 1196668,
-    "compression_level": 9
+    "commit": "5075582f263770fb2c1f532e1daae7f93c0bcb55",
+    "indexed_at": "2026-08-24T07:24:34Z",
+    "project": "Users-xieyuanyou-Documents-TW_veggieprice",
+    "nodes": 5330,
+    "edges": 8414,
+    "original_size": 11403264,
+    "compressed_size": 1669458,
+    "compression_level": 3
 }
