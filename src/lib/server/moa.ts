@@ -35,18 +35,23 @@ import type {
   MarketOverviewTrendResult,
 } from "@/lib/server/marketOverviewTypes";
 import {
-  fetchLivestockPrices,
   fetchLivestockPorkTrend,
-  safeNumericField,
   type LivestockLocalData,
 } from "@/lib/server/livestockFeed";
+import {
+  aggregateSearchRecords,
+  type SearchWindow,
+} from "@/lib/server/searchAggregation";
+import {
+  buildLivestockQuotes,
+  buildSeafoodQuotes,
+} from "@/lib/server/searchFeedRecords";
 import {
   fetchLatestSeafoodData,
   fetchSeafoodMarketDailySummaries,
   fetchSeafoodMarketOverview,
   fetchSeafoodMarketTrend,
   type SeafoodMarketDaySummary,
-  type SeafoodRawRecord,
 } from "@/lib/server/seafoodFeed";
 
 const log = makeLogger("moa");
@@ -1833,6 +1838,15 @@ async function fetchSearchBulkRecords(
   return fetchPriceRecords(options);
 }
 
+/**
+ * One representative row per 品種代碼＋市場 for the search page.
+ *
+ * All three feeds (蔬果 / 漁產 / 畜產) go through the same window + aggregation so
+ * they answer a date query the same way: quotes keep their real 交易日期, only the
+ * requested window is considered, and each series collapses to its latest priced
+ * day in that window (falling back to the newest day in the look-back when the
+ * window is closed) with a 漲跌幅 against its own previous priced day.
+ */
 export async function fetchSearchRecords(
   options: PriceQueryOptions,
 ): Promise<SearchRecordsResult> {
@@ -1840,6 +1854,18 @@ export async function fetchSearchRecords(
   const startDate = options.startDate ?? endDate;
   // Look back 7 days to find the real previous trading day (handles holidays/weekends)
   const previousDate = subtractDays(startDate, 7);
+  const window: SearchWindow = {
+    startDate,
+    endDate,
+    lookbackStart: previousDate,
+  };
+
+  const matchesCrop = (record: { cropName: string }) =>
+    !options.cropName || record.cropName.includes(options.cropName);
+  const matchesMarket = (record: { marketName: string }) =>
+    !options.market ||
+    options.market === ALL_MARKET_SENTINEL ||
+    record.marketName === options.market;
 
   if (options.marketType === "meat") {
     try {
@@ -1851,221 +1877,24 @@ export async function fetchSearchRecords(
       );
       const fileContent = await fs.promises.readFile(localFile, "utf-8");
       const parsed = JSON.parse(fileContent);
-      const data: LivestockLocalData = parsed.data || {};
+      const tables: LivestockLocalData = parsed.data || {};
 
-      const isCompareAll = !options.market || options.market === "全部市場";
-      let records: NormalizedPriceRecord[] = [];
-
-      if (isCompareAll) {
-        const livestock = await fetchLivestockPrices();
-        if (livestock.porkAvgPrice !== null && livestock.porkAvgPrice > 0) {
-          records.push({
-            cropCode: "M01",
-            cropName: "毛豬",
-            marketName: "全國平均",
-            grade: "中平",
-            upperPrice: livestock.porkAvgPrice || 0,
-            middlePrice: livestock.porkAvgPrice || 0,
-            lowerPrice: livestock.porkAvgPrice || 0,
-            avgPrice: livestock.porkAvgPrice || 0,
-            transWeight: 1000,
-            date: livestock.date || todayISO(),
-          });
-        }
-        if (data.pork) {
-          for (const p of data.pork) {
-            records.push({
-              cropCode: "M01",
-              cropName: "毛豬",
-              marketName: p.MarketName,
-              grade: "中平",
-              upperPrice: Number(p.TransNum_AvgPrice) || 0,
-              middlePrice: Number(p.TransNum_AvgPrice) || 0,
-              lowerPrice: Number(p.TransNum_AvgPrice) || 0,
-              avgPrice: Number(p.TransNum_AvgPrice) || 0,
-              transWeight: Number(p.TransNum_Total) || 0,
-              date: p.TransDate ? rocToISO(p.TransDate) : todayISO(),
-            });
-          }
-        }
-        if (data.sheep) {
-          for (const s of data.sheep) {
-            records.push({
-              cropCode: "M01",
-              cropName: "羊",
-              marketName: s.name || s.shortName || "",
-              grade: "中平",
-              upperPrice: parseFloat(String(s.avgPrice)) || 0,
-              middlePrice: parseFloat(String(s.avgPrice)) || 0,
-              lowerPrice: parseFloat(String(s.avgPrice)) || 0,
-              avgPrice: parseFloat(String(s.avgPrice)) || 0,
-              transWeight: parseFloat(String(s.quantity)) || 0,
-              date: s.transDate ? s.transDate.replace(/\//g, "-") : todayISO(),
-            });
-          }
-        }
-        if (data.red_feather && data.red_feather.length > 0) {
-          const rfRegions = [
-            { name: "北部", m: "RedFeather_N_M", f: "RedFeather_N_F" },
-            { name: "中部", m: "RedFeather_C_M", f: "RedFeather_C_F" },
-            { name: "南部", m: "RedFeather_S_M", f: "RedFeather_S_F" },
-          ] as const;
-          for (const row of data.red_feather) {
-            const isoDate = row.TransDate.replace(/\//g, "-");
-            for (const region of rfRegions) {
-              const mPrice = safeNumericField(
-                row as Record<string, unknown>,
-                region.m,
-              );
-              const fPrice = safeNumericField(
-                row as Record<string, unknown>,
-                region.f,
-              );
-              if (mPrice === null && fPrice === null) continue;
-              const count =
-                (mPrice !== null ? 1 : 0) + (fPrice !== null ? 1 : 0);
-              const avg = ((mPrice ?? 0) + (fPrice ?? 0)) / count;
-              records.push({
-                cropCode: "M02",
-                cropName: "紅羽土雞",
-                marketName: region.name,
-                grade: "中平",
-                upperPrice: avg,
-                middlePrice: avg,
-                lowerPrice: avg,
-                avgPrice: avg,
-                transWeight: 100,
-                date: isoDate,
-              });
-            }
-          }
-        }
-      } else {
-        const targetMarket = options.market;
-        if (targetMarket === "全國平均") {
-          const livestock = await fetchLivestockPrices();
-          records = [
-            { name: "毛豬", price: livestock.porkAvgPrice, weight: 1000 },
-            { name: "白肉雞", price: livestock.chickenPrice, weight: 500 },
-            {
-              name: "紅羽土雞",
-              price: livestock.redFeatherChickenPrice,
-              weight: 400,
-            },
-            { name: "肉鵝", price: livestock.goosePrice, weight: 300 },
-            { name: "肉鴨", price: livestock.duckPrice, weight: 300 },
-            { name: "羊", price: livestock.sheepAvgPrice, weight: 200 },
-            { name: "雞蛋", price: livestock.eggPrice, weight: 10000 },
-          ]
-            .map((item) => ({
-              cropCode: "M01",
-              cropName: item.name,
-              marketName: "全國平均",
-              grade: "中平",
-              upperPrice: item.price || 0,
-              middlePrice: item.price || 0,
-              lowerPrice: item.price || 0,
-              avgPrice: item.price || 0,
-              transWeight: item.weight,
-              date: livestock.date,
-            }))
-            .filter((m) => m.avgPrice > 0);
-        } else {
-          // Find specific market in pork or sheep
-          if (data.pork) {
-            const porkMatches = (data.pork ?? []).filter(
-              (p) => p.MarketName === targetMarket,
-            );
-            if (porkMatches.length > 0) {
-              const p = porkMatches[0];
-              records.push({
-                cropCode: "M01",
-                cropName: "毛豬",
-                marketName: p.MarketName,
-                grade: "中平",
-                upperPrice: Number(p.TransNum_AvgPrice) || 0,
-                middlePrice: Number(p.TransNum_AvgPrice) || 0,
-                lowerPrice: Number(p.TransNum_AvgPrice) || 0,
-                avgPrice: Number(p.TransNum_AvgPrice) || 0,
-                transWeight: Number(p.TransNum_Total) || 0,
-                date: p.TransDate ? rocToISO(p.TransDate) : todayISO(),
-              });
-            }
-          }
-          if (data.sheep) {
-            const sheepMatches = data.sheep.filter(
-              (s) => s.name === targetMarket || s.shortName === targetMarket,
-            );
-            if (sheepMatches.length > 0) {
-              const qs = sheepMatches.reduce(
-                (acc: number, s) => acc + (parseFloat(String(s.quantity)) || 0),
-                0,
-              );
-              const totalV = sheepMatches.reduce(
-                (acc: number, s) =>
-                  acc +
-                  (parseFloat(String(s.avgPrice)) || 0) *
-                    (parseFloat(String(s.quantity)) || 0),
-                0,
-              );
-              records.push({
-                cropCode: "M01",
-                cropName: "羊",
-                marketName: targetMarket ?? "",
-                grade: "中平",
-                upperPrice: totalV / (qs || 1),
-                middlePrice: totalV / (qs || 1),
-                lowerPrice: totalV / (qs || 1),
-                avgPrice: totalV / (qs || 1),
-                transWeight: qs,
-                date: todayISO(),
-              });
-            }
-          }
-        }
-      }
-
-      const filtered = records.filter(
-        (r) => !options.cropName || r.cropName.includes(options.cropName),
+      const quotes = buildLivestockQuotes(tables).filter(
+        (quote) => matchesCrop(quote) && matchesMarket(quote),
       );
-      return { records: filtered };
-    } catch (e) {
+      return { records: aggregateSearchRecords(quotes, window) };
+    } catch {
       return { records: [], error: "查無資料" };
     }
   }
 
   if (options.marketType === "seafood") {
     try {
-      const localFile = path.join(
-        process.cwd(),
-        "public",
-        "data",
-        "latest-seafood.json",
+      const rows = await fetchLatestSeafoodData();
+      const quotes = buildSeafoodQuotes(rows).filter(
+        (quote) => matchesCrop(quote) && matchesMarket(quote),
       );
-      const fileContent = await fs.promises.readFile(localFile, "utf-8");
-      const parsed = JSON.parse(fileContent);
-      let records: NormalizedPriceRecord[] = (parsed.data || [])
-        .map(
-          (r: SeafoodRawRecord) =>
-            ({
-              cropCode: String(r["品種代碼"] ?? ""),
-              cropName: String(r["魚貨名稱"] ?? ""),
-              marketName: String(r["市場名稱"] ?? ""),
-              grade: "中平",
-              upperPrice: Number(r["上價"] ?? r["平均價"]) || 0,
-              middlePrice: Number(r["中價"] ?? r["平均價"]) || 0,
-              lowerPrice: Number(r["下價"] ?? r["平均價"]) || 0,
-              avgPrice: Number(r["平均價"]) || 0,
-              transWeight: Number(r["交易量"]) || 0,
-              date: todayISO(),
-            }) as NormalizedPriceRecord,
-        )
-        .filter((m: NormalizedPriceRecord) => m.avgPrice > 0);
-      if (options.cropName)
-        records = records.filter((r) => r.cropName.includes(options.cropName!));
-      if (options.market && options.market !== "全部市場")
-        records = records.filter((r) => r.marketName === options.market);
-      return { records };
+      return { records: aggregateSearchRecords(quotes, window) };
     } catch {
       return { records: [], error: "查無資料" };
     }
@@ -2088,104 +1917,7 @@ export async function fetchSearchRecords(
     return { records: [] };
   }
 
-  // Per crop+market: full priced-day series from bulk (includes look-back).
-  // Latest priced day vs previous priced day; price alone qualifies (no min volume).
-  type DayAgg = {
-    avgPriceSum: number;
-    volSum: number;
-    priceCount: number;
-    upperPrice: number;
-    middlePrice: number;
-    lowerPrice: number;
-    transWeight: number;
-  };
-  type SeriesState = {
-    cropCode: string;
-    cropName: string;
-    marketName: string;
-    byDate: Map<string, DayAgg>;
-  };
-
-  const seriesByKey = new Map<string, SeriesState>();
-
-  for (const record of bulkRes.records) {
-    if (!record.date || !(record.avgPrice > 0)) continue;
-    const key = `${record.cropCode}_${record.marketName}`;
-    let state = seriesByKey.get(key);
-    if (!state) {
-      state = {
-        cropCode: record.cropCode,
-        cropName: record.cropName,
-        marketName: record.marketName,
-        byDate: new Map(),
-      };
-      seriesByKey.set(key, state);
-    }
-    const day = state.byDate.get(record.date) ?? {
-      avgPriceSum: 0,
-      volSum: 0,
-      priceCount: 0,
-      upperPrice: record.upperPrice,
-      middlePrice: record.middlePrice,
-      lowerPrice: record.lowerPrice,
-      transWeight: 0,
-    };
-    day.avgPriceSum += record.avgPrice;
-    day.priceCount += 1;
-    day.volSum += record.transWeight || 0;
-    day.transWeight += record.transWeight || 0;
-    day.upperPrice = Math.max(day.upperPrice, record.upperPrice);
-    day.lowerPrice = Math.min(day.lowerPrice, record.lowerPrice);
-    day.middlePrice = record.middlePrice;
-    state.byDate.set(record.date, day);
-  }
-
-  const searchRecords: ProducePrice[] = [];
-
-  for (const state of seriesByKey.values()) {
-    const dated = [...state.byDate.entries()]
-      .map(([date, day]) => {
-        // Prefer volume-weighted if volumes exist; else simple mean of quotes.
-        const price =
-          day.volSum > 0 && day.priceCount > 0
-            ? // re-weight: we only stored sum of avgs — use simple mean of row avgs
-              day.avgPriceSum / day.priceCount
-            : day.priceCount > 0
-              ? day.avgPriceSum / day.priceCount
-              : 0;
-        return { date, price, day };
-      })
-      .filter((d) => d.price > 0)
-      .sort((a, b) => a.date.localeCompare(b.date));
-
-    if (dated.length === 0) continue;
-
-    const latest = dated[dated.length - 1];
-    const previous = dated.length > 1 ? dated[dated.length - 2] : null;
-    const priceChange =
-      previous && previous.price > 0
-        ? ((latest.price - previous.price) / previous.price) * 100
-        : 0;
-
-    searchRecords.push({
-      cropCode: state.cropCode,
-      cropName: state.cropName,
-      marketName: state.marketName,
-      upperPrice: Math.round(latest.day.upperPrice * 10) / 10,
-      middlePrice: Math.round(latest.day.middlePrice * 10) / 10,
-      lowerPrice: Math.round(latest.day.lowerPrice * 10) / 10,
-      avgPrice: Math.round(latest.price * 10) / 10,
-      transWeight: Math.round(latest.day.transWeight),
-      date: latest.date,
-      priceChange: Math.round(priceChange * 10) / 10,
-    });
-  }
-
-  searchRecords.sort((left, right) =>
-    left.cropName.localeCompare(right.cropName, "zh-TW"),
-  );
-
-  return { records: searchRecords };
+  return { records: aggregateSearchRecords(bulkRes.records, window) };
 }
 
 function aggregateMarketByDate(
