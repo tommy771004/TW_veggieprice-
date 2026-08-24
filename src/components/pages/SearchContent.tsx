@@ -20,6 +20,7 @@ import {
   fetchMarketRestDays,
   fetchMarketWeatherRisk,
 } from '@/lib/api'
+import { fromCompactPricePayload, isCompactPricePayload } from '@/lib/priceDto'
 import { getUserPreferences } from '@/lib/preferences'
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from '@/lib/constants'
 
@@ -293,18 +294,11 @@ export function SearchContent() {
 
         if (searchId !== lastSearchId.current) return
         
-        let data: ProducePrice[] = []
-        if (json.keys && Array.isArray(json.data)) {
-          data = json.data.map((row: any[]) => {
-            const obj: any = {}
-            json.keys.forEach((key: string, idx: number) => {
-              obj[key] = row[idx]
-            })
-            return obj
-          })
-        } else {
-          data = (json.data || json) as ProducePrice[]
-        }
+        // Positional rows are decoded through the shared contract helper, so the
+        // fields the server encodes (priceChange included) always land here.
+        const data: ProducePrice[] = isCompactPricePayload(json)
+          ? fromCompactPricePayload(json)
+          : ((json.data || json) as ProducePrice[])
         
         setResults(data)
         if (q.length >= 1) {
@@ -341,15 +335,9 @@ export function SearchContent() {
       if (!r.ok) return
       const json = await r.json()
       
-      let fullData: ProducePrice[] = []
-      if (json.keys && Array.isArray(json.data)) {
-        fullData = json.data.map((row: any[]) => {
-          const obj: any = {}
-          json.keys.forEach((key: string, idx: number) => {
-            obj[key] = row[idx]
-          })
-          return obj
-        })
+      let fullData: ProducePrice[] | null
+      if (isCompactPricePayload(json)) {
+        fullData = fromCompactPricePayload(json)
       } else {
         fullData = Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : null)
       }
