@@ -22,6 +22,8 @@ export const ProduceRow = memo(function ProduceRow({
       href={`/produce/${encodeURIComponent(item.cropName)}`}
       prefetch={false}
       className="block group"
+      data-testid="produce-row"
+      data-crop-name={item.cropName}
     >
       <m.div
         whileHover={{
@@ -66,7 +68,7 @@ export const ProduceRow = memo(function ProduceRow({
               </span>
               {formatPrice(item.avgPrice)}
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end" data-testid="produce-row-change">
               <TrendChip change={change} size="sm" />
             </div>
           </div>

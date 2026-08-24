@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchSearchRecords } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
+import { toCompactPricePayload } from '@/lib/priceDto'
 
 export const revalidate = 3600
 export async function GET(req: NextRequest) {
@@ -30,30 +31,19 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error }, { status })
   }
 
-  const formatRecords = (recs: any[]) => {
-    if (format === 'array') {
-      const formatted = {
-        keys: ['cropCode', 'cropName', 'marketName', 'grade', 'upperPrice', 'middlePrice', 'lowerPrice', 'avgPrice', 'transWeight', 'date'],
-        data: recs.map(r => [
-          r.cropCode, r.cropName, r.marketName, r.grade, 
-          Math.round(r.upperPrice*10)/10, Math.round(r.middlePrice*10)/10, Math.round(r.lowerPrice*10)/10, Math.round(r.avgPrice*10)/10, 
-          Math.round(r.transWeight), r.date
-        ])
-      }
-      return formatted as any
-    }
-    return recs as any
-  }
-
   if (pageParam) {
     const page = parseInt(pageParam, 10)
     const limit = parseInt(limitParam, 10)
     if (!isNaN(page) && page > 0) {
       const startIndex = (page - 1) * limit
       const paginatedData = records.slice(startIndex, startIndex + limit)
+      // Column order and field set live in @/lib/priceDto so the search page
+      // decodes exactly what is encoded here (priceChange included).
+      const compact =
+        format === 'array' ? toCompactPricePayload(paginatedData) : null
       return NextResponse.json({
-        data: format === 'array' ? formatRecords(paginatedData).data : paginatedData,
-        keys: format === 'array' ? formatRecords(paginatedData).keys : undefined,
+        data: compact ? compact.data : paginatedData,
+        keys: compact ? compact.keys : undefined,
         total: records.length,
         page,
         hasNextPage: startIndex + limit < records.length
@@ -65,9 +55,12 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json(formatRecords(records), {
-    headers: {
-      'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+  return NextResponse.json(
+    format === 'array' ? toCompactPricePayload(records) : records,
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+      },
     },
-  })
+  )
 }

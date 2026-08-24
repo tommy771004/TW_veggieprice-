@@ -6,6 +6,7 @@ Projects：`chromium`（Desktop Chrome）與 `mobile-safari`（iPhone 14 / WebKi
 目前的規格：
 
 - `featured-recipes.spec.ts` — 首頁「今日精選食譜」區塊：渲染、分類 tab 切換、查看更多（+5）邊界、換一批重置、開/關詳情彈窗、食材連回行情搜尋。
+- `search-price-change.spec.ts` — 搜尋頁漲跌幅：以 `format=array` compact DTO（`keys` 含 `priceChange`）攔截 `/api/prices`，驗證每列顯示的漲跌幅就是 API 回傳值（不會變成 0%），以及「漲跌幅」排序真的生效。
 
 ## 首次準備
 
