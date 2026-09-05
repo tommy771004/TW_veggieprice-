@@ -49,7 +49,8 @@ npm run dev
 ## PWA 與快取
 
 - `public/manifest.json` 提供安裝資訊與捷徑。
-- `public/sw.js` 會快取核心頁面與品牌資產，並對同網域 API 採 network-first 策略。
+- `public/sw.js` 會快取品牌資產與部分執行期資源；導覽 HTML 不落盤。同網域 API 採 network-first，`/api/affiliates` 除外，僅走網路以免離線時顯示已停用的推廣。
+- 合作版位共用 5 分鐘記憶體快取；失敗後退避 30 秒，可見頁面會重新檢查。回到分頁或恢復連線也會檢查；同時請求會合併，讀取逾時為 8 秒。
 - `src/components/pwa/ServiceWorkerRegistrar.tsx` 會在瀏覽器端自動註冊 service worker。
 
 ## 政府參考資料同步
@@ -61,6 +62,20 @@ npm run dev
 GitHub Actions 會在每週一凌晨（台灣時間）執行同一同步器，也可在 Actions 頁面手動觸發 `Sync government reference data`。資料無變動時不會建立 commit。
 
 若未設定 `NEXT_PUBLIC_SITE_URL`，專案會自動回退到 Vercel 提供的 `VERCEL_PROJECT_PRODUCTION_URL` 或 `VERCEL_URL`。
+
+## 本地檢查與 PR CI
+
+使用 Node.js 22（單元測試依賴原生 TypeScript stripping）：
+
+```bash
+npm run lint
+npm run test:unit
+npm run typecheck
+```
+
+`.github/workflows/ci.yml` 在 PR 與 main push 執行以上檢查，不使用資料庫／遙測 secrets，也不部署。`typecheck` 先生成 Next 路由型別；本地或部署前可另執行 `npm run build`。如要強制合併前通過，仍需管理者設定 GitHub 分支保護。
+
+寫入 API 的本地防護與跨 instance 限制見 [寫入 API 防護](docs/write-api-protection.md)。公開資料使用與合作說明位於 `/privacy#disclosure`；固定保存期限、聯絡窗口與部署服務設定仍應由營運者依實際情況確認。
 
 ## 文件
 

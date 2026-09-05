@@ -3,11 +3,13 @@ import { getSql } from '@/lib/server/db'
 import { makeLogger } from '@/lib/server/logger'
 import { isAllowedAuditAction } from '@/lib/auditEvents'
 import { sendTelemetryBatch } from '@/lib/server/telemetry'
+import { createWriteRequestGuard } from '@/lib/server/writeRequest'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 const log = makeLogger('api/audit')
+const readWriteRequest = createWriteRequestGuard({ maxBytes: 256 * 1024, limit: 120 })
 
 const MAX_EVENTS = 50
 const MAX_ACTION = 80
@@ -46,12 +48,10 @@ export async function POST(req: NextRequest) {
   const sql = getSql()
   if (!sql) return noContent()
 
-  let body: Record<string, unknown>
-  try {
-    body = (await req.json()) as Record<string, unknown>
-  } catch {
-    return noContent()
-  }
+  const result = await readWriteRequest(req)
+  // Invalid analytics payloads remain best-effort; explicit abuse gets 4xx.
+  if (result.response) return result.response.status === 400 ? noContent() : result.response
+  const body = result.body
 
   const rawEvents = Array.isArray(body.events) ? body.events : []
   if (rawEvents.length === 0) return noContent()

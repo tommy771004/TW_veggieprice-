@@ -86,14 +86,14 @@ Recommended fix:
 - Either remove Product schema or make it clearly secondary with conservative fields.
 - If Product remains, add `category`, `priceSpecification`, `seller` or `offeredBy`, and a clear description that the price is a market reference, not a direct sale.
 
-### 5. GEO monitoring is not implemented
+### 5. GEO monitoring baseline is still pending
 
-The guide recommends recurring tests across Perplexity, ChatGPT, and Gemini. The project currently has no prompt set, result schema, report file, or automation for citation monitoring.
+The guide recommends recurring tests across Perplexity, ChatGPT, and Gemini. The repository now includes `docs/geo-monitoring/prompts.json` and `docs/geo-monitoring/weekly-report-template.md`. The template is not a measured report: its zeroes and example rows must not be reported as actual citation results. No completed measurement report or ingestion/report-generation script has been recorded in this repository.
 
-Recommended fix:
-- Add `docs/geo-monitoring/prompts.json` with 10 Taiwan produce/price prompts.
-- Add a script that can ingest manual or API results and generate `docs/geo-monitoring/report.md`.
-- Make Perplexity API optional through env vars, and keep ChatGPT/Gemini as manual/browser-assisted workflows.
+Remaining work (not a production application defect):
+- Run a real baseline using the existing prompts, then save source responses and a dated report.
+- Add result ingestion/report generation if recurring measurement is approved.
+- Keep provider API usage optional; account access, external prompt submission and any paid usage require separate authorization.
 
 ## Page-Level Diagnosis
 
