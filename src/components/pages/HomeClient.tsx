@@ -280,7 +280,7 @@ export function HomeClient({
 
     return [
       {
-        label: "今日均價",
+        label: "最新均價",
         value: `$${formatPrice(overview.avgPrice)}`,
         meta: NATIONAL_OVERVIEW_LABEL,
       },
@@ -313,7 +313,7 @@ export function HomeClient({
       {
         label: "量能變化",
         value: `${overview.volumeChange >= 0 ? "+" : ""}${overview.volumeChange.toFixed(1)}%`,
-        meta: "相較昨日交易量",
+        meta: "相較前次有效交易量",
       },
       {
         label: "資料範圍",
@@ -348,7 +348,7 @@ export function HomeClient({
         {/* ── Market Overview Hero ───────────────────────── */}
         <m.section
           variants={fadeUp}
-          initial="hidden"
+          initial={false}
           animate="show"
           className="home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 py-2 md:py-4"
         >
@@ -449,8 +449,8 @@ export function HomeClient({
                       >
                         analytics
                       </span>
-                      {NATIONAL_OVERVIEW_LABEL} 今日均價 $
-                      {formatPrice(overview.avgPrice)}，較昨日&nbsp;
+                      {NATIONAL_OVERVIEW_LABEL} · {overview.date} 均價 $
+                      {formatPrice(overview.avgPrice)}，較前次有效報價&nbsp;
                       <TrendChip change={overview.priceChange} size="sm" />
                       ，總交易量 {(overview.totalVolume / 1000).toFixed(0)} 公噸
                     </span>
@@ -492,7 +492,7 @@ export function HomeClient({
               <m.div
                 key="hero-error"
                 variants={fadeUp}
-                initial="hidden"
+                initial={false}
                 animate="show"
               >
                 <GlassCard className="p-container-padding text-center">
@@ -515,7 +515,7 @@ export function HomeClient({
               <m.div
                 key="hero-ov-error"
                 variants={fadeUp}
-                initial="hidden"
+                initial={false}
                 animate="show"
               >
                 <GlassCard className="p-container-padding text-center">
@@ -774,7 +774,7 @@ export function HomeClient({
                   </span>
                   <p className="min-w-0 flex-1 leading-snug">
                     <span className="font-bold text-on-surface">波動警報：</span>
-                    {NATIONAL_OVERVIEW_LABEL} 今日均價 ${formatPrice(overview.avgPrice)}，較昨日
+                    {NATIONAL_OVERVIEW_LABEL} · {overview.date} 均價 ${formatPrice(overview.avgPrice)}，較前次有效報價
                     <span className={overview.priceChange >= 0 ? "font-bold text-error" : "font-bold text-primary"}>
                       {overview.priceChange >= 0 ? "上漲" : "下跌"} {Math.abs(overview.priceChange).toFixed(1)}%
                     </span>
@@ -805,7 +805,7 @@ export function HomeClient({
                 key={activeCategory}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
                 variants={staggerContainer}
-                initial="hidden"
+                initial={false}
                 animate="show"
               >
                 {filteredMovers.length > 0 ? (
@@ -884,17 +884,13 @@ export function HomeClient({
           reloadKey={reloadKey}
         />
 
-        {/* ── Affiliate Marquee (合作推廣) ─────────────────── */}
-        <AffiliateMarquee placement="home" twoRows title="合作推廣" />
-
-        {/* ── Featured Recipes (今日精選食譜) ─────────────── */}
-        <FeaturedRecipesSection />
+        {/* 行情與季節資訊優先，食譜及合作內容置後。 */}
 
         {/* ── Weekly Trend + Seasonal Guide ─────────────── */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <m.div
             variants={fadeUp}
-            initial="hidden"
+            initial={false}
             whileInView="show"
             viewport={{ once: true, margin: "-30px" }}
           >
@@ -929,6 +925,9 @@ export function HomeClient({
 
           <SeasonalGuideSection />
         </section>
+
+        <FeaturedRecipesSection />
+        <AffiliateMarquee placement="home" title="合作推廣" />
 
         {/* ── Explore Features ──────────────────────────── */}
         <ExploreSection />

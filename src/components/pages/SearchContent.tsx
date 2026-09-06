@@ -653,9 +653,6 @@ export function SearchContent() {
         </div>
       </div>
 
-      {/* Affiliate Marquee (跑馬燈) */}
-      <AffiliateMarquee placement="search" />
-
       {/* Results List */}
       {loading ? (
         <SkeletonList count={6} className="grid grid-cols-1 md:grid-cols-2 gap-3" />
@@ -663,7 +660,7 @@ export function SearchContent() {
         <m.div
           key={`${currentPage}-${market}-${marketType}-${query}`}
           variants={searchStaggerContainer}
-          initial="hidden"
+          initial={false}
           animate="show"
           className="grid grid-cols-1 md:grid-cols-2 gap-3"
         >
@@ -777,9 +774,14 @@ export function SearchContent() {
           )}
 
           {sorted.length === 0 && !loading && !error && (
-            <div className="text-center py-16 text-on-surface-variant">
+            <div role="status" className="text-center py-16 text-on-surface-variant md:col-span-2">
               <span className="material-symbols-outlined text-5xl block mb-3">search_off</span>
-              {query ? (
+              {results.length > 0 && hasPriceFilter ? (
+                <>
+                  <p className="text-body-lg">此價格區間無資料</p>
+                  <p className="text-body-sm mt-1">保留關鍵字與市場，只移除價格限制即可查看結果。</p>
+                </>
+              ) : query ? (
                 <>
                   <p className="text-body-lg">找不到「{query}」的相關結果</p>
                   <p className="text-body-sm mt-1">請嘗試其他關鍵字，或清除篩選條件</p>
@@ -790,12 +792,18 @@ export function SearchContent() {
                   <p className="text-body-sm mt-1">請調整價格範圍後再試</p>
                 </>
               ) : (
-                <p className="text-body-lg">輸入關鍵字以搜尋作物</p>
+                <p className="text-body-lg">目前條件下查無資料</p>
               )}
+              <div className="flex flex-wrap justify-center gap-3 mt-4">
+                {hasPriceFilter && <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => { setMinPrice(''); setMaxPrice(''); setCurrentPage(1) }}>移除價格限制</button>}
+                {query && <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => { setQuery(''); doSearch('', market, marketType, dateRange) }}>清除關鍵字</button>}
+                <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => doSearch(query, market, marketType, dateRange)}>重新查詢</button>
+              </div>
             </div>
           )}
         </m.div>
       )}
+      <AffiliateMarquee placement="search" />
     </div>
   )
 }

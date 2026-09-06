@@ -251,7 +251,7 @@ export function HomeWeeklyTrendChart({
           <div
             role="status"
             aria-live="polite"
-            className="absolute right-3 top-3 min-w-36 rounded-xl bg-zinc-950/95 px-3 py-2 text-xs text-white shadow-lg"
+            className="pointer-events-none absolute right-3 top-3 min-w-36 rounded-xl bg-zinc-950/95 px-3 py-2 text-xs text-white shadow-lg"
           >
             <p className="font-semibold">{activePoint.label}</p>
             <p className="mt-1 flex justify-between gap-3 text-white/75">
