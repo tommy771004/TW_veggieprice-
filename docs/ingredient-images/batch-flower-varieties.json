@@ -1,0 +1,135 @@
+[
+  {
+    "key": "flower-a74e768af6",
+    "name": "OT大連",
+    "referenceName": "大連",
+    "sourceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf",
+    "referenceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf#page=1",
+    "referenceMediaType": "application/pdf",
+    "referencePage": 1,
+    "embeddedImage": "Image21.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-1.jpg",
+    "photoInspected": true,
+    "mappingNote": "台北花市百合品種介紹具中文品種標籤，直接擷取PDF內嵌原始實拍。"
+  },
+  {
+    "key": "flower-5245a66961",
+    "name": "OT帕芳多",
+    "referenceName": "帕芳多",
+    "sourceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf",
+    "referenceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf#page=1",
+    "referenceMediaType": "application/pdf",
+    "referencePage": 1,
+    "embeddedImage": "Image8.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-2.jpg",
+    "photoInspected": true,
+    "mappingNote": "台北花市百合品種介紹具中文品種標籤，直接擷取PDF內嵌原始實拍。"
+  },
+  {
+    "key": "flower-0a9d0b71a3",
+    "name": "OT曼尼薩",
+    "referenceName": "曼尼薩",
+    "sourceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf",
+    "referenceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf#page=1",
+    "referenceMediaType": "application/pdf",
+    "referencePage": 1,
+    "embeddedImage": "Image18.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-3.jpg",
+    "photoInspected": true,
+    "mappingNote": "台北花市百合品種介紹具中文品種標籤，直接擷取PDF內嵌原始實拍。"
+  },
+  {
+    "key": "flower-c669a0cafe",
+    "name": "OT紅福特",
+    "referenceName": "紅福特",
+    "sourceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf",
+    "referenceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf#page=1",
+    "referenceMediaType": "application/pdf",
+    "referencePage": 1,
+    "embeddedImage": "Image16.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-4.jpg",
+    "photoInspected": true,
+    "mappingNote": "台北花市百合品種介紹具中文品種標籤，直接擷取PDF內嵌原始實拍。"
+  },
+  {
+    "key": "flower-a5caa7c40d",
+    "name": "OT試金石",
+    "referenceName": "試金石",
+    "sourceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf",
+    "referenceUrl": "https://www.tflower.com.tw/TFAWebUI/Uploads/FlowerDoc/1qlmynuw.pdf#page=1",
+    "referenceMediaType": "application/pdf",
+    "referencePage": 1,
+    "embeddedImage": "Image15.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-5.jpg",
+    "photoInspected": true,
+    "mappingNote": "台北花市百合品種介紹具中文品種標籤，直接擷取PDF內嵌原始實拍。"
+  },
+  {
+    "key": "flower-9223a1b86f",
+    "name": "檸檬綠文心蘭",
+    "referenceName": "文心蘭 檸檬綠",
+    "sourceUrl": "https://www.twflower.org/detail/2310",
+    "referenceUrl": "https://www.twflower.org/storage/pics/b9ae7784-af28-424c-aba1-dcf5479ad2ff.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-6.png",
+    "photoInspected": true,
+    "mappingNote": "以明確標示的臺灣花材实拍為準，保留來源原名。"
+  },
+  {
+    "key": "flower-c10cdd561f",
+    "name": "香水文心蘭",
+    "referenceName": "文心蘭 三色香水 Sharry Baby Leca",
+    "sourceUrl": "https://www.twflower.org/detail/1689",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFOF012-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-7.jpg",
+    "photoInspected": true,
+    "mappingNote": "以官方三色香水切花作香水文心蘭代表，細小紅褐白花，不是黃色文心蘭。"
+  },
+  {
+    "key": "flower-08e908c7d6",
+    "name": "龍文蘭",
+    "referenceName": "龍文蘭",
+    "sourceUrl": "https://www.taipei-flower.com/flower_detail/FY_FY035",
+    "referenceUrl": "https://www.taipei-flower.com/material/FY035_86b8513f65841efa.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-8.jpg",
+    "photoInspected": true,
+    "mappingNote": "僅參考照片中央黑桶內深綠長劍葉；是切葉類，不是蘭花花朵。"
+  },
+  {
+    "key": "flower-085efa1dc6",
+    "name": "射干"
+  },
+  {
+    "key": "flower-f4462f77ea",
+    "name": "石玫瑰"
+  },
+  {
+    "key": "flower-533aa0bb67",
+    "name": "虎尾花",
+    "referenceName": "虎尾花（隨意草）",
+    "sourceUrl": "https://www.wave-flower.com/blog/posts/week4-aug",
+    "referenceUrl": "https://img.shoplineapp.com/media/image_clips/612c824aa6ea17002943cc73/original.JPG?1630306889",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-varieties-11.jpg",
+    "photoInspected": true,
+    "mappingNote": "以明確標示的臺灣花材实拍為準，保留來源原名。"
+  },
+  {
+    "key": "flower-90f4800a9e",
+    "name": "新西蘭葉"
+  },
+  {
+    "key": "flower-13c49a4604",
+    "name": "春樹蘭"
+  },
+  {
+    "key": "flower-74ad70d00c",
+    "name": "玉羊齒"
+  },
+  {
+    "key": "flower-146b99bd4e",
+    "name": "鶴焦"
+  },
+  {
+    "key": "flower-27ff031437",
+    "name": "鶴蕉紅美人"
+  }
+]

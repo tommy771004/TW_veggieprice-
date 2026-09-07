@@ -1,0 +1,114 @@
+[
+  {
+    "name": "人參山藥",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1980/%E4%BA%BA%E5%8F%83%E5%B1%B1%E8%97%A5_%E4%B8%8A%E7%A8%BF.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=47",
+    "key": "SU21",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SU21.jpg"
+  },
+  {
+    "name": "紅薯山藥",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1980/%E7%B4%85%E8%96%AF%E5%B1%B1%E8%97%A5.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=47",
+    "key": "SU1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SU1.jpg"
+  },
+  {
+    "name": "台南白",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1836/%E7%99%BD%E7%8E%89%E7%B1%B3-%E5%8F%B0%E5%8D%97%E7%99%BD.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=151",
+    "key": "FY1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-FY1.jpg"
+  },
+  {
+    "name": "超甜玉米-雪珍",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1836/%E8%B6%85%E7%94%9C%E7%8E%89%E7%B1%B3-%E9%9B%AA%E7%8F%8D(%E9%BB%83%E8%89%B2%E5%AD%90%E7%B2%92%E7%82%BA%E8%8A%B1%E7%B2%89%E7%9B%B4%E6%84%9F%E6%89%80%E8%87%B4).JPG",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=151",
+    "key": "FY3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-FY3.jpg"
+  },
+  {
+    "name": "水果玉米-白龍王",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1836/%E6%B0%B4%E6%9E%9C%E7%8E%89%E7%B1%B3-%E7%99%BD%E9%BE%8D%E7%8E%8B.JPG",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=151",
+    "key": "FY8",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-FY8.jpg"
+  },
+  {
+    "name": "黑寶玉米",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1836/%E7%B3%AF%E7%8E%89%E7%B1%B3-%E9%BB%91%E5%AF%B6%E7%8E%89%E7%B1%B35(%E5%B0%8F).jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=151",
+    "key": "FY5",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-FY5.jpg"
+  },
+  {
+    "name": "秀珍菇",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1948/%E5%AE%B6%E6%97%8F_%E7%A7%80%E7%8F%8D%E8%8F%87.png",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=278",
+    "key": "MI1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-MI1.jpg"
+  },
+  {
+    "name": "芋心地瓜(花蓮1號)",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/72/1-15%E8%AA%8D%E8%AD%98%E8%BE%B2%E7%94%A2_%E7%94%98%E8%97%B7%E5%AE%B6%E6%97%8F_%E8%8A%B1%E8%93%AE1%E8%99%9F(%E8%8A%8B%E5%BF%83%E5%9C%B0%E7%93%9C).png",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=1",
+    "key": "SO2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SO2.jpg"
+  },
+  {
+    "name": "西瓜鳳梨",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/807/%E8%A5%BF%E7%93%9C%E9%B3%B3%E6%A2%A8.png",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=160",
+    "key": "B8",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-B8.jpg"
+  },
+  {
+    "name": "蘿蔓萵苣",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2652/%E7%BE%85%E6%9B%BC%E8%90%B5%E8%8B%A3.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=316",
+    "key": "LI6",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-LI6.jpg"
+  },
+  {
+    "name": "麵芋",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/572/06.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=102",
+    "key": "SJ1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SJ1.jpg"
+  },
+  {
+    "name": "赤芽芋",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/572/07.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=102",
+    "key": "SJ3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SJ3.jpg"
+  },
+  {
+    "name": "醜豆",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1920/%E9%86%9C%E8%B1%86.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=119",
+    "key": "FN5",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-FN5.jpg"
+  },
+  {
+    "name": "普通甘藍(硬種)",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2043/2_%E7%A1%AC%E7%A8%AE_%E5%A4%A7%E8%95%8A.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=81",
+    "key": "LA2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-LA2.jpg"
+  },
+  {
+    "name": "紫甘藍",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2043/3_%E7%B4%AB%E7%94%98%E8%97%8D.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=81",
+    "key": "LA4",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-LA4.jpg"
+  },
+  {
+    "name": "大葉芥菜",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2319/%E5%A4%A7%E8%8A%A5%E8%8F%9C_%E5%89%AF%E6%9C%AC.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=42",
+    "key": "LJ3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-LJ3.jpg"
+  }
+]

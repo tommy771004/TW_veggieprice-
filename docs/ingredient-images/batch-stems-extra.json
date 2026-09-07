@@ -1,0 +1,149 @@
+[
+  {
+    "key": "SG1",
+    "name": "大蒜-硬梗",
+    "skipReason": "未找到能確認硬梗類別的實物照片，不能以一般青蒜照片替代。"
+  },
+  {
+    "key": "SG4",
+    "name": "蔥蒜",
+    "sourceUrl": "https://www.hnseeds.com/seed/ps1608.html",
+    "referenceUrl": "https://i7.momoshop.com.tw/1752681536/goodsimg/TP000/7287/0000/676/TP00072870000676_R_m.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SG4.jpg",
+    "referenceName": "興農種苗珍品蔥蒜/韭蔥種包實拍；取寬平綠葉和長白假莖，排除文字種包",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SB1",
+    "name": "未洗胡蘿蔔",
+    "sourceUrl": "https://market.owlting.com/items/22458",
+    "referenceUrl": "https://static.owlting.com/market/public/items/thumbs/640x480/item_22458_mrWhUawfQHoH4ttYu54cJni108DjsDTxkA6jIZVb",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SB1.jpg",
+    "referenceName": "未洗胡蘿蔔",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SQ1",
+    "name": "帶殼茭白筍",
+    "sourceUrl": "https://greenbox.tw/Products/ItemDetail/63047",
+    "referenceUrl": "https://greenboxcdn.azureedge.net/upload/Product_3033/202408200859211.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SQ1.jpg",
+    "referenceName": "帶殼茭白筍",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SP3",
+    "name": "粉薑",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00038",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=1000&f=009F5D",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SP3.jpg",
+    "referenceName": "北農老薑、粉薑合併品項之實拍，僅作粉薑形態代表，非精確生長期照片",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SP5",
+    "name": "薑黃",
+    "sourceUrl": "https://qrc.afa.gov.tw/blog/0101000006",
+    "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropImgs.637014?fileName=48398230_2472488376101121_6346364189056958464_n.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SP5.jpg",
+    "referenceName": "薑黃",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SJ4",
+    "name": "芋莖",
+    "sourceUrl": "https://www.ruten.com.tw/item/22015433431154/",
+    "referenceUrl": "https://gcs.rimg.com.tw/g4/2c5/c11/playboy2019/b/94/72/22015433431154_573.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SJ4.jpg",
+    "referenceName": "芋梗；取左侧新鮮長綠葉柄與白色基部，排除包裝文字",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SJ5",
+    "name": "芋角",
+    "sourceUrl": "https://www.hucc-coop.tw/product/content/15030510017",
+    "referenceUrl": "https://www.hucc-coop.tw/uploads/01產品與生產者/產品圖檔/蔬菜類/根莖類/冷凍芋頭塊/冷凍芋頭塊 情境照2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SJ5.jpg",
+    "referenceName": "去皮未油炸芋頭塊，僅取芋塊與紫色纖維形態",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SZ1",
+    "name": "半天筍",
+    "sourceUrl": "https://www.7-11-seafood.com.tw/product/518",
+    "referenceUrl": "https://www.7-11-seafood.com.tw/img/Product/old/%E6%AA%B3%E6%A6%94%E5%BF%83.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SZ1.jpg",
+    "referenceName": "生鮮檳榔心：淡奶油色細長層疊嫩葉心與切段，已排除檳榔花。MOA subject21448確認半天筍即檳榔心",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SZ7",
+    "name": "晚香玉筍",
+    "sourceUrl": "https://www.teamfarmers.com.tw/products/650-20250622133507",
+    "referenceUrl": "https://cdn1-next.cybassets.com/media/W1siZiIsIjMzMTgyL3Byb2R1Y3RzLzU3MzYyMzU1LzE3NTI2NTE3ODNfY2MyN2UyN2U5MTM1MjUyMzI1ZTcuanBlZyJdLFsicCIsInRodW1iIiwiNDgweDQ4MCJdXQ.jpeg?sha=8a28165a0681c203",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SZ7.jpg",
+    "referenceName": "晚香玉未開花花苞與嫩花莖",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SZ3",
+    "name": "金針筍",
+    "sourceUrl": "https://puligood.waca.tw/product/detail/479514",
+    "referenceUrl": "https://img.cloudimg.in/uploads/shops/12064/products/24/243f44c1550118f898caf4ed8ef114e3.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SZ3.jpg",
+    "referenceName": "碧玉筍，金針嫩莖基部",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SZ4",
+    "name": "食用百合",
+    "sourceUrl": "https://www.afasale.tw/product/2164",
+    "referenceUrl": "https://www.afasale.tw/storage/product/2164/image/C2AsZ3qHlJBOMi49jVHB8OWFrAdWTHMNVgpHkyQg.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SZ4.jpg",
+    "referenceName": "有機食用鮮百合鱗莖；只取球體，排除文字與背景",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SV3",
+    "name": "蘆筍花",
+    "sourceUrl": "https://www.ubox.org.tw/products_view?id=1467",
+    "referenceUrl": "https://www.ubox.org.tw/images/images/products_20260109152635842.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SV3.jpg",
+    "referenceName": "農會比較實拍明確標示左束花、右束中；只取左方短嫩梢。植物學描述分枝嫩芽，照片為其上市形態",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "supplementaryReferences": [
+      {
+        "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SV3-code.jpg",
+        "referenceUrl": "https://www.ubox.org.tw/images/images/products_20260109152648998.jpg",
+        "note": "農會紙箱明列蘆筍花SV3"
+      }
+    ]
+  },
+  {
+    "key": "ST1",
+    "name": "露蕎",
+    "sourceUrl": "https://www.ttdares.gov.tw/upload/ttdares/files/web_structure/7019/14.pdf",
+    "referenceUrl": "https://www.ttdares.gov.tw/upload/ttdares/files/web_structure/7019/14.pdf#page=1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-ST1.png",
+    "referenceName": "蕗蕎新鮮鱗莖與嫩葉；官方原生蔬菜指南第42頁去背實拍，PDF抽取並轉PNG",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "SH7",
+    "name": "去殼竹筍",
+    "sourceUrl": "https://www.hucc-coop.tw/product/content/15030310005",
+    "referenceUrl": "https://www.hucc-coop.tw/uploads/01產品與生產者/產品圖檔/調理食材/調理食品/切塊綠竹筍B.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-SH7.jpg",
+    "referenceName": "已去殼切塊綠竹筍，僅取筍塊形態",
+    "mappingMethod": "labelled_photo_visual_representative"
+  },
+  {
+    "key": "MB1",
+    "name": "草菇",
+    "sourceUrl": "https://pop2938.wordpress.com/",
+    "referenceUrl": "https://pop2938.wordpress.com/wp-content/uploads/2024/12/img_5765-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/stems-MB1.jpg",
+    "referenceName": "新鮮草菇卵形子實體與部分展開子實體",
+    "mappingMethod": "labelled_photo_visual_representative"
+  }
+]

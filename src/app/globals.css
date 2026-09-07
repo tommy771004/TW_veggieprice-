@@ -1183,3 +1183,108 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Selected quotation-list style: paper, quiet rules, aligned prices. */
+@layer components {
+  .quote-list {
+    --quote-surface: #faf9f5;
+    border-top: 1px solid #d7d7cd;
+    background: #faf9f5;
+    color: #202820;
+  }
+  .quote-link {
+    display: block;
+    border-bottom: 1px solid #deded4;
+    transition: background-color 150ms ease;
+  }
+  .quote-link:hover { --quote-surface: #f0f2e9; background: #f0f2e9; }
+  .quote-link:focus-visible { outline: 2px solid #0d631b; outline-offset: -2px; }
+  .quote-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, .58fr) minmax(148px, .5fr);
+    align-items: center;
+    column-gap: 24px;
+    min-height: 110px;
+    padding: 12px 20px;
+  }
+  .quote-row:has(.quote-meta) {
+    grid-template-columns: minmax(0, 1fr) minmax(150px, .56fr) minmax(140px, .45fr) minmax(145px, .48fr);
+  }
+  .quote-product { display: flex; align-items: center; gap: 18px; min-width: 0; }
+  .quote-product-copy { min-width: 0; }
+  .quote-rank { color: #737c6d; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .ingredient-image { display: block; width: 76px; height: 76px; flex-shrink: 0; overflow: hidden; }
+  .ingredient-image > span { display: block; width: 100%; height: 100%; background-repeat: no-repeat; background-color: var(--quote-surface, #faf9f5); background-blend-mode: multiply; }
+  .quote-name { font-family: 'Noto Serif TC', 'Songti TC', 'PMingLiU', serif; font-size: 22px; font-weight: 600; line-height: 1.45; overflow-wrap: anywhere; }
+  .quote-subtitle { color: #697163; font-size: 13px; line-height: 1.5; margin-top: 4px; }
+  .quote-details { color: #697163; font-size: 11px; line-height: 1.5; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .quote-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; color: #0d631b; font-variant-numeric: tabular-nums; }
+  .quote-price strong { font-family: Georgia, 'Times New Roman', serif; font-size: 36px; font-weight: 500; line-height: 1.15; letter-spacing: -.035em; }
+  .quote-unit { color: #697163; font-size: 12px; white-space: nowrap; }
+  .quote-change { display: flex; flex-direction: column; gap: 6px; font-variant-numeric: tabular-nums; }
+  .quote-change-label { color: #697163; font-size: 11px; }
+  .quote-change-value { display: flex; align-items: center; gap: 5px; font-size: 19px; font-weight: 500; }
+  .quote-change-value .material-symbols-outlined { font-size: 21px; }
+  .quote-change--up { color: #ac4b0b; }
+  .quote-change--down { color: #0d631b; }
+  .quote-change--flat { color: #697163; }
+  .quote-meta { display: flex; flex-direction: column; gap: 6px; color: #596152; font-size: 12px; font-variant-numeric: tabular-nums; }
+  html.dark .quote-list { background: #222920; border-color: #596152; color: #f0f2e9; }
+  html.dark .quote-link { border-color: #465140; }
+  html.dark .quote-link:hover { background: #30392d; }
+  html.dark .quote-link:focus-visible { outline-color: #b7dc9c; }
+  html.dark .ingredient-image { mix-blend-mode: normal; background: #faf9f5; border-radius: 6px; }
+  html.dark .ingredient-image > span { background-color: #faf9f5; }
+  html.dark .ingredient-image--fallback { background: transparent; }
+  html.dark .quote-price, html.dark .quote-change--down { color: #b7dc9c; }
+  html.dark .quote-change--up { color: #ffb27d; }
+  html.dark .quote-subtitle, html.dark .quote-details, html.dark .quote-unit,
+  html.dark .quote-change-label, html.dark .quote-meta, html.dark .quote-rank,
+  html.dark .quote-change--flat { color: #bbc4b5; }
+  .quote-name, .quote-price strong { font-family: inherit; font-weight: 700; }
+  .quote-subtitle, .quote-details, .quote-unit, .quote-change-label, .quote-meta,
+  .quote-change--flat { color: #4b5546; }
+  @media (max-width: 767px) {
+    .quote-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .quote-list > * { min-width: 0; }
+    .quote-list > :not(:has(.quote-link)) { grid-column: 1 / -1; }
+    .quote-list > :has(.quote-link):nth-child(odd) { border-right: 1px solid #deded4; }
+    html.dark .quote-list > :has(.quote-link):nth-child(odd) { border-color: #465140; }
+    .quote-link { height: 100%; }
+    .quote-row, .quote-row:has(.quote-meta) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas: 'product price' 'product change' 'meta meta';
+      gap: 5px 8px;
+      padding: 12px 10px;
+      min-height: 0;
+    }
+    .quote-product { grid-area: product; flex-direction: column; align-items: flex-start; gap: 5px; min-height: 46px; }
+    .ingredient-image { width: 36px; height: 36px; }
+    .quote-name { font-size: 1.125rem; line-height: 1.5; }
+    .quote-subtitle { font-size: 0.875rem; }
+    .quote-details { display: none; }
+    .quote-rank { display: none; }
+    .quote-price { grid-area: price; justify-content: flex-end; gap: 4px; text-align: right; }
+    .quote-price strong { font-size: 1.875rem; letter-spacing: 0; }
+    .quote-unit { font-size: 0.875rem; }
+    .quote-change { grid-area: change; align-items: flex-end; gap: 3px; text-align: right; }
+    .quote-change-label { font-size: 0.875rem; line-height: 1.5; }
+    .quote-change-value { font-size: 1.125rem; font-weight: 600; }
+    .quote-change-value .material-symbols-outlined { font-size: 20px; }
+    .quote-meta { grid-area: meta; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 4px 8px; padding-top: 6px; font-size: 0.875rem; line-height: 1.5; }
+    .quote-meta > :last-child { margin-left: auto; text-align: right; }
+  }
+  @media (max-width: 519px) {
+    .quote-row, .quote-row:has(.quote-meta) {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'product' 'price' 'change' 'meta';
+    }
+    .quote-price { justify-content: flex-start; text-align: left; }
+    .quote-change { align-items: flex-start; text-align: left; }
+    .quote-product { flex-direction: row; align-items: center; gap: 8px; }
+    .quote-row, .quote-row:has(.quote-meta) { padding: 12px; }
+  }
+}

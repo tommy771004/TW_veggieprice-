@@ -1,0 +1,130 @@
+[
+  {
+    "key": "flower-586037bd78",
+    "name": "水晶香水",
+    "referenceName": "百合 '水晶香水'",
+    "sourceUrl": "https://www.twflower.org/detail/1597",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFLB001-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-586037bd78.jpg"
+  },
+  {
+    "key": "flower-973815377e",
+    "name": "水燭葉",
+    "referenceName": "水燭葉",
+    "sourceUrl": "https://www.twflower.org/detail/1628",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLTA001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-973815377e.jpg"
+  },
+  {
+    "key": "flower-ad5de02bb6",
+    "name": "洋桔梗",
+    "referenceName": "洋桔梗 '臺南1號'",
+    "sourceUrl": "https://www.twflower.org/detail/1336",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFEG058-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-ad5de02bb6.jpg"
+  },
+  {
+    "key": "flower-f546df7226",
+    "name": "洋甘菊",
+    "referenceName": "洋甘菊",
+    "sourceUrl": "https://www.twflower.org/detail/5716",
+    "referenceUrl": "https://www.twflower.org/storage/pics/0ea90742-7e6d-4c9d-8548-2a20bb0a8312.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-f546df7226.jpg"
+  },
+  {
+    "key": "flower-ae608c2ba7",
+    "name": "海芋",
+    "referenceName": "海芋 紫黑",
+    "sourceUrl": "https://www.twflower.org/detail/1308",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFZA011-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-ae608c2ba7.jpg"
+  },
+  {
+    "key": "flower-84364a3878",
+    "name": "滿天星",
+    "referenceName": "滿天星",
+    "sourceUrl": "https://www.twflower.org/detail/1428",
+    "referenceUrl": "https://www.twflower.org/storage/pics/6fb6a29c-58d9-47b3-8b7a-ee8f6397ead5.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-84364a3878.jpg"
+  },
+  {
+    "key": "flower-64024a0630",
+    "name": "火鶴花",
+    "referenceName": "火鶴花 '台農9號-小仙子'",
+    "sourceUrl": "https://www.twflower.org/detail/369",
+    "referenceUrl": "https://www.twflower.org/storage/pics/9883463b-a407-4bc1-8d3f-6d4254ec21c2.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-64024a0630.jpg"
+  },
+  {
+    "key": "flower-3ea6e3247f",
+    "name": "火龍果",
+    "referenceName": "火龍果(艷果金絲桃)",
+    "sourceUrl": "https://www.twflower.org/detail/1575",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLHA001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-3ea6e3247f.jpg"
+  },
+  {
+    "key": "flower-50ad8db4d4",
+    "name": "牛頭茄",
+    "referenceName": "五指茄(牛頭茄)",
+    "sourceUrl": "https://www.twflower.org/detail/1650",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLSM001-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-50ad8db4d4.jpg"
+  },
+  {
+    "key": "flower-a6664df1ef",
+    "name": "玫瑰",
+    "referenceName": "玫瑰",
+    "sourceUrl": "https://www.twflower.org/detail/1379",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFRR001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-a6664df1ef.jpg"
+  },
+  {
+    "key": "flower-724adb1440",
+    "name": "珊瑚鳳梨",
+    "referenceName": "珊瑚鳳梨",
+    "sourceUrl": "https://www.twflower.org/detail/1634",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFAF001-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-724adb1440.jpg"
+  },
+  {
+    "key": "flower-42e64e2d2b",
+    "name": "白竹",
+    "referenceName": "白竹",
+    "sourceUrl": "https://www.twflower.org/detail/2814",
+    "referenceUrl": "https://www.twflower.org/storage/pics/4994671c-635d-4415-a9eb-cfc413684a9b.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-42e64e2d2b.jpg"
+  },
+  {
+    "key": "flower-311c91c008",
+    "name": "睡蓮",
+    "referenceName": "睡蓮 紅",
+    "sourceUrl": "https://www.twflower.org/detail/1571",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFNT001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-311c91c008.jpg"
+  },
+  {
+    "key": "flower-7b4968e728",
+    "name": "石斛蘭",
+    "referenceName": "石斛蘭",
+    "sourceUrl": "https://www.twflower.org/detail/1223",
+    "referenceUrl": "https://www.twflower.org/storage/pics/D-101-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-7b4968e728.jpg"
+  },
+  {
+    "key": "flower-e0fcc51c43",
+    "name": "紅竹",
+    "referenceName": "朱蕉(紅竹)",
+    "sourceUrl": "https://www.twflower.org/detail/1615",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLCF001-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-e0fcc51c43.jpg"
+  },
+  {
+    "key": "flower-eb9fa640eb",
+    "name": "紅薑花",
+    "referenceName": "紅薑花",
+    "sourceUrl": "https://www.twflower.org/detail/2812",
+    "referenceUrl": "https://www.twflower.org/storage/pics/fd197cf1-bd78-4d4c-a71e-ec141fbfd61a.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-eb9fa640eb.jpg"
+  }
+]

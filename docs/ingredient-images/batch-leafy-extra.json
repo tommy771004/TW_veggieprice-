@@ -1,0 +1,142 @@
+[
+  {
+    "key": "LI1",
+    "name": "萵苣廣東菜",
+    "referenceName": "皺葉萵苣",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=316",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2652/01-4%E8%AA%8D%E8%AD%98%E8%90%B5%E8%8B%A3-%E8%90%B5%E8%8B%A3%E5%AE%B6%E6%97%8F-%E7%9A%BA%E8%91%89%E8%90%B5%E8%8B%A3.jpg",
+    "mappingNote": "來源品種形態作交易類別代表，不宣稱所有該代號商品皆為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LI1.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LH2",
+    "name": "菠菜角葉",
+    "skipReason": "尚未找到明確標示角葉菠菜且可辨認葉形的實物照片。已逐頁檢查 farmer.org.tw 20230830葉菜類分級PDF共15頁，唯一菠菜照片在第5頁明確標示圓葉LH1，不能代用。"
+  },
+  {
+    "key": "LF1",
+    "name": "大葉空心菜",
+    "referenceName": "大葉種",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=80",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1650/%E5%A4%A7%E8%91%89%E7%A8%AE_%E5%89%AF%E6%9C%AC.jpg",
+    "mappingNote": "來源品種形態作交易類別代表，不宣稱所有該代號商品皆為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LF1.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LB1",
+    "name": "土白菜",
+    "referenceName": "小白菜顏色翠綠",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=28",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/4258/03-%E7%89%B9%E5%BE%B5-A%E5%B0%8F%E7%99%BD%E8%8F%9C.JPG",
+    "mappingNote": "來源品種形態作交易類別代表，不宣稱所有該代號商品皆為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LB1.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LC2",
+    "name": "成功白",
+    "skipReason": "僅找到涵蓋包白、成功白等多品種的共用分級照片，未確認專屬成功白實物。 已逐頁檢查 farmer.org.tw 20230830葉菜類分級PDF共15頁，未收錄此代號。"
+  },
+  {
+    "key": "LC6",
+    "name": "冬白芽",
+    "skipReason": "已確認為結球白菜家族芽用型娃娃菜，尚無可可靠對應的實物照；不可用芥菜娃娃菜替代。 已逐頁檢查 farmer.org.tw 20230830葉菜類分級PDF共15頁，未收錄此代號。"
+  },
+  {
+    "key": "LE2",
+    "name": "大葉皇宮菜",
+    "sourceUrl": "https://www.poyuseed.com.tw/product-detail-3678577.html",
+    "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-2811359-9vBeQ.jpg?large",
+    "referenceName": "大葉皇宮菜(落葵)/DA YE",
+    "mappingNote": "以種苗商標示實物品種代表該交易類別，保留原品種名。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LE2.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LG1",
+    "name": "青梗芹菜",
+    "skipReason": "已確認青梗與白梗分類，但現有種苗商實物照片為青葉白骨，不能代表青梗。 已逐頁檢查 farmer.org.tw 20230830葉菜類分級PDF共15頁，未收錄此代號。"
+  },
+  {
+    "key": "LG4",
+    "name": "山芹菜",
+    "sourceUrl": "https://www.poyuseed.com.tw/product-detail-3678412.html",
+    "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-2811237-Gk7WK.jpg?large",
+    "referenceName": "玉芳山芹菜/YU FANG",
+    "mappingNote": "以種苗商標示實物品種代表該交易類別，保留原品種名。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LG4.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LI71",
+    "name": "紅捲萵苣",
+    "sourceUrl": "https://www.poyuseed.com.tw/product-detail-3678384.html",
+    "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-2811209-cQy7U.jpg?large",
+    "referenceName": "亮麗紅捲鬚萵苣/LIANG LI",
+    "mappingNote": "以種苗商標示實物品種代表該交易類別，保留原品種名。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LI71.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LI72",
+    "name": "綠捲萵苣",
+    "sourceUrl": "https://www.poyuseed.com.tw/product-detail-3678382.html",
+    "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-2811207-hd9iv.jpg?large",
+    "referenceName": "星光綠捲鬚萵苣/SHING GUANG",
+    "mappingNote": "以種苗商標示實物品種代表該交易類別，保留原品種名。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LI72.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LU1",
+    "name": "茄茉菜",
+    "sourceUrl": "https://www.poyuseed.com.tw/product-detail-3694768.html",
+    "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-2824016-a2Qmw.jpg?large",
+    "referenceName": "青紅茄茉菜/CING HONG",
+    "mappingNote": "以種苗商標示實物品種代表該交易類別，保留原品種名。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LU1.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LY2",
+    "name": "黑甜仔菜",
+    "referenceName": "龍葵野味菜（黑鬼仔菜）",
+    "sourceUrl": "https://www.hnseeds.com/seed/us2106.html",
+    "referenceUrl": "https://www.hnseeds.com/images/us2106.png",
+    "mappingNote": "以龍葵葉片和嫩梢作黑甜仔菜代表；參考照片含果實，成品只呈現食用嫩葉，不画果實。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LY2.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LZ2",
+    "name": "川七葉",
+    "referenceName": "川七（Anredera cordifolia）",
+    "sourceUrl": "https://teia.tw/archives/natural_valley_star/ph2020-09-02",
+    "referenceUrl": "https://teia.tw/wp-content/uploads/2021/02/133_川七_TRUE.jpg",
+    "mappingNote": "川七厚肉質心形葉實拍；忽略背景蕨類。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LZ2.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "FL5",
+    "name": "豌豆苗",
+    "referenceName": "豌豆苗（百壽芽菜農場）",
+    "sourceUrl": "https://www.hucc-coop.tw/product/content/19010510009?category_type=general",
+    "referenceUrl": "https://www.hucc-coop.tw/uploads/01產品與生產者/產品圖檔/蔬菜類/芽菜類/豌豆苗(環保級)百壽.jpg",
+    "mappingNote": "以合作社實物商品照片代表豌豆苗，保留細莖、成對嫩葉特徵。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-FL5.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LY4",
+    "name": "人參葉",
+    "referenceName": "土人參葉（Talinum paniculatum）",
+    "sourceUrl": "https://dadaochen.ylps.tp.edu.tw/content.php?output_menu=true&titlename=Soil_Ginseng",
+    "referenceUrl": "https://dadaochen.ylps.tp.edu.tw/upload/coper/images/school_plants/土人參/hP_CXBJppEr413RucD50Zw.jpg",
+    "mappingNote": "以土人參可食葉部代表人參葉交易類別，非藥用人參掌狀複葉。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/leafy-extra-LY4.jpg",
+    "photoInspected": true
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "key": "LH2",
+  "name": "菠菜-角葉",
+  "referenceName": "農糧署菠菜小教室實拍（尖角葉外觀）",
+  "sourceUrl": "https://fae.moa.gov.tw/theme_data.php?id=4536&sub_theme=knowledge&theme=topics",
+  "referenceUrl": "https://fae.moa.gov.tw/files/topics/4536/A01_1.jpg",
+  "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/LH2-reference-card.jpg",
+  "imagePath": "/images/ingredients/supplement-LH2.png",
+  "columns": 1,
+  "rows": 1,
+  "column": 0,
+  "row": 0,
+  "kind": "ai_watercolor_from_photo",
+  "mappingMethod": "representative_verified_appearance",
+  "mappingNote": "依農糧署文章說明角葉為薄葉、長柄，圖卡實拍可見尖角葉與側裂；使用此外觀代表，並非該照片標注行情代碼或特定品種。"
+}

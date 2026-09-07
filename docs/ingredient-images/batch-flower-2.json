@@ -1,0 +1,132 @@
+[
+  {
+    "key": "flower-029e00157b",
+    "name": "大理花",
+    "referenceName": "大理花 粉",
+    "sourceUrl": "https://www.twflower.org/detail/2877",
+    "referenceUrl": "https://www.twflower.org/storage/pics/788eeeb5-4d81-4539-82e3-8872357040e9.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-029e00157b.jpg"
+  },
+  {
+    "key": "flower-41f70602f2",
+    "name": "大菊",
+    "referenceName": "大菊 '巴爾塔薩火焰'",
+    "sourceUrl": "https://www.twflower.org/detail/1558",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFDG035-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-41f70602f2.jpg"
+  },
+  {
+    "key": "flower-670d0a7742",
+    "name": "姬百合",
+    "referenceName": "姬百合 粉",
+    "sourceUrl": "https://www.twflower.org/detail/4554",
+    "referenceUrl": "https://www.twflower.org/storage/pics/43581342-6e84-4ce8-842b-fbb5cacb2d3c.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-670d0a7742.jpg"
+  },
+  {
+    "key": "flower-7d1690d086",
+    "name": "小天堂鳥",
+    "referenceName": "小天堂鳥",
+    "sourceUrl": "https://www.twflower.org/detail/3863",
+    "referenceUrl": "https://www.twflower.org/assets/images/img-default.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-7d1690d086.jpg",
+    "skipReason": "Source is a placeholder, no actual photo"
+  },
+  {
+    "key": "flower-9aa4c22aaa",
+    "name": "小菊",
+    "referenceName": "小菊 '林克小白'",
+    "sourceUrl": "https://www.twflower.org/detail/1707",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFCM100-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-9aa4c22aaa.jpg"
+  },
+  {
+    "key": "flower-c36e14d9b8",
+    "name": "小蒼蘭",
+    "referenceName": "小蒼蘭",
+    "sourceUrl": "https://www.twflower.org/detail/3606",
+    "referenceUrl": "https://www.twflower.org/storage/pics/P-FR01-001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-c36e14d9b8.jpg",
+    "skipReason": "Source labelled freesia appears to depict daffodil; identity requires replacement reference"
+  },
+  {
+    "key": "flower-c3fbdda958",
+    "name": "小飛燕草",
+    "referenceName": "小飛燕草",
+    "sourceUrl": "https://www.twflower.org/detail/3328",
+    "referenceUrl": "https://www.twflower.org/storage/pics/P-DE01-001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-c3fbdda958.jpg"
+  },
+  {
+    "key": "flower-eff087d823",
+    "name": "尤加利葉",
+    "referenceName": "尤加利葉",
+    "sourceUrl": "https://www.twflower.org/detail/1626",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLEP003-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-eff087d823.jpg"
+  },
+  {
+    "key": "flower-27b8cf9c25",
+    "name": "山防風",
+    "referenceName": "山防風",
+    "sourceUrl": "https://www.twflower.org/detail/1554",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLEL001-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-27b8cf9c25.jpg"
+  },
+  {
+    "key": "flower-20392cf8f9",
+    "name": "康乃馨",
+    "referenceName": "康乃馨",
+    "sourceUrl": "https://www.twflower.org/detail/3329",
+    "referenceUrl": "https://www.twflower.org/storage/pics/P-DI01-001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-20392cf8f9.jpg"
+  },
+  {
+    "key": "flower-c7f69410e6",
+    "name": "扁柏",
+    "referenceName": "扁柏",
+    "sourceUrl": "https://www.twflower.org/detail/1585",
+    "referenceUrl": "https://www.twflower.org/storage/pics/8f90e2a8-7f25-43b0-af85-b31cb76d5ba4.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-c7f69410e6.jpg"
+  },
+  {
+    "key": "flower-3f9c36bd0e",
+    "name": "拖鞋蘭",
+    "referenceName": "拖鞋蘭",
+    "sourceUrl": "https://www.twflower.org/detail/976",
+    "referenceUrl": "https://www.twflower.org/storage/pics/B-161-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-3f9c36bd0e.jpg"
+  },
+  {
+    "key": "flower-85e1ca2dbc",
+    "name": "文心蘭",
+    "referenceName": "文心蘭 '台中5號-白色佳人'",
+    "sourceUrl": "https://www.twflower.org/detail/1148",
+    "referenceUrl": "https://www.twflower.org/storage/pics/D-163-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-85e1ca2dbc.jpg"
+  },
+  {
+    "key": "flower-ea8c699e10",
+    "name": "星辰花",
+    "referenceName": "星辰花 粉",
+    "sourceUrl": "https://www.twflower.org/detail/2221",
+    "referenceUrl": "https://www.twflower.org/storage/pics/3cfc8bca-e713-476f-a487-c87a4a348b01.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-ea8c699e10.jpg"
+  },
+  {
+    "key": "flower-1fa61b0240",
+    "name": "星點木",
+    "referenceName": "星點木",
+    "sourceUrl": "https://www.twflower.org/detail/1698",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLDS301-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-1fa61b0240.jpg"
+  },
+  {
+    "key": "flower-2a09360145",
+    "name": "水仙百合",
+    "referenceName": "水仙百合",
+    "sourceUrl": "https://www.twflower.org/detail/6714",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFAP008%20%280%29.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-2a09360145.jpg"
+  }
+]

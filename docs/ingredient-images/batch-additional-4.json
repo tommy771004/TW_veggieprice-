@@ -1,0 +1,102 @@
+[
+  {
+    "name": "金鯧(布氏鯧鰺)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=357",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/124/option2_1.jpg",
+    "key": "seafood-1181",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-1181.jpg"
+  },
+  {
+    "name": "銀鯧",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=357",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/124/option1_1.jpg",
+    "key": "seafood-2093",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2093.jpg"
+  },
+  {
+    "name": "香魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=201",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/104/option1_1.jpg",
+    "key": "seafood-1191",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-1191.jpg"
+  },
+  {
+    "name": "魚肉",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=259",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/66/option2_1.jpg",
+    "key": "seafood-6114",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-6114.jpg"
+  },
+  {
+    "name": "鯖魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=203",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/149/option2_1.jpg",
+    "key": "seafood-2331",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2331.jpg"
+  },
+  {
+    "name": "鰹魚（圓花鰹）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=216",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/141/option1_1.jpg",
+    "key": "seafood-2122",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2122.jpg",
+    "skipReason": "Market code2122 is 扁花鰹, source shows 圓花鰹"
+  },
+  {
+    "name": "鰻魚(日本鰻鱺)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=421",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/160/option3_1.png",
+    "key": "seafood-1031",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-1031.jpg"
+  },
+  {
+    "name": "黃鰭鮪",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=214",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/117/option1_1.jpg",
+    "key": "seafood-2113",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2113.jpg"
+  },
+  {
+    "name": "龍膽石斑魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=2",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/2/option1_1.jpg",
+    "key": "seafood-1173",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-1173.jpg"
+  },
+  {
+    "name": "龍蝦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=303",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/96/option1_1.jpg",
+    "key": "seafood-4131",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-4131.jpg",
+    "skipReason": "Source shows clawed lobster; broad local market 龍蝦 identity not confirmed"
+  },
+  {
+    "name": "山羊",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=388",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/142/option2_1.jpg",
+    "key": "livestock-goat",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-livestock-goat.jpg"
+  },
+  {
+    "name": "雞",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=372",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/132/option3_1.jpg",
+    "key": "livestock-chicken",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-livestock-chicken.jpg"
+  },
+  {
+    "name": "鴨，鴨喙（鴨的嘴巴）較長且呈扁平狀；站立時身體前傾",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=372",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/132/option2_1.jpg",
+    "key": "livestock-duck",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-livestock-duck.jpg"
+  },
+  {
+    "name": "鵝，鵝喙（鵝的嘴巴）較短且呈立體狀；站立時身體直挺",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=372",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/132/option1_1.jpg",
+    "key": "livestock-goose",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-livestock-goose.jpg"
+  }
+]

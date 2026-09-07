@@ -1,0 +1,162 @@
+[
+  {
+    "key": "SG6",
+    "name": "大蒜-蒜仁",
+    "sourceUrl": "https://funthingtrue.com.tw/shop/pre-order/530",
+    "referenceUrl": "https://d3c6zt0eaub7ch.cloudfront.net/pocket_image/2408/9cd2bca7-3c11-41e0-9088-e61c22dd80a8.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-SG6.jpg",
+    "referenceName": "手工剝皮蒜仁",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "白色光滑去皮蒜瓣；去掉塑膠盒、保鮮膜、木盤及花材。"
+  },
+  {
+    "key": "SG7",
+    "name": "大蒜-蒜瓣",
+    "sourceUrl": "https://www.freshgo.com.tw/products/%E5%B8%B6%E7%9A%AE%E8%92%9C%E9%A0%AD",
+    "referenceUrl": "https://cdn-general.cybassets.com/media/W1siZiIsIjExNDYxL3Byb2R1Y3RzLzI2MzYzNTAwL0Q3MDA2XzFfZTBlZWZjMmRiM2ZkM2RkYzJlOWQuanBlZyJdLFsicCIsInRodW1iIiwiNDgweDQ4MCJdXQ.jpeg?sha=8c735f60c9927735",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-SG7.jpg",
+    "referenceName": "帶皮蒜頭（約300克）",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "實拍是分離的帶淡粉褐紙皮蒜瓣；不要畫整顆蒜球；去掉網袋和盤子。"
+  },
+  {
+    "key": "FQ2",
+    "name": "毛豆-豆仁",
+    "sourceUrl": "https://www.msfresh.com.tw/products/%E4%BA%9E%E7%B4%B0%E4%BA%9E-%E5%8F%B0%E7%81%A3%E6%AF%9B%E8%B1%86%E4%BB%81",
+    "referenceUrl": "https://cdn-general.cybassets.com/media/W1siZiIsIjMxMDU4L3Byb2R1Y3RzLzY3OTU5Nzg0LzE3NzkyNjQ3NjJfNDJiZmRkOWMzYzdlOTk4M2U1YTAucG5nIl0sWyJwIiwidGh1bWIiLCI0ODB4NDgwIl1d.png?sha=a71bb2392a9a40aa",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-FQ2.jpg",
+    "referenceName": "亞細亞-台灣毛豆仁",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "透明包裝內鮮綠色扁橢圓毛豆仁清楚可辨；僅畫豆仁，不画豆莢或包裝。"
+  },
+  {
+    "key": "SN2",
+    "name": "蓮藕-蓮子",
+    "sourceUrl": "https://www.goodlifeorganic.com.tw/%E6%96%B0%E9%AE%AE%E8%93%AE%E5%AD%90",
+    "referenceUrl": "https://www.goodlifeorganic.com.tw/image/cache/catalog/根莖類/新鮮蓮子-1000x1000h.JPG",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-SN2.jpg",
+    "referenceName": "新鮮蓮子（季節商品）",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "白河蓮子實拍，乳白近圓形有中縫和去芯小孔；去掉塑膠袋與文字。"
+  },
+  {
+    "key": "SR3",
+    "name": "菱角-去殼",
+    "sourceUrl": "https://buydirectlyfromfarmers.tw/catalogue/two-horns-water-chestnut-ef_1342/",
+    "referenceUrl": "https://buydirectlyfromfarmers.tw/media/uploads/images/products/2017/11/pic-two-horns-water-chestnut-ef-1_1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-SR3.jpg",
+    "referenceName": "守護水雉 脫殼菱角仁（兩角菱）",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "僅畫右邊白黃菱角仁；不要畫左側黑色帶角外殼、盤子或標誌。"
+  },
+  {
+    "key": "OD1",
+    "name": "蘿蔔乾",
+    "sourceUrl": "https://eshop.tfa.org.tw/index.php?product_id=2214&route=product%2Fproduct",
+    "referenceUrl": "https://eshop.tfa.org.tw/image/cache/catalog/other/16070020美濃白玉蘿蔔干.jpg-1000x1000h.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OD1.jpg",
+    "referenceName": "美濃區農會白玉蘿蔔乾200g/包",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "袋中可見棕金色皺縮乾蘿蔔條；去掉包裝。"
+  },
+  {
+    "key": "OA1",
+    "name": "鹹菜-清心",
+    "sourceUrl": "https://jkmkt.com.tw/website/product_detailed/112",
+    "referenceUrl": "https://jkmkt.com.tw/assets/uploads/620x620/product_picture_20210408141035785270.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OA1.jpg",
+    "referenceName": "酸菜心、酸菜心絲",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "採用主圖的完整淡黃醃芥菜心，不画切絲；已去除外葉。"
+  },
+  {
+    "key": "OA2",
+    "name": "鹹菜-帶葉",
+    "sourceUrl": "https://www.7-11-seafood.com.tw/products/1137",
+    "referenceUrl": "https://www.7-11-seafood.com.tw/img/Product/old/酸菜.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OA2.jpg",
+    "referenceName": "酸菜600g",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "葉片保留的醃芥菜，金黃厚梗與褐綠皺葉；去掉藍盆。"
+  },
+  {
+    "key": "OB1",
+    "name": "雪里紅",
+    "sourceUrl": "https://www.7-11-seafood.com.tw/products/1137",
+    "referenceUrl": "https://www.7-11-seafood.com.tw/img/Product/old/雪裡紅.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OB1.jpg",
+    "referenceName": "雪裡紅（不切）600g",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "官方北農將OB1歸為醃製類；供應商加工蔬菜頁展示鹽漬軟化深綠葉與綠梗；去掉容器。"
+  },
+  {
+    "key": "OC1",
+    "name": "榨菜",
+    "sourceUrl": "https://food.ltn.com.tw/article/4343",
+    "referenceUrl": "https://img.ltn.com.tw/Upload/food/page/2016/09/30/160930-4343-1-Xxtrg.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OC1.jpg",
+    "referenceName": "整顆榨菜洗淨沖水",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "採用食譜原料步驟的完整淡黃塊狀醃榨菜；去掉手、水龍頭及水槽。"
+  },
+  {
+    "key": "OI1",
+    "name": "筍乾",
+    "sourceUrl": "https://jkmkt.com.tw/website/product_detailed/119",
+    "referenceUrl": "https://jkmkt.com.tw/assets/uploads/620x620/product_picture_20210408143649189056.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OI1.jpg",
+    "referenceName": "筍乾（特乾）",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "實拍為乾燥不規則淡黃纖維筍乾，乾縮毛邊清晰；去掉紅筐。"
+  },
+  {
+    "key": "OI2",
+    "name": "筍絲",
+    "sourceUrl": "https://www.s-yuan.com/product_1125005.html",
+    "referenceUrl": "https://www.s-yuan.com/images/product_l_1125005.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OI2.jpg",
+    "referenceName": "台灣筍絲",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "供應商標示筍絲，圖為一束長條黃色竹筍纖維薄條；去掉繩帶和竹墊。"
+  },
+  {
+    "key": "OI3",
+    "name": "筍片",
+    "sourceUrl": "https://tfa.com.tw/products/p-607",
+    "referenceUrl": "https://tfa.com.tw/storage/products/01KYGKM9ZR88X56RZ00J4D9JG7.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-OI3.jpg",
+    "referenceName": "【筍友部落】熟脆筍片",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "以左下碗中露出的薄白色不規則廣片為主，不畫塑膠包裝或餐具。"
+  },
+  {
+    "key": "FZ2",
+    "name": "落花生-熟",
+    "sourceUrl": "https://qrc.afa.gov.tw/blog/1202000010",
+    "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropSubImgs.1019853?fileName=%E7%94%A2%E5%93%81%E5%8C%85%E8%A3%9D.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-FZ2.jpg",
+    "referenceName": "落花生－鮮蒸花生",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "農業部溯源系統產銷班自有產品圖，前方堆放帶殼熟花生；去掉包裝和盤。"
+  },
+  {
+    "key": "Z3",
+    "name": "柿子-柿餅",
+    "sourceUrl": "https://www.hug.com.tw/product/series/238",
+    "referenceUrl": "https://www.hug.com.tw/data/html_image/208a934db27826f9b26b8bf703288797.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-Z3.jpg",
+    "referenceName": "味衛佳古法柿餅",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "實拍已完成乾燥的褐橘柿餅，表面皺縮帶白色柿霜、棕色萼；保留果實形態，去掉盤和花。"
+  },
+  {
+    "key": "K4",
+    "name": "龍眼-龍眼乾帶殼",
+    "sourceUrl": "https://fukaofoods.tw/product-22.html",
+    "referenceUrl": "https://www.fukaofoods.tw/uploads/fgao/images/202101281527354774.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/processed-K4.jpg",
+    "referenceName": "福高農產帶殼龍眼乾（大顆）",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "乾龍眼仍帶棕色硬殼，近圓形；去掉比尺寸硬幣，勿改成新鮮龍眼果肉。"
+  }
+]

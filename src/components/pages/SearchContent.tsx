@@ -655,14 +655,14 @@ export function SearchContent() {
 
       {/* Results List */}
       {loading ? (
-        <SkeletonList count={6} className="grid grid-cols-1 md:grid-cols-2 gap-3" />
+        <SkeletonList count={6} className="quote-list" />
       ) : (
         <m.div
           key={`${currentPage}-${market}-${marketType}-${query}`}
           variants={searchStaggerContainer}
           initial={false}
           animate="show"
-          className="grid grid-cols-1 md:grid-cols-2 gap-3"
+          className="quote-list"
         >
           {error && (
             <div className="glass-card-solid rounded-2xl px-4 py-5 text-center text-on-surface-variant md:col-span-2">
@@ -687,7 +687,7 @@ export function SearchContent() {
               variants={searchItemVariant}
               layout
             >
-              <ProduceRow item={item} showDetails={true} />
+              <ProduceRow item={item} category={marketType === 'Fruit' ? 'fruit' : marketType === 'Flower' ? 'flower' : marketType === 'meat' ? 'meat' : marketType === 'seafood' ? 'seafood' : 'vegetable'} showDetails={true} />
             </m.div>
           ))}
 

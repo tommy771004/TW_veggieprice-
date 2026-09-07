@@ -6,7 +6,8 @@ import dynamic from "next/dynamic";
 import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { TrendChip } from "@/components/ui/TrendChip";
-import { CropIcon } from "@/components/ui/CropIcon";
+import { QuoteRow } from "@/components/ui/QuoteRow";
+import { getPriceUnit } from "@/lib/priceUnit";
 import { HomeWeeklyTrendChart } from "@/components/charts/HomeWeeklyTrendChart";
 import {
   SkeletonCard,
@@ -794,7 +795,7 @@ export function HomeClient({
           </AnimatePresence>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="quote-list">
               {Array.from({ length: 6 }).map((_, i) => (
                 <SkeletonRow key={i} />
               ))}
@@ -803,7 +804,7 @@ export function HomeClient({
             <AnimatePresence mode="wait">
               <m.div
                 key={activeCategory}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
+                className="quote-list"
                 variants={staggerContainer}
                 initial={false}
                 animate="show"
@@ -822,39 +823,12 @@ export function HomeClient({
                           ...activeSearchTarget,
                         }).toString()}`}
                         prefetch={false}
-                        className="glass-card card-lift rounded-2xl flex items-center justify-between p-3.5 hover:bg-white/60 transition-colors touch-target block"
+                        className="quote-link"
                       >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="relative flex-shrink-0">
-                            <div className="w-11 h-11 rounded-xl bg-white/60 border border-white/50 flex items-center justify-center shadow-sm">
-                              <CropIcon
-                                name={item.cropName}
-                                className="w-7 h-7"
-                              />
-                            </div>
-                            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-on-primary text-2xs font-black rounded-full flex items-center justify-center leading-none shadow-sm">
-                              {i + 1}
-                            </span>
-                          </div>
-                          <div className="min-w-0">
-                            <h3 className="text-body-lg font-bold text-on-surface dark:text-zinc-100 truncate">
-                              {item.cropName}
-                            </h3>
-                            <p className="text-body-sm text-on-surface-variant dark:text-zinc-400 truncate font-medium">
-                              {item.marketName}
-                              <span className="opacity-40 mx-1">·</span>
-                              {item.grade}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right shrink-0 ml-3">
-                          <div className="text-headline-md font-black text-on-surface dark:text-zinc-100 tabular-nums">
-                            ${formatPrice(item.currentPrice)}
-                          </div>
-                          <div className="mt-1">
-                            <TrendChip change={item.priceChange} size="sm" />
-                          </div>
-                        </div>
+                        <QuoteRow name={item.cropName} code={item.cropCode} category={activeCategory}
+                          subtitle={<>{item.marketName}{item.grade && item.grade !== '均價' && <> · {item.grade}</>}</>}
+                          price={item.currentPrice} change={item.priceChange} rank={i + 1}
+                          unit={activeCategory === 'flower' ? '元' : getPriceUnit(item.cropName, activeCategory)} />
                       </Link>
                     </m.div>
                   ))

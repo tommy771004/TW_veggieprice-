@@ -21,6 +21,7 @@ const VolumeBarChart = dynamic(
 )
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { CropIcon } from '@/components/ui/CropIcon'
+import { QuoteRow } from '@/components/ui/QuoteRow'
 import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
 import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
@@ -1150,21 +1151,15 @@ export function ProduceClient({
                 目前沒有可用的跨市場比價資料。
               </div>
             ) : (
-              <ul className="space-y-2">
+              <ul className="quote-list">
                 {pricedMarkets.map((m) => (
                   <li key={m.marketName}>
                     <Link
                       href={`/search?q=${encodeURIComponent(cropName)}&market=${encodeURIComponent(m.marketName)}&type=${searchType}`}
-                      className="glass-card rounded-2xl px-4 py-3 flex justify-between items-center gap-3 hover:bg-white/75 transition-colors block"
+                      className="quote-link"
                     >
-                      <div>
-                        <p className="text-body-lg text-on-surface font-semibold">{m.marketName}</p>
-                        <p className="text-label-sm text-on-surface-variant mt-1">點進去看該市場完整清單</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-headline-md font-bold text-on-surface">${formatPrice(m.avgPrice)}</span>
-                        <TrendChip change={m.priceChange} size="sm" />
-                      </div>
+                      <QuoteRow name={cropName} title={m.marketName} category={resolvedCategory} subtitle={cropName}
+                        price={m.avgPrice} change={m.priceChange} unit={resolvedCategory === 'flower' ? '元' : priceUnit} />
                     </Link>
                   </li>
                 ))}

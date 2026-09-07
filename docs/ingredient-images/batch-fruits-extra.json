@@ -1,0 +1,183 @@
+[
+  {
+    "key": "86",
+    "name": "山竹",
+    "sourceUrl": "https://greenbox.tw/Products/ItemDetail/65433",
+    "referenceUrl": "https://greenboxcdn.azureedge.net/upload/Product_3033/202406110816271.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-86.jpg",
+    "referenceName": "泰國空運新鮮山竹",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Use actual labelled fruit; omit text, packaging, hands and background."
+  },
+  {
+    "key": "87",
+    "name": "紅毛丹",
+    "sourceUrl": "https://taiwan-bonbon-farmer.com/product/rambutan/",
+    "referenceUrl": "https://taiwan-bonbon-farmer.com/wp-content/uploads/2022/06/rambutan001.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-87.jpg",
+    "referenceName": "台灣本土新鮮帶枝紅毛丹",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Use actual labelled fruit; omit text, packaging, hands and background."
+  },
+  {
+    "key": "G91",
+    "name": "榴槤蜜",
+    "sourceUrl": "https://qrc.afa.gov.tw/blog/1401000014?page=1",
+    "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropImgs.768255?fileName=4008.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-G91.jpg",
+    "referenceName": "榴槤蜜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Farmer-labelled Cempedak, not durian or jackfruit."
+  },
+  {
+    "key": "G7",
+    "name": "橄欖",
+    "sourceUrl": "https://www.liukung.org.tw/blogs/fap/agricultural-products64",
+    "referenceUrl": "https://cdn1.cybassets.com/s/files/36159/ckeditor/pictures/content_a58faaf4-19df-4d5d-9c99-997bb929d1fc.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-G7.jpg",
+    "referenceName": "寶山原生種中國橄欖",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Chinese olive Canarium, not European olive."
+  },
+  {
+    "key": "12",
+    "name": "椰子-剝殼",
+    "sourceUrl": "https://www.dskagro.co.in/brown-coconuts.htm",
+    "referenceUrl": "https://2.wlimg.com/product_images/bc-full/2024/7/3123533/watermark/fully-husked-brown-coconut-1718270349-7478791.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-12.jpg",
+    "referenceName": "Fully Husked Brown Coconut",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Fully husked brown inner hard shell, not green outer husk or white shaved coconut."
+  },
+  {
+    "key": "R8",
+    "name": "芒果-芒果青",
+    "sourceUrl": "https://taiwan-bonbon-farmer.com/product/beauty-mango-green-mango-ice/",
+    "referenceUrl": "https://taiwan-bonbon-farmer.com/wp-content/uploads/2023/05/西施芒果青芒果銷售006.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-R8.jpg",
+    "referenceName": "西施青芒果",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Farmer-labelled Xishi unripe mango represents green mango, not a claim of exact market cultivar. Whole green fruit, no pickles."
+  },
+  {
+    "key": "W1",
+    "name": "洋香瓜-網狀紅肉",
+    "sourceUrl": "https://qrc.afa.gov.tw/blog/0501002565",
+    "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropImgs.650648?fileName=1504331152806.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W1.jpg",
+    "referenceName": "紅肉天華洋香瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Whole shape from main photo; flesh colour from same-grower supplementary photo. Omit plates and packaging.",
+    "supplementaryReferences": [
+      {
+        "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropImgs.650647?fileName=1504331147857.jpg",
+        "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W1-flesh.jpg",
+        "referenceName": "紅肉天華洋香瓜 flesh"
+      }
+    ]
+  },
+  {
+    "key": "W2",
+    "name": "洋香瓜-網狀綠肉",
+    "sourceUrl": "https://qrc.afa.gov.tw/blog/0501002565",
+    "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropImgs.650645?fileName=1504331127921.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W2.jpg",
+    "referenceName": "綠肉香華洋香瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Whole shape from main photo; flesh colour from same-grower supplementary photo. Omit plates and packaging.",
+    "supplementaryReferences": [
+      {
+        "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropImgs.650646?fileName=1504331141961.jpg",
+        "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W2-flesh.jpg",
+        "referenceName": "綠肉香華洋香瓜 flesh"
+      }
+    ]
+  },
+  {
+    "key": "W4",
+    "name": "洋香瓜-新疆",
+    "sourceUrl": "https://qrc.afa.gov.tw/blog/0501002565",
+    "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropSubImgs.650649?fileName=1504331205975.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W4.jpg",
+    "referenceName": "紅肉新疆甜瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Whole shape from main photo; flesh colour from same-grower supplementary photo. Omit plates and packaging.",
+    "supplementaryReferences": [
+      {
+        "referenceUrl": "https://qrc.afa.gov.tw/ViewQRCodeTraceManagCropSubImgs.650650?fileName=1504331209774.jpg",
+        "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W4-flesh.jpg",
+        "referenceName": "紅肉新疆甜瓜 flesh"
+      }
+    ]
+  },
+  {
+    "key": "W5",
+    "name": "洋香瓜-光面紅肉",
+    "sourceUrl": "https://www.threshseed.com/products/honeydew-orange-flesh",
+    "referenceUrl": "https://www.threshseed.com/cdn/shop/files/honeydew-orange-flesh-seeds-39701233172729.jpg?v=1700359281&width=1200",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W5.jpg",
+    "referenceName": "Orange Flesh Honeydew",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Foreign seed vendor Orange Flesh Honeydew represents smooth-skin orange-flesh category, no Taiwan cultivar claim."
+  },
+  {
+    "key": "W8",
+    "name": "洋香瓜-阿露斯",
+    "sourceUrl": "https://greenbox.tw/Products/ItemDetail/32527",
+    "referenceUrl": "https://greenboxcdn.azureedge.net/upload/Product_3033/202402010234021.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-W8.jpg",
+    "referenceName": "阿露斯洋香瓜 台霖農場",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Dense raised net and T stem; main photo shows no cut flesh, prefer whole fruit."
+  },
+  {
+    "key": "H41",
+    "name": "葡萄柚-紅寶石",
+    "sourceUrl": "https://jkmkt.com.tw/website/product_detailed/993",
+    "referenceUrl": "https://jkmkt.com.tw/assets/uploads/620x620/product_picture_20210719194001110973.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-H41.jpg",
+    "referenceName": "紅寶石葡萄柚",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Market-labelled Ruby grapefruit, photo only establishes whole peel, not flesh colour."
+  },
+  {
+    "key": "T2",
+    "name": "西瓜-無子西瓜",
+    "sourceUrl": "https://jonesfamilyfarmmd.com/products/crimpson-sweet-seedless-watermelon",
+    "referenceUrl": "https://jonesfamilyfarmmd.com/cdn/shop/products/IMG_20140909_111543218_HDR.jpg?v=1586812777",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-T2.jpg",
+    "referenceName": "seedless watermelon",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Foreign grower seedless watermelon visual representative, no Taiwan cultivar claim. No mature black seeds."
+  },
+  {
+    "key": "T3",
+    "name": "西瓜-黑美人",
+    "sourceUrl": "https://www.gfcl.tw/product/detail/1811546",
+    "referenceUrl": "https://img.cloudimg.in/uploads/shops/22388/products/e5/e5251abca4e9e508bc58821934787af0.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-T3.jpg",
+    "referenceName": "黑美人西瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Use actual labelled fruit; omit text, packaging, hands and background."
+  },
+  {
+    "key": "T4",
+    "name": "西瓜-鳳光英妙",
+    "sourceUrl": "https://www.gfcl.tw/product/detail/1811540",
+    "referenceUrl": "https://img.cloudimg.in/uploads/shops/22388/products/3d/3d59c95453b93ffd89fc5ca416bf113d.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-T4.jpg",
+    "referenceName": "鳳光西瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Feng Guang seed-vendor photo represents Feng Guang/Ying Miao combined category; does not establish Ying Miao."
+  },
+  {
+    "key": "61",
+    "name": "甘蔗-帶皮",
+    "sourceUrl": "https://myship.7-11.com.tw/general/detail/GM2402292107502",
+    "referenceUrl": "https://myship.7-11.com.tw/i/cgdm/GM2402292107502/2403200249838020.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruits-61.jpg",
+    "referenceName": "蔗ﾟ辳家樂 甘蔗",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Only use purple-black unpeeled jointed cane; omit peeled white cane, bags and processing."
+  }
+]

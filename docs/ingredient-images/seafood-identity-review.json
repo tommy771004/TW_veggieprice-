@@ -1,0 +1,1136 @@
+[
+  {
+    "code": "2564",
+    "name": "下雜魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3564",
+    "name": "下雜魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2532",
+    "name": "九岩",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2562",
+    "name": "什魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3562",
+    "name": "什魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "9999",
+    "name": "其他",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3999",
+    "name": "其他凍結(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6049",
+    "name": "其他加工",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "1019",
+    "name": "其他吳郭",
+    "officialIdentity": "吳郭魚類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2139",
+    "name": "其他旗魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3139",
+    "name": "其他旗魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2609",
+    "name": "其他烏魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6099",
+    "name": "其他熟魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "1179",
+    "name": "其他石斑魚",
+    "officialIdentity": "其他石斑類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "4509",
+    "name": "其他蝦類",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "4999",
+    "name": "其他蟹類",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "5999",
+    "name": "其他貝類",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2999",
+    "name": "其他非凍結魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2179",
+    "name": "其他頭足",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "1999",
+    "name": "其他養殖",
+    "officialIdentity": "其他養殖",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2119",
+    "name": "其他鮪魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3119",
+    "name": "其他鮪魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2159",
+    "name": "其他鯊魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3159",
+    "name": "其他鯊魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "1169",
+    "name": "其他鯛類",
+    "officialIdentity": "其他鯛類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2019",
+    "name": "其他鯛類",
+    "officialIdentity": "其他鯛類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3019",
+    "name": "其他鯛類(凍)",
+    "officialIdentity": "其他鯛類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2099",
+    "name": "其他鯧類",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3099",
+    "name": "其他鯧類(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2129",
+    "name": "其他鰹類",
+    "officialIdentity": "其他鰹類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2089",
+    "name": "其他鰺類",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "1039",
+    "name": "其他鰻類",
+    "officialIdentity": "鰻類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1799",
+    "name": "其他黃花",
+    "officialIdentity": "其他黃魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2571",
+    "name": "剝皮魚",
+    "officialIdentity": "單棘魨科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3571",
+    "name": "剝皮魚(凍)",
+    "officialIdentity": "單棘魨科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2572",
+    "name": "剝皮魚去頭",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2570",
+    "name": "剝皮魚（黑達仔）",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3570",
+    "name": "剝皮魚（黑達仔）凍",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2512",
+    "name": "加志",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2106",
+    "name": "勿仔",
+    "officialIdentity": "魩仔",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3106",
+    "name": "勿仔(凍)",
+    "officialIdentity": "魩仔",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1272",
+    "name": "午仔魚",
+    "officialIdentity": "馬鮁科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3271",
+    "name": "午仔魚(凍)",
+    "officialIdentity": "馬鮁科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3116",
+    "name": "南方黑鮪(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2431",
+    "name": "厚唇",
+    "officialIdentity": "黑棘鯛、其他笛鯛",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2391",
+    "name": "咬狗",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2531",
+    "name": "國光、角仔魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3642",
+    "name": "圓鱈、智利海鱸",
+    "officialIdentity": "犬牙南極魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6008",
+    "name": "圓鱈片",
+    "officialIdentity": "犬牙南極魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1101",
+    "name": "土剎",
+    "officialIdentity": "淡水鯰",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2162",
+    "name": "墨魚賊",
+    "officialIdentity": "烏賊",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3162",
+    "name": "墨魚賊(凍)",
+    "officialIdentity": "烏賊",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "4061",
+    "name": "大正蝦海",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2151",
+    "name": "大鯊",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3151",
+    "name": "大鯊【凍】",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3126",
+    "name": "大麟魚(凍）",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3114",
+    "name": "太平洋黑鮪(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2115",
+    "name": "小串仔",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2166",
+    "name": "小卷",
+    "officialIdentity": "鎖管",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3166",
+    "name": "小卷(凍)",
+    "officialIdentity": "鎖管",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2202",
+    "name": "小紅鱠",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2301",
+    "name": "尖梭",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "4522",
+    "name": "市仔管",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2401",
+    "name": "扁魚",
+    "officialIdentity": "鮃鰈類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2136",
+    "name": "旗魚肉",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2361",
+    "name": "智仔",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3632",
+    "name": "柳葉魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3641",
+    "name": "比目魚、扁鱈",
+    "officialIdentity": "鰈",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6009",
+    "name": "比目魚片",
+    "officialIdentity": "鰈",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2611",
+    "name": "水針",
+    "officialIdentity": "鱵科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3155",
+    "name": "水鯊翅【凍】",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6153",
+    "name": "水鯊腹肉【凍】",
+    "officialIdentity": "鋸峰齒鯊腹肉〖凍〗",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2551",
+    "name": "沙腸",
+    "officialIdentity": "沙鮻科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2066",
+    "name": "油口",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3324",
+    "name": "油甘舅【凍】",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2321",
+    "name": "油魚",
+    "officialIdentity": "帶鰆科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3321",
+    "name": "油魚(凍)",
+    "officialIdentity": "帶鰆科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2081",
+    "name": "油魽",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6101",
+    "name": "海菜",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2238",
+    "name": "海鯽魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2221",
+    "name": "海鰻",
+    "officialIdentity": "海鰻科、其它海水鰻",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "4010",
+    "name": "溪蝦",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2371",
+    "name": "烏鞭",
+    "officialIdentity": "馬鞭魚科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6052",
+    "name": "烏魚子",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6071",
+    "name": "熟丁香",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6050",
+    "name": "熟卷",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6051",
+    "name": "熟小破",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6081",
+    "name": "熟鯖魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2441",
+    "name": "牛尾",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2211",
+    "name": "狗母",
+    "officialIdentity": "合齒魚科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1174",
+    "name": "珍珠龍膽/龍虎斑",
+    "officialIdentity": "龍虎斑",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1141",
+    "name": "田蛙",
+    "officialIdentity": "蛙類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "4405",
+    "name": "白丁蝦、日本玻璃蝦",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2421",
+    "name": "白松",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2016",
+    "name": "白鯛",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2072",
+    "name": "目孔",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2201",
+    "name": "石斑魚",
+    "officialIdentity": "鞍帶石斑魚、棕點石斑魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2440",
+    "name": "石狗公",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2471",
+    "name": "秋哥",
+    "officialIdentity": "鬚鯛科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2041",
+    "name": "秋姑",
+    "officialIdentity": "鬚鯛科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3169",
+    "name": "章魚(凍)",
+    "officialIdentity": "章魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2302",
+    "name": "竹梭",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3302",
+    "name": "竹梭凍",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "5101",
+    "name": "竹蟶海",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3323",
+    "name": "粗鱗油甘(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2082",
+    "name": "紅古",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2083",
+    "name": "紅尾冬",
+    "officialIdentity": "赤尾冬",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2047",
+    "name": "紅新娘",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3203",
+    "name": "紅條(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3910",
+    "name": "紅皮刀凍",
+    "officialIdentity": "斑點月魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3137",
+    "name": "紅肉丁挽(短吻旗魚)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3132",
+    "name": "紅肉旗(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "4101",
+    "name": "紅蝦海",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2042",
+    "name": "紅魚",
+    "officialIdentity": "星點笛鯛、長尾濱鯛",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6011",
+    "name": "紅魚",
+    "officialIdentity": "星點笛鯛、長尾濱鯛",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2482",
+    "name": "紅鰱魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3322",
+    "name": "細鱗油甘(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2901",
+    "name": "翻車魚",
+    "officialIdentity": "翻車魨科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2568",
+    "name": "肉栓",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3261",
+    "name": "肉魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "4406",
+    "name": "胭脂蝦",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3163",
+    "name": "花枝(凍)",
+    "officialIdentity": "花枝",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1168",
+    "name": "花身",
+    "officialIdentity": "黃鰭棘鯛、花身鯻",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2481",
+    "name": "英哥",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3481",
+    "name": "英哥凍",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "4016",
+    "name": "蝦仁",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "4141",
+    "name": "蝦姑海",
+    "officialIdentity": "蝦姑",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "4404",
+    "name": "蝦母、東方異腕蝦",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "4511",
+    "name": "蟳",
+    "officialIdentity": "鋸緣青蟹、銹斑蟳、其他蟳蟹類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2311",
+    "name": "西刀",
+    "officialIdentity": "寶刀魚科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2094",
+    "name": "西鯧",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2155",
+    "name": "角鯊",
+    "officialIdentity": "其他鯊",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1061",
+    "name": "豆仔魚",
+    "officialIdentity": "其他鯔",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2563",
+    "name": "象魚(臭肚)",
+    "officialIdentity": "臭肚魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1170",
+    "name": "象魚、臭肚",
+    "officialIdentity": "臭肚魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2165",
+    "name": "軟舌、軟絲",
+    "officialIdentity": "擬烏賊",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3165",
+    "name": "軟舌、軟絲(凍)",
+    "officialIdentity": "擬烏賊",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2164",
+    "name": "透抽",
+    "officialIdentity": "鎖管",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3164",
+    "name": "透抽(凍)",
+    "officialIdentity": "鎖管",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "5061",
+    "name": "鐘螺(海)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2461",
+    "name": "長加",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3172",
+    "name": "阿根廷魷魚頭",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6173",
+    "name": "阿髻鮫翅【凍】",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2160",
+    "name": "雙髻鮫",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3160",
+    "name": "雙髻鮫凍",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2541",
+    "name": "青筆、雞仔魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2483",
+    "name": "青衣",
+    "officialIdentity": "鸚哥魚科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2381",
+    "name": "青鞭",
+    "officialIdentity": "鶴鱵科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2078",
+    "name": "青魽",
+    "officialIdentity": "其他鰺",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2102",
+    "name": "青鱗",
+    "officialIdentity": "小沙丁屬",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6156",
+    "name": "馬加鯊翅【凍】",
+    "officialIdentity": "尖吻鯖鯊翅〖凍〗",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2181",
+    "name": "馬頭魚",
+    "officialIdentity": "馬頭魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6031",
+    "name": "魚丸",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6111",
+    "name": "魚內臟",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6112",
+    "name": "魚卵",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6113",
+    "name": "魚皮",
+    "officialIdentity": "魚皮",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6110",
+    "name": "魚肚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2161",
+    "name": "魷魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3161",
+    "name": "魷魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2905",
+    "name": "鮟鱇魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3905",
+    "name": "鮟鱇魚凍",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2781",
+    "name": "鮭魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3781",
+    "name": "鮭魚(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "6010",
+    "name": "鮭魚片",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2782",
+    "name": "鮭魚頭/尾",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3782",
+    "name": "鮭魚頭/尾凍",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2152",
+    "name": "鯊條",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2153",
+    "name": "鯊煙",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3154",
+    "name": "鯊翅(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3331",
+    "name": "鯖魚(凍)",
+    "officialIdentity": "花腹鯖、白腹鯖",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1111",
+    "name": "鯰魚",
+    "officialIdentity": "淡水鯰",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2085",
+    "name": "鰺魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2103",
+    "name": "鱙仔",
+    "officialIdentity": "鱙仔",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3103",
+    "name": "鱙仔(凍)",
+    "officialIdentity": "鱙仔",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2351",
+    "name": "鱝(魴仔)",
+    "officialIdentity": "魟類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "1081",
+    "name": "鱺魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "5111",
+    "name": "鳳螺(海)",
+    "officialIdentity": "鳳螺",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6021",
+    "name": "鹹魚",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "1167",
+    "name": "黃花",
+    "officialIdentity": "黃魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2061",
+    "name": "黃花",
+    "officialIdentity": "黃魚",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2084",
+    "name": "黑尾冬",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2252",
+    "name": "黑皮刀",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "3252",
+    "name": "黑皮刀(凍)",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2080",
+    "name": "黑魽",
+    "officialIdentity": "其他鰺",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3156",
+    "name": "黑鯊(凍)",
+    "officialIdentity": "真鯊屬",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "6188",
+    "name": "黑鯊翅【凍】",
+    "officialIdentity": "",
+    "reason": "official_identity_unspecified"
+  },
+  {
+    "code": "2191",
+    "name": "龍尖、青嘴",
+    "officialIdentity": "龍占魚科",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "2411",
+    "name": "龍舌",
+    "officialIdentity": "鮃鰈類",
+    "reason": "identity_needs_review"
+  },
+  {
+    "code": "3341",
+    "name": "（日本）白帶魚凍",
+    "officialIdentity": "帶魚屬",
+    "reason": "identity_needs_review"
+  }
+]

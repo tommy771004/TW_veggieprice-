@@ -1,0 +1,1867 @@
+[
+  {
+    "name": "山藥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=1",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/1/option1_2.jpg"
+  },
+  {
+    "name": "馬鈴薯",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=1",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/1/option2_1.jpg"
+  },
+  {
+    "name": "甘藷",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=1",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/1/option3_1.jpg"
+  },
+  {
+    "name": "胡蘿蔔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=100",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/83/option1_1.jpg"
+  },
+  {
+    "name": "甘藷",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=100",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/83/option2_1.jpg"
+  },
+  {
+    "name": "櫛瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=100",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/83/option3_1.jpg"
+  },
+  {
+    "name": "彩色胡蘿蔔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=100",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/84/option1_1.jpg"
+  },
+  {
+    "name": "蘿蔔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=100",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/84/option2_1.jpg"
+  },
+  {
+    "name": "胡蘿蔔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=100",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/84/option3_1.jpg"
+  },
+  {
+    "name": "馬鈴薯",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=102",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/28/option1_1.jpg"
+  },
+  {
+    "name": "芋頭",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=102",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/28/option2_1.jpg"
+  },
+  {
+    "name": "甘藷",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=102",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/28/option3_1.png"
+  },
+  {
+    "name": "芝麻",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=104",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/67/option1_1.jpg"
+  },
+  {
+    "name": "胡椒",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=104",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/67/option2_1.jpg"
+  },
+  {
+    "name": "紫米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=104",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/67/option3_1.jpg"
+  },
+  {
+    "name": "花椰菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=106",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/86/option1_1.jpg"
+  },
+  {
+    "name": "青花菜，青花菜與花椰菜是不同物種",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=106",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/86/option2_1.jpg"
+  },
+  {
+    "name": "青花筍，是青花菜與芥藍菜雜交的新種蔬菜，由於口感脆嫩像蘆筍，因此稱為「青花筍」",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=106",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/86/option3_1.jpg"
+  },
+  {
+    "name": "柳丁",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=110",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/92/option1_1.jpg"
+  },
+  {
+    "name": "葡萄柚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=110",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/92/option2_1.jpg"
+  },
+  {
+    "name": "茂谷柑",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=110",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/92/option3_1.jpg"
+  },
+  {
+    "name": "茄子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=111",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/167/option1_1.jpeg"
+  },
+  {
+    "name": "絲瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=111",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/167/option2_1.jpeg"
+  },
+  {
+    "name": "苦瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=111",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/167/option3_1.jpeg"
+  },
+  {
+    "name": "茭白筍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=112",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/87/option1_1.jpg"
+  },
+  {
+    "name": "竹筍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=112",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/87/option2_1.jpg"
+  },
+  {
+    "name": "蘆筍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=112",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/87/option3_1.jpg"
+  },
+  {
+    "name": "草莓",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=114",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/16/option1_1.jpg"
+  },
+  {
+    "name": "覆盆子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=114",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/16/option2_1.jpg"
+  },
+  {
+    "name": "櫻桃",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=114",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/16/option3_1.jpg"
+  },
+  {
+    "name": "豇(ㄐㄧㄤ)豆（植物學正式名稱為豇豆；市場上俗稱菜豆），果莢長度約30 ~ 50公分，果莢顏色分成白皮、紅皮、青皮（如照片下方果莢）和花皮（如照片上方果莢）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=119",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/77/option1_1.jpg"
+  },
+  {
+    "name": "豌豆，果莢長度約10 ~ 15公分豌豆依外型用途之不同，可分為嫩莢用(莢豌豆)、嫩豆用(甜豌豆)、豆苗用、甜豆用及豆芽用等五種類型",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=119",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/77/option2_1.jpg"
+  },
+  {
+    "name": "四季豆，果莢長15 ~ 20公分",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=119",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/77/option3_1.jpg"
+  },
+  {
+    "name": "花生",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=121",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/23/option1_1.jpg"
+  },
+  {
+    "name": "開心果",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=121",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/23/option2_1.jpg"
+  },
+  {
+    "name": "核桃",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=121",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/23/option3_1.jpg"
+  },
+  {
+    "name": "藍莓",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=122",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/36/option1_1.jpg"
+  },
+  {
+    "name": "葡萄",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=122",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/36/option2_3.jpg"
+  },
+  {
+    "name": "橄欖",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=122",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/36/option3_1.jpg"
+  },
+  {
+    "name": "紅蔥頭，別名分蔥、珠蔥，外表紫紅色，蔥瓣的形狀偏向長形水滴狀",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=125",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/81/option1_1.jpg"
+  },
+  {
+    "name": "洋蔥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=125",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/81/option2_1.jpg"
+  },
+  {
+    "name": "大蒜，蒜瓣呈圓形水滴狀",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=125",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/81/option3_1.jpg"
+  },
+  {
+    "name": "稻米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=129",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/114/option1_1.jpg"
+  },
+  {
+    "name": "小麥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=129",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/114/option2_1.jpg"
+  },
+  {
+    "name": "薏苡",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=129",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/114/option3_1.jpg"
+  },
+  {
+    "name": "四季豆（菜豆）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=131",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/98/option1_1.jpg"
+  },
+  {
+    "name": "綠蘆筍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=131",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/98/option2_1.jpg"
+  },
+  {
+    "name": "空心菜（蕹菜）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=131",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/98/option3_1.jpg"
+  },
+  {
+    "name": "蘿蔔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=133",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/40/option1_1.jpg"
+  },
+  {
+    "name": "紅蘿蔔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=133",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/40/option2_1.jpg"
+  },
+  {
+    "name": "甜菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=133",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/40/option3_1.jpg"
+  },
+  {
+    "name": "冬瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=137",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/52/option1_1.jpg"
+  },
+  {
+    "name": "哈密瓜（洋香瓜）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=137",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/52/option2_1.jpg"
+  },
+  {
+    "name": "西瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=137",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/52/option3_1.jpg"
+  },
+  {
+    "name": "芭樂（番石榴）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=141",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/115/option1_1.jpg"
+  },
+  {
+    "name": "酪梨",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=141",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/115/option2_1.jpg"
+  },
+  {
+    "name": "文旦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=141",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/115/option3_1.jpg"
+  },
+  {
+    "name": "榴槤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=142",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/19/option1_1.jpg"
+  },
+  {
+    "name": "釋迦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=142",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/19/option2_1.jpg"
+  },
+  {
+    "name": "波羅蜜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=142",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/19/option3_1.jpg"
+  },
+  {
+    "name": "四季桔，大小與金棗（金柑）相似，果實呈球形，果皮澀、果味酸，不適合鮮食，近年流行榨汁，做成「金桔（金橘）檸檬」飲料",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=143",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/89/option1_1.jpg"
+  },
+  {
+    "name": "椪柑，被歸類為寬皮柑類，果重約150~250公克，通常只吃果肉",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=143",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/89/option2_1.png"
+  },
+  {
+    "name": "金棗（長實金柑），果重約10~30公克，果皮甜、果肉酸，常做成蜜餞",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=143",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/89/option3_1.jpg"
+  },
+  {
+    "name": "辣椒",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=145",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/20/option1_2.jpg"
+  },
+  {
+    "name": "金針",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=145",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/20/option2_2.jpg"
+  },
+  {
+    "name": "枇杷",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=145",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/20/option3_1.jpg"
+  },
+  {
+    "name": "李子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=147",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/147/option1_1.jpg"
+  },
+  {
+    "name": "蜜棗",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=147",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/147/option2_1.png"
+  },
+  {
+    "name": "梅子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=147",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/147/option3_1.jpg"
+  },
+  {
+    "name": "青蔥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=149",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/56/option1_1.jpg"
+  },
+  {
+    "name": "韭菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=149",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/56/option2_1.jpg"
+  },
+  {
+    "name": "芹菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=149",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/56/option3_1.jpg"
+  },
+  {
+    "name": "玉米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=151",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/75/option1_1.jpg"
+  },
+  {
+    "name": "鳳梨釋迦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=151",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/75/option2_1.jpg"
+  },
+  {
+    "name": "苦瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=151",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/75/option3_1.jpg"
+  },
+  {
+    "name": "香菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=156",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/26/option1_1.jpg"
+  },
+  {
+    "name": "洋菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=156",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/26/option2_1.jpg"
+  },
+  {
+    "name": "杏鮑菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=156",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/26/option3_1.jpg"
+  },
+  {
+    "name": "檳榔樹",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=157",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/39/option1_1.jpg"
+  },
+  {
+    "name": "椰子樹",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=157",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/39/option2_1.jpg"
+  },
+  {
+    "name": "香蕉樹",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=157",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/39/option3_1.jpg"
+  },
+  {
+    "name": "榴槤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=160",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/37/option1_1.jpg"
+  },
+  {
+    "name": "鳳梨",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=160",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/37/option2_1.jpg"
+  },
+  {
+    "name": "波羅蜜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=160",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/37/option3_1.jpg"
+  },
+  {
+    "name": "鳳梨的冠芽，綠色的看起來像葉子的地方，其實是鳳梨尾唷",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=160",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/38/option1_1.jpg"
+  },
+  {
+    "name": "楊梅",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=162",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/76/option1_1.jpg"
+  },
+  {
+    "name": "龍眼",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=162",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/76/option2_1.jpg"
+  },
+  {
+    "name": "荔枝",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=162",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/76/option3_1.jpg"
+  },
+  {
+    "name": "仙草",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=163",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/14/option1_1.jpg"
+  },
+  {
+    "name": "薄荷（綠薄荷）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=163",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/14/option2_3.jpg"
+  },
+  {
+    "name": "甘藷葉（地瓜葉）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=163",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/14/option3_1.jpg"
+  },
+  {
+    "name": "小麥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=169",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/18/option1_1.jpg"
+  },
+  {
+    "name": "水稻",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=169",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/18/option2_1.jpg"
+  },
+  {
+    "name": "小米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=169",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/18/option3_1.jpg"
+  },
+  {
+    "name": "文蛤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=177",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/25/option1_1.jpg"
+  },
+  {
+    "name": "綠殼菜蛤（淡菜）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=177",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/25/option2_1.jpg"
+  },
+  {
+    "name": "蚵仔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=177",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/25/option3_1.jpg"
+  },
+  {
+    "name": "紅棗",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=181",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/29/option1_1.jpg"
+  },
+  {
+    "name": "咖啡",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=181",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/29/option2_1.jpg"
+  },
+  {
+    "name": "龍眼",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=181",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/29/option3_1.jpg"
+  },
+  {
+    "name": "鎖管",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=183",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/31/option1_1.jpg"
+  },
+  {
+    "name": "花枝(烏賊)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=183",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/31/option2_1.jpg"
+  },
+  {
+    "name": "章魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=183",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/31/option3_1.jpg"
+  },
+  {
+    "name": "石斑魚（點帶石斑魚），它的特徵是嘴唇很厚、身上帶有斑紋",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=198",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/119/option2_1.jpg"
+  },
+  {
+    "name": "龍膽石斑魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=2",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/2/option1_1.jpg"
+  },
+  {
+    "name": "吳郭魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=2",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/2/option2_1.png"
+  },
+  {
+    "name": "虱目魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=2",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/2/option3_2.jpg"
+  },
+  {
+    "name": "香魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=201",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/104/option1_1.jpg"
+  },
+  {
+    "name": "烏魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=201",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/104/option2_1.jpg"
+  },
+  {
+    "name": "虱目魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=201",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/104/option3_1.jpg"
+  },
+  {
+    "name": "秋刀魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=203",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/149/option1_1.jpg"
+  },
+  {
+    "name": "鯖魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=203",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/149/option2_1.jpg"
+  },
+  {
+    "name": "臺灣蜆，殼面具有環狀凸起的成長輪",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=206",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/69/option1_1.jpg"
+  },
+  {
+    "name": "文蛤，殼面比蜆光滑",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=206",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/69/option2_1.jpg"
+  },
+  {
+    "name": "九孔螺",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=206",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/69/option3_1.jpg"
+  },
+  {
+    "name": "南瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=207",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/108/option1_1.jpg"
+  },
+  {
+    "name": "芒果（金煌）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=207",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/108/option2_1.jpg"
+  },
+  {
+    "name": "愛玉子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=207",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/108/option3_1.jpg"
+  },
+  {
+    "name": "海瓜子簾蛤，斧足為橘紅色",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=208",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/127/option1_1.jpg"
+  },
+  {
+    "name": "臺灣蜆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=208",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/127/option2_1.jpg"
+  },
+  {
+    "name": "文蛤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=208",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/127/option3_1.jpg"
+  },
+  {
+    "name": "秋刀魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=212",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/95/option1_1.png"
+  },
+  {
+    "name": "竹筴魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=212",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/95/option2_1.png"
+  },
+  {
+    "name": "鯖魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=212",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/95/option3_1.png"
+  },
+  {
+    "name": "黃鰭鮪",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=214",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/117/option1_1.jpg"
+  },
+  {
+    "name": "鬼頭刀(鱰魚)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=214",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/117/option2_1.jpg"
+  },
+  {
+    "name": "鱸魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=214",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/117/option3_1.jpg"
+  },
+  {
+    "name": "鰹魚（圓花鰹）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=216",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/141/option1_1.jpg"
+  },
+  {
+    "name": "旗魚（劍旗魚）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=216",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/141/option2_1.jpg"
+  },
+  {
+    "name": "秋刀魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=216",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/141/option3_1.jpg"
+  },
+  {
+    "name": "太平洋黑鮪魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=218",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/152/option1_1.jpg"
+  },
+  {
+    "name": "康氏馬加鰆(土魠魚)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=218",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/152/option2_1.jpg"
+  },
+  {
+    "name": "圓花鰹",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=218",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/152/option3_1.jpg"
+  },
+  {
+    "name": "小米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=231",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/48/option1_1.jpg"
+  },
+  {
+    "name": "高粱",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=231",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/48/option2_1.jpg"
+  },
+  {
+    "name": "小麥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=231",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/48/option3_1.jpg"
+  },
+  {
+    "name": "淡菜（綠殼菜蛤）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=232",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/49/option1_1.jpg"
+  },
+  {
+    "name": "蚵（牡蠣）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=232",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/49/option2_1.jpg"
+  },
+  {
+    "name": "海參（蕩皮參）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=236",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/51/option1_1.jpg"
+  },
+  {
+    "name": "海帶",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=236",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/51/option2_1.png"
+  },
+  {
+    "name": "紫菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=236",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/51/option3_1.jpg"
+  },
+  {
+    "name": "石斑魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=241",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/53/option1_1.jpg"
+  },
+  {
+    "name": "虱目魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=241",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/53/option2_1.jpg"
+  },
+  {
+    "name": "烏魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=241",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/53/option3_1.jpg"
+  },
+  {
+    "name": "過貓（過溝菜蕨）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=244",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/54/option1_2.jpg"
+  },
+  {
+    "name": "空心菜（蕹菜）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=244",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/54/option2_1.jpg"
+  },
+  {
+    "name": "龍鬚菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=244",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/54/option3_1.jpg"
+  },
+  {
+    "name": "龍鬚菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=246",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/55/option1_1.jpg"
+  },
+  {
+    "name": "過溝菜蕨",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=246",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/55/option2_1.jpg"
+  },
+  {
+    "name": "山蘇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=246",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/55/option3_1.jpg"
+  },
+  {
+    "name": "洛神葵",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=254",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/62/option1_1.jpg"
+  },
+  {
+    "name": "奇異果",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=254",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/62/option2_1.jpg"
+  },
+  {
+    "name": "紅龍果",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=254",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/62/option3_1.jpg"
+  },
+  {
+    "name": "銀柳",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=257",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/65/option1_1.jpg"
+  },
+  {
+    "name": "洛神葵",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=257",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/65/option2_1.jpg"
+  },
+  {
+    "name": "朱槿",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=257",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/65/option3_1.jpg"
+  },
+  {
+    "name": "雞肉",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=259",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/66/option1_1.jpg"
+  },
+  {
+    "name": "魚肉",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=259",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/66/option2_1.jpg"
+  },
+  {
+    "name": "牛肉",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=259",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/66/option3_1.jpg"
+  },
+  {
+    "name": "紅豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=26",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/10/option1_1.jpg"
+  },
+  {
+    "name": "黃豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=26",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/10/option2_1.jpg"
+  },
+  {
+    "name": "黑豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=26",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/10/option3_1.jpg"
+  },
+  {
+    "name": "鱸魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=267",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/71/option1_1.jpg"
+  },
+  {
+    "name": "鯖魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=267",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/71/option2_1.jpg"
+  },
+  {
+    "name": "虱目魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=267",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/71/option3_1.jpg"
+  },
+  {
+    "name": "洋菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=270",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/73/option1_1.jpg"
+  },
+  {
+    "name": "杏鮑菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=270",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/73/option2_1.jpg"
+  },
+  {
+    "name": "金針菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=270",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/73/option3_1.jpg"
+  },
+  {
+    "name": "飛魚（白鰭鬚唇飛魚）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=273",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/88/option1_2.jpg"
+  },
+  {
+    "name": "旗魚（雨傘旗魚）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=273",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/88/option2_2.jpg"
+  },
+  {
+    "name": "魟魚（印度蝠鱝）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=273",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/88/option3_2.jpg"
+  },
+  {
+    "name": "青花菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=277",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/85/option2_1.jpg"
+  },
+  {
+    "name": "高麗菜（甘藍）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=277",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/85/option3_1.jpg"
+  },
+  {
+    "name": "木耳（毛木耳）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=278",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/78/option1_1.jpg"
+  },
+  {
+    "name": "銀耳（俗稱白木耳）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=278",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/78/option2_1.jpg"
+  },
+  {
+    "name": "香菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=278",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/78/option3_1.jpg"
+  },
+  {
+    "name": "結球白菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=28",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/158/option1_1.jpg"
+  },
+  {
+    "name": "不結球白菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=28",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/158/option2_1.jpg"
+  },
+  {
+    "name": "茼蒿",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=28",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/158/option3_1.jpg"
+  },
+  {
+    "name": "龍蝦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=303",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/96/option1_1.jpg"
+  },
+  {
+    "name": "白蝦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=303",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/96/option2_1.jpg"
+  },
+  {
+    "name": "櫻花蝦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=303",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/96/option3_1.jpg"
+  },
+  {
+    "name": "旗魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=306",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/97/option1_1.jpg"
+  },
+  {
+    "name": "鮪魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=306",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/97/option2_1.jpg"
+  },
+  {
+    "name": "鬼頭刀",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=306",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/97/option3_1.jpg"
+  },
+  {
+    "name": "水稻",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=309",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/106/option1_1.jpg"
+  },
+  {
+    "name": "小米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=309",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/106/option2_1.jpg"
+  },
+  {
+    "name": "臺灣藜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=309",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/106/option3_1.jpg"
+  },
+  {
+    "name": "仙桃（蛋黃果）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=314",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/110/option1_1.jpg"
+  },
+  {
+    "name": "可可",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=314",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/110/option2_1.jpg"
+  },
+  {
+    "name": "木瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=314",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/110/option3_1.jpg"
+  },
+  {
+    "name": "可可的嫩葉，無法做成巧克力",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=314",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/111/option1_1.jpg"
+  },
+  {
+    "name": "可可的果莢（橘色外殼）及果肉（中間白色的部分），果莢堅硬、果肉黏稠軟綿，皆無法做成巧克力",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=314",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/111/option2_1.jpg"
+  },
+  {
+    "name": "可可的種子，是製作巧克力的原料",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=314",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/111/option3_1.jpg"
+  },
+  {
+    "name": "萵苣(福山萵苣)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=316",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/99/option1_1.jpg"
+  },
+  {
+    "name": "芥菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=316",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/99/option2_1.jpg"
+  },
+  {
+    "name": "大白菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=316",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/99/option3_1.jpg"
+  },
+  {
+    "name": "黃鰭鮪",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=318",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/101/option1_1.jpg"
+  },
+  {
+    "name": "烏魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=318",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/101/option2_1.jpg"
+  },
+  {
+    "name": "石斑魚(點帶石斑魚)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=318",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/101/option3_1.jpg"
+  },
+  {
+    "name": "菱角",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=320",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/112/option1_1.jpg"
+  },
+  {
+    "name": "洛神葵",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=320",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/112/option2_1.jpg"
+  },
+  {
+    "name": "藍莓",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=320",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/112/option3_1.jpg"
+  },
+  {
+    "name": "九孔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=323",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/102/option1_1.jpg"
+  },
+  {
+    "name": "文蛤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=323",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/102/option2_1.jpg"
+  },
+  {
+    "name": "牡蠣",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=323",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/102/option3_1.jpg"
+  },
+  {
+    "name": "海鱺",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=329",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/105/option1_1.jpg"
+  },
+  {
+    "name": "灰鯖鮫",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=329",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/105/option2_1.jpg"
+  },
+  {
+    "name": "斑海鯰",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=329",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/105/option3_1.jpg"
+  },
+  {
+    "name": "可可（可可的果實）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=339",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/116/option1_1.jpg"
+  },
+  {
+    "name": "木虌果（青色是未成熟果實；橘紅色是成熟果實）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=339",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/116/option2_1.jpg"
+  },
+  {
+    "name": "木瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=339",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/116/option3_1.jpg"
+  },
+  {
+    "name": "野蓮(龍骨瓣莕菜)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=350",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/118/option1_1.jpg"
+  },
+  {
+    "name": "韭菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=350",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/118/option2_1.jpg"
+  },
+  {
+    "name": "青蔥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=350",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/118/option3_1.jpg"
+  },
+  {
+    "name": "杭菊(白雪)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=354",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/125/option1_1.jpg"
+  },
+  {
+    "name": "繡球花",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=354",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/125/option2_1.jpg"
+  },
+  {
+    "name": "天竺牡丹(大理花)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=354",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/125/option3_1.jpg"
+  },
+  {
+    "name": "綠葡萄",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=356",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/123/option1_1.jpg"
+  },
+  {
+    "name": "梅",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=356",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/123/option2_1.jpg"
+  },
+  {
+    "name": "餘甘子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=356",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/123/option3_1.jpg"
+  },
+  {
+    "name": "銀鯧",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=357",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/124/option1_1.jpg"
+  },
+  {
+    "name": "金鯧(布氏鯧鰺)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=357",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/124/option2_1.jpg"
+  },
+  {
+    "name": "圓白鯧",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=357",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/124/option3_1.jpg"
+  },
+  {
+    "name": "棗子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=361",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/126/option1_1.jpg"
+  },
+  {
+    "name": "油柑",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=361",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/126/option2_1.jpg"
+  },
+  {
+    "name": "油茶(大果油茶)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=361",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/126/option3_2.jpg"
+  },
+  {
+    "name": "蘿蔔",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=364",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/128/option1_1.jpg"
+  },
+  {
+    "name": "甘藷",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=364",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/128/option2_1.jpg"
+  },
+  {
+    "name": "蓮藕",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=364",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/128/option3_1.jpg"
+  },
+  {
+    "name": "泰國蝦（羅氏沼蝦），體長最長34公分；常以火烤料理",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=366",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/129/option1_1.jpg"
+  },
+  {
+    "name": "火燒蝦（鬚赤蝦），體長最長11.6公分；常見於臺南小吃，例如蝦捲及蝦仁飯",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=366",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/129/option2_1.jpg"
+  },
+  {
+    "name": "白蝦（凡納對蝦），體長最長15公分",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=366",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/129/option3_1.jpg"
+  },
+  {
+    "name": "石蓮花，帶有淡淡的酸甜滋味，可加入沙拉中生吃，也可以打成果汁",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=368",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/130/option1_1.jpg"
+  },
+  {
+    "name": "石花菜，是一種藻類，含有豐富的藻膠，可以做成果凍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=368",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/130/option2_1.jpg"
+  },
+  {
+    "name": "花椰菜，不含植物膠質，無法做成果凍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=368",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/130/option3_1.jpg"
+  },
+  {
+    "name": "白帶魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=370",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/131/option1_1.png"
+  },
+  {
+    "name": "鰻魚（日本鰻）（照片來源：雲林縣政府官網）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=370",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/131/option2_2.jpg"
+  },
+  {
+    "name": "秋刀魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=370",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/131/option3_1.png"
+  },
+  {
+    "name": "鵝，鵝喙（鵝的嘴巴）較短且呈立體狀；站立時身體直挺",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=372",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/132/option1_1.jpg"
+  },
+  {
+    "name": "鴨，鴨喙（鴨的嘴巴）較長且呈扁平狀；站立時身體前傾",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=372",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/132/option2_1.jpg"
+  },
+  {
+    "name": "雞",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=372",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/132/option3_1.jpg"
+  },
+  {
+    "name": "枸杞",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=377",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/133/option1_1.png"
+  },
+  {
+    "name": "紅棗",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=377",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/133/option2_1.jpg"
+  },
+  {
+    "name": "葡萄乾",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=377",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/133/option3_1.jpg"
+  },
+  {
+    "name": "香魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=382",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/136/option1_1.jpg"
+  },
+  {
+    "name": "秋刀魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=382",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/136/option2_1.jpg"
+  },
+  {
+    "name": "丁香魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=382",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/136/option3_1.jpg"
+  },
+  {
+    "name": "綿羊",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=388",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/142/option1_1.jpg"
+  },
+  {
+    "name": "山羊",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=388",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/142/option2_1.jpg"
+  },
+  {
+    "name": "蜂蜜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=395",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/145/option1_1.jpg"
+  },
+  {
+    "name": "果醋",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=395",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/145/option2_1.jpg"
+  },
+  {
+    "name": "油",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=395",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/145/option3_1.jpg"
+  },
+  {
+    "name": "豌豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=397",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/146/option1_1.jpg"
+  },
+  {
+    "name": "辣椒",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=397",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/146/option2_1.jpg"
+  },
+  {
+    "name": "秋葵",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=397",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/146/option3_1.jpg"
+  },
+  {
+    "name": "豌豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=403",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/150/option1_1.jpg"
+  },
+  {
+    "name": "豇豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=403",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/150/option2_1.jpg"
+  },
+  {
+    "name": "毛豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=403",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/150/option3_1.jpg"
+  },
+  {
+    "name": "西瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=405",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/151/option1_1.jpg"
+  },
+  {
+    "name": "冬瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=405",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/151/option2_1.jpg"
+  },
+  {
+    "name": "南瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=405",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/151/option3_1.jpg"
+  },
+  {
+    "name": "洋蔥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=408",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/153/option1_1.jpg"
+  },
+  {
+    "name": "青蔥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=408",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/153/option2_1.jpg"
+  },
+  {
+    "name": "紅蔥頭",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=408",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/153/option3_1.jpg"
+  },
+  {
+    "name": "羊肩肉",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=411",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/154/option1_1.jpg"
+  },
+  {
+    "name": "羊架(羊肋排)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=411",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/154/option2_1.jpg"
+  },
+  {
+    "name": "羊腿肉",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=411",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/154/option3_1.jpg"
+  },
+  {
+    "name": "小白菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=412",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/155/option1_1.jpg"
+  },
+  {
+    "name": "芥藍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=412",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/155/option2_1.jpg"
+  },
+  {
+    "name": "美生菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=412",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/155/option3_1.jpg"
+  },
+  {
+    "name": "丁香魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=418",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/159/option1_1.jpg"
+  },
+  {
+    "name": "太平洋黑鮪魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=418",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/159/option2_1.jpg"
+  },
+  {
+    "name": "午仔魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=418",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/159/option3_1.jpg"
+  },
+  {
+    "name": "芥菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=42",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/90/option1_1.jpg"
+  },
+  {
+    "name": "大白菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=42",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/90/option2_1.jpg"
+  },
+  {
+    "name": "萵苣（福山萵苣）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=42",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/90/option3_1.jpg"
+  },
+  {
+    "name": "劍旗魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=421",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/160/option1_1.png"
+  },
+  {
+    "name": "白帶魚(日本帶魚)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=421",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/160/option2_1.png"
+  },
+  {
+    "name": "鰻魚(日本鰻鱺)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=421",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/160/option3_1.png"
+  },
+  {
+    "name": "樹豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=423",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/161/option1_2.jpg"
+  },
+  {
+    "name": "馬告",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=423",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/161/option2_1.jpg"
+  },
+  {
+    "name": "黃豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=423",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/161/option3_1.jpg"
+  },
+  {
+    "name": "小麥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=427",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/163/option1_1.jpg"
+  },
+  {
+    "name": "紅糯米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=427",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/163/option2_1.jpg"
+  },
+  {
+    "name": "小米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=427",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/163/option3_1.jpg"
+  },
+  {
+    "name": "菠菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=429",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/164/option1_1.jpg"
+  },
+  {
+    "name": "莧菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=429",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/164/option2_1.jpg"
+  },
+  {
+    "name": "地瓜葉(葉用甘藷)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=429",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/164/option3_1.jpg"
+  },
+  {
+    "name": "釋迦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=431",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/165/option1_1.jpg"
+  },
+  {
+    "name": "鳳梨釋迦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=431",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/165/option2_1.jpg"
+  },
+  {
+    "name": "鳳梨",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=431",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/165/option3_1.jpg"
+  },
+  {
+    "name": "臺灣山茶",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=436",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/166/option1_1.jpg"
+  },
+  {
+    "name": "短柱山茶",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=436",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/166/option2_1.jpeg"
+  },
+  {
+    "name": "臺茶25號(紫韻)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=436",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/166/option3_1.jpg"
+  },
+  {
+    "name": "香菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=438",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/168/option1_1.jpeg"
+  },
+  {
+    "name": "仙草",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=438",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/168/option2_1.jpeg"
+  },
+  {
+    "name": "香茹",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=438",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/168/option3_1.jpg"
+  },
+  {
+    "name": "綠豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=44",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/50/option1_1.jpg"
+  },
+  {
+    "name": "紅豆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=44",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/50/option2_1.jpg"
+  },
+  {
+    "name": "大豆（黃豆）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=44",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/50/option3_1.jpg"
+  },
+  {
+    "name": "蓮藕，外型短胖，一節連著一節",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=47",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/80/option1_1.jpg"
+  },
+  {
+    "name": "樹薯，平均長度約50公分，外型較山藥短小而粗大，且整條直徑較整齊",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=47",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/80/option2_1.jpg"
+  },
+  {
+    "name": "山藥，棍棒狀山藥至少可長達1公尺，粗細程度依品種而異；塊狀山藥呈球狀、團狀，詳見山藥家族",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=47",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/80/option3_1.jpg"
+  },
+  {
+    "name": "葡萄柚，黃色的外皮，形狀和大小都和棒球一樣，比文旦還小顆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=48",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/32/option1_1.jpg"
+  },
+  {
+    "name": "檸檬，有綠色外皮的品種，也有黃皮品種，比文旦還小顆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=48",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/32/option2_1.jpg"
+  },
+  {
+    "name": "文旦，黃綠色的外皮，造型呈現水滴形(不倒翁或倒三角形)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=48",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/32/option3_1.jpg"
+  },
+  {
+    "name": "芒果（金煌芒果）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=51",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/61/option1_2.jpg"
+  },
+  {
+    "name": "可可",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=51",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/61/option2_1.jpg"
+  },
+  {
+    "name": "木瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=51",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/61/option3_1.jpg"
+  },
+  {
+    "name": "梅子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=52",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/148/option1_1.jpg"
+  },
+  {
+    "name": "李子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=52",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/148/option2_1.jpg"
+  },
+  {
+    "name": "桃子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=52",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/148/option3_1.jpg"
+  },
+  {
+    "name": "梅子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=53",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/143/option1_1.jpg"
+  },
+  {
+    "name": "枇杷",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=53",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/143/option2_1.jpg"
+  },
+  {
+    "name": "蜜棗",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=53",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/143/option3_1.jpg"
+  },
+  {
+    "name": "檸檬",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=54",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/134/option1_1.jpg"
+  },
+  {
+    "name": "葡萄柚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=54",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/134/option2_1.jpg"
+  },
+  {
+    "name": "柳橙",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=54",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/134/option3_1.jpg"
+  },
+  {
+    "name": "仙桃",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=56",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/120/option1_1.jpg"
+  },
+  {
+    "name": "橘子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=56",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/120/option2_1.jpg"
+  },
+  {
+    "name": "柿子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=56",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/120/option3_1.jpg"
+  },
+  {
+    "name": "李子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=58",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/15/option1_1.jpg"
+  },
+  {
+    "name": "桃子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=58",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/15/option2_1.jpg"
+  },
+  {
+    "name": "番茄",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=58",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/15/option3_1.jpg"
+  },
+  {
+    "name": "桶柑",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=59",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/94/option1_1.jpg"
+  },
+  {
+    "name": "柳丁",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=59",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/94/option2_1.jpg"
+  },
+  {
+    "name": "葡萄柚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=59",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/94/option3_1.jpg"
+  },
+  {
+    "name": "蓮霧的花",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=61",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/72/option1_1.jpg"
+  },
+  {
+    "name": "百香果的花",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=61",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/72/option2_1.jpg"
+  },
+  {
+    "name": "梨花",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=61",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/72/option3_1.jpg"
+  },
+  {
+    "name": "紅棗",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=62",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/91/option1_1.jpg"
+  },
+  {
+    "name": "蜜棗",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=62",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/91/option2_1.jpg"
+  },
+  {
+    "name": "檸檬",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=62",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/91/option3_1.jpg"
+  },
+  {
+    "name": "椰子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=64",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/137/option1_1.jpg"
+  },
+  {
+    "name": "榴槤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=64",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/137/option2_1.jpg"
+  },
+  {
+    "name": "哈密瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=64",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/137/option3_1.jpg"
+  },
+  {
+    "name": "檸檬",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=69",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/93/option1_1.jpg"
+  },
+  {
+    "name": "柳丁",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=69",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/93/option2_1.jpg"
+  },
+  {
+    "name": "奇異果",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=69",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/93/option3_1.jpg"
+  },
+  {
+    "name": "青蔥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=80",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/68/option1_1.jpg"
+  },
+  {
+    "name": "空心菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=80",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/68/option2_1.jpg"
+  },
+  {
+    "name": "韭菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=80",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/68/option3_1.jpg"
+  },
+  {
+    "name": "白菜（結球白菜），葉片中肋略寬、扁平而平滑；葉片柔嫩",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=81",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/82/option1_1.png"
+  },
+  {
+    "name": "萵苣（結球萵苣），葉片軟脆，剛採收葉、莖切口處會流出白色乳汁",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=81",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/82/option2_1.jpg"
+  },
+  {
+    "name": "高麗菜（甘藍），葉片中肋略凸；葉片光滑、具蠟質，質地硬脆",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=81",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/82/option3_1.jpg"
+  },
+  {
+    "name": "櫛瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=82",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/103/option1_1.jpg"
+  },
+  {
+    "name": "番茄",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=82",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/103/option2_1.jpg"
+  },
+  {
+    "name": "甜椒",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=82",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/103/option3_1.jpg"
+  },
+  {
+    "name": "芭樂",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=86",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/17/option1_1.jpg"
+  },
+  {
+    "name": "文旦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=86",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/17/option2_1.jpg"
+  },
+  {
+    "name": "西洋梨",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=86",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/17/option3_1.jpg"
+  },
+  {
+    "name": "石榴",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=87",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/45/option1_1.jpg"
+  },
+  {
+    "name": "草莓",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=87",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/45/option2_1.jpg"
+  },
+  {
+    "name": "番茄",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=87",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/45/option3_1.jpg"
+  },
+  {
+    "name": "百香果",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=90",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/63/option1_1.jpg"
+  },
+  {
+    "name": "李子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=90",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/63/option2_1.jpg"
+  },
+  {
+    "name": "石榴",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=90",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/63/option3_1.jpg"
+  },
+  {
+    "name": "高粱",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=93",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/107/option1_1.jpg"
+  },
+  {
+    "name": "小麥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=93",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/107/option2_1.jpg"
+  },
+  {
+    "name": "小米",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=93",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/107/option3_1.jpg"
+  },
+  {
+    "name": "結球白菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=94",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/156/option1_1.jpg"
+  },
+  {
+    "name": "甘藍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=94",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/156/option2_1.jpg"
+  },
+  {
+    "name": "不結球白菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=94",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/156/option3_1.jpg"
+  },
+  {
+    "name": "苦瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=96",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/144/option1_1.jpg"
+  },
+  {
+    "name": "絲瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=96",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/144/option2_1.jpg"
+  },
+  {
+    "name": "胡瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=96",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/144/option3_1.jpg"
+  },
+  {
+    "name": "綠蘆筍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=97",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/60/option1_1.jpg"
+  },
+  {
+    "name": "綠竹筍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=97",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/60/option2_1.jpg"
+  },
+  {
+    "name": "玉米筍",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=97",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/60/option3_1.jpg"
+  },
+  {
+    "name": "胡瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=99",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/135/option1_1.jpg"
+  },
+  {
+    "name": "絲瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=99",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/135/option2_1.jpg"
+  },
+  {
+    "name": "苦瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=99",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/135/option3_1.jpg"
+  }
+]

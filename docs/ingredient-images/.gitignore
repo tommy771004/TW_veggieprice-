@@ -1,0 +1,7 @@
+# Reproducible downloaded HTML; the reference manifests retain the source URLs.
+source-cache/
+__pycache__/
+# Research photos remain local; provenance URLs are retained in batch manifests.
+references/
+reference-*.png
+crop-review.html

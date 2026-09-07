@@ -1,0 +1,116 @@
+[
+  {
+    "name": "菱角",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=320",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/112/option1_1.jpg",
+    "key": "SR1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-SR1.jpg"
+  },
+  {
+    "name": "蓮藕",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=364",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/128/option3_1.jpg",
+    "key": "SN1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-SN1.jpg"
+  },
+  {
+    "name": "藍莓",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=122",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/36/option1_1.jpg",
+    "key": "469",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-469.jpg"
+  },
+  {
+    "name": "西洋梨",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=86",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/17/option3_1.jpg",
+    "key": "O99",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-O99.jpg"
+  },
+  {
+    "name": "金針菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=270",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/73/option3_1.jpg",
+    "key": "ME1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-ME1.jpg"
+  },
+  {
+    "name": "山藥",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=1",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/1/option1_2.jpg",
+    "key": "SU2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-SU2.jpg"
+  },
+  {
+    "name": "樹薯，平均長度約50公分，外型較山藥短小而粗大，且整條直徑較整齊",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=47",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/80/option2_1.jpg",
+    "key": "SU3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-SU3.jpg"
+  },
+  {
+    "name": "石蓮花，帶有淡淡的酸甜滋味，可加入沙拉中生吃，也可以打成果汁",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=368",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/130/option1_1.jpg",
+    "key": "FU3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-FU3.jpg"
+  },
+  {
+    "name": "丁香魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=382",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/136/option3_1.jpg",
+    "key": "seafood-2105",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2105.jpg",
+    "skipReason": "Need code-specific Japanese silver-stripe round herring photo instead of generic anchovy photo"
+  },
+  {
+    "name": "劍旗魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=421",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/160/option1_1.png",
+    "key": "seafood-2131",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2131.jpg",
+    "skipReason": "Bill crosses cell boundary; use kmweb swordfish atlas instead"
+  },
+  {
+    "name": "午仔魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=418",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/159/option3_1.jpg",
+    "key": "seafood-2271",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2271.jpg"
+  },
+  {
+    "name": "吳郭魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=2",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/2/option2_1.png",
+    "key": "seafood-1011",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-1011.jpg"
+  },
+  {
+    "name": "太平洋黑鮪魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=218",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/152/option1_1.jpg",
+    "key": "seafood-2114",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2114.jpg"
+  },
+  {
+    "name": "康氏馬加鰆(土魠魚)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=218",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/152/option2_1.jpg",
+    "key": "seafood-2141",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2141.jpg"
+  },
+  {
+    "name": "文蛤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=177",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/25/option1_1.jpg",
+    "key": "seafood-5022",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-5022.jpg"
+  },
+  {
+    "name": "斑海鯰",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=329",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/105/option3_1.jpg",
+    "key": "seafood-2231",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2231.jpg"
+  }
+]

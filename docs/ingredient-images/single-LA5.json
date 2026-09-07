@@ -1,0 +1,20 @@
+{
+  "key": "LA5",
+  "name": "甘藍-甘藍心（孢子甘藍）",
+  "sourceUrl": "https://kmweb.moa.gov.tw/knowledge_view.php?id=8038",
+  "referenceUrl": "https://live.staticflickr.com/65535/49164484596_c3b22389d9_o.jpg",
+  "referenceSourceUrl": "https://commons.wikimedia.org/wiki/File:Brussel_Sprouts_(49164484596).jpg",
+  "referenceAuthor": "Alabama Extension / Janet Guynn",
+  "referenceLicense": "CC0 1.0",
+  "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/supplement-LA5.jpg",
+  "imagePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/public/images/ingredients/supplement-LA5.png",
+  "columns": 1,
+  "rows": 1,
+  "column": 0,
+  "row": 0,
+  "kind": "ai_watercolor_from_photo",
+  "identityEvidence": "農糧署專家回覆 2016/04/28: 甘藍心 LA5 指孢子甘藍；甘藍芽 LA6 為採收後再生側芽。",
+  "generationTool": "built-in image_gen",
+  "generationPrompt": "Botanical watercolor of three sliced Brussels sprouts from actual Alabama Extension photo; match leafy-atlas watercolor style; centered isolated composition on pure white with no labels or lines.",
+  "qaNote": "Reference and illustration show sliced sprouts. Without a size cue, cross-sections may resemble ordinary cabbage; botanical identity is established by photo provenance and official market-code evidence."
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "凱特",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/438/P3%E5%87%B1%E7%89%B9P1030394.JPG",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=103",
+    "key": "R4",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-R4.jpg"
+  },
+  {
+    "name": "黃金檸檬",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2414/04C.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=69",
+    "key": "F6",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-F6.jpg"
+  },
+  {
+    "name": "萊姆",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2414/04B.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=69",
+    "key": "F5",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-F5.jpg"
+  },
+  {
+    "name": "北蔥",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/408/%E6%96%B0%E8%8E%8A%E5%8C%97%E8%94%A5.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=148",
+    "key": "SE2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SE2.jpg"
+  },
+  {
+    "name": "大蔥",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/408/%E9%9D%92%E8%94%A5%E8%88%87%E5%A4%A7%E8%94%A5.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=148",
+    "key": "SE3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SE3.jpg"
+  },
+  {
+    "name": "櫻桃蘿蔔",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/888/%E6%AB%BB%E6%A1%83%E8%98%BF%E8%94%942.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=133",
+    "key": "SA4",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SA4.jpg"
+  },
+  {
+    "name": "孟宗竹筍",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1425/04-%E7%AB%B9%E7%AD%8D%E5%AE%B6%E6%97%8F05-%E5%AD%9F%E5%AE%97%E7%AD%8D.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=97",
+    "key": "SH4",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-SH4.jpg"
+  },
+  {
+    "name": "青梗白菜",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/4259/04-%E5%AE%B6%E6%97%8F-D%E9%9D%92%E6%A2%97%E7%99%BD%E8%8F%9C_%E5%9C%8B%E7%94%A2%E8%BE%B2%E6%BC%81%E7%95%9C%E7%94%A2%E5%93%81%E6%95%99%E6%9D%90.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=28",
+    "key": "LD1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-LD1.jpg"
+  },
+  {
+    "name": "白肉雞",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2259/%E7%99%BD%E8%82%89%E9%9B%9E2.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=275",
+    "key": "livestock-white-chicken",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-livestock-white-chicken.jpg",
+    "cropTop": 0.4784688995215311
+  },
+  {
+    "name": "紅羽土雞",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2259/%E7%B4%85%E7%BE%BD%E5%9C%9F%E9%9B%9E2.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=275",
+    "key": "livestock-red-chicken",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-livestock-red-chicken.jpg",
+    "cropTop": 0.4784688995215311
+  },
+  {
+    "name": "LYD三品種雜交肉豬",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/86/LYD%E8%B1%AC.png",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=20",
+    "key": "livestock-hog",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-livestock-hog.jpg",
+    "cropTop": 0.4784688995215311
+  },
+  {
+    "name": "臺灣黑山羊(Taiwan black goat)",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3765/4-%E8%87%BA%E7%81%A3%E9%BB%91%E5%B1%B1%E7%BE%8A_%E5%85%92%E7%AB%A5%E7%B6%B2.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=388",
+    "key": "livestock-black-goat",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-livestock-black-goat.jpg",
+    "cropTop": 0.4784688995215311
+  },
+  {
+    "name": "努比亞山羊 (Nubian)",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3765/6-%E5%8A%AA%E6%AF%94%E4%BA%9E%E5%B1%B1%E7%BE%8A_%E5%85%92%E7%AB%A5%E7%B6%B2.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=388",
+    "key": "livestock-nubian-goat",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-livestock-nubian-goat.jpg",
+    "cropTop": 0.7017543859649122
+  },
+  {
+    "name": "阿爾拜因山羊 (Alpine)",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3765/2-%E9%98%BF%E7%88%BE%E6%8B%9C%E5%9B%A0%E5%B1%B1%E7%BE%8A_%E5%85%92%E7%AB%A5%E7%B6%B2.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=388",
+    "key": "livestock-alpine-goat",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-livestock-alpine-goat.jpg",
+    "cropTop": 0.7017543859649122
+  },
+  {
+    "name": "波爾山羊 (Boer)",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3765/5-%E6%B3%A2%E7%88%BE%E5%B1%B1%E7%BE%8A_KM.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=388",
+    "key": "livestock-boer-goat",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-livestock-boer-goat.jpg",
+    "cropTop": 0.7017543859649122
+  },
+  {
+    "name": "大口黑鱸",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1746/04_%E9%B1%B8%E9%AD%9A%E5%AE%B6%E6%97%8F-03(1).jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=267",
+    "key": "seafood-1072",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-seafood-1072.jpg",
+    "cropTop": 0.7017543859649122
+  }
+]

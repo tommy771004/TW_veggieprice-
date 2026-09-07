@@ -1,0 +1,7226 @@
+[
+  {
+    "name": "丁香",
+    "codes": [
+      "2105"
+    ],
+    "candidates": [
+      {
+        "name": "日本銀帶鯡",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=301",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/301/thumbnail_1_m.png",
+        "commonNamesText": "針嘴鰮、丁香魚、魩仔、丁香、鱙仔、 灰海荷鰮",
+        "commonNames": [
+          "針嘴鰮",
+          "丁香魚",
+          "魩仔",
+          "丁香",
+          "鱙仔",
+          " 灰海荷鰮"
+        ],
+        "scientificName": "Spratelloides gracilis"
+      }
+    ]
+  },
+  {
+    "name": "丁香(凍)",
+    "codes": [
+      "3105"
+    ],
+    "candidates": [
+      {
+        "name": "日本銀帶鯡",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=301",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/301/thumbnail_1_m.png",
+        "commonNamesText": "針嘴鰮、丁香魚、魩仔、丁香、鱙仔、 灰海荷鰮",
+        "commonNames": [
+          "針嘴鰮",
+          "丁香魚",
+          "魩仔",
+          "丁香",
+          "鱙仔",
+          " 灰海荷鰮"
+        ],
+        "scientificName": "Spratelloides gracilis"
+      }
+    ]
+  },
+  {
+    "name": "七星鱸",
+    "codes": [
+      "1073"
+    ],
+    "candidates": [
+      {
+        "name": "日本花鱸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=369",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/369/thumbnail_1_m.png",
+        "commonNamesText": "七星鱸、花鱸、青鱸、鱸魚、日本真鱸",
+        "commonNames": [
+          "七星鱸",
+          "花鱸",
+          "青鱸",
+          "鱸魚",
+          "日本真鱸"
+        ],
+        "scientificName": "Lateolabrax japonicus"
+      }
+    ]
+  },
+  {
+    "name": "三牙",
+    "codes": [
+      "2062"
+    ],
+    "candidates": [
+      {
+        "name": "紅牙䱛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=558",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/558/A01_1_m.png",
+        "commonNamesText": "三牙、耳石 、銀牙",
+        "commonNames": [
+          "三牙",
+          "耳石 ",
+          "銀牙"
+        ],
+        "scientificName": "Otolithes ruber"
+      }
+    ]
+  },
+  {
+    "name": "三角仔、金錢仔",
+    "codes": [
+      "2086"
+    ],
+    "candidates": [
+      {
+        "name": "黃斑光胸鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=453",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/453/thumbnail_1_m.png",
+        "commonNamesText": "碗米仔、金錢仔",
+        "commonNames": [
+          "碗米仔",
+          "金錢仔"
+        ],
+        "scientificName": "Photopectoralis bindus"
+      },
+      {
+        "name": "印度仰口鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=454",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/454/thumbnail_1_m.png",
+        "commonNamesText": "碗米仔、金錢仔、咪卯漲(澎湖)",
+        "commonNames": [
+          "碗米仔",
+          "金錢仔",
+          "咪卯漲(澎湖)"
+        ],
+        "scientificName": "Secutor indicius"
+      },
+      {
+        "name": "條紋金鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=448",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/448/thumbnail_1_m.png",
+        "commonNamesText": "金錢仔、兵葉仔(澎湖)、方葉仔(澎湖)",
+        "commonNames": [
+          "金錢仔",
+          "兵葉仔(澎湖)",
+          "方葉仔(澎湖)"
+        ],
+        "scientificName": "Aurigequula fasciatus"
+      },
+      {
+        "name": "黑邊布氏鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=449",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/449/thumbnail_1_m.png",
+        "commonNamesText": "碗米仔、金錢仔、黑邊鰏、狗祈(澎湖)、狗扁(澎湖)",
+        "commonNames": [
+          "碗米仔",
+          "金錢仔",
+          "黑邊鰏",
+          "狗祈(澎湖)",
+          "狗扁(澎湖)"
+        ],
+        "scientificName": "Eubleekeria splendens"
+      },
+      {
+        "name": "小牙鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=450",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/450/thumbnail_1_m.png",
+        "commonNamesText": "花令仔、金錢仔、咪卯漲(澎湖)",
+        "commonNames": [
+          "花令仔",
+          "金錢仔",
+          "咪卯漲(澎湖)"
+        ],
+        "scientificName": "Gazza minuta"
+      },
+      {
+        "name": "短棘鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=451",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/451/thumbnail_1_m.png",
+        "commonNamesText": "狗腰、金錢仔、三角仔(澎湖)、三角鐵(澎湖)、狗扁(澎湖)",
+        "commonNames": [
+          "狗腰",
+          "金錢仔",
+          "三角仔(澎湖)",
+          "三角鐵(澎湖)",
+          "狗扁(澎湖)"
+        ],
+        "scientificName": "Leiognathus equulus"
+      },
+      {
+        "name": "項斑項鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=452",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/452/thumbnail_1_m.png",
+        "commonNamesText": "金錢仔、兵葉仔(澎湖)、方葉仔(澎湖)",
+        "commonNames": [
+          "金錢仔",
+          "兵葉仔(澎湖)",
+          "方葉仔(澎湖)"
+        ],
+        "scientificName": "Nuchequula nuchalis"
+      }
+    ]
+  },
+  {
+    "name": "三角仔、金錢仔【養】",
+    "codes": [
+      "1086"
+    ],
+    "candidates": [
+      {
+        "name": "黃斑光胸鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=453",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/453/thumbnail_1_m.png",
+        "commonNamesText": "碗米仔、金錢仔",
+        "commonNames": [
+          "碗米仔",
+          "金錢仔"
+        ],
+        "scientificName": "Photopectoralis bindus"
+      },
+      {
+        "name": "印度仰口鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=454",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/454/thumbnail_1_m.png",
+        "commonNamesText": "碗米仔、金錢仔、咪卯漲(澎湖)",
+        "commonNames": [
+          "碗米仔",
+          "金錢仔",
+          "咪卯漲(澎湖)"
+        ],
+        "scientificName": "Secutor indicius"
+      },
+      {
+        "name": "條紋金鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=448",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/448/thumbnail_1_m.png",
+        "commonNamesText": "金錢仔、兵葉仔(澎湖)、方葉仔(澎湖)",
+        "commonNames": [
+          "金錢仔",
+          "兵葉仔(澎湖)",
+          "方葉仔(澎湖)"
+        ],
+        "scientificName": "Aurigequula fasciatus"
+      },
+      {
+        "name": "黑邊布氏鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=449",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/449/thumbnail_1_m.png",
+        "commonNamesText": "碗米仔、金錢仔、黑邊鰏、狗祈(澎湖)、狗扁(澎湖)",
+        "commonNames": [
+          "碗米仔",
+          "金錢仔",
+          "黑邊鰏",
+          "狗祈(澎湖)",
+          "狗扁(澎湖)"
+        ],
+        "scientificName": "Eubleekeria splendens"
+      },
+      {
+        "name": "小牙鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=450",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/450/thumbnail_1_m.png",
+        "commonNamesText": "花令仔、金錢仔、咪卯漲(澎湖)",
+        "commonNames": [
+          "花令仔",
+          "金錢仔",
+          "咪卯漲(澎湖)"
+        ],
+        "scientificName": "Gazza minuta"
+      },
+      {
+        "name": "短棘鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=451",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/451/thumbnail_1_m.png",
+        "commonNamesText": "狗腰、金錢仔、三角仔(澎湖)、三角鐵(澎湖)、狗扁(澎湖)",
+        "commonNames": [
+          "狗腰",
+          "金錢仔",
+          "三角仔(澎湖)",
+          "三角鐵(澎湖)",
+          "狗扁(澎湖)"
+        ],
+        "scientificName": "Leiognathus equulus"
+      },
+      {
+        "name": "項斑項鰏",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=452",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/452/thumbnail_1_m.png",
+        "commonNamesText": "金錢仔、兵葉仔(澎湖)、方葉仔(澎湖)",
+        "commonNames": [
+          "金錢仔",
+          "兵葉仔(澎湖)",
+          "方葉仔(澎湖)"
+        ],
+        "scientificName": "Nuchequula nuchalis"
+      }
+    ]
+  },
+  {
+    "name": "三點仔",
+    "codes": [
+      "4513"
+    ],
+    "candidates": [
+      {
+        "name": "巴鰹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=643",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/643/thumbnail_1_m.png",
+        "commonNamesText": "三點仔、煙仔、倒串、鯤、花煙、大憨煙、花鰋(澎湖)",
+        "commonNames": [
+          "三點仔",
+          "煙仔",
+          "倒串",
+          "鯤",
+          "花煙",
+          "大憨煙",
+          "花鰋(澎湖)"
+        ],
+        "scientificName": "Euthynnus affinis"
+      },
+      {
+        "name": "紅星梭子蟹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=167",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/167/thumbnail_1_m.png",
+        "commonNamesText": "三點仔、市仔",
+        "commonNames": [
+          "三點仔",
+          "市仔"
+        ],
+        "scientificName": "Portunus sanguinolentus"
+      }
+    ]
+  },
+  {
+    "name": "下雜魚",
+    "codes": [
+      "2564"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "下雜魚(凍)",
+    "codes": [
+      "3564"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "九岩",
+    "codes": [
+      "2532"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "什魚",
+    "codes": [
+      "2562"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "什魚(凍)",
+    "codes": [
+      "3562"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他",
+    "codes": [
+      "9999"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他凍結(凍)",
+    "codes": [
+      "3999"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他加工",
+    "codes": [
+      "6049"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他吳郭",
+    "codes": [
+      "1019"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他旗魚",
+    "codes": [
+      "2139"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他旗魚(凍)",
+    "codes": [
+      "3139"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他烏魚",
+    "codes": [
+      "2609"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他熟魚",
+    "codes": [
+      "6099"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他石斑魚",
+    "codes": [
+      "1179"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他蝦類",
+    "codes": [
+      "4509"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他蟹類",
+    "codes": [
+      "4999"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他貝類",
+    "codes": [
+      "5999"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他非凍結魚",
+    "codes": [
+      "2999"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他頭足",
+    "codes": [
+      "2179"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他養殖",
+    "codes": [
+      "1999"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鮪魚",
+    "codes": [
+      "2119"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鮪魚(凍)",
+    "codes": [
+      "3119"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鯊魚",
+    "codes": [
+      "2159"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鯊魚(凍)",
+    "codes": [
+      "3159"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鯛類",
+    "codes": [
+      "1169",
+      "2019"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鯛類(凍)",
+    "codes": [
+      "3019"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鯧類",
+    "codes": [
+      "2099"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鯧類(凍)",
+    "codes": [
+      "3099"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鰹類",
+    "codes": [
+      "2129"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鰺類",
+    "codes": [
+      "2089"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他鰻類",
+    "codes": [
+      "1039"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "其他黃花",
+    "codes": [
+      "1799"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "剝皮魚",
+    "codes": [
+      "2571"
+    ],
+    "candidates": [
+      {
+        "name": "單角革單棘魨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=694",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/694/A01_1_m.png",
+        "commonNamesText": "白達仔、一角剝、薄葉剝、光復魚、剝皮魚、狄仔魚(興達)",
+        "commonNames": [
+          "白達仔",
+          "一角剝",
+          "薄葉剝",
+          "光復魚",
+          "剝皮魚",
+          "狄仔魚(興達)"
+        ],
+        "scientificName": "Aluterus monoceros"
+      },
+      {
+        "name": "短角單棘魨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=695",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/695/A01_1_m.png",
+        "commonNamesText": "黑達仔、剝皮魚、馬面單棘魨",
+        "commonNames": [
+          "黑達仔",
+          "剝皮魚",
+          "馬面單棘魨"
+        ],
+        "scientificName": "Thamnaconus modestus"
+      }
+    ]
+  },
+  {
+    "name": "剝皮魚(凍)",
+    "codes": [
+      "3571"
+    ],
+    "candidates": [
+      {
+        "name": "單角革單棘魨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=694",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/694/A01_1_m.png",
+        "commonNamesText": "白達仔、一角剝、薄葉剝、光復魚、剝皮魚、狄仔魚(興達)",
+        "commonNames": [
+          "白達仔",
+          "一角剝",
+          "薄葉剝",
+          "光復魚",
+          "剝皮魚",
+          "狄仔魚(興達)"
+        ],
+        "scientificName": "Aluterus monoceros"
+      },
+      {
+        "name": "短角單棘魨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=695",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/695/A01_1_m.png",
+        "commonNamesText": "黑達仔、剝皮魚、馬面單棘魨",
+        "commonNames": [
+          "黑達仔",
+          "剝皮魚",
+          "馬面單棘魨"
+        ],
+        "scientificName": "Thamnaconus modestus"
+      }
+    ]
+  },
+  {
+    "name": "剝皮魚去頭",
+    "codes": [
+      "2572"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "剝皮魚（黑達仔）",
+    "codes": [
+      "2570"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "剝皮魚（黑達仔）凍",
+    "codes": [
+      "3570"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "劍旗魚",
+    "codes": [
+      "2131"
+    ],
+    "candidates": [
+      {
+        "name": "劍旗魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=667",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/667/thumbnail_1_m.png",
+        "commonNamesText": "旗魚舅、丁挽舅、劍魚、大目旗魚、丁挽舅旗魚",
+        "commonNames": [
+          "旗魚舅",
+          "丁挽舅",
+          "劍魚",
+          "大目旗魚",
+          "丁挽舅旗魚"
+        ],
+        "scientificName": "Xiphias gladius"
+      }
+    ]
+  },
+  {
+    "name": "劍旗魚凍",
+    "codes": [
+      "3131"
+    ],
+    "candidates": [
+      {
+        "name": "劍旗魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=667",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/667/thumbnail_1_m.png",
+        "commonNamesText": "旗魚舅、丁挽舅、劍魚、大目旗魚、丁挽舅旗魚",
+        "commonNames": [
+          "旗魚舅",
+          "丁挽舅",
+          "劍魚",
+          "大目旗魚",
+          "丁挽舅旗魚"
+        ],
+        "scientificName": "Xiphias gladius"
+      }
+    ]
+  },
+  {
+    "name": "劍蝦",
+    "codes": [
+      "4071"
+    ],
+    "candidates": [
+      {
+        "name": "哈氏彷對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=119",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/119/thumbnail_1_m.png",
+        "commonNamesText": "劍蝦",
+        "commonNames": [
+          "劍蝦"
+        ],
+        "scientificName": "Parapenaeopsis hardwickii"
+      },
+      {
+        "name": "矛型擬對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=120",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/120/thumbnail_1_m.png",
+        "commonNamesText": "尖仔、劍蝦",
+        "commonNames": [
+          "尖仔",
+          "劍蝦"
+        ],
+        "scientificName": "Lancer rose shrimp"
+      }
+    ]
+  },
+  {
+    "name": "加州鱸",
+    "codes": [
+      "1072"
+    ],
+    "candidates": [
+      {
+        "name": "大口黑鱸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=371",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/371/thumbnail_1_m.png",
+        "commonNamesText": "黑鱸、加州鱸、淡水鱸",
+        "commonNames": [
+          "黑鱸",
+          "加州鱸",
+          "淡水鱸"
+        ],
+        "scientificName": "Micropterus salmoides"
+      }
+    ]
+  },
+  {
+    "name": "加志",
+    "codes": [
+      "2512"
+    ],
+    "candidates": [
+      {
+        "name": "暗點胡椒鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=504",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/504/thumbnail_1_m.png",
+        "commonNamesText": "加志、花旦石鱸、暗點石鱸、嘉誌(臺東)",
+        "commonNames": [
+          "加志",
+          "花旦石鱸",
+          "暗點石鱸",
+          "嘉誌(臺東)"
+        ],
+        "scientificName": "Plectorhinchus picus"
+      },
+      {
+        "name": "花尾胡椒鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=499",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/499/thumbnail_1_m.png",
+        "commonNamesText": "加志、黃斑石鯛、花軟唇、嘉誌(臺東)、包公魚、番圭誌(澎湖)",
+        "commonNames": [
+          "加志",
+          "黃斑石鯛",
+          "花軟唇",
+          "嘉誌(臺東)",
+          "包公魚",
+          "番圭誌(澎湖)"
+        ],
+        "scientificName": "Plectorhinchus cinctus"
+      },
+      {
+        "name": "密點少棘胡椒鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=493",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/493/thumbnail_1_m.png",
+        "commonNamesText": "雞仔魚、加志、少棘石鱸、圭誌(澎湖)、烏嘉誌(澎湖)",
+        "commonNames": [
+          "雞仔魚",
+          "加志",
+          "少棘石鱸",
+          "圭誌(澎湖)",
+          "烏嘉誌(澎湖)"
+        ],
+        "scientificName": "Diagramma pictum"
+      }
+    ]
+  },
+  {
+    "name": "加鱲",
+    "codes": [
+      "2011"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "加鱲(凍)",
+    "codes": [
+      "3011"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "勿仔",
+    "codes": [
+      "2106"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "勿仔(凍)",
+    "codes": [
+      "3106"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "午仔魚",
+    "codes": [
+      "1272",
+      "2271"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "午仔魚(凍)",
+    "codes": [
+      "3271"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "南方黑鮪(凍)",
+    "codes": [
+      "3116"
+    ],
+    "candidates": [
+      {
+        "name": "南方黑鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=654",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/654/thumbnail_1_m.png",
+        "commonNamesText": "黑鮪、油串",
+        "commonNames": [
+          "黑鮪",
+          "油串"
+        ],
+        "scientificName": "Thunnus maccoyii"
+      }
+    ]
+  },
+  {
+    "name": "厚唇",
+    "codes": [
+      "2431"
+    ],
+    "candidates": [
+      {
+        "name": "黑棘鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=536",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/536/thumbnail_1_m.png",
+        "commonNamesText": "黑鯛、烏格、黑格、厚唇、烏毛、烏鱠、黑頰( 澎湖)",
+        "commonNames": [
+          "黑鯛",
+          "烏格",
+          "黑格",
+          "厚唇",
+          "烏毛",
+          "烏鱠",
+          "黑頰( 澎湖)"
+        ],
+        "scientificName": "Acanthopagrus schlegelii"
+      }
+    ]
+  },
+  {
+    "name": "厚殼蝦海",
+    "codes": [
+      "4091"
+    ],
+    "candidates": [
+      {
+        "name": "彎角鷹爪蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=131",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/131/A01_1_m.png",
+        "commonNamesText": "蘆蝦、猿蝦、厚殼蝦",
+        "commonNames": [
+          "蘆蝦",
+          "猿蝦",
+          "厚殼蝦"
+        ],
+        "scientificName": "Trachysalambria curvirostris"
+      }
+    ]
+  },
+  {
+    "name": "吳郭魚",
+    "codes": [
+      "1011"
+    ],
+    "candidates": [
+      {
+        "name": "臺灣鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=600",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/600/thumbnail_1_m.png",
+        "commonNamesText": "吳郭魚、南洋鯽、非洲仔、福壽魚、潮鯛",
+        "commonNames": [
+          "吳郭魚",
+          "南洋鯽",
+          "非洲仔",
+          "福壽魚",
+          "潮鯛"
+        ],
+        "scientificName": "Oreochromis sp."
+      }
+    ]
+  },
+  {
+    "name": "咬狗",
+    "codes": [
+      "2391"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "四破",
+    "codes": [
+      "2071"
+    ],
+    "candidates": [
+      {
+        "name": "長身圓鰺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=427",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/427/thumbnail_1_m.png",
+        "commonNamesText": "長鰺、四破、肉溫仔",
+        "commonNames": [
+          "長鰺",
+          "四破",
+          "肉溫仔"
+        ],
+        "scientificName": "Decapterus macrosoma"
+      },
+      {
+        "name": "藍圓鰺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=428",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/428/A01_1_m.png",
+        "commonNamesText": "硬尾、廣仔、甘廣、四破、巴攏、 巴弄 ( 澎湖 )、孔仔 ( 澎湖 )",
+        "commonNames": [
+          "硬尾",
+          "廣仔",
+          "甘廣",
+          "四破",
+          "巴攏",
+          " 巴弄 ( 澎湖 )",
+          "孔仔 ( 澎湖 )"
+        ],
+        "scientificName": "Decapterus maruadsi"
+      }
+    ]
+  },
+  {
+    "name": "國光、角仔魚",
+    "codes": [
+      "2531"
+    ],
+    "candidates": [
+      {
+        "name": "黑角魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=358",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/358/thumbnail_1_m.png",
+        "commonNamesText": "雞角、角仔魚",
+        "commonNames": [
+          "雞角",
+          "角仔魚"
+        ],
+        "scientificName": "Chelidonichthys kumu"
+      },
+      {
+        "name": "翼鱗角魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=359",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/359/thumbnail_1_m.png",
+        "commonNamesText": "紅雙角魚、雞角、角仔魚",
+        "commonNames": [
+          "紅雙角魚",
+          "雞角",
+          "角仔魚"
+        ],
+        "scientificName": "Lepidotrigla alata"
+      },
+      {
+        "name": "貢氏鱗角魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=360",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/360/thumbnail_1_m.png",
+        "commonNamesText": "貢氏角魚、雞角、角仔魚",
+        "commonNames": [
+          "貢氏角魚",
+          "雞角",
+          "角仔魚"
+        ],
+        "scientificName": "Lepidotrigla guentheri"
+      },
+      {
+        "name": "岸上氏鱗角魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=361",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/361/thumbnail_1_m.png",
+        "commonNamesText": "岸上氏角魚、雞角、角仔魚",
+        "commonNames": [
+          "岸上氏角魚",
+          "雞角",
+          "角仔魚"
+        ],
+        "scientificName": "Lepidotrigla kishinouyi"
+      },
+      {
+        "name": "尖棘角魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=362",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/362/thumbnail_1_m.png",
+        "commonNamesText": "雞角、角仔魚",
+        "commonNames": [
+          "雞角",
+          "角仔魚"
+        ],
+        "scientificName": "Pterygotrigla hemisticta"
+      }
+    ]
+  },
+  {
+    "name": "圓鱈、智利海鱸",
+    "codes": [
+      "3642"
+    ],
+    "candidates": [
+      {
+        "name": "黃線狹鱈",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=316",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/316/thumbnail_1_m.png",
+        "commonNamesText": "圓鱈、鱈魚、阿拉斯加鱈魚",
+        "commonNames": [
+          "圓鱈",
+          "鱈魚",
+          "阿拉斯加鱈魚"
+        ],
+        "scientificName": "Theragra chalcogramma"
+      }
+    ]
+  },
+  {
+    "name": "圓鱈片",
+    "codes": [
+      "6008"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "土剎",
+    "codes": [
+      "1101"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "土魠",
+    "codes": [
+      "2141"
+    ],
+    "candidates": [
+      {
+        "name": "康氏馬加鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=648",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/648/thumbnail_1_m.png",
+        "commonNamesText": "土魠、馬加、馬鮫、梭齒、頭魠、鰆、土托、康氏馬發",
+        "commonNames": [
+          "土魠",
+          "馬加",
+          "馬鮫",
+          "梭齒",
+          "頭魠",
+          "鰆",
+          "土托",
+          "康氏馬發"
+        ],
+        "scientificName": "Scomberomorus commerson"
+      }
+    ]
+  },
+  {
+    "name": "土魠(凍)",
+    "codes": [
+      "3141"
+    ],
+    "candidates": [
+      {
+        "name": "康氏馬加鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=648",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/648/thumbnail_1_m.png",
+        "commonNamesText": "土魠、馬加、馬鮫、梭齒、頭魠、鰆、土托、康氏馬發",
+        "commonNames": [
+          "土魠",
+          "馬加",
+          "馬鮫",
+          "梭齒",
+          "頭魠",
+          "鰆",
+          "土托",
+          "康氏馬發"
+        ],
+        "scientificName": "Scomberomorus commerson"
+      }
+    ]
+  },
+  {
+    "name": "墨魚賊",
+    "codes": [
+      "2162"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "墨魚賊(凍)",
+    "codes": [
+      "3162"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "大正蝦海",
+    "codes": [
+      "4061"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "大目仔",
+    "codes": [
+      "2018"
+    ],
+    "candidates": [
+      {
+        "name": "大目鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=655",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/655/thumbnail_1_m.png",
+        "commonNamesText": "大目仔、大眼鮪、大目串、短墩、串仔(澎湖)、短鮪",
+        "commonNames": [
+          "大目仔",
+          "大眼鮪",
+          "大目串",
+          "短墩",
+          "串仔(澎湖)",
+          "短鮪"
+        ],
+        "scientificName": "Thunnus obesus"
+      },
+      {
+        "name": "葉鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=510",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/510/thumbnail_1_m.png",
+        "commonNamesText": "大目仔、大目孔(澎湖)",
+        "commonNames": [
+          "大目仔",
+          "大目孔(澎湖)"
+        ],
+        "scientificName": "Glaucosoma buergeri"
+      }
+    ]
+  },
+  {
+    "name": "大眼鮪",
+    "codes": [
+      "2112"
+    ],
+    "candidates": [
+      {
+        "name": "大目鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=655",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/655/thumbnail_1_m.png",
+        "commonNamesText": "大目仔、大眼鮪、大目串、短墩、串仔(澎湖)、短鮪",
+        "commonNames": [
+          "大目仔",
+          "大眼鮪",
+          "大目串",
+          "短墩",
+          "串仔(澎湖)",
+          "短鮪"
+        ],
+        "scientificName": "Thunnus obesus"
+      }
+    ]
+  },
+  {
+    "name": "大眼鮪凍",
+    "codes": [
+      "3112"
+    ],
+    "candidates": [
+      {
+        "name": "大目鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=655",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/655/thumbnail_1_m.png",
+        "commonNamesText": "大目仔、大眼鮪、大目串、短墩、串仔(澎湖)、短鮪",
+        "commonNames": [
+          "大目仔",
+          "大眼鮪",
+          "大目串",
+          "短墩",
+          "串仔(澎湖)",
+          "短鮪"
+        ],
+        "scientificName": "Thunnus obesus"
+      }
+    ]
+  },
+  {
+    "name": "大頭鰱",
+    "codes": [
+      "1024"
+    ],
+    "candidates": [
+      {
+        "name": "鱅",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=310",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/310/A01_1_m.png",
+        "commonNamesText": "黑鰱、大頭鰱、花鰱、胖頭鰱",
+        "commonNames": [
+          "黑鰱",
+          "大頭鰱",
+          "花鰱",
+          "胖頭鰱"
+        ],
+        "scientificName": "Hypophthalmichthys nobilis"
+      }
+    ]
+  },
+  {
+    "name": "大鯊",
+    "codes": [
+      "2151"
+    ],
+    "candidates": [
+      {
+        "name": "巨口鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=211",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/211/thumbnail_1_m.png",
+        "commonNamesText": "大鯊、大口鯊、巨口鮫",
+        "commonNames": [
+          "大鯊",
+          "大口鯊",
+          "巨口鮫"
+        ],
+        "scientificName": "Megachasma pelagios"
+      }
+    ]
+  },
+  {
+    "name": "大鯊【凍】",
+    "codes": [
+      "3151"
+    ],
+    "candidates": [
+      {
+        "name": "巨口鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=211",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/211/thumbnail_1_m.png",
+        "commonNamesText": "大鯊、大口鯊、巨口鮫",
+        "commonNames": [
+          "大鯊",
+          "大口鯊",
+          "巨口鮫"
+        ],
+        "scientificName": "Megachasma pelagios"
+      }
+    ]
+  },
+  {
+    "name": "大麟魚(凍）",
+    "codes": [
+      "3126"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "太平洋黑鮪",
+    "codes": [
+      "2114"
+    ],
+    "candidates": [
+      {
+        "name": "太平洋黑鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=656",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/656/thumbnail_1_m.png",
+        "commonNamesText": "黑鮪、黑甕串、黑暗串、東方鮪、東方藍鰭鮪、黑串、金槍魚",
+        "commonNames": [
+          "黑鮪",
+          "黑甕串",
+          "黑暗串",
+          "東方鮪",
+          "東方藍鰭鮪",
+          "黑串",
+          "金槍魚"
+        ],
+        "scientificName": "Thunnus orientalis"
+      }
+    ]
+  },
+  {
+    "name": "太平洋黑鮪(凍)",
+    "codes": [
+      "3114"
+    ],
+    "candidates": [
+      {
+        "name": "太平洋黑鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=656",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/656/thumbnail_1_m.png",
+        "commonNamesText": "黑鮪、黑甕串、黑暗串、東方鮪、東方藍鰭鮪、黑串、金槍魚",
+        "commonNames": [
+          "黑鮪",
+          "黑甕串",
+          "黑暗串",
+          "東方鮪",
+          "東方藍鰭鮪",
+          "黑串",
+          "金槍魚"
+        ],
+        "scientificName": "Thunnus orientalis"
+      }
+    ]
+  },
+  {
+    "name": "富貴魚、燕鯧",
+    "codes": [
+      "1201"
+    ],
+    "candidates": [
+      {
+        "name": "圓眼燕魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=680",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/680/thumbnail_1_m.png",
+        "commonNamesText": "蝙蝠魚、鯧仔、圓海燕、飛翼、黑巴鯧、富貴魚",
+        "commonNames": [
+          "蝙蝠魚",
+          "鯧仔",
+          "圓海燕",
+          "飛翼",
+          "黑巴鯧",
+          "富貴魚"
+        ],
+        "scientificName": "Platax orbicularis"
+      }
+    ]
+  },
+  {
+    "name": "小串仔",
+    "codes": [
+      "2115"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "小卷",
+    "codes": [
+      "2166"
+    ],
+    "candidates": [
+      {
+        "name": "火槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=100",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/100/A01_1_m.png",
+        "commonNamesText": "脆管、小管、小卷",
+        "commonNames": [
+          "脆管",
+          "小管",
+          "小卷"
+        ],
+        "scientificName": "Loliolus (Nipponololigo) beka"
+      },
+      {
+        "name": "中國槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=102",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/102/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) chinensis"
+      },
+      {
+        "name": "杜氏槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=103",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/103/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) duvaucelii"
+      },
+      {
+        "name": "劍尖槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=104",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/104/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) edulis"
+      },
+      {
+        "name": "詩博加槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=105",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/105/thumbnail_1_m.png",
+        "commonNamesText": "尖仔、有蛋小卷、鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "尖仔",
+          "有蛋小卷",
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) sibogae"
+      },
+      {
+        "name": "多鈎鈎腕魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=99",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/99/thumbnail_1_m.png",
+        "commonNamesText": "小管、小卷",
+        "commonNames": [
+          "小管",
+          "小卷"
+        ],
+        "scientificName": "Abralia multihamata"
+      }
+    ]
+  },
+  {
+    "name": "小卷(凍)",
+    "codes": [
+      "3166"
+    ],
+    "candidates": [
+      {
+        "name": "火槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=100",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/100/A01_1_m.png",
+        "commonNamesText": "脆管、小管、小卷",
+        "commonNames": [
+          "脆管",
+          "小管",
+          "小卷"
+        ],
+        "scientificName": "Loliolus (Nipponololigo) beka"
+      },
+      {
+        "name": "中國槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=102",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/102/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) chinensis"
+      },
+      {
+        "name": "杜氏槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=103",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/103/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) duvaucelii"
+      },
+      {
+        "name": "劍尖槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=104",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/104/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) edulis"
+      },
+      {
+        "name": "詩博加槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=105",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/105/thumbnail_1_m.png",
+        "commonNamesText": "尖仔、有蛋小卷、鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "尖仔",
+          "有蛋小卷",
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) sibogae"
+      },
+      {
+        "name": "多鈎鈎腕魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=99",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/99/thumbnail_1_m.png",
+        "commonNamesText": "小管、小卷",
+        "commonNames": [
+          "小管",
+          "小卷"
+        ],
+        "scientificName": "Abralia multihamata"
+      }
+    ]
+  },
+  {
+    "name": "小紅鱠",
+    "codes": [
+      "2202"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "尖梭",
+    "codes": [
+      "2301"
+    ],
+    "candidates": [
+      {
+        "name": "尖身帶鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=663",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/663/thumbnail_1_m.png",
+        "commonNamesText": "尖梭、竹梭(臺東)、尖梭舅(澎湖)、白魚桂(澎湖)",
+        "commonNames": [
+          "尖梭",
+          "竹梭(臺東)",
+          "尖梭舅(澎湖)",
+          "白魚桂(澎湖)"
+        ],
+        "scientificName": "Thyrsitoides marleyi"
+      }
+    ]
+  },
+  {
+    "name": "尼羅紅魚",
+    "codes": [
+      "1012"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "巴闌",
+    "codes": [
+      "2074"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "巴闌(凍)",
+    "codes": [
+      "3074"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "巴鰹、三點仔",
+    "codes": [
+      "2125"
+    ],
+    "candidates": [
+      {
+        "name": "巴鰹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=643",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/643/thumbnail_1_m.png",
+        "commonNamesText": "三點仔、煙仔、倒串、鯤、花煙、大憨煙、花鰋(澎湖)",
+        "commonNames": [
+          "三點仔",
+          "煙仔",
+          "倒串",
+          "鯤",
+          "花煙",
+          "大憨煙",
+          "花鰋(澎湖)"
+        ],
+        "scientificName": "Euthynnus affinis"
+      },
+      {
+        "name": "紅星梭子蟹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=167",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/167/thumbnail_1_m.png",
+        "commonNamesText": "三點仔、市仔",
+        "commonNames": [
+          "三點仔",
+          "市仔"
+        ],
+        "scientificName": "Portunus sanguinolentus"
+      }
+    ]
+  },
+  {
+    "name": "市仔管",
+    "codes": [
+      "4522"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "扁魚",
+    "codes": [
+      "2401"
+    ],
+    "candidates": [
+      {
+        "name": "高體斑鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=686",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/686/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚"
+        ],
+        "scientificName": "Pseudorhombus elevatus"
+      },
+      {
+        "name": "五眼斑鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=688",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/688/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚、肉瞇仔(澎湖)",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚",
+          "肉瞇仔(澎湖)"
+        ],
+        "scientificName": "Pseudorhombus pentophthalmus"
+      },
+      {
+        "name": "利達舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=689",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/689/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus lida"
+      },
+      {
+        "name": "雙線舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=690",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/690/thumbnail_1_m.png",
+        "commonNamesText": "狗舌、牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "狗舌",
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus bilineatus"
+      },
+      {
+        "name": "書顏舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=691",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/691/thumbnail_2_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus suyeni"
+      },
+      {
+        "name": "布氏鬚鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=692",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/692/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Paraplagusia blochii"
+      },
+      {
+        "name": "日本鬚鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=693",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/693/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Paraplagusia japonica"
+      },
+      {
+        "name": "大口鰜",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=683",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/683/thumbnail_1_m.png",
+        "commonNamesText": "咬龍狗、左口、扁魚、皇帝魚、比目魚、咬網狗(澎湖)",
+        "commonNames": [
+          "咬龍狗",
+          "左口",
+          "扁魚",
+          "皇帝魚",
+          "比目魚",
+          "咬網狗(澎湖)"
+        ],
+        "scientificName": "Psettodes erumei"
+      },
+      {
+        "name": "牙鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=684",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/684/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚"
+        ],
+        "scientificName": "Paralichthys olivaceus"
+      },
+      {
+        "name": "大齒斑鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=685",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/685/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚、肉瞇仔(澎湖)",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚",
+          "肉瞇仔(澎湖)"
+        ],
+        "scientificName": "Pseudorhombus arsius"
+      }
+    ]
+  },
+  {
+    "name": "文蛤(海)",
+    "codes": [
+      "5021"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "文蛤養",
+    "codes": [
+      "5022"
+    ],
+    "candidates": [
+      {
+        "name": "文蛤",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=73",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/73/thumbnail_1_m.png",
+        "commonNamesText": "蚶仔、麗文蛤、粉蟯",
+        "commonNames": [
+          "蚶仔",
+          "麗文蛤",
+          "粉蟯"
+        ],
+        "scientificName": "Meretrix lusoria"
+      }
+    ]
+  },
+  {
+    "name": "斑節蝦海",
+    "codes": [
+      "4051"
+    ],
+    "candidates": [
+      {
+        "name": "日本對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=122",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/122/thumbnail_1_m.png",
+        "commonNamesText": "斑節蝦、雷公蝦、明蝦、九節蝦",
+        "commonNames": [
+          "斑節蝦",
+          "雷公蝦",
+          "明蝦",
+          "九節蝦"
+        ],
+        "scientificName": "Penaeus japonicus"
+      }
+    ]
+  },
+  {
+    "name": "旗魚肉",
+    "codes": [
+      "2136"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "智仔",
+    "codes": [
+      "2361"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "暑魚",
+    "codes": [
+      "2291"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "暑魚凍",
+    "codes": [
+      "3291"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "柳葉魚(凍)",
+    "codes": [
+      "3632"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "比目魚、扁鱈",
+    "codes": [
+      "3641"
+    ],
+    "candidates": [
+      {
+        "name": "高體斑鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=686",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/686/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚"
+        ],
+        "scientificName": "Pseudorhombus elevatus"
+      },
+      {
+        "name": "五眼斑鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=688",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/688/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚、肉瞇仔(澎湖)",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚",
+          "肉瞇仔(澎湖)"
+        ],
+        "scientificName": "Pseudorhombus pentophthalmus"
+      },
+      {
+        "name": "利達舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=689",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/689/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus lida"
+      },
+      {
+        "name": "雙線舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=690",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/690/thumbnail_1_m.png",
+        "commonNamesText": "狗舌、牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "狗舌",
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus bilineatus"
+      },
+      {
+        "name": "書顏舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=691",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/691/thumbnail_2_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus suyeni"
+      },
+      {
+        "name": "布氏鬚鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=692",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/692/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Paraplagusia blochii"
+      },
+      {
+        "name": "日本鬚鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=693",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/693/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Paraplagusia japonica"
+      },
+      {
+        "name": "大口鰜",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=683",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/683/thumbnail_1_m.png",
+        "commonNamesText": "咬龍狗、左口、扁魚、皇帝魚、比目魚、咬網狗(澎湖)",
+        "commonNames": [
+          "咬龍狗",
+          "左口",
+          "扁魚",
+          "皇帝魚",
+          "比目魚",
+          "咬網狗(澎湖)"
+        ],
+        "scientificName": "Psettodes erumei"
+      },
+      {
+        "name": "牙鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=684",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/684/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚"
+        ],
+        "scientificName": "Paralichthys olivaceus"
+      },
+      {
+        "name": "大齒斑鮃",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=685",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/685/thumbnail_1_m.png",
+        "commonNamesText": "扁魚、皇帝魚、半邊魚、比目魚、肉瞇仔(澎湖)",
+        "commonNames": [
+          "扁魚",
+          "皇帝魚",
+          "半邊魚",
+          "比目魚",
+          "肉瞇仔(澎湖)"
+        ],
+        "scientificName": "Pseudorhombus arsius"
+      }
+    ]
+  },
+  {
+    "name": "比目魚片",
+    "codes": [
+      "6009"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "水針",
+    "codes": [
+      "2611"
+    ],
+    "candidates": [
+      {
+        "name": "斑鱵",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=336",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/336/thumbnail_1_m.png",
+        "commonNamesText": "補網師、水針、簪針 ( 澎湖 )、莎優莉",
+        "commonNames": [
+          "補網師",
+          "水針",
+          "簪針 ( 澎湖 )",
+          "莎優莉"
+        ],
+        "scientificName": "Hemiramphus far"
+      },
+      {
+        "name": "南洋鱵",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=337",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/337/thumbnail_1_m.png",
+        "commonNamesText": "補網師、水針、長尾針 ( 台東 )",
+        "commonNames": [
+          "補網師",
+          "水針",
+          "長尾針 ( 台東 )"
+        ],
+        "scientificName": "Hemiramphus lutkei"
+      }
+    ]
+  },
+  {
+    "name": "水鯊",
+    "codes": [
+      "2157"
+    ],
+    "candidates": [
+      {
+        "name": "鋸峰齒鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=234",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/234/thumbnail_1_m.png",
+        "commonNamesText": "水沙、大翅沙、鋸峰齒鮫、爛沙(臺東)、大青鯊、水鯊",
+        "commonNames": [
+          "水沙",
+          "大翅沙",
+          "鋸峰齒鮫",
+          "爛沙(臺東)",
+          "大青鯊",
+          "水鯊"
+        ],
+        "scientificName": "Prionace glauca"
+      }
+    ]
+  },
+  {
+    "name": "水鯊凍",
+    "codes": [
+      "3157"
+    ],
+    "candidates": [
+      {
+        "name": "鋸峰齒鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=234",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/234/thumbnail_1_m.png",
+        "commonNamesText": "水沙、大翅沙、鋸峰齒鮫、爛沙(臺東)、大青鯊、水鯊",
+        "commonNames": [
+          "水沙",
+          "大翅沙",
+          "鋸峰齒鮫",
+          "爛沙(臺東)",
+          "大青鯊",
+          "水鯊"
+        ],
+        "scientificName": "Prionace glauca"
+      }
+    ]
+  },
+  {
+    "name": "水鯊翅【凍】",
+    "codes": [
+      "3155"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "水鯊腹肉【凍】",
+    "codes": [
+      "6153"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "沙腸",
+    "codes": [
+      "2551"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "沙蝦海",
+    "codes": [
+      "4021"
+    ],
+    "candidates": [
+      {
+        "name": "錦繡龍蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=141",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/141/thumbnail_1_m.png",
+        "commonNamesText": "龍蝦、山蝦、沙蝦、七彩龍蝦",
+        "commonNames": [
+          "龍蝦",
+          "山蝦",
+          "沙蝦",
+          "七彩龍蝦"
+        ],
+        "scientificName": "Panulirus ornatus"
+      },
+      {
+        "name": "波紋龍蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=137",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/137/thumbnail_1_m.png",
+        "commonNamesText": "沙蝦",
+        "commonNames": [
+          "沙蝦"
+        ],
+        "scientificName": "Panulirus homarus"
+      },
+      {
+        "name": "緣溝對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=124",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/124/thumbnail_1_m.png",
+        "commonNamesText": "沙蝦、中蝦、白鬚蝦、蘆蝦、明蝦",
+        "commonNames": [
+          "沙蝦",
+          "中蝦",
+          "白鬚蝦",
+          "蘆蝦",
+          "明蝦"
+        ],
+        "scientificName": "Penaeus marginatus"
+      },
+      {
+        "name": "刀額新對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=118",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/118/thumbnail_1_m.png",
+        "commonNamesText": "沙蝦、蘆蝦、中蝦",
+        "commonNames": [
+          "沙蝦",
+          "蘆蝦",
+          "中蝦"
+        ],
+        "scientificName": "Metapenaeus ensis"
+      }
+    ]
+  },
+  {
+    "name": "油口",
+    "codes": [
+      "2066"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "油甘舅【凍】",
+    "codes": [
+      "3324"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "油魚",
+    "codes": [
+      "2321"
+    ],
+    "candidates": [
+      {
+        "name": "鱗網帶鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=661",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/661/thumbnail_1_m.png",
+        "commonNamesText": "油魚、細鱗仔、玉梭魚、白玉豚",
+        "commonNames": [
+          "油魚",
+          "細鱗仔",
+          "玉梭魚",
+          "白玉豚"
+        ],
+        "scientificName": "Lepidocybium flavobrunneum"
+      },
+      {
+        "name": "薔薇帶鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=662",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/662/thumbnail_1_m.png",
+        "commonNamesText": "油魚、黑皮牛、粗鱗仔",
+        "commonNames": [
+          "油魚",
+          "黑皮牛",
+          "粗鱗仔"
+        ],
+        "scientificName": "Ruvettus pretiosus"
+      },
+      {
+        "name": "日本海鰶",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=296",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/296/A01_1_m.png",
+        "commonNamesText": "扁屏仔、油魚、海鯽仔、日本水滑、土黃 ( 澎湖 )",
+        "commonNames": [
+          "扁屏仔",
+          "油魚",
+          "海鯽仔",
+          "日本水滑",
+          "土黃 ( 澎湖 )"
+        ],
+        "scientificName": "Nematalosa japonica"
+      },
+      {
+        "name": "高鼻海鰶",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=297",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/297/A01_1_m.png",
+        "commonNamesText": "扁屏仔、油魚、黃腸魚、海鯽仔",
+        "commonNames": [
+          "扁屏仔",
+          "油魚",
+          "黃腸魚",
+          "海鯽仔"
+        ],
+        "scientificName": "Nematalosa nasus"
+      }
+    ]
+  },
+  {
+    "name": "油魚(凍)",
+    "codes": [
+      "3321"
+    ],
+    "candidates": [
+      {
+        "name": "鱗網帶鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=661",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/661/thumbnail_1_m.png",
+        "commonNamesText": "油魚、細鱗仔、玉梭魚、白玉豚",
+        "commonNames": [
+          "油魚",
+          "細鱗仔",
+          "玉梭魚",
+          "白玉豚"
+        ],
+        "scientificName": "Lepidocybium flavobrunneum"
+      },
+      {
+        "name": "薔薇帶鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=662",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/662/thumbnail_1_m.png",
+        "commonNamesText": "油魚、黑皮牛、粗鱗仔",
+        "commonNames": [
+          "油魚",
+          "黑皮牛",
+          "粗鱗仔"
+        ],
+        "scientificName": "Ruvettus pretiosus"
+      },
+      {
+        "name": "日本海鰶",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=296",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/296/A01_1_m.png",
+        "commonNamesText": "扁屏仔、油魚、海鯽仔、日本水滑、土黃 ( 澎湖 )",
+        "commonNames": [
+          "扁屏仔",
+          "油魚",
+          "海鯽仔",
+          "日本水滑",
+          "土黃 ( 澎湖 )"
+        ],
+        "scientificName": "Nematalosa japonica"
+      },
+      {
+        "name": "高鼻海鰶",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=297",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/297/A01_1_m.png",
+        "commonNamesText": "扁屏仔、油魚、黃腸魚、海鯽仔",
+        "commonNames": [
+          "扁屏仔",
+          "油魚",
+          "黃腸魚",
+          "海鯽仔"
+        ],
+        "scientificName": "Nematalosa nasus"
+      }
+    ]
+  },
+  {
+    "name": "油魽",
+    "codes": [
+      "2081"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "泥鰍",
+    "codes": [
+      "1102"
+    ],
+    "candidates": [
+      {
+        "name": "泥鰍",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=313",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/313/thumbnail_1_m.png",
+        "commonNamesText": "土鰍、胡溜、魚溜、雨溜、河鰡、 旋鰡、旋鰡鼓鰱",
+        "commonNames": [
+          "土鰍",
+          "胡溜",
+          "魚溜",
+          "雨溜",
+          "河鰡",
+          " 旋鰡",
+          "旋鰡鼓鰱"
+        ],
+        "scientificName": "Misgurnus anguillicaudatus"
+      }
+    ]
+  },
+  {
+    "name": "泰國蝦養",
+    "codes": [
+      "4032"
+    ],
+    "candidates": [
+      {
+        "name": "羅氏沼蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=135",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/135/A01_1_m.png",
+        "commonNamesText": "泰國蝦、泰國長臂蝦",
+        "commonNames": [
+          "泰國蝦",
+          "泰國長臂蝦"
+        ],
+        "scientificName": "Macrobrachium rosenbergii"
+      }
+    ]
+  },
+  {
+    "name": "海瓜子",
+    "codes": [
+      "5888"
+    ],
+    "candidates": [
+      {
+        "name": "海瓜子簾蛤",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=75",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/75/thumbnail_1_m.png",
+        "commonNamesText": "小眼花簾蛤、海瓜子、花蛤、砂蜆子",
+        "commonNames": [
+          "小眼花簾蛤",
+          "海瓜子",
+          "花蛤",
+          "砂蜆子"
+        ],
+        "scientificName": "Ruditapes variegatus"
+      }
+    ]
+  },
+  {
+    "name": "海菜",
+    "codes": [
+      "6101"
+    ],
+    "candidates": [
+      {
+        "name": "粗龍鬚菜",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=24",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/24/A01_1_m.png",
+        "commonNamesText": "江離、紗仔、海龍鬚、菊花心、海菜、巧味芽",
+        "commonNames": [
+          "江離",
+          "紗仔",
+          "海龍鬚",
+          "菊花心",
+          "海菜",
+          "巧味芽"
+        ],
+        "scientificName": "Gracilaria firma"
+      },
+      {
+        "name": "可食水龍鬚菜",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=26",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/26/A01_1_m.png",
+        "commonNamesText": "海菜",
+        "commonNames": [
+          "海菜"
+        ],
+        "scientificName": "Hydropuntia edulis"
+      },
+      {
+        "name": "礁膜",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=3",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/3/A01_1_m.png",
+        "commonNamesText": "青海菜、海菜、海苔、青菜、鵝仔菜、大葉青",
+        "commonNames": [
+          "青海菜",
+          "海菜",
+          "海苔",
+          "青菜",
+          "鵝仔菜",
+          "大葉青"
+        ],
+        "scientificName": "Monostroma nitidum"
+      }
+    ]
+  },
+  {
+    "name": "海鯰",
+    "codes": [
+      "2231"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "海鯽魚",
+    "codes": [
+      "2238"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "海鰻",
+    "codes": [
+      "2221"
+    ],
+    "candidates": [
+      {
+        "name": "日本糯鰻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=281",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/281/thumbnail_1_m.png",
+        "commonNamesText": "糯米鰻、穴子鰻、臭腥鰻、海鰻、 沙鰻、黑鰻、烏鰻 ( 澎湖 )",
+        "commonNames": [
+          "糯米鰻",
+          "穴子鰻",
+          "臭腥鰻",
+          "海鰻",
+          " 沙鰻",
+          "黑鰻",
+          "烏鰻 ( 澎湖 )"
+        ],
+        "scientificName": "Conger japonicus"
+      },
+      {
+        "name": "灰海鰻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=283",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/283/thumbnail_1_m.png",
+        "commonNamesText": "虎鰻、海鰻、錢鰻 ( 台東 )",
+        "commonNames": [
+          "虎鰻",
+          "海鰻",
+          "錢鰻 ( 台東 )"
+        ],
+        "scientificName": "Muraenesox cinereus"
+      },
+      {
+        "name": "米克氏錐體糯鰻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=280",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/280/thumbnail_1_m.png",
+        "commonNamesText": "米克氏糯鰻、糯米鰻、穴子鰻、 臭腥鰻、海鰻、沙鰻",
+        "commonNames": [
+          "米克氏糯鰻",
+          "糯米鰻",
+          "穴子鰻",
+          " 臭腥鰻",
+          "海鰻",
+          "沙鰻"
+        ],
+        "scientificName": "Ariosoma meeki"
+      }
+    ]
+  },
+  {
+    "name": "海鱺",
+    "codes": [
+      "1166",
+      "2491"
+    ],
+    "candidates": [
+      {
+        "name": "海鱺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=409",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/409/thumbnail_1_m.png",
+        "commonNamesText": "海麗仔、軍曹魚、海龍魚、黑魽、 鱺魚 ( 澎湖 )、紅目鱺 ( 澎湖 )",
+        "commonNames": [
+          "海麗仔",
+          "軍曹魚",
+          "海龍魚",
+          "黑魽",
+          " 鱺魚 ( 澎湖 )",
+          "紅目鱺 ( 澎湖 )"
+        ],
+        "scientificName": "Rachycentron canadum"
+      }
+    ]
+  },
+  {
+    "name": "淡水珍珠石斑",
+    "codes": [
+      "1172"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "溪蝦",
+    "codes": [
+      "4010"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "火口",
+    "codes": [
+      "2065"
+    ],
+    "candidates": [
+      {
+        "name": "大黃魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=554",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/554/thumbnail_1_m.png",
+        "commonNamesText": "黃魚、黃瓜、黃花魚、黃口、火口、大黃花",
+        "commonNames": [
+          "黃魚",
+          "黃瓜",
+          "黃花魚",
+          "黃口",
+          "火口",
+          "大黃花"
+        ],
+        "scientificName": "Larimichthys crocea"
+      }
+    ]
+  },
+  {
+    "name": "烏仔魚",
+    "codes": [
+      "1051"
+    ],
+    "candidates": [
+      {
+        "name": "大鱗龜鮻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=329",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/329/thumbnail_1_m.png",
+        "commonNamesText": "豆仔魚、烏仔、烏仔魚、烏魚、 大鱗?、粗鱗烏 ( 澎湖 )",
+        "commonNames": [
+          "豆仔魚",
+          "烏仔",
+          "烏仔魚",
+          "烏魚",
+          " 大鱗?",
+          "粗鱗烏 ( 澎湖 )"
+        ],
+        "scientificName": "Chelon macrolepis"
+      },
+      {
+        "name": "綠背龜鮻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=330",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/330/thumbnail_1_m.png",
+        "commonNamesText": "豆仔魚、烏仔、烏仔魚、烏魚、白?",
+        "commonNames": [
+          "豆仔魚",
+          "烏仔",
+          "烏仔魚",
+          "烏魚",
+          "白?"
+        ],
+        "scientificName": "Chelon subviridis"
+      },
+      {
+        "name": "長鰭莫鯔",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=331",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/331/thumbnail_1_m.png",
+        "commonNamesText": "豆仔魚、烏仔、烏仔魚、烏魚、長鰭凡鯔",
+        "commonNames": [
+          "豆仔魚",
+          "烏仔",
+          "烏仔魚",
+          "烏魚",
+          "長鰭凡鯔"
+        ],
+        "scientificName": "Moolgarda cunnesius"
+      }
+    ]
+  },
+  {
+    "name": "烏鞭",
+    "codes": [
+      "2371"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "烏魚子",
+    "codes": [
+      "6052"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "烏鰡",
+    "codes": [
+      "1027"
+    ],
+    "candidates": [
+      {
+        "name": "青魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=312",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/312/thumbnail_1_m.png",
+        "commonNamesText": "黑鰱、黑鰡、烏鰡、黑鯪",
+        "commonNames": [
+          "黑鰱",
+          "黑鰡",
+          "烏鰡",
+          "黑鯪"
+        ],
+        "scientificName": "Mylopharyngodon piceus"
+      }
+    ]
+  },
+  {
+    "name": "煙仔虎",
+    "codes": [
+      "2124"
+    ],
+    "candidates": [
+      {
+        "name": "東方齒鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=642",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/642/thumbnail_1_m.png",
+        "commonNamesText": "梳齒(成功)、西齒(成功)、疏齒(基隆)、煙仔虎、掠齒煙、烏鰡串",
+        "commonNames": [
+          "梳齒(成功)",
+          "西齒(成功)",
+          "疏齒(基隆)",
+          "煙仔虎",
+          "掠齒煙",
+          "烏鰡串"
+        ],
+        "scientificName": "Sarda orientalis"
+      },
+      {
+        "name": "正鰹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=644",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/644/thumbnail_1_m.png",
+        "commonNamesText": "鯤、煙仔虎、鯤、煙仔、小串、柴魚、肥煙、卓鯤(臺東)",
+        "commonNames": [
+          "鯤",
+          "煙仔虎",
+          "鯤",
+          "煙仔",
+          "小串",
+          "柴魚",
+          "肥煙",
+          "卓鯤(臺東)"
+        ],
+        "scientificName": "Katsuwonus pelamis"
+      }
+    ]
+  },
+  {
+    "name": "煙仔虎(凍)",
+    "codes": [
+      "3124"
+    ],
+    "candidates": [
+      {
+        "name": "東方齒鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=642",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/642/thumbnail_1_m.png",
+        "commonNamesText": "梳齒(成功)、西齒(成功)、疏齒(基隆)、煙仔虎、掠齒煙、烏鰡串",
+        "commonNames": [
+          "梳齒(成功)",
+          "西齒(成功)",
+          "疏齒(基隆)",
+          "煙仔虎",
+          "掠齒煙",
+          "烏鰡串"
+        ],
+        "scientificName": "Sarda orientalis"
+      },
+      {
+        "name": "正鰹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=644",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/644/thumbnail_1_m.png",
+        "commonNamesText": "鯤、煙仔虎、鯤、煙仔、小串、柴魚、肥煙、卓鯤(臺東)",
+        "commonNames": [
+          "鯤",
+          "煙仔虎",
+          "鯤",
+          "煙仔",
+          "小串",
+          "柴魚",
+          "肥煙",
+          "卓鯤(臺東)"
+        ],
+        "scientificName": "Katsuwonus pelamis"
+      }
+    ]
+  },
+  {
+    "name": "熟丁香",
+    "codes": [
+      "6071"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "熟卷",
+    "codes": [
+      "6050"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "熟小破",
+    "codes": [
+      "6051"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "熟鯖魚",
+    "codes": [
+      "6081"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "牛尾",
+    "codes": [
+      "2441"
+    ],
+    "candidates": [
+      {
+        "name": "印度牛尾魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=366",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/366/thumbnail_1_m.png",
+        "commonNamesText": "竹甲、狗祈仔、牛尾",
+        "commonNames": [
+          "竹甲",
+          "狗祈仔",
+          "牛尾"
+        ],
+        "scientificName": "Platycephalus indicus"
+      },
+      {
+        "name": "點斑鱷牛尾魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=363",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/363/thumbnail_1_m.png",
+        "commonNamesText": "正鱷牛尾魚、正鱷?、竹甲、 狗祈仔、牛尾",
+        "commonNames": [
+          "正鱷牛尾魚",
+          "正鱷?",
+          "竹甲",
+          " 狗祈仔",
+          "牛尾"
+        ],
+        "scientificName": "Cociella crocodila"
+      },
+      {
+        "name": "橫帶棘線牛尾魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=364",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/364/thumbnail_1_m.png",
+        "commonNamesText": "竹甲、狗祈仔、牛尾",
+        "commonNames": [
+          "竹甲",
+          "狗祈仔",
+          "牛尾"
+        ],
+        "scientificName": "Grammoplites scaber"
+      },
+      {
+        "name": "落合氏眼眶牛尾魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=365",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/365/thumbnail_1_m.png",
+        "commonNamesText": "竹甲、狗祈仔、牛尾",
+        "commonNames": [
+          "竹甲",
+          "狗祈仔",
+          "牛尾"
+        ],
+        "scientificName": "Inegocia ochiaii"
+      }
+    ]
+  },
+  {
+    "name": "牡蠣養",
+    "codes": [
+      "5012"
+    ],
+    "candidates": [
+      {
+        "name": "葡萄牙牡蠣",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=68",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/68/thumbnail_1_m.png",
+        "commonNamesText": "牡蠣、蚵仔、蠔、長牡蠣",
+        "commonNames": [
+          "牡蠣",
+          "蚵仔",
+          "蠔",
+          "長牡蠣"
+        ],
+        "scientificName": "Crassostrea angulata"
+      }
+    ]
+  },
+  {
+    "name": "狗母",
+    "codes": [
+      "2211"
+    ],
+    "candidates": [
+      {
+        "name": "花斑蛇鯔",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=322",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/322/thumbnail_1_m.png",
+        "commonNamesText": "狗母梭、狗母、黑狗母 ( 澎湖 )",
+        "commonNames": [
+          "狗母梭",
+          "狗母",
+          "黑狗母 ( 澎湖 )"
+        ],
+        "scientificName": "Saurida undosquamis"
+      },
+      {
+        "name": "花斑狗母魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=324",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/324/thumbnail_1_m.png",
+        "commonNamesText": "狗母梭、狗母、花狗母",
+        "commonNames": [
+          "狗母梭",
+          "狗母",
+          "花狗母"
+        ],
+        "scientificName": "Synodus variegatus"
+      },
+      {
+        "name": "準大頭狗母魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=325",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/325/thumbnail_1_m.png",
+        "commonNamesText": "大頭花桿狗母、狗母梭、狗母、 短吻花狗母",
+        "commonNames": [
+          "大頭花桿狗母",
+          "狗母梭",
+          "狗母",
+          " 短吻花狗母"
+        ],
+        "scientificName": "Trachinocephalus myops"
+      }
+    ]
+  },
+  {
+    "name": "珍珠龍膽/龍虎斑",
+    "codes": [
+      "1174"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "甘瓜仔",
+    "codes": [
+      "2077"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "甘瓜仔凍",
+    "codes": [
+      "3077"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "田蛙",
+    "codes": [
+      "1141"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "甲魚",
+    "codes": [
+      "1151"
+    ],
+    "candidates": [
+      {
+        "name": "鱉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=699",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/699/thumbnail_2_m.png",
+        "commonNamesText": "中華鱉、水魚、甲魚、團魚、王八",
+        "commonNames": [
+          "中華鱉",
+          "水魚",
+          "甲魚",
+          "團魚",
+          "王八"
+        ],
+        "scientificName": "Pelodiscus sinensis"
+      }
+    ]
+  },
+  {
+    "name": "白丁蝦、日本玻璃蝦",
+    "codes": [
+      "4405"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "白北",
+    "codes": [
+      "2143"
+    ],
+    "candidates": [
+      {
+        "name": "臺灣馬加鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=649",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/649/A01_1_m.png",
+        "commonNamesText": "白北、白腹仔",
+        "commonNames": [
+          "白北",
+          "白腹仔"
+        ],
+        "scientificName": "Scomberomorus guttatus"
+      }
+    ]
+  },
+  {
+    "name": "白口",
+    "codes": [
+      "2064"
+    ],
+    "candidates": [
+      {
+        "name": "白姑魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=560",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/560/thumbnail_1_m.png",
+        "commonNamesText": "白口、帕頭、黃順、加網( 澎湖)",
+        "commonNames": [
+          "白口",
+          "帕頭",
+          "黃順",
+          "加網( 澎湖)"
+        ],
+        "scientificName": "Pennahia argentata"
+      }
+    ]
+  },
+  {
+    "name": "白口(凍)",
+    "codes": [
+      "3064"
+    ],
+    "candidates": [
+      {
+        "name": "白姑魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=560",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/560/thumbnail_1_m.png",
+        "commonNamesText": "白口、帕頭、黃順、加網( 澎湖)",
+        "commonNames": [
+          "白口",
+          "帕頭",
+          "黃順",
+          "加網( 澎湖)"
+        ],
+        "scientificName": "Pennahia argentata"
+      }
+    ]
+  },
+  {
+    "name": "白松",
+    "codes": [
+      "2421"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "白皮旗",
+    "codes": [
+      "2134"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "白皮旗(凍)",
+    "codes": [
+      "3134"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "白蝦",
+    "codes": [
+      "4015"
+    ],
+    "candidates": [
+      {
+        "name": "凡納對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=128",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/128/thumbnail_1_m.png",
+        "commonNamesText": "白蝦、南美白蝦",
+        "commonNames": [
+          "白蝦",
+          "南美白蝦"
+        ],
+        "scientificName": "Penaeus vannamei"
+      }
+    ]
+  },
+  {
+    "name": "白鯛",
+    "codes": [
+      "2016"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "白鯧",
+    "codes": [
+      "2091"
+    ],
+    "candidates": [
+      {
+        "name": "銀鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=673",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/673/thumbnail_1_m.png",
+        "commonNamesText": "白鯧、正鯧、銀鯧、支子",
+        "commonNames": [
+          "白鯧",
+          "正鯧",
+          "銀鯧",
+          "支子"
+        ],
+        "scientificName": "Pampus argenteus"
+      },
+      {
+        "name": "中國鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=674",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/674/thumbnail_1_m.png",
+        "commonNamesText": "白鯧",
+        "commonNames": [
+          "白鯧"
+        ],
+        "scientificName": "Pampus chinensis"
+      },
+      {
+        "name": "灰鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=675",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/675/thumbnail_1_m.png",
+        "commonNamesText": "暗鯧、黑鰭、白鯧",
+        "commonNames": [
+          "暗鯧",
+          "黑鰭",
+          "白鯧"
+        ],
+        "scientificName": "Pampus cinereus"
+      },
+      {
+        "name": "北鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=677",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/677/thumbnail_1_m.png",
+        "commonNamesText": "白鯧",
+        "commonNames": [
+          "白鯧"
+        ],
+        "scientificName": "Pampus punctatissimus"
+      }
+    ]
+  },
+  {
+    "name": "白鯧(凍)",
+    "codes": [
+      "3091"
+    ],
+    "candidates": [
+      {
+        "name": "銀鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=673",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/673/thumbnail_1_m.png",
+        "commonNamesText": "白鯧、正鯧、銀鯧、支子",
+        "commonNames": [
+          "白鯧",
+          "正鯧",
+          "銀鯧",
+          "支子"
+        ],
+        "scientificName": "Pampus argenteus"
+      },
+      {
+        "name": "中國鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=674",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/674/thumbnail_1_m.png",
+        "commonNamesText": "白鯧",
+        "commonNames": [
+          "白鯧"
+        ],
+        "scientificName": "Pampus chinensis"
+      },
+      {
+        "name": "灰鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=675",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/675/thumbnail_1_m.png",
+        "commonNamesText": "暗鯧、黑鰭、白鯧",
+        "commonNames": [
+          "暗鯧",
+          "黑鰭",
+          "白鯧"
+        ],
+        "scientificName": "Pampus cinereus"
+      },
+      {
+        "name": "北鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=677",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/677/thumbnail_1_m.png",
+        "commonNamesText": "白鯧",
+        "commonNames": [
+          "白鯧"
+        ],
+        "scientificName": "Pampus punctatissimus"
+      }
+    ]
+  },
+  {
+    "name": "白鰻",
+    "codes": [
+      "1031"
+    ],
+    "candidates": [
+      {
+        "name": "日本鰻鱺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=267",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/267/A01_1_m.png",
+        "commonNamesText": "白鰻、正鰻、白鱔、鰻鱺、 土鰻 ( 澎湖 )、日本鰻",
+        "commonNames": [
+          "白鰻",
+          "正鰻",
+          "白鱔",
+          "鰻鱺",
+          " 土鰻 ( 澎湖 )",
+          "日本鰻"
+        ],
+        "scientificName": "Anguilla japonica"
+      }
+    ]
+  },
+  {
+    "name": "皮刀",
+    "codes": [
+      "2251"
+    ],
+    "candidates": [
+      {
+        "name": "眼眶魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=447",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/447/thumbnail_1_m.png",
+        "commonNamesText": "皮刀",
+        "commonNames": [
+          "皮刀"
+        ],
+        "scientificName": "Mene maculata"
+      }
+    ]
+  },
+  {
+    "name": "盤仔",
+    "codes": [
+      "2013"
+    ],
+    "candidates": [
+      {
+        "name": "布氏長棘鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=537",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/537/thumbnail_1_m.png",
+        "commonNamesText": "小長棘鯛、盤仔、鍋蓋( 澎湖)、鬍鬚魬仔( 澎湖)",
+        "commonNames": [
+          "小長棘鯛",
+          "盤仔",
+          "鍋蓋( 澎湖)",
+          "鬍鬚魬仔( 澎湖)"
+        ],
+        "scientificName": "Argyrops bleekeri"
+      },
+      {
+        "name": "紅鋤齒鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=539",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/539/A01_1_m.png",
+        "commonNamesText": "盤仔、魬鯛、血鯛、齊頭盤、魬仔( 澎湖)",
+        "commonNames": [
+          "盤仔",
+          "魬鯛",
+          "血鯛",
+          "齊頭盤",
+          "魬仔( 澎湖)"
+        ],
+        "scientificName": "Evynnis cardinalis"
+      }
+    ]
+  },
+  {
+    "name": "盤仔(凍)",
+    "codes": [
+      "3013"
+    ],
+    "candidates": [
+      {
+        "name": "布氏長棘鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=537",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/537/thumbnail_1_m.png",
+        "commonNamesText": "小長棘鯛、盤仔、鍋蓋( 澎湖)、鬍鬚魬仔( 澎湖)",
+        "commonNames": [
+          "小長棘鯛",
+          "盤仔",
+          "鍋蓋( 澎湖)",
+          "鬍鬚魬仔( 澎湖)"
+        ],
+        "scientificName": "Argyrops bleekeri"
+      },
+      {
+        "name": "紅鋤齒鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=539",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/539/A01_1_m.png",
+        "commonNamesText": "盤仔、魬鯛、血鯛、齊頭盤、魬仔( 澎湖)",
+        "commonNames": [
+          "盤仔",
+          "魬鯛",
+          "血鯛",
+          "齊頭盤",
+          "魬仔( 澎湖)"
+        ],
+        "scientificName": "Evynnis cardinalis"
+      }
+    ]
+  },
+  {
+    "name": "目孔",
+    "codes": [
+      "2072"
+    ],
+    "candidates": [
+      {
+        "name": "金帶細鰺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=437",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/437/A01_1_m.png",
+        "commonNamesText": "目孔、細鰺、木葉鰺、榕葉 ( 澎湖 )、 松葉 ( 澎湖 )",
+        "commonNames": [
+          "目孔",
+          "細鰺",
+          "木葉鰺",
+          "榕葉 ( 澎湖 )",
+          " 松葉 ( 澎湖 )"
+        ],
+        "scientificName": "Selaroides leptolepis"
+      }
+    ]
+  },
+  {
+    "name": "目斗",
+    "codes": [
+      "2168"
+    ],
+    "candidates": [
+      {
+        "name": "貝瑞氏四盤耳烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=90",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/90/thumbnail_1_m.png",
+        "commonNamesText": "目斗仔、墨斗仔、目斗",
+        "commonNames": [
+          "目斗仔",
+          "墨斗仔",
+          "目斗"
+        ],
+        "scientificName": "Euprymna berryi"
+      }
+    ]
+  },
+  {
+    "name": "真鰹",
+    "codes": [
+      "2121"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "真鰹(凍)",
+    "codes": [
+      "3121"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "石喬",
+    "codes": [
+      "2145"
+    ],
+    "candidates": [
+      {
+        "name": "棘鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=639",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/639/thumbnail_1_m.png",
+        "commonNamesText": "石喬、竹節鰆、土托舅、沙瓦拉",
+        "commonNames": [
+          "石喬",
+          "竹節鰆",
+          "土托舅",
+          "沙瓦拉"
+        ],
+        "scientificName": "Acanthocybium solandri"
+      }
+    ]
+  },
+  {
+    "name": "石喬(凍)",
+    "codes": [
+      "3145"
+    ],
+    "candidates": [
+      {
+        "name": "棘鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=639",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/639/thumbnail_1_m.png",
+        "commonNamesText": "石喬、竹節鰆、土托舅、沙瓦拉",
+        "commonNames": [
+          "石喬",
+          "竹節鰆",
+          "土托舅",
+          "沙瓦拉"
+        ],
+        "scientificName": "Acanthocybium solandri"
+      }
+    ]
+  },
+  {
+    "name": "石斑魚",
+    "codes": [
+      "2201"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "石狗公",
+    "codes": [
+      "2440"
+    ],
+    "candidates": [
+      {
+        "name": "石狗公",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=357",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/357/A01_1_m.png",
+        "commonNamesText": "石狗公、石頭魚、獅甕 ( 澎湖 )、紅鱠仔",
+        "commonNames": [
+          "石狗公",
+          "石頭魚",
+          "獅甕 ( 澎湖 )",
+          "紅鱠仔"
+        ],
+        "scientificName": "Sebastiscus marmoratus"
+      }
+    ]
+  },
+  {
+    "name": "石蟳",
+    "codes": [
+      "4408"
+    ],
+    "candidates": [
+      {
+        "name": "鈍齒短槳蟹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=183",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/183/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Thalamita crenata"
+      },
+      {
+        "name": "少刺短槳蟹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=184",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/184/thumbnail_1_m.png",
+        "commonNamesText": "石蟳、達氏短槳蟹",
+        "commonNames": [
+          "石蟳",
+          "達氏短槳蟹"
+        ],
+        "scientificName": "Thalamita danae"
+      },
+      {
+        "name": "底棲短槳蟹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=185",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/185/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Thalamita prymna"
+      },
+      {
+        "name": "善泳蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=179",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/179/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis natator"
+      },
+      {
+        "name": "東方蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=180",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/180/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis orientalis"
+      },
+      {
+        "name": "日本蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=181",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/181/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis japonica"
+      },
+      {
+        "name": "相模蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=182",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/182/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis sagamiensi"
+      },
+      {
+        "name": "顆粒蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=175",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/175/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis granulata"
+      },
+      {
+        "name": "赫氏蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=176",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/176/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis hellerii"
+      },
+      {
+        "name": "晶瑩蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=177",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/177/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis lucifera"
+      },
+      {
+        "name": "武士蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=178",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/178/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis miles"
+      },
+      {
+        "name": "尖額蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=171",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/171/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis acutifrons"
+      },
+      {
+        "name": "安汶蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=172",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/172/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis amboinensis"
+      },
+      {
+        "name": "環紋蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=173",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/173/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis annulata"
+      },
+      {
+        "name": "銳齒蟳",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=170",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/170/thumbnail_1_m.png",
+        "commonNamesText": "石蟳",
+        "commonNames": [
+          "石蟳"
+        ],
+        "scientificName": "Charybdis acuta"
+      }
+    ]
+  },
+  {
+    "name": "硬尾",
+    "codes": [
+      "2073"
+    ],
+    "candidates": [
+      {
+        "name": "藍圓鰺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=428",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/428/A01_1_m.png",
+        "commonNamesText": "硬尾、廣仔、甘廣、四破、巴攏、 巴弄 ( 澎湖 )、孔仔 ( 澎湖 )",
+        "commonNames": [
+          "硬尾",
+          "廣仔",
+          "甘廣",
+          "四破",
+          "巴攏",
+          " 巴弄 ( 澎湖 )",
+          "孔仔 ( 澎湖 )"
+        ],
+        "scientificName": "Decapterus maruadsi"
+      }
+    ]
+  },
+  {
+    "name": "秋刀(凍)",
+    "codes": [
+      "3521"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "秋哥",
+    "codes": [
+      "2471"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "秋姑",
+    "codes": [
+      "2041"
+    ],
+    "candidates": [
+      {
+        "name": "黑斑海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=574",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/574/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、黑點秋哥( 澎湖)、外海秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "黑點秋哥( 澎湖)",
+          "外海秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus pleurostigma"
+      },
+      {
+        "name": "大型海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=575",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/575/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、紅秋哥( 澎湖)、黑點秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "紅秋哥( 澎湖)",
+          "黑點秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus spilurus"
+      },
+      {
+        "name": "馬六甲緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=577",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/577/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、秋高",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "秋高"
+        ],
+        "scientificName": "Upeneus moluccensis"
+      },
+      {
+        "name": "黃帶緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=578",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/578/thumbnail_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、紅魚仔( 澎湖)、汕秋哥仔( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "紅魚仔( 澎湖)",
+          "汕秋哥仔( 澎湖)"
+        ],
+        "scientificName": "Upeneus sulphureus"
+      },
+      {
+        "name": "黑斑緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=579",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/579/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、番秋哥( 澎湖)、海汕秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "番秋哥( 澎湖)",
+          "海汕秋哥( 澎湖)"
+        ],
+        "scientificName": "Upeneus tragula"
+      },
+      {
+        "name": "多帶緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=580",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/580/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥",
+        "commonNames": [
+          "秋姑",
+          "鬚哥"
+        ],
+        "scientificName": "Upeneus vittatus"
+      },
+      {
+        "name": "紅背擬鬚鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=565",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/565/thumbnail_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "秋哥( 澎湖)"
+        ],
+        "scientificName": "Mulloidichthys pfluegeri"
+      },
+      {
+        "name": "金帶擬鬚鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=566",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/566/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、臭肉( 臺東)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "臭肉( 臺東)"
+        ],
+        "scientificName": "Mulloidichthys vanicolensis"
+      },
+      {
+        "name": "單帶海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=567",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/567/A01_1_m.png",
+        "commonNamesText": "大條、秋姑、鬚哥、番秋哥( 澎湖)、海汕秋哥( 澎湖)",
+        "commonNames": [
+          "大條",
+          "秋姑",
+          "鬚哥",
+          "番秋哥( 澎湖)",
+          "海汕秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus barberinus"
+      },
+      {
+        "name": "紅帶海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=568",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/568/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus chrysopleuron"
+      },
+      {
+        "name": "短鬚海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=569",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/569/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、蓬萊海鯡鯉、紅秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "蓬萊海鯡鯉",
+          "紅秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus ciliatus"
+      },
+      {
+        "name": "圓口海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=570",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/570/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus cyclostomus"
+      },
+      {
+        "name": "七棘海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=571",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/571/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus heptacanthus"
+      },
+      {
+        "name": "印度海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=572",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/572/A01_1_m.png",
+        "commonNamesText": "秋姑、鬚哥、番秋哥( 澎湖)、黑點秋哥( 澎湖)",
+        "commonNames": [
+          "秋姑",
+          "鬚哥",
+          "番秋哥( 澎湖)",
+          "黑點秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus indicus"
+      },
+      {
+        "name": "多帶海緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=573",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/573/thumbnail_1_m.png",
+        "commonNamesText": "老爺、秋姑、鬚哥、黑點秋哥( 澎湖)、黑尾秋哥( 澎湖)",
+        "commonNames": [
+          "老爺",
+          "秋姑",
+          "鬚哥",
+          "黑點秋哥( 澎湖)",
+          "黑尾秋哥( 澎湖)"
+        ],
+        "scientificName": "Parupeneus multifasciatus"
+      }
+    ]
+  },
+  {
+    "name": "章魚",
+    "codes": [
+      "2169"
+    ],
+    "candidates": [
+      {
+        "name": "條紋蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=108",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/108/thumbnail_1_m.png",
+        "commonNamesText": "石拒、章魚、Tako",
+        "commonNames": [
+          "石拒",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Amphioctopus marginatus"
+      },
+      {
+        "name": "紅蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=109",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/109/thumbnail_1_m.png",
+        "commonNamesText": "紅章、章魚、Tako",
+        "commonNames": [
+          "紅章",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Callistoctopus luteus"
+      },
+      {
+        "name": "臺灣小孔蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=110",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/110/thumbnail_1_m.png",
+        "commonNamesText": "章魚、Tako",
+        "commonNames": [
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Cistopus taiwanicus"
+      },
+      {
+        "name": "真蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=111",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/111/A01_1_m.png",
+        "commonNamesText": "章魚、Tako",
+        "commonNames": [
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Octopus vulgaris"
+      },
+      {
+        "name": "沙蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=106",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/106/thumbnail_1_m.png",
+        "commonNamesText": "白線章魚、石拒、章魚、Tako",
+        "commonNames": [
+          "白線章魚",
+          "石拒",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Amphioctopus aegina"
+      },
+      {
+        "name": "飯蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=107",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/107/thumbnail_1_m.png",
+        "commonNamesText": "石拒、章魚、Tako",
+        "commonNames": [
+          "石拒",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Amphioctopus fangsiao"
+      }
+    ]
+  },
+  {
+    "name": "章魚(凍)",
+    "codes": [
+      "3169"
+    ],
+    "candidates": [
+      {
+        "name": "條紋蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=108",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/108/thumbnail_1_m.png",
+        "commonNamesText": "石拒、章魚、Tako",
+        "commonNames": [
+          "石拒",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Amphioctopus marginatus"
+      },
+      {
+        "name": "紅蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=109",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/109/thumbnail_1_m.png",
+        "commonNamesText": "紅章、章魚、Tako",
+        "commonNames": [
+          "紅章",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Callistoctopus luteus"
+      },
+      {
+        "name": "臺灣小孔蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=110",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/110/thumbnail_1_m.png",
+        "commonNamesText": "章魚、Tako",
+        "commonNames": [
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Cistopus taiwanicus"
+      },
+      {
+        "name": "真蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=111",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/111/A01_1_m.png",
+        "commonNamesText": "章魚、Tako",
+        "commonNames": [
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Octopus vulgaris"
+      },
+      {
+        "name": "沙蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=106",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/106/thumbnail_1_m.png",
+        "commonNamesText": "白線章魚、石拒、章魚、Tako",
+        "commonNames": [
+          "白線章魚",
+          "石拒",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Amphioctopus aegina"
+      },
+      {
+        "name": "飯蛸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=107",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/107/thumbnail_1_m.png",
+        "commonNamesText": "石拒、章魚、Tako",
+        "commonNames": [
+          "石拒",
+          "章魚",
+          "Tako"
+        ],
+        "scientificName": "Amphioctopus fangsiao"
+      }
+    ]
+  },
+  {
+    "name": "竹梭",
+    "codes": [
+      "2302"
+    ],
+    "candidates": [
+      {
+        "name": "巴拉金梭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=658",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/658/thumbnail_1_m.png",
+        "commonNamesText": "針梭、竹梭、巴拉庫答、爛投梭(澎湖)、爛糟梭(澎湖)",
+        "commonNames": [
+          "針梭",
+          "竹梭",
+          "巴拉庫答",
+          "爛投梭(澎湖)",
+          "爛糟梭(澎湖)"
+        ],
+        "scientificName": "Sphyraena barracuda"
+      },
+      {
+        "name": "黃尾金梭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=659",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/659/thumbnail_1_m.png",
+        "commonNamesText": "針梭、竹梭、巴拉庫答、梭仔(澎湖)、粗鱗梭仔(澎湖)",
+        "commonNames": [
+          "針梭",
+          "竹梭",
+          "巴拉庫答",
+          "梭仔(澎湖)",
+          "粗鱗梭仔(澎湖)"
+        ],
+        "scientificName": "Sphyraena flavicauda"
+      },
+      {
+        "name": "日本金梭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=660",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/660/thumbnail_1_m.png",
+        "commonNamesText": "大眼梭子魚、倭?、竹操魚、針梭、竹梭、巴拉庫答",
+        "commonNames": [
+          "大眼梭子魚",
+          "倭?",
+          "竹操魚",
+          "針梭",
+          "竹梭",
+          "巴拉庫答"
+        ],
+        "scientificName": "Sphyraena japonica"
+      }
+    ]
+  },
+  {
+    "name": "竹梭凍",
+    "codes": [
+      "3302"
+    ],
+    "candidates": [
+      {
+        "name": "巴拉金梭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=658",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/658/thumbnail_1_m.png",
+        "commonNamesText": "針梭、竹梭、巴拉庫答、爛投梭(澎湖)、爛糟梭(澎湖)",
+        "commonNames": [
+          "針梭",
+          "竹梭",
+          "巴拉庫答",
+          "爛投梭(澎湖)",
+          "爛糟梭(澎湖)"
+        ],
+        "scientificName": "Sphyraena barracuda"
+      },
+      {
+        "name": "黃尾金梭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=659",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/659/thumbnail_1_m.png",
+        "commonNamesText": "針梭、竹梭、巴拉庫答、梭仔(澎湖)、粗鱗梭仔(澎湖)",
+        "commonNames": [
+          "針梭",
+          "竹梭",
+          "巴拉庫答",
+          "梭仔(澎湖)",
+          "粗鱗梭仔(澎湖)"
+        ],
+        "scientificName": "Sphyraena flavicauda"
+      },
+      {
+        "name": "日本金梭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=660",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/660/thumbnail_1_m.png",
+        "commonNamesText": "大眼梭子魚、倭?、竹操魚、針梭、竹梭、巴拉庫答",
+        "commonNames": [
+          "大眼梭子魚",
+          "倭?",
+          "竹操魚",
+          "針梭",
+          "竹梭",
+          "巴拉庫答"
+        ],
+        "scientificName": "Sphyraena japonica"
+      }
+    ]
+  },
+  {
+    "name": "竹蟶海",
+    "codes": [
+      "5101"
+    ],
+    "candidates": [
+      {
+        "name": "竹蟶",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=71",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/71/thumbnail_1_m.png",
+        "commonNamesText": "竹蚶、蟶仔、竹節蟶",
+        "commonNames": [
+          "竹蚶",
+          "蟶仔",
+          "竹節蟶"
+        ],
+        "scientificName": "Solen strictus"
+      }
+    ]
+  },
+  {
+    "name": "粗鱗油甘(凍)",
+    "codes": [
+      "3323"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅古",
+    "codes": [
+      "2082"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅喉",
+    "codes": [
+      "2060"
+    ],
+    "candidates": [
+      {
+        "name": "赤鯥",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=370",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/370/thumbnail_1_m.png",
+        "commonNamesText": "紅臭魚、紅鱸、紅喉",
+        "commonNames": [
+          "紅臭魚",
+          "紅鱸",
+          "紅喉"
+        ],
+        "scientificName": "Doederleinia berycoides"
+      }
+    ]
+  },
+  {
+    "name": "紅尾",
+    "codes": [
+      "2075"
+    ],
+    "candidates": [
+      {
+        "name": "無斑圓鰺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=426",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/426/A01_1_m.png",
+        "commonNamesText": "紅瓜魚、巴攏、紅扁鰺、赤尾仔 ( 臺東 )、 紅尾巴弄 ( 澎湖 )、紅尾",
+        "commonNames": [
+          "紅瓜魚",
+          "巴攏",
+          "紅扁鰺",
+          "赤尾仔 ( 臺東 )",
+          " 紅尾巴弄 ( 澎湖 )",
+          "紅尾"
+        ],
+        "scientificName": "Decapterus kurroides"
+      },
+      {
+        "name": "日本馬頭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=407",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/407/thumbnail_1_m.png",
+        "commonNamesText": "馬頭、方頭魚、吧唄、紅尾、 吧口弄、紅馬頭、紅甘鯛",
+        "commonNames": [
+          "馬頭",
+          "方頭魚",
+          "吧唄",
+          "紅尾",
+          " 吧口弄",
+          "紅馬頭",
+          "紅甘鯛"
+        ],
+        "scientificName": "Branchiostegus japonicus"
+      }
+    ]
+  },
+  {
+    "name": "紅尾冬",
+    "codes": [
+      "2083"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅尾蝦海",
+    "codes": [
+      "4041"
+    ],
+    "candidates": [
+      {
+        "name": "多毛對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=126",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/126/A01_1_m.png",
+        "commonNamesText": "紅尾蝦、白鬚仔、白刺大蝦、多毛對蝦",
+        "commonNames": [
+          "紅尾蝦",
+          "白鬚仔",
+          "白刺大蝦",
+          "多毛對蝦"
+        ],
+        "scientificName": "Penaeus penicillatus"
+      }
+    ]
+  },
+  {
+    "name": "紅新娘",
+    "codes": [
+      "2047"
+    ],
+    "candidates": [
+      {
+        "name": "巴氏項鰭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=616",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/616/A01_1_m.png",
+        "commonNamesText": "紅姑娘仔、紅新娘、豎停仔、胭脂冷、角龍、平倍良、麗楔鯛",
+        "commonNames": [
+          "紅姑娘仔",
+          "紅新娘",
+          "豎停仔",
+          "胭脂冷",
+          "角龍",
+          "平倍良",
+          "麗楔鯛"
+        ],
+        "scientificName": "Iniistius baldwini"
+      },
+      {
+        "name": "洛神項鰭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=617",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/617/thumbnail_1_m.png",
+        "commonNamesText": "扁礫仔、紅姑娘仔、紅新娘、豎停仔、胭脂冷、紅角龍",
+        "commonNames": [
+          "扁礫仔",
+          "紅姑娘仔",
+          "紅新娘",
+          "豎停仔",
+          "胭脂冷",
+          "紅角龍"
+        ],
+        "scientificName": "Iniistius dea"
+      },
+      {
+        "name": "巴父項鰭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=618",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/618/thumbnail_1_m.png",
+        "commonNamesText": "扁礫仔、紅姑娘仔、紅新娘、豎停仔、胭脂冷",
+        "commonNames": [
+          "扁礫仔",
+          "紅姑娘仔",
+          "紅新娘",
+          "豎停仔",
+          "胭脂冷"
+        ],
+        "scientificName": "Iniistius pavo"
+      },
+      {
+        "name": "彩虹項鰭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=619",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/619/A01_1_m.png",
+        "commonNamesText": "彩虹連鰭唇魚、扁礫仔、紅姑娘仔、紅新娘、豎停仔",
+        "commonNames": [
+          "彩虹連鰭唇魚",
+          "扁礫仔",
+          "紅姑娘仔",
+          "紅新娘",
+          "豎停仔"
+        ],
+        "scientificName": "Iniistius twistii"
+      },
+      {
+        "name": "薔薇項鰭魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=620",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/620/thumbnail_1_m.png",
+        "commonNamesText": "薔薇連鰭唇魚、扁礫仔、紅姑娘仔、紅新娘、豎停仔、胭脂冷",
+        "commonNames": [
+          "薔薇連鰭唇魚",
+          "扁礫仔",
+          "紅姑娘仔",
+          "紅新娘",
+          "豎停仔",
+          "胭脂冷"
+        ],
+        "scientificName": "Iniistius verrens"
+      }
+    ]
+  },
+  {
+    "name": "紅條(凍)",
+    "codes": [
+      "3203"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅皮刀凍",
+    "codes": [
+      "3910"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅目鰱",
+    "codes": [
+      "2051"
+    ],
+    "candidates": [
+      {
+        "name": "高背大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=402",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/402/A01_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、大目仔 ( 臺東 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "大目仔 ( 臺東 )"
+        ],
+        "scientificName": "Priacanthus sagittarius"
+      },
+      {
+        "name": "日本大鱗大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=403",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/403/thumbnail_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、大目仔 ( 臺東 )、 紅目孔 ( 澎湖 )、紅嚴公 ( 澎湖 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "大目仔 ( 臺東 )",
+          " 紅目孔 ( 澎湖 )",
+          "紅嚴公 ( 澎湖 )"
+        ],
+        "scientificName": "Pristigenys niphonia"
+      },
+      {
+        "name": "日本紅目大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=398",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/398/thumbnail_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、大目仔 ( 臺東 )、 紅目孔 ( 澎湖 )、嚴公舅 ( 澎湖 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "大目仔 ( 臺東 )",
+          " 紅目孔 ( 澎湖 )",
+          "嚴公舅 ( 澎湖 )"
+        ],
+        "scientificName": "Cookeolus japonicus"
+      },
+      {
+        "name": "血斑異大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=399",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/399/thumbnail_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔"
+        ],
+        "scientificName": "Heteropriacanthus cruentatus"
+      },
+      {
+        "name": "寶石大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=400",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/400/A01_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、紅目孔 ( 澎湖 )、 紅嚴公 ( 澎湖 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "紅目孔 ( 澎湖 )",
+          " 紅嚴公 ( 澎湖 )"
+        ],
+        "scientificName": "Priacanthus hamrur"
+      }
+    ]
+  },
+  {
+    "name": "紅目鰱(凍)",
+    "codes": [
+      "3051"
+    ],
+    "candidates": [
+      {
+        "name": "高背大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=402",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/402/A01_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、大目仔 ( 臺東 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "大目仔 ( 臺東 )"
+        ],
+        "scientificName": "Priacanthus sagittarius"
+      },
+      {
+        "name": "日本大鱗大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=403",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/403/thumbnail_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、大目仔 ( 臺東 )、 紅目孔 ( 澎湖 )、紅嚴公 ( 澎湖 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "大目仔 ( 臺東 )",
+          " 紅目孔 ( 澎湖 )",
+          "紅嚴公 ( 澎湖 )"
+        ],
+        "scientificName": "Pristigenys niphonia"
+      },
+      {
+        "name": "日本紅目大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=398",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/398/thumbnail_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、大目仔 ( 臺東 )、 紅目孔 ( 澎湖 )、嚴公舅 ( 澎湖 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "大目仔 ( 臺東 )",
+          " 紅目孔 ( 澎湖 )",
+          "嚴公舅 ( 澎湖 )"
+        ],
+        "scientificName": "Cookeolus japonicus"
+      },
+      {
+        "name": "血斑異大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=399",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/399/thumbnail_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔"
+        ],
+        "scientificName": "Heteropriacanthus cruentatus"
+      },
+      {
+        "name": "寶石大眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=400",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/400/A01_1_m.png",
+        "commonNamesText": "紅目鰱、嚴公仔、紅目孔 ( 澎湖 )、 紅嚴公 ( 澎湖 )",
+        "commonNames": [
+          "紅目鰱",
+          "嚴公仔",
+          "紅目孔 ( 澎湖 )",
+          " 紅嚴公 ( 澎湖 )"
+        ],
+        "scientificName": "Priacanthus hamrur"
+      }
+    ]
+  },
+  {
+    "name": "紅肉丁挽(短吻旗魚)",
+    "codes": [
+      "3137"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅肉旗(凍)",
+    "codes": [
+      "3132"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅蝦海",
+    "codes": [
+      "4101"
+    ],
+    "candidates": [
+      {
+        "name": "高脊管鞭蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=129",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/129/A01_1_m.png",
+        "commonNamesText": "紅蝦、蔥頭蝦、大頭蝦",
+        "commonNames": [
+          "紅蝦",
+          "蔥頭蝦",
+          "大頭蝦"
+        ],
+        "scientificName": "Solenocera alticarinata"
+      }
+    ]
+  },
+  {
+    "name": "紅蟳",
+    "codes": [
+      "4512"
+    ],
+    "candidates": [
+      {
+        "name": "鋸緣青蟹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=163",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/163/thumbnail_1_m.png",
+        "commonNamesText": "紅蟳、花腳仔、沙蟳",
+        "commonNames": [
+          "紅蟳",
+          "花腳仔",
+          "沙蟳"
+        ],
+        "scientificName": "Scylla serrata"
+      }
+    ]
+  },
+  {
+    "name": "紅魚",
+    "codes": [
+      "2042",
+      "6011"
+    ],
+    "candidates": [
+      {
+        "name": "日本緋鯉",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=576",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/576/A01_1_m.png",
+        "commonNamesText": "紅秋姑、鬚哥、紅魚、條紋緋鯉、紅魚仔( 澎湖)、汕秋哥仔( 澎湖)",
+        "commonNames": [
+          "紅秋姑",
+          "鬚哥",
+          "紅魚",
+          "條紋緋鯉",
+          "紅魚仔( 澎湖)",
+          "汕秋哥仔( 澎湖)"
+        ],
+        "scientificName": "Upeneus japonicus"
+      },
+      {
+        "name": "星點笛鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=477",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/477/thumbnail_1_m.png",
+        "commonNamesText": "花臉、紅魚、白點仔、黃翅仔、厚唇(澎湖)",
+        "commonNames": [
+          "花臉",
+          "紅魚",
+          "白點仔",
+          "黃翅仔",
+          "厚唇(澎湖)"
+        ],
+        "scientificName": "Lutjanus stellatus"
+      },
+      {
+        "name": "赤鰭笛鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=467",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/467/thumbnail_1_m.png",
+        "commonNamesText": "紅雞仔、赤海雞、赤筆仔(臺東)、赤筆、赤海、紅魚、鐵汕婆(澎湖)",
+        "commonNames": [
+          "紅雞仔",
+          "赤海雞",
+          "赤筆仔(臺東)",
+          "赤筆",
+          "赤海",
+          "紅魚",
+          "鐵汕婆(澎湖)"
+        ],
+        "scientificName": "Lutjanus erythropterus"
+      },
+      {
+        "name": "長尾濱鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=461",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/461/thumbnail_1_m.png",
+        "commonNamesText": "長尾鳥、紅魚、紅尾鳥(澎湖)",
+        "commonNames": [
+          "長尾鳥",
+          "紅魚",
+          "紅尾鳥(澎湖)"
+        ],
+        "scientificName": "Etelis coruscans"
+      },
+      {
+        "name": "軟體金眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=343",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/343/A01_1_m.png",
+        "commonNamesText": "紅魚、紅大目仔",
+        "commonNames": [
+          "紅魚",
+          "紅大目仔"
+        ],
+        "scientificName": "Beryx mollis"
+      },
+      {
+        "name": "掘氏棘金眼鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=344",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/344/A01_1_m.png",
+        "commonNamesText": "紅魚、紅大目仔",
+        "commonNames": [
+          "紅魚",
+          "紅大目仔"
+        ],
+        "scientificName": "Centroberyx druzhinini"
+      }
+    ]
+  },
+  {
+    "name": "紅魽",
+    "codes": [
+      "2079"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅鰱魚",
+    "codes": [
+      "2482"
+    ],
+    "candidates": [
+      {
+        "name": "史氏紅諧魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=456",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/456/thumbnail_1_m.png",
+        "commonNamesText": "紅鰱魚、紅肉欉仔、紅嘴唇仔、紅唇仔、紅魚仔",
+        "commonNames": [
+          "紅鰱魚",
+          "紅肉欉仔",
+          "紅嘴唇仔",
+          "紅唇仔",
+          "紅魚仔"
+        ],
+        "scientificName": "Erythrocles schlegelii"
+      }
+    ]
+  },
+  {
+    "name": "紅鰽",
+    "codes": [
+      "1164"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "紅鰽海",
+    "codes": [
+      "2048"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "細鱗油甘(凍)",
+    "codes": [
+      "3322"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "翻車魚",
+    "codes": [
+      "2901"
+    ],
+    "candidates": [
+      {
+        "name": "翻車魨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=696",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/696/thumbnail_1_m.png",
+        "commonNamesText": "翻車魚、蜇魴、蜇魚、海蟲(澎湖)、曼波(成功)",
+        "commonNames": [
+          "翻車魚",
+          "蜇魴",
+          "蜇魚",
+          "海蟲(澎湖)",
+          "曼波(成功)"
+        ],
+        "scientificName": "Mola mola"
+      },
+      {
+        "name": "矛尾翻車魨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=697",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/697/thumbnail_1_m.png",
+        "commonNamesText": "翻車魚、蜇魴、蜇魚、海蟲(澎湖)、曼波(成功)、新婦啼(澎湖)",
+        "commonNames": [
+          "翻車魚",
+          "蜇魴",
+          "蜇魚",
+          "海蟲(澎湖)",
+          "曼波(成功)",
+          "新婦啼(澎湖)"
+        ],
+        "scientificName": "Masturus lanceolatus"
+      }
+    ]
+  },
+  {
+    "name": "肉栓",
+    "codes": [
+      "2568"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "肉魚",
+    "codes": [
+      "2261"
+    ],
+    "candidates": [
+      {
+        "name": "刺鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=678",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/678/A01_1_m.png",
+        "commonNamesText": "肉魚、肉鯽仔、土肉、肉鯽、瓜仔鯧、刺鯧",
+        "commonNames": [
+          "肉魚",
+          "肉鯽仔",
+          "土肉",
+          "肉鯽",
+          "瓜仔鯧",
+          "刺鯧"
+        ],
+        "scientificName": "Psenopsis anomala"
+      }
+    ]
+  },
+  {
+    "name": "肉魚(凍)",
+    "codes": [
+      "3261"
+    ],
+    "candidates": [
+      {
+        "name": "刺鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=678",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/678/A01_1_m.png",
+        "commonNamesText": "肉魚、肉鯽仔、土肉、肉鯽、瓜仔鯧、刺鯧",
+        "commonNames": [
+          "肉魚",
+          "肉鯽仔",
+          "土肉",
+          "肉鯽",
+          "瓜仔鯧",
+          "刺鯧"
+        ],
+        "scientificName": "Psenopsis anomala"
+      }
+    ]
+  },
+  {
+    "name": "胭脂蝦",
+    "codes": [
+      "4406"
+    ],
+    "candidates": [
+      {
+        "name": "葉狀擬鬚蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=114",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/114/thumbnail_1_m.png",
+        "commonNamesText": "胭脂蝦",
+        "commonNames": [
+          "胭脂蝦"
+        ],
+        "scientificName": "Aristaeomorpha foliacea"
+      },
+      {
+        "name": "雄壯鬚蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=115",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/115/thumbnail_1_m.png",
+        "commonNamesText": "胭脂蝦、文蝦",
+        "commonNames": [
+          "胭脂蝦",
+          "文蝦"
+        ],
+        "scientificName": "Aristeus virilis"
+      }
+    ]
+  },
+  {
+    "name": "花市仔",
+    "codes": [
+      "4521"
+    ],
+    "candidates": [
+      {
+        "name": "遠海梭子蟹",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=165",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/165/thumbnail_1_m.png",
+        "commonNamesText": "?仔、花市仔",
+        "commonNames": [
+          "?仔",
+          "花市仔"
+        ],
+        "scientificName": "Portunus pelagicus"
+      }
+    ]
+  },
+  {
+    "name": "花枝",
+    "codes": [
+      "2163"
+    ],
+    "candidates": [
+      {
+        "name": "金烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=85",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/85/thumbnail_1_m.png",
+        "commonNamesText": "花枝、墨賊、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "墨賊",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia esculenta"
+      },
+      {
+        "name": "唇瓣烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=86",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/86/thumbnail_1_m.png",
+        "commonNamesText": "花枝、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia lycidas"
+      },
+      {
+        "name": "馬氏烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=87",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/87/thumbnail_1_m.png",
+        "commonNamesText": "花枝、墨賊、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "墨賊",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia madokai"
+      },
+      {
+        "name": "虎斑烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=88",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/88/thumbnail_1_m.png",
+        "commonNamesText": "花枝、墨賊、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "墨賊",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia pharaonis"
+      },
+      {
+        "name": "日本無針烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=89",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/89/thumbnail_1_m.png",
+        "commonNamesText": "臭屁股、墨賊、花枝、目賊、墨魚、烏子",
+        "commonNames": [
+          "臭屁股",
+          "墨賊",
+          "花枝",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepiella japonica"
+      }
+    ]
+  },
+  {
+    "name": "花枝(凍)",
+    "codes": [
+      "3163"
+    ],
+    "candidates": [
+      {
+        "name": "金烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=85",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/85/thumbnail_1_m.png",
+        "commonNamesText": "花枝、墨賊、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "墨賊",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia esculenta"
+      },
+      {
+        "name": "唇瓣烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=86",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/86/thumbnail_1_m.png",
+        "commonNamesText": "花枝、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia lycidas"
+      },
+      {
+        "name": "馬氏烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=87",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/87/thumbnail_1_m.png",
+        "commonNamesText": "花枝、墨賊、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "墨賊",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia madokai"
+      },
+      {
+        "name": "虎斑烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=88",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/88/thumbnail_1_m.png",
+        "commonNamesText": "花枝、墨賊、目賊、墨魚、烏子",
+        "commonNames": [
+          "花枝",
+          "墨賊",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepia pharaonis"
+      },
+      {
+        "name": "日本無針烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=89",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/89/thumbnail_1_m.png",
+        "commonNamesText": "臭屁股、墨賊、花枝、目賊、墨魚、烏子",
+        "commonNames": [
+          "臭屁股",
+          "墨賊",
+          "花枝",
+          "目賊",
+          "墨魚",
+          "烏子"
+        ],
+        "scientificName": "Sepiella japonica"
+      }
+    ]
+  },
+  {
+    "name": "花身",
+    "codes": [
+      "1168",
+      "2017"
+    ],
+    "candidates": [
+      {
+        "name": "黃鰭棘鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=534",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/534/A01_1_m.png",
+        "commonNamesText": "黃鰭鯛、黃鰭、赤翅仔、赤翅、花身、鏡鯛",
+        "commonNames": [
+          "黃鰭鯛",
+          "黃鰭",
+          "赤翅仔",
+          "赤翅",
+          "花身",
+          "鏡鯛"
+        ],
+        "scientificName": "Acanthopagrus latus"
+      }
+    ]
+  },
+  {
+    "name": "花鰹",
+    "codes": [
+      "2122"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "英哥",
+    "codes": [
+      "2481"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "英哥凍",
+    "codes": [
+      "3481"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "草蝦海",
+    "codes": [
+      "4011"
+    ],
+    "candidates": [
+      {
+        "name": "草對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=125",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/125/thumbnail_1_m.png",
+        "commonNamesText": "草蝦",
+        "commonNames": [
+          "草蝦"
+        ],
+        "scientificName": "Penaeus monodon Fabricius"
+      }
+    ]
+  },
+  {
+    "name": "草魚",
+    "codes": [
+      "1023"
+    ],
+    "candidates": [
+      {
+        "name": "草魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=307",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/307/A01_1_m.png",
+        "commonNamesText": "鯇、鯤、池魚、草根魚",
+        "commonNames": [
+          "鯇",
+          "鯤",
+          "池魚",
+          "草根魚"
+        ],
+        "scientificName": "Ctenopharyngodon idella"
+      }
+    ]
+  },
+  {
+    "name": "蘆蝦海",
+    "codes": [
+      "4111"
+    ],
+    "candidates": [
+      {
+        "name": "彎角鷹爪蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=131",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/131/A01_1_m.png",
+        "commonNamesText": "蘆蝦、猿蝦、厚殼蝦",
+        "commonNames": [
+          "蘆蝦",
+          "猿蝦",
+          "厚殼蝦"
+        ],
+        "scientificName": "Trachysalambria curvirostris"
+      },
+      {
+        "name": "緣溝對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=124",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/124/thumbnail_1_m.png",
+        "commonNamesText": "沙蝦、中蝦、白鬚蝦、蘆蝦、明蝦",
+        "commonNames": [
+          "沙蝦",
+          "中蝦",
+          "白鬚蝦",
+          "蘆蝦",
+          "明蝦"
+        ],
+        "scientificName": "Penaeus marginatus"
+      },
+      {
+        "name": "刀額新對蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=118",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/118/thumbnail_1_m.png",
+        "commonNamesText": "沙蝦、蘆蝦、中蝦",
+        "commonNames": [
+          "沙蝦",
+          "蘆蝦",
+          "中蝦"
+        ],
+        "scientificName": "Metapenaeus ensis"
+      }
+    ]
+  },
+  {
+    "name": "虱目魚",
+    "codes": [
+      "1041"
+    ],
+    "candidates": [
+      {
+        "name": "虱目魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=302",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/302/A01_1_m.png",
+        "commonNamesText": "海草魚、遮目魚、安平魚、國姓魚、殺目魚",
+        "commonNames": [
+          "海草魚",
+          "遮目魚",
+          "安平魚",
+          "國姓魚",
+          "殺目魚"
+        ],
+        "scientificName": "Chanos chanos"
+      }
+    ]
+  },
+  {
+    "name": "虱目魚肚",
+    "codes": [
+      "1042"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "虱目魚頭",
+    "codes": [
+      "1043"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "蝦仁",
+    "codes": [
+      "4016"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "蝦姑海",
+    "codes": [
+      "4141"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "蝦母、東方異腕蝦",
+    "codes": [
+      "4404"
+    ],
+    "candidates": [
+      {
+        "name": "東方異腕蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=134",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/134/A01_1_m.png",
+        "commonNamesText": "蝦母、大頭蝦",
+        "commonNames": [
+          "蝦母",
+          "大頭蝦"
+        ],
+        "scientificName": "Heterocarpus sibogae"
+      },
+      {
+        "name": "林氏異腕蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=133",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/133/A01_1_m.png",
+        "commonNamesText": "蝦母、大頭蝦",
+        "commonNames": [
+          "蝦母",
+          "大頭蝦"
+        ],
+        "scientificName": "Heterocarpus hayashii"
+      }
+    ]
+  },
+  {
+    "name": "蟳",
+    "codes": [
+      "4511"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "血蚶(養)",
+    "codes": [
+      "5042"
+    ],
+    "candidates": [
+      {
+        "name": "血蚶",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=62",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/62/thumbnail_1_m.png",
+        "commonNamesText": "粒蚶、魁蚶、泥蚶",
+        "commonNames": [
+          "粒蚶",
+          "魁蚶",
+          "泥蚶"
+        ],
+        "scientificName": "Tegillarca granosa"
+      }
+    ]
+  },
+  {
+    "name": "西刀",
+    "codes": [
+      "2311"
+    ],
+    "candidates": [
+      {
+        "name": "寶刀魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=285",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/285/thumbnail_1_m.png",
+        "commonNamesText": "西刀、布刀、獅刀鱙",
+        "commonNames": [
+          "西刀",
+          "布刀",
+          "獅刀鱙"
+        ],
+        "scientificName": "Chirocentrus dorab"
+      }
+    ]
+  },
+  {
+    "name": "西鯧",
+    "codes": [
+      "2094"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "角鯊",
+    "codes": [
+      "2155"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "變身苦",
+    "codes": [
+      "2242"
+    ],
+    "candidates": [
+      {
+        "name": "金錢魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=721",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/721/thumbnail_1_m.png",
+        "commonNamesText": "變身苦、遍身苦( 澎湖)、金鼓",
+        "commonNames": [
+          "變身苦",
+          "遍身苦( 澎湖)",
+          "金鼓"
+        ],
+        "scientificName": "Scatophagus argus"
+      }
+    ]
+  },
+  {
+    "name": "豆仔魚",
+    "codes": [
+      "1061"
+    ],
+    "candidates": [
+      {
+        "name": "大鱗龜鮻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=329",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/329/thumbnail_1_m.png",
+        "commonNamesText": "豆仔魚、烏仔、烏仔魚、烏魚、 大鱗?、粗鱗烏 ( 澎湖 )",
+        "commonNames": [
+          "豆仔魚",
+          "烏仔",
+          "烏仔魚",
+          "烏魚",
+          " 大鱗?",
+          "粗鱗烏 ( 澎湖 )"
+        ],
+        "scientificName": "Chelon macrolepis"
+      },
+      {
+        "name": "綠背龜鮻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=330",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/330/thumbnail_1_m.png",
+        "commonNamesText": "豆仔魚、烏仔、烏仔魚、烏魚、白?",
+        "commonNames": [
+          "豆仔魚",
+          "烏仔",
+          "烏仔魚",
+          "烏魚",
+          "白?"
+        ],
+        "scientificName": "Chelon subviridis"
+      },
+      {
+        "name": "長鰭莫鯔",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=331",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/331/thumbnail_1_m.png",
+        "commonNamesText": "豆仔魚、烏仔、烏仔魚、烏魚、長鰭凡鯔",
+        "commonNames": [
+          "豆仔魚",
+          "烏仔",
+          "烏仔魚",
+          "烏魚",
+          "長鰭凡鯔"
+        ],
+        "scientificName": "Moolgarda cunnesius"
+      }
+    ]
+  },
+  {
+    "name": "象魚(臭肚)",
+    "codes": [
+      "2563"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "象魚、臭肚",
+    "codes": [
+      "1170"
+    ],
+    "candidates": [
+      {
+        "name": "銀臭肚魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=623",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/623/thumbnail_1_m.png",
+        "commonNamesText": "臭肚、象魚、象耳( 澎湖)、臭肚仔( 澎湖)、羊矮仔( 澎湖)",
+        "commonNames": [
+          "臭肚",
+          "象魚",
+          "象耳( 澎湖)",
+          "臭肚仔( 澎湖)",
+          "羊矮仔( 澎湖)"
+        ],
+        "scientificName": "Siganus argenteus"
+      },
+      {
+        "name": "褐臭肚魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=624",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/624/A01_1_m.png",
+        "commonNamesText": "臭肚、象魚、樹魚、羊鍋、疏網、茄冬仔、象耳(澎湖)",
+        "commonNames": [
+          "臭肚",
+          "象魚",
+          "樹魚",
+          "羊鍋",
+          "疏網",
+          "茄冬仔",
+          "象耳(澎湖)"
+        ],
+        "scientificName": "Siganus fuscescens"
+      },
+      {
+        "name": "星斑臭肚魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=625",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/625/A01_1_m.png",
+        "commonNamesText": "點籃子魚、臭肚、象魚、金點臭肚仔、密點臭肚、貓尾仔",
+        "commonNames": [
+          "點籃子魚",
+          "臭肚",
+          "象魚",
+          "金點臭肚仔",
+          "密點臭肚",
+          "貓尾仔"
+        ],
+        "scientificName": "Siganus guttatus"
+      },
+      {
+        "name": "刺臭肚魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=626",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/626/A01_1_m.png",
+        "commonNamesText": "臭肚、象魚、疏網、娘戾仔、西網、象耳( 澎湖)、臭肚仔( 澎湖)",
+        "commonNames": [
+          "臭肚",
+          "象魚",
+          "疏網",
+          "娘戾仔",
+          "西網",
+          "象耳( 澎湖)",
+          "臭肚仔( 澎湖)"
+        ],
+        "scientificName": "Siganus spinus"
+      },
+      {
+        "name": "藍帶臭肚魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=627",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/627/thumbnail_1_m.png",
+        "commonNamesText": "臭肚、象魚、象耳(澎湖)、臭肚仔(澎湖)、羊矮仔(澎湖)",
+        "commonNames": [
+          "臭肚",
+          "象魚",
+          "象耳(澎湖)",
+          "臭肚仔(澎湖)",
+          "羊矮仔(澎湖)"
+        ],
+        "scientificName": "Siganus virgatus"
+      }
+    ]
+  },
+  {
+    "name": "赤宗",
+    "codes": [
+      "2012"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "赤宗(凍)",
+    "codes": [
+      "3012"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "赤海",
+    "codes": [
+      "2031"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "赤筆",
+    "codes": [
+      "2501"
+    ],
+    "candidates": [
+      {
+        "name": "赤鰭笛鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=467",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/467/thumbnail_1_m.png",
+        "commonNamesText": "紅雞仔、赤海雞、赤筆仔(臺東)、赤筆、赤海、紅魚、鐵汕婆(澎湖)",
+        "commonNames": [
+          "紅雞仔",
+          "赤海雞",
+          "赤筆仔(臺東)",
+          "赤筆",
+          "赤海",
+          "紅魚",
+          "鐵汕婆(澎湖)"
+        ],
+        "scientificName": "Lutjanus erythropterus"
+      }
+    ]
+  },
+  {
+    "name": "赤翅",
+    "codes": [
+      "1162",
+      "2014"
+    ],
+    "candidates": [
+      {
+        "name": "黃鰭棘鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=534",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/534/A01_1_m.png",
+        "commonNamesText": "黃鰭鯛、黃鰭、赤翅仔、赤翅、花身、鏡鯛",
+        "commonNames": [
+          "黃鰭鯛",
+          "黃鰭",
+          "赤翅仔",
+          "赤翅",
+          "花身",
+          "鏡鯛"
+        ],
+        "scientificName": "Acanthopagrus latus"
+      }
+    ]
+  },
+  {
+    "name": "軟舌、軟絲",
+    "codes": [
+      "2165"
+    ],
+    "candidates": [
+      {
+        "name": "萊氏擬烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=101",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/101/thumbnail_1_m.png",
+        "commonNamesText": "軟絲、軟翅仔、軟匙仔、軟薯",
+        "commonNames": [
+          "軟絲",
+          "軟翅仔",
+          "軟匙仔",
+          "軟薯"
+        ],
+        "scientificName": "Sepioteuthis lessoniana"
+      }
+    ]
+  },
+  {
+    "name": "軟舌、軟絲(凍)",
+    "codes": [
+      "3165"
+    ],
+    "candidates": [
+      {
+        "name": "萊氏擬烏賊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=101",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/101/thumbnail_1_m.png",
+        "commonNamesText": "軟絲、軟翅仔、軟匙仔、軟薯",
+        "commonNames": [
+          "軟絲",
+          "軟翅仔",
+          "軟匙仔",
+          "軟薯"
+        ],
+        "scientificName": "Sepioteuthis lessoniana"
+      }
+    ]
+  },
+  {
+    "name": "透抽",
+    "codes": [
+      "2164"
+    ],
+    "candidates": [
+      {
+        "name": "中國槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=102",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/102/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) chinensis"
+      },
+      {
+        "name": "杜氏槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=103",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/103/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) duvaucelii"
+      },
+      {
+        "name": "劍尖槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=104",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/104/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) edulis"
+      },
+      {
+        "name": "詩博加槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=105",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/105/thumbnail_1_m.png",
+        "commonNamesText": "尖仔、有蛋小卷、鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "尖仔",
+          "有蛋小卷",
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) sibogae"
+      }
+    ]
+  },
+  {
+    "name": "透抽(凍)",
+    "codes": [
+      "3164"
+    ],
+    "candidates": [
+      {
+        "name": "中國槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=102",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/102/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) chinensis"
+      },
+      {
+        "name": "杜氏槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=103",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/103/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) duvaucelii"
+      },
+      {
+        "name": "劍尖槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=104",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/104/thumbnail_1_m.png",
+        "commonNamesText": "鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) edulis"
+      },
+      {
+        "name": "詩博加槍魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=105",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/105/thumbnail_1_m.png",
+        "commonNamesText": "尖仔、有蛋小卷、鎖管、小管、小卷、透抽、中卷",
+        "commonNames": [
+          "尖仔",
+          "有蛋小卷",
+          "鎖管",
+          "小管",
+          "小卷",
+          "透抽",
+          "中卷"
+        ],
+        "scientificName": "Uroteuthis (Photololigo) sibogae"
+      }
+    ]
+  },
+  {
+    "name": "金目鱸",
+    "codes": [
+      "1071"
+    ],
+    "candidates": [
+      {
+        "name": "尖吻鱸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=367",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/367/thumbnail_1_m.png",
+        "commonNamesText": "金目鱸、盲槽、扁紅目鱸",
+        "commonNames": [
+          "金目鱸",
+          "盲槽",
+          "扁紅目鱸"
+        ],
+        "scientificName": "Lates calcarifer"
+      }
+    ]
+  },
+  {
+    "name": "金線",
+    "codes": [
+      "2021"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "金線(凍)",
+    "codes": [
+      "3021"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "金龍、石鱸",
+    "codes": [
+      "1511",
+      "2511"
+    ],
+    "candidates": [
+      {
+        "name": "條紋雞籠鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=590",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/590/thumbnail_1_m.png",
+        "commonNamesText": "銅盤仔、金龍、雞倉、加破埔",
+        "commonNames": [
+          "銅盤仔",
+          "金龍",
+          "雞倉",
+          "加破埔"
+        ],
+        "scientificName": "Drepane longimana"
+      },
+      {
+        "name": "銀雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=506",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/506/A01_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸"
+        ],
+        "scientificName": "Pomadasys argenteus"
+      },
+      {
+        "name": "星雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=507",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/507/thumbnail_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸、頭額(澎湖)、金龍(澎湖)、?額(澎湖)",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸",
+          "頭額(澎湖)",
+          "金龍(澎湖)",
+          "?額(澎湖)"
+        ],
+        "scientificName": "Pomadasys kaakan"
+      },
+      {
+        "name": "斑雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=508",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/508/thumbnail_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸、石鯽仔",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸",
+          "石鯽仔"
+        ],
+        "scientificName": "Pomadasys maculatus"
+      },
+      {
+        "name": "四帶雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=509",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/509/A01_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸、三抓仔(臺東)、屎貴(澎湖)",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸",
+          "三抓仔(臺東)",
+          "屎貴(澎湖)"
+        ],
+        "scientificName": "Pomadasys quadrilineatus"
+      }
+    ]
+  },
+  {
+    "name": "銀花鱸",
+    "codes": [
+      "1074"
+    ],
+    "candidates": [
+      {
+        "name": "條紋狼鱸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=368",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/368/thumbnail_1_m.png",
+        "commonNamesText": "銀花鱸",
+        "commonNames": [
+          "銀花鱸"
+        ],
+        "scientificName": "Morone saxatilis"
+      }
+    ]
+  },
+  {
+    "name": "銀鯧",
+    "codes": [
+      "2093"
+    ],
+    "candidates": [
+      {
+        "name": "銀鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=673",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/673/thumbnail_1_m.png",
+        "commonNamesText": "白鯧、正鯧、銀鯧、支子",
+        "commonNames": [
+          "白鯧",
+          "正鯧",
+          "銀鯧",
+          "支子"
+        ],
+        "scientificName": "Pampus argenteus"
+      }
+    ]
+  },
+  {
+    "name": "鐘螺(海)",
+    "codes": [
+      "5061"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鐵甲",
+    "codes": [
+      "2076"
+    ],
+    "candidates": [
+      {
+        "name": "金帶花鯖",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=645",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/645/thumbnail_1_m.png",
+        "commonNamesText": "鐵甲、媽鱟",
+        "commonNames": [
+          "鐵甲",
+          "媽鱟"
+        ],
+        "scientificName": "Rastrelliger kanagurta"
+      },
+      {
+        "name": "大甲鰺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=430",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/430/thumbnail_1_m.png",
+        "commonNamesText": "鐵甲、扁甲、大目巴攏、大甲鰺",
+        "commonNames": [
+          "鐵甲",
+          "扁甲",
+          "大目巴攏",
+          "大甲鰺"
+        ],
+        "scientificName": "Megalaspis cordyla"
+      },
+      {
+        "name": "康德鋸鱗魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=346",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/346/thumbnail_1_m.png",
+        "commonNamesText": "康德松毬、厚殼仔、金鱗甲、鐵甲、 鐵甲兵、瀾公妾",
+        "commonNames": [
+          "康德松毬",
+          "厚殼仔",
+          "金鱗甲",
+          "鐵甲",
+          " 鐵甲兵",
+          "瀾公妾"
+        ],
+        "scientificName": "Myripristis kuntee"
+      },
+      {
+        "name": "赤鰓鋸鱗魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=347",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/347/A01_1_m.png",
+        "commonNamesText": "赤鰓松毬、厚殼仔、金鱗甲、鐵甲、 鐵甲兵、瀾公妾、鐵線婆",
+        "commonNames": [
+          "赤鰓松毬",
+          "厚殼仔",
+          "金鱗甲",
+          "鐵甲",
+          " 鐵甲兵",
+          "瀾公妾",
+          "鐵線婆"
+        ],
+        "scientificName": "Myripristis vittata"
+      },
+      {
+        "name": "凸頜鋸鱗魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=345",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/345/thumbnail_1_m.png",
+        "commonNamesText": "凸頜松毬、毬厚殼仔、金鱗甲、鐵甲、 鐵甲兵、瀾公妾、鐵線婆",
+        "commonNames": [
+          "凸頜松毬",
+          "毬厚殼仔",
+          "金鱗甲",
+          "鐵甲",
+          " 鐵甲兵",
+          "瀾公妾",
+          "鐵線婆"
+        ],
+        "scientificName": "Myripristis berndti"
+      }
+    ]
+  },
+  {
+    "name": "長加",
+    "codes": [
+      "2461"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "長鰭鮪",
+    "codes": [
+      "2111"
+    ],
+    "candidates": [
+      {
+        "name": "長鰭鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=652",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/652/thumbnail_1_m.png",
+        "commonNamesText": "Pon-bo、串仔(臺東)、長鰭串、白肉串、長鬚甕串",
+        "commonNames": [
+          "Pon-bo",
+          "串仔(臺東)",
+          "長鰭串",
+          "白肉串",
+          "長鬚甕串"
+        ],
+        "scientificName": "Thunnus alalunga"
+      }
+    ]
+  },
+  {
+    "name": "長鰭鮪凍",
+    "codes": [
+      "3111"
+    ],
+    "candidates": [
+      {
+        "name": "長鰭鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=652",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/652/thumbnail_1_m.png",
+        "commonNamesText": "Pon-bo、串仔(臺東)、長鰭串、白肉串、長鬚甕串",
+        "commonNames": [
+          "Pon-bo",
+          "串仔(臺東)",
+          "長鰭串",
+          "白肉串",
+          "長鬚甕串"
+        ],
+        "scientificName": "Thunnus alalunga"
+      }
+    ]
+  },
+  {
+    "name": "闊北",
+    "codes": [
+      "2146"
+    ],
+    "candidates": [
+      {
+        "name": "高麗馬加鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=650",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/650/thumbnail_1_m.png",
+        "commonNamesText": "破北、闊北、闊腹仔、高麗鰆、破腹",
+        "commonNames": [
+          "破北",
+          "闊北",
+          "闊腹仔",
+          "高麗鰆",
+          "破腹"
+        ],
+        "scientificName": "Scomberomorus koreanus"
+      }
+    ]
+  },
+  {
+    "name": "阿根廷魷魚頭",
+    "codes": [
+      "3172"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "阿髻鮫翅【凍】",
+    "codes": [
+      "6173"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "雙髻鮫",
+    "codes": [
+      "2160"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "雙髻鮫凍",
+    "codes": [
+      "3160"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "雨傘旗",
+    "codes": [
+      "2135"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "雨傘旗(凍)",
+    "codes": [
+      "3135"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "青斑",
+    "codes": [
+      "1171"
+    ],
+    "candidates": [
+      {
+        "name": "點帶石斑魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=385",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/385/thumbnail_1_m.png",
+        "commonNamesText": "石斑、過魚、紅花、紅點虎麻、 紅斑、青斑",
+        "commonNames": [
+          "石斑",
+          "過魚",
+          "紅花",
+          "紅點虎麻",
+          " 紅斑",
+          "青斑"
+        ],
+        "scientificName": "Epinephelus coioides"
+      }
+    ]
+  },
+  {
+    "name": "青筆、雞仔魚",
+    "codes": [
+      "2541"
+    ],
+    "candidates": [
+      {
+        "name": "花身鯻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=594",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/594/A01_1_m.png",
+        "commonNamesText": "花身仔、斑吾、雞仔魚、三抓仔、花身?、邦五( 澎湖)",
+        "commonNames": [
+          "花身仔",
+          "斑吾",
+          "雞仔魚",
+          "三抓仔",
+          "花身?",
+          "邦五( 澎湖)"
+        ],
+        "scientificName": "Terapon jarbua"
+      },
+      {
+        "name": "條紋鯻",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=595",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/595/A01_1_m.png",
+        "commonNamesText": "花身仔、斑吾、雞仔魚、三抓仔、兵舅仔( 澎湖)、斑午( 澎湖)",
+        "commonNames": [
+          "花身仔",
+          "斑吾",
+          "雞仔魚",
+          "三抓仔",
+          "兵舅仔( 澎湖)",
+          "斑午( 澎湖)"
+        ],
+        "scientificName": "Terapon theraps"
+      },
+      {
+        "name": "銀雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=506",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/506/A01_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸"
+        ],
+        "scientificName": "Pomadasys argenteus"
+      },
+      {
+        "name": "星雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=507",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/507/thumbnail_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸、頭額(澎湖)、金龍(澎湖)、?額(澎湖)",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸",
+          "頭額(澎湖)",
+          "金龍(澎湖)",
+          "?額(澎湖)"
+        ],
+        "scientificName": "Pomadasys kaakan"
+      },
+      {
+        "name": "斑雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=508",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/508/thumbnail_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸、石鯽仔",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸",
+          "石鯽仔"
+        ],
+        "scientificName": "Pomadasys maculatus"
+      },
+      {
+        "name": "四帶雞魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=509",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/509/A01_1_m.png",
+        "commonNamesText": "雞仔魚、石鱸、厚鱸、三抓仔(臺東)、屎貴(澎湖)",
+        "commonNames": [
+          "雞仔魚",
+          "石鱸",
+          "厚鱸",
+          "三抓仔(臺東)",
+          "屎貴(澎湖)"
+        ],
+        "scientificName": "Pomadasys quadrilineatus"
+      },
+      {
+        "name": "三線磯鱸",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=497",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/497/thumbnail_1_m.png",
+        "commonNamesText": "三線雞魚、黃雞仔、雞仔魚、番仔加誌、黃公仔魚、黃雞魚",
+        "commonNames": [
+          "三線雞魚",
+          "黃雞仔",
+          "雞仔魚",
+          "番仔加誌",
+          "黃公仔魚",
+          "黃雞魚"
+        ],
+        "scientificName": "Parapristipoma trilineatum"
+      },
+      {
+        "name": "密點少棘胡椒鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=493",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/493/thumbnail_1_m.png",
+        "commonNamesText": "雞仔魚、加志、少棘石鱸、圭誌(澎湖)、烏嘉誌(澎湖)",
+        "commonNames": [
+          "雞仔魚",
+          "加志",
+          "少棘石鱸",
+          "圭誌(澎湖)",
+          "烏嘉誌(澎湖)"
+        ],
+        "scientificName": "Diagramma pictum"
+      }
+    ]
+  },
+  {
+    "name": "青衣",
+    "codes": [
+      "2483"
+    ],
+    "candidates": [
+      {
+        "name": "雙色鯨鸚哥魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=704",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/704/thumbnail_1_m.png",
+        "commonNamesText": "青衣、青鸚哥魚、鸚哥魚、蠔魚、菜仔魚( 雌)",
+        "commonNames": [
+          "青衣",
+          "青鸚哥魚",
+          "鸚哥魚",
+          "蠔魚",
+          "菜仔魚( 雌)"
+        ],
+        "scientificName": "Cetoscarus bicolor"
+      },
+      {
+        "name": "瘤綠鸚哥魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=705",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/705/thumbnail_4_m.png",
+        "commonNamesText": "叩頭鸚哥、鸚哥、青衣",
+        "commonNames": [
+          "叩頭鸚哥",
+          "鸚哥",
+          "青衣"
+        ],
+        "scientificName": "Chlorurus oedema"
+      },
+      {
+        "name": "雜紋鸚哥魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=708",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/708/thumbnail_1_m.png",
+        "commonNamesText": "鸚哥、青衣、青衫( 雄)、蠔魚( 雌)",
+        "commonNames": [
+          "鸚哥",
+          "青衣",
+          "青衫( 雄)",
+          "蠔魚( 雌)"
+        ],
+        "scientificName": "Scarus rivulatus"
+      },
+      {
+        "name": "福氏鸚哥魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=710",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/710/A01_1_m.png",
+        "commonNamesText": "紅鸚哥、青鸚哥仔、青衣、青衫( 雄)、蠔魚( 雌)、紅海逮、紅咬齒",
+        "commonNames": [
+          "紅鸚哥",
+          "青鸚哥仔",
+          "青衣",
+          "青衫( 雄)",
+          "蠔魚( 雌)",
+          "紅海逮",
+          "紅咬齒"
+        ],
+        "scientificName": "Scarus forsteni"
+      }
+    ]
+  },
+  {
+    "name": "青鞭",
+    "codes": [
+      "2381"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "青魽",
+    "codes": [
+      "2078"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "青鱗",
+    "codes": [
+      "2102"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "香魚",
+    "codes": [
+      "1191",
+      "2631"
+    ],
+    "candidates": [
+      {
+        "name": "香魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=318",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/318/thumbnail_1_m.png",
+        "commonNamesText": "魚、Ayu、年魚",
+        "commonNames": [
+          "魚",
+          "Ayu",
+          "年魚"
+        ],
+        "scientificName": "Plecoglossus altivelis altivelis"
+      }
+    ]
+  },
+  {
+    "name": "香魚(凍)",
+    "codes": [
+      "3631"
+    ],
+    "candidates": [
+      {
+        "name": "香魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=318",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/318/thumbnail_1_m.png",
+        "commonNamesText": "魚、Ayu、年魚",
+        "commonNames": [
+          "魚",
+          "Ayu",
+          "年魚"
+        ],
+        "scientificName": "Plecoglossus altivelis altivelis"
+      }
+    ]
+  },
+  {
+    "name": "馬加",
+    "codes": [
+      "2142"
+    ],
+    "candidates": [
+      {
+        "name": "康氏馬加鰆",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=648",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/648/thumbnail_1_m.png",
+        "commonNamesText": "土魠、馬加、馬鮫、梭齒、頭魠、鰆、土托、康氏馬發",
+        "commonNames": [
+          "土魠",
+          "馬加",
+          "馬鮫",
+          "梭齒",
+          "頭魠",
+          "鰆",
+          "土托",
+          "康氏馬發"
+        ],
+        "scientificName": "Scomberomorus commerson"
+      }
+    ]
+  },
+  {
+    "name": "馬加鯊",
+    "codes": [
+      "2158"
+    ],
+    "candidates": [
+      {
+        "name": "尖吻鯖鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=216",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/216/thumbnail_1_m.png",
+        "commonNamesText": "馬加鯊、煙仔沙、灰鯖鮫、馬加(臺東)、尖吻鯖鯊、煙仔鯊",
+        "commonNames": [
+          "馬加鯊",
+          "煙仔沙",
+          "灰鯖鮫",
+          "馬加(臺東)",
+          "尖吻鯖鯊",
+          "煙仔鯊"
+        ],
+        "scientificName": "Isurus oxyrinchus"
+      },
+      {
+        "name": "長臂鯖鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=217",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/217/thumbnail_1_m.png",
+        "commonNamesText": "馬加鯊、煙仔沙、長臂灰鯖鮫",
+        "commonNames": [
+          "馬加鯊",
+          "煙仔沙",
+          "長臂灰鯖鮫"
+        ],
+        "scientificName": "Isurus paucus"
+      }
+    ]
+  },
+  {
+    "name": "馬加鯊凍",
+    "codes": [
+      "3158"
+    ],
+    "candidates": [
+      {
+        "name": "尖吻鯖鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=216",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/216/thumbnail_1_m.png",
+        "commonNamesText": "馬加鯊、煙仔沙、灰鯖鮫、馬加(臺東)、尖吻鯖鯊、煙仔鯊",
+        "commonNames": [
+          "馬加鯊",
+          "煙仔沙",
+          "灰鯖鮫",
+          "馬加(臺東)",
+          "尖吻鯖鯊",
+          "煙仔鯊"
+        ],
+        "scientificName": "Isurus oxyrinchus"
+      },
+      {
+        "name": "長臂鯖鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=217",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/217/thumbnail_1_m.png",
+        "commonNamesText": "馬加鯊、煙仔沙、長臂灰鯖鮫",
+        "commonNames": [
+          "馬加鯊",
+          "煙仔沙",
+          "長臂灰鯖鮫"
+        ],
+        "scientificName": "Isurus paucus"
+      }
+    ]
+  },
+  {
+    "name": "馬加鯊翅【凍】",
+    "codes": [
+      "6156"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "馬頭魚",
+    "codes": [
+      "2181"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "魚丸",
+    "codes": [
+      "6031"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "魚內臟",
+    "codes": [
+      "6111"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "魚卵",
+    "codes": [
+      "6112"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "魚皮",
+    "codes": [
+      "6113"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "魚肉",
+    "codes": [
+      "6114"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "魚肚",
+    "codes": [
+      "6110"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "魷魚",
+    "codes": [
+      "2161"
+    ],
+    "candidates": [
+      {
+        "name": "阿根廷魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=93",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/93/thumbnail_1_m.png",
+        "commonNamesText": "阿魷、魷魚、柔魚",
+        "commonNames": [
+          "阿魷",
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Illex argentinus"
+      },
+      {
+        "name": "夏威夷魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=95",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/95/thumbnail_1_m.png",
+        "commonNamesText": "魷魚、柔魚",
+        "commonNames": [
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Nototodarus hawaiiensis"
+      },
+      {
+        "name": "紐西蘭魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=96",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/96/thumbnail_1_m.png",
+        "commonNamesText": "魷魚、柔魚",
+        "commonNames": [
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Nototodarus sloanii"
+      },
+      {
+        "name": "太平洋魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=98",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/98/thumbnail_1_m.png",
+        "commonNamesText": "日本魷、魷魚、柔魚",
+        "commonNames": [
+          "日本魷",
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Todarodes pacificus"
+      }
+    ]
+  },
+  {
+    "name": "魷魚(凍)",
+    "codes": [
+      "3161"
+    ],
+    "candidates": [
+      {
+        "name": "阿根廷魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=93",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/93/thumbnail_1_m.png",
+        "commonNamesText": "阿魷、魷魚、柔魚",
+        "commonNames": [
+          "阿魷",
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Illex argentinus"
+      },
+      {
+        "name": "夏威夷魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=95",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/95/thumbnail_1_m.png",
+        "commonNamesText": "魷魚、柔魚",
+        "commonNames": [
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Nototodarus hawaiiensis"
+      },
+      {
+        "name": "紐西蘭魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=96",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/96/thumbnail_1_m.png",
+        "commonNamesText": "魷魚、柔魚",
+        "commonNames": [
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Nototodarus sloanii"
+      },
+      {
+        "name": "太平洋魷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=98",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/98/thumbnail_1_m.png",
+        "commonNamesText": "日本魷、魷魚、柔魚",
+        "commonNames": [
+          "日本魷",
+          "魷魚",
+          "柔魚"
+        ],
+        "scientificName": "Todarodes pacificus"
+      }
+    ]
+  },
+  {
+    "name": "鮟鱇魚",
+    "codes": [
+      "2905"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鮟鱇魚凍",
+    "codes": [
+      "3905"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鮭魚",
+    "codes": [
+      "2781"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鮭魚(凍)",
+    "codes": [
+      "3781"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鮭魚片",
+    "codes": [
+      "6010"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鮭魚頭/尾",
+    "codes": [
+      "2782"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鮭魚頭/尾凍",
+    "codes": [
+      "3782"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鮸魚",
+    "codes": [
+      "2067"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯉魚",
+    "codes": [
+      "1021"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯊條",
+    "codes": [
+      "2152"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯊煙",
+    "codes": [
+      "2153"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯊翅(凍)",
+    "codes": [
+      "3154"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯖魚",
+    "codes": [
+      "2331"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯖魚(凍)",
+    "codes": [
+      "3331"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯰魚",
+    "codes": [
+      "1111"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鯽魚",
+    "codes": [
+      "1022"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鰺魚",
+    "codes": [
+      "2085"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鱔魚",
+    "codes": [
+      "1091"
+    ],
+    "candidates": [
+      {
+        "name": "黃鱔",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=352",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/352/thumbnail_1_m.png",
+        "commonNamesText": "鱔魚",
+        "commonNames": [
+          "鱔魚"
+        ],
+        "scientificName": "Monopterus albus"
+      }
+    ]
+  },
+  {
+    "name": "鱙仔",
+    "codes": [
+      "2103"
+    ],
+    "candidates": [
+      {
+        "name": "日本銀帶鯡",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=301",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/301/thumbnail_1_m.png",
+        "commonNamesText": "針嘴鰮、丁香魚、魩仔、丁香、鱙仔、 灰海荷鰮",
+        "commonNames": [
+          "針嘴鰮",
+          "丁香魚",
+          "魩仔",
+          "丁香",
+          "鱙仔",
+          " 灰海荷鰮"
+        ],
+        "scientificName": "Spratelloides gracilis"
+      },
+      {
+        "name": "日本鯷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=288",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/288/thumbnail_1_m.png",
+        "commonNamesText": "苦蚵仔、鰯仔、片口、鱙仔、姑仔、 黑鱙、苦蠔仔 ( 澎湖 )",
+        "commonNames": [
+          "苦蚵仔",
+          "鰯仔",
+          "片口",
+          "鱙仔",
+          "姑仔",
+          " 黑鱙",
+          "苦蠔仔 ( 澎湖 )"
+        ],
+        "scientificName": "Engraulis japonicus"
+      }
+    ]
+  },
+  {
+    "name": "鱙仔(凍)",
+    "codes": [
+      "3103"
+    ],
+    "candidates": [
+      {
+        "name": "日本銀帶鯡",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=301",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/301/thumbnail_1_m.png",
+        "commonNamesText": "針嘴鰮、丁香魚、魩仔、丁香、鱙仔、 灰海荷鰮",
+        "commonNames": [
+          "針嘴鰮",
+          "丁香魚",
+          "魩仔",
+          "丁香",
+          "鱙仔",
+          " 灰海荷鰮"
+        ],
+        "scientificName": "Spratelloides gracilis"
+      },
+      {
+        "name": "日本鯷",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=288",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/288/thumbnail_1_m.png",
+        "commonNamesText": "苦蚵仔、鰯仔、片口、鱙仔、姑仔、 黑鱙、苦蠔仔 ( 澎湖 )",
+        "commonNames": [
+          "苦蚵仔",
+          "鰯仔",
+          "片口",
+          "鱙仔",
+          "姑仔",
+          " 黑鱙",
+          "苦蠔仔 ( 澎湖 )"
+        ],
+        "scientificName": "Engraulis japonicus"
+      }
+    ]
+  },
+  {
+    "name": "鱝(魴仔)",
+    "codes": [
+      "2351"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鱺魚",
+    "codes": [
+      "1081"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鳳螺(海)",
+    "codes": [
+      "5111"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "鹹魚",
+    "codes": [
+      "6021"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黃臘鰺(紅杉)",
+    "codes": [
+      "1181"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黃花",
+    "codes": [
+      "1167",
+      "2061"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黃鍚鯛",
+    "codes": [
+      "1165"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黃鰭鮪",
+    "codes": [
+      "2113"
+    ],
+    "candidates": [
+      {
+        "name": "黃鰭鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=653",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/653/thumbnail_1_m.png",
+        "commonNamesText": "串仔、黃奇串、黑肉、甕串、黃鰭金槍魚、黃鰭串(澎湖)",
+        "commonNames": [
+          "串仔",
+          "黃奇串",
+          "黑肉",
+          "甕串",
+          "黃鰭金槍魚",
+          "黃鰭串(澎湖)"
+        ],
+        "scientificName": "Thunnus albacares"
+      }
+    ]
+  },
+  {
+    "name": "黃鰭鮪凍",
+    "codes": [
+      "3113"
+    ],
+    "candidates": [
+      {
+        "name": "黃鰭鮪",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=653",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/653/thumbnail_1_m.png",
+        "commonNamesText": "串仔、黃奇串、黑肉、甕串、黃鰭金槍魚、黃鰭串(澎湖)",
+        "commonNames": [
+          "串仔",
+          "黃奇串",
+          "黑肉",
+          "甕串",
+          "黃鰭金槍魚",
+          "黃鰭串(澎湖)"
+        ],
+        "scientificName": "Thunnus albacares"
+      }
+    ]
+  },
+  {
+    "name": "黑口",
+    "codes": [
+      "2063"
+    ],
+    "candidates": [
+      {
+        "name": "黑䱛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=547",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/547/A01_1_m.png",
+        "commonNamesText": "黑口、烏喉、黑喉( 臺東)、加正、烏加網、黑喉、臭魚",
+        "commonNames": [
+          "黑口",
+          "烏喉",
+          "黑喉( 臺東)",
+          "加正",
+          "烏加網",
+          "黑喉",
+          "臭魚"
+        ],
+        "scientificName": "Atrobucca nibe"
+      }
+    ]
+  },
+  {
+    "name": "黑尾冬",
+    "codes": [
+      "2084"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黑皮刀",
+    "codes": [
+      "2252"
+    ],
+    "candidates": [
+      {
+        "name": "日本烏魴",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=455",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/455/thumbnail_1_m.png",
+        "commonNamesText": "深海三角仔、黑飛刀、黑皮刀",
+        "commonNames": [
+          "深海三角仔",
+          "黑飛刀",
+          "黑皮刀"
+        ],
+        "scientificName": "Brama japonica"
+      }
+    ]
+  },
+  {
+    "name": "黑皮刀(凍)",
+    "codes": [
+      "3252"
+    ],
+    "candidates": [
+      {
+        "name": "日本烏魴",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=455",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/455/thumbnail_1_m.png",
+        "commonNamesText": "深海三角仔、黑飛刀、黑皮刀",
+        "commonNames": [
+          "深海三角仔",
+          "黑飛刀",
+          "黑皮刀"
+        ],
+        "scientificName": "Brama japonica"
+      }
+    ]
+  },
+  {
+    "name": "黑皮旗",
+    "codes": [
+      "2133"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黑皮旗凍",
+    "codes": [
+      "3133"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黑魽",
+    "codes": [
+      "2080"
+    ],
+    "candidates": [
+      {
+        "name": "白舌尾甲鰺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=445",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/445/thumbnail_1_m.png",
+        "commonNamesText": "瓜仔、沖鰺、黑面甘、黑魽、 甘仔魚 ( 臺東 )、白鯌仔 ( 澎湖 )",
+        "commonNames": [
+          "瓜仔",
+          "沖鰺",
+          "黑面甘",
+          "黑魽",
+          " 甘仔魚 ( 臺東 )",
+          "白鯌仔 ( 澎湖 )"
+        ],
+        "scientificName": "Uraspis helvola"
+      },
+      {
+        "name": "海鱺",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=409",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/409/thumbnail_1_m.png",
+        "commonNamesText": "海麗仔、軍曹魚、海龍魚、黑魽、 鱺魚 ( 澎湖 )、紅目鱺 ( 澎湖 )",
+        "commonNames": [
+          "海麗仔",
+          "軍曹魚",
+          "海龍魚",
+          "黑魽",
+          " 鱺魚 ( 澎湖 )",
+          "紅目鱺 ( 澎湖 )"
+        ],
+        "scientificName": "Rachycentron canadum"
+      }
+    ]
+  },
+  {
+    "name": "黑鯊(凍)",
+    "codes": [
+      "3156"
+    ],
+    "candidates": [
+      {
+        "name": "短尾真鯊",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=225",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/225/thumbnail_1_m.png",
+        "commonNamesText": "大沙、短尾白眼鮫、黑鯊、反種圓頭",
+        "commonNames": [
+          "大沙",
+          "短尾白眼鮫",
+          "黑鯊",
+          "反種圓頭"
+        ],
+        "scientificName": "Carcharhinus brachyurus"
+      }
+    ]
+  },
+  {
+    "name": "黑鯊翅【凍】",
+    "codes": [
+      "6188"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "黑鯛",
+    "codes": [
+      "1163",
+      "2015"
+    ],
+    "candidates": [
+      {
+        "name": "黑棘鯛",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=536",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/536/thumbnail_1_m.png",
+        "commonNamesText": "黑鯛、烏格、黑格、厚唇、烏毛、烏鱠、黑頰( 澎湖)",
+        "commonNames": [
+          "黑鯛",
+          "烏格",
+          "黑格",
+          "厚唇",
+          "烏毛",
+          "烏鱠",
+          "黑頰( 澎湖)"
+        ],
+        "scientificName": "Acanthopagrus schlegelii"
+      }
+    ]
+  },
+  {
+    "name": "黑鯧",
+    "codes": [
+      "2092"
+    ],
+    "candidates": [
+      {
+        "name": "烏鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=432",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/432/thumbnail_1_m.png",
+        "commonNamesText": "烏昌、三角昌、昌鼠魚、黑鯧、 暗鯧、黑鰭、燕尾鯧",
+        "commonNames": [
+          "烏昌",
+          "三角昌",
+          "昌鼠魚",
+          "黑鯧",
+          " 暗鯧",
+          "黑鰭",
+          "燕尾鯧"
+        ],
+        "scientificName": "Parastromateus niger"
+      }
+    ]
+  },
+  {
+    "name": "黑鯧(凍)",
+    "codes": [
+      "3092"
+    ],
+    "candidates": [
+      {
+        "name": "烏鯧",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=432",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/432/thumbnail_1_m.png",
+        "commonNamesText": "烏昌、三角昌、昌鼠魚、黑鯧、 暗鯧、黑鰭、燕尾鯧",
+        "commonNames": [
+          "烏昌",
+          "三角昌",
+          "昌鼠魚",
+          "黑鯧",
+          " 暗鯧",
+          "黑鰭",
+          "燕尾鯧"
+        ],
+        "scientificName": "Parastromateus niger"
+      }
+    ]
+  },
+  {
+    "name": "龍尖、青嘴",
+    "codes": [
+      "2191"
+    ],
+    "candidates": [
+      {
+        "name": "青嘴龍占魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=529",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/529/A01_1_m.png",
+        "commonNamesText": "龍尖、龍占、青嘴仔、青嘴(澎湖)、尖嘴仔(澎湖)",
+        "commonNames": [
+          "龍尖",
+          "龍占",
+          "青嘴仔",
+          "青嘴(澎湖)",
+          "尖嘴仔(澎湖)"
+        ],
+        "scientificName": "Lethrinus nebulosus"
+      },
+      {
+        "name": "尖吻龍占魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=530",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/530/thumbnail_1_m.png",
+        "commonNamesText": "豬哥仔、龍尖、海豬哥(澎湖)、豬哥撬(澎湖)",
+        "commonNames": [
+          "豬哥仔",
+          "龍尖",
+          "海豬哥(澎湖)",
+          "豬哥撬(澎湖)"
+        ],
+        "scientificName": "Lethrinus olivaceus"
+      },
+      {
+        "name": "黃帶龍占魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=531",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/531/A01_1_m.png",
+        "commonNamesText": "龍尖、紅龍(澎湖)、豬哥仔(澎湖)、厚唇(澎湖)",
+        "commonNames": [
+          "龍尖",
+          "紅龍(澎湖)",
+          "豬哥仔(澎湖)",
+          "厚唇(澎湖)"
+        ],
+        "scientificName": "Lethrinus ornatus"
+      },
+      {
+        "name": "黃唇龍占魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=532",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/532/A01_1_m.png",
+        "commonNamesText": "龍尖、龍占(澎湖)",
+        "commonNames": [
+          "龍尖",
+          "龍占(澎湖)"
+        ],
+        "scientificName": "Lethrinus xanthochilus"
+      },
+      {
+        "name": "灰白鱲",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=525",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/525/thumbnail_1_m.png",
+        "commonNamesText": "龍尖、踢馬(澎湖)、白嘉鱲(澎湖)",
+        "commonNames": [
+          "龍尖",
+          "踢馬(澎湖)",
+          "白嘉鱲(澎湖)"
+        ],
+        "scientificName": "Gymnocranius griseus"
+      },
+      {
+        "name": "正龍占魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=526",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/526/thumbnail_1_m.png",
+        "commonNamesText": "白龍占、龍尖、連占、龍占(澎湖)、紅鰭龍占(澎湖)",
+        "commonNames": [
+          "白龍占",
+          "龍尖",
+          "連占",
+          "龍占(澎湖)",
+          "紅鰭龍占(澎湖)"
+        ],
+        "scientificName": "Lethrinus haematopterus"
+      },
+      {
+        "name": "單斑龍占魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=527",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/527/A01_1_m.png",
+        "commonNamesText": "龍尖、龍占、龍占舅(澎湖)、紅龍(澎湖)",
+        "commonNames": [
+          "龍尖",
+          "龍占",
+          "龍占舅(澎湖)",
+          "紅龍(澎湖)"
+        ],
+        "scientificName": "Lethrinus harak"
+      },
+      {
+        "name": "烏帽龍占魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=528",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/528/A01_1_m.png",
+        "commonNamesText": "龍尖、龍占(臺東)、龍占舅(澎湖)",
+        "commonNames": [
+          "龍尖",
+          "龍占(臺東)",
+          "龍占舅(澎湖)"
+        ],
+        "scientificName": "Lethrinus lentjan"
+      }
+    ]
+  },
+  {
+    "name": "龍膽石斑",
+    "codes": [
+      "1173"
+    ],
+    "candidates": [
+      {
+        "name": "鞍帶石斑魚",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=390",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/390/A01_1_m.png",
+        "commonNamesText": "龍膽石斑、過魚、槍頭石斑魚、 倒吞鱟、鴛鴦鱠",
+        "commonNames": [
+          "龍膽石斑",
+          "過魚",
+          "槍頭石斑魚",
+          " 倒吞鱟",
+          "鴛鴦鱠"
+        ],
+        "scientificName": "Epinephelus lanceolatus"
+      }
+    ]
+  },
+  {
+    "name": "龍舌",
+    "codes": [
+      "2411"
+    ],
+    "candidates": [
+      {
+        "name": "利達舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=689",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/689/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus lida"
+      },
+      {
+        "name": "雙線舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=690",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/690/thumbnail_1_m.png",
+        "commonNamesText": "狗舌、牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "狗舌",
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus bilineatus"
+      },
+      {
+        "name": "書顏舌鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=691",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/691/thumbnail_2_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Cynoglossus suyeni"
+      },
+      {
+        "name": "布氏鬚鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=692",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/692/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Paraplagusia blochii"
+      },
+      {
+        "name": "日本鬚鰨",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=693",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/693/thumbnail_1_m.png",
+        "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+        "commonNames": [
+          "牛舌",
+          "龍舌",
+          "扁魚",
+          "皇帝魚",
+          "比目魚"
+        ],
+        "scientificName": "Paraplagusia japonica"
+      }
+    ]
+  },
+  {
+    "name": "龍蝦海",
+    "codes": [
+      "4131"
+    ],
+    "candidates": [
+      {
+        "name": "黃斑龍蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=143",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/143/thumbnail_1_m.png",
+        "commonNamesText": "龍蝦",
+        "commonNames": [
+          "龍蝦"
+        ],
+        "scientificName": "Panulirus polyphagus"
+      },
+      {
+        "name": "愛德華岩龍蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=145",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/145/thumbnail_1_m.png",
+        "commonNamesText": "龍蝦、粗皮仔",
+        "commonNames": [
+          "龍蝦",
+          "粗皮仔"
+        ],
+        "scientificName": "Jasus edwardsii"
+      },
+      {
+        "name": "錦繡龍蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=141",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/141/thumbnail_1_m.png",
+        "commonNamesText": "龍蝦、山蝦、沙蝦、七彩龍蝦",
+        "commonNames": [
+          "龍蝦",
+          "山蝦",
+          "沙蝦",
+          "七彩龍蝦"
+        ],
+        "scientificName": "Panulirus ornatus"
+      },
+      {
+        "name": "天鵝龍蝦",
+        "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=136",
+        "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/136/thumbnail_1_m.png",
+        "commonNamesText": "龍蝦、水姑娘",
+        "commonNames": [
+          "龍蝦",
+          "水姑娘"
+        ],
+        "scientificName": "Panulirus cygnus"
+      }
+    ]
+  },
+  {
+    "name": "（日本）白帶魚",
+    "codes": [
+      "2341"
+    ],
+    "candidates": []
+  },
+  {
+    "name": "（日本）白帶魚凍",
+    "codes": [
+      "3341"
+    ],
+    "candidates": []
+  }
+]

@@ -1,0 +1,309 @@
+[
+  {
+    "name": "雙色鯨鸚哥魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=704",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/704/thumbnail_1_m.png",
+    "commonNamesText": "青衣、青鸚哥魚、鸚哥魚、蠔魚、菜仔魚( 雌)",
+    "commonNames": [
+      "青衣",
+      "青鸚哥魚",
+      "鸚哥魚",
+      "蠔魚",
+      "菜仔魚( 雌)"
+    ],
+    "scientificName": "Cetoscarus bicolor",
+    "key": "kmweb-704",
+    "category": "seafood",
+    "marketCodes": [
+      "2483"
+    ],
+    "marketNames": [
+      "青衣"
+    ],
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-704.png",
+    "mappingNote": "來源圖鑑明列市場俗名，使用該交易類別的代表物種；不表示所有該名稱交易皆為同一物種。"
+  },
+  {
+    "name": "日本馬加鰆",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=651",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/651/thumbnail_1_m.png",
+    "commonNamesText": "正馬加、馬加箭、尖頭馬加、馬嘉、白北(臺東)、燕魚",
+    "commonNames": [
+      "正馬加",
+      "馬加箭",
+      "尖頭馬加",
+      "馬嘉",
+      "白北(臺東)",
+      "燕魚"
+    ],
+    "scientificName": "Scomberomorus niphonius",
+    "key": "kmweb-651",
+    "category": "seafood",
+    "marketCodes": [
+      "2142"
+    ],
+    "marketNames": [
+      "馬加"
+    ],
+    "mappingMethod": "official_market_code",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-651.png"
+  },
+  {
+    "name": "太平洋魷",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=98",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/98/thumbnail_1_m.png",
+    "commonNamesText": "日本魷、魷魚、柔魚",
+    "commonNames": [
+      "日本魷",
+      "魷魚",
+      "柔魚"
+    ],
+    "scientificName": "Todarodes pacificus",
+    "key": "kmweb-98",
+    "category": "seafood",
+    "marketCodes": [
+      "2161",
+      "3161"
+    ],
+    "marketNames": [
+      "魷魚",
+      "魷魚(凍)"
+    ],
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-98.png",
+    "mappingNote": "來源圖鑑明列市場俗名，使用該交易類別的代表物種；不表示所有該名稱交易皆為同一物種。"
+  },
+  {
+    "name": "鮸",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=556",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/556/thumbnail_1_m.png",
+    "commonNamesText": "鮸仔、敏魚、米魚、水鮸仔",
+    "commonNames": [
+      "鮸仔",
+      "敏魚",
+      "米魚",
+      "水鮸仔"
+    ],
+    "scientificName": "Miichthys miiuy",
+    "key": "kmweb-556",
+    "category": "seafood",
+    "marketCodes": [
+      "2067"
+    ],
+    "marketNames": [
+      "鮸魚"
+    ],
+    "mappingMethod": "official_market_code",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-556.png"
+  },
+  {
+    "name": "黃鱔",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=352",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/352/thumbnail_1_m.png",
+    "commonNamesText": "鱔魚",
+    "commonNames": [
+      "鱔魚"
+    ],
+    "scientificName": "Monopterus albus",
+    "key": "kmweb-352",
+    "category": "seafood",
+    "marketCodes": [
+      "1091"
+    ],
+    "marketNames": [
+      "鱔魚"
+    ],
+    "mappingMethod": "official_market_code",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-352.png"
+  },
+  {
+    "name": "黑䱛",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=547",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/547/A01_1_m.png",
+    "commonNamesText": "黑口、烏喉、黑喉( 臺東)、加正、烏加網、黑喉、臭魚",
+    "commonNames": [
+      "黑口",
+      "烏喉",
+      "黑喉( 臺東)",
+      "加正",
+      "烏加網",
+      "黑喉",
+      "臭魚"
+    ],
+    "scientificName": "Atrobucca nibe",
+    "key": "kmweb-547",
+    "category": "seafood",
+    "marketCodes": [
+      "2063"
+    ],
+    "marketNames": [
+      "黑口"
+    ],
+    "mappingMethod": "official_market_code",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-547.png"
+  },
+  {
+    "name": "日本烏魴",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=455",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/455/thumbnail_1_m.png",
+    "commonNamesText": "深海三角仔、黑飛刀、黑皮刀",
+    "commonNames": [
+      "深海三角仔",
+      "黑飛刀",
+      "黑皮刀"
+    ],
+    "scientificName": "Brama japonica",
+    "key": "kmweb-455",
+    "category": "seafood",
+    "marketCodes": [
+      "2252",
+      "3252"
+    ],
+    "marketNames": [
+      "黑皮刀",
+      "黑皮刀(凍)"
+    ],
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-455.png",
+    "mappingNote": "來源圖鑑明列市場俗名，使用該交易類別的代表物種；不表示所有該名稱交易皆為同一物種。"
+  },
+  {
+    "name": "短尾真鯊",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=225",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/225/thumbnail_1_m.png",
+    "commonNamesText": "大沙、短尾白眼鮫、黑鯊、反種圓頭",
+    "commonNames": [
+      "大沙",
+      "短尾白眼鮫",
+      "黑鯊",
+      "反種圓頭"
+    ],
+    "scientificName": "Carcharhinus brachyurus",
+    "key": "kmweb-225",
+    "category": "seafood",
+    "marketCodes": [
+      "3156"
+    ],
+    "marketNames": [
+      "黑鯊(凍)"
+    ],
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-225.png",
+    "mappingNote": "來源圖鑑明列市場俗名，使用該交易類別的代表物種；不表示所有該名稱交易皆為同一物種。"
+  },
+  {
+    "name": "黑棘鯛",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=536",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/536/thumbnail_1_m.png",
+    "commonNamesText": "黑鯛、烏格、黑格、厚唇、烏毛、烏鱠、黑頰( 澎湖)",
+    "commonNames": [
+      "黑鯛",
+      "烏格",
+      "黑格",
+      "厚唇",
+      "烏毛",
+      "烏鱠",
+      "黑頰( 澎湖)"
+    ],
+    "scientificName": "Acanthopagrus schlegelii",
+    "key": "kmweb-536",
+    "category": "seafood",
+    "marketCodes": [
+      "1163",
+      "2015"
+    ],
+    "marketNames": [
+      "黑鯛",
+      "黑鯛"
+    ],
+    "mappingMethod": "official_market_code",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-536.png"
+  },
+  {
+    "name": "青嘴龍占魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=529",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/529/A01_1_m.png",
+    "commonNamesText": "龍尖、龍占、青嘴仔、青嘴(澎湖)、尖嘴仔(澎湖)",
+    "commonNames": [
+      "龍尖",
+      "龍占",
+      "青嘴仔",
+      "青嘴(澎湖)",
+      "尖嘴仔(澎湖)"
+    ],
+    "scientificName": "Lethrinus nebulosus",
+    "key": "kmweb-529",
+    "category": "seafood",
+    "marketCodes": [
+      "2191"
+    ],
+    "marketNames": [
+      "龍尖、青嘴"
+    ],
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-529.png",
+    "mappingNote": "來源圖鑑明列市場俗名，使用該交易類別的代表物種；不表示所有該名稱交易皆為同一物種。"
+  },
+  {
+    "name": "利達舌鰨",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=689",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/689/thumbnail_1_m.png",
+    "commonNamesText": "牛舌、龍舌、扁魚、皇帝魚、比目魚",
+    "commonNames": [
+      "牛舌",
+      "龍舌",
+      "扁魚",
+      "皇帝魚",
+      "比目魚"
+    ],
+    "scientificName": "Cynoglossus lida",
+    "key": "kmweb-689",
+    "category": "seafood",
+    "marketCodes": [
+      "2411"
+    ],
+    "marketNames": [
+      "龍舌"
+    ],
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-689.png",
+    "mappingNote": "來源圖鑑明列市場俗名，使用該交易類別的代表物種；不表示所有該名稱交易皆為同一物種。"
+  },
+  {
+    "name": "錦繡龍蝦",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=141",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/141/thumbnail_1_m.png",
+    "commonNamesText": "龍蝦、山蝦、沙蝦、七彩龍蝦",
+    "commonNames": [
+      "龍蝦",
+      "山蝦",
+      "沙蝦",
+      "七彩龍蝦"
+    ],
+    "scientificName": "Panulirus ornatus",
+    "key": "kmweb-141",
+    "category": "seafood",
+    "marketCodes": [
+      "4131"
+    ],
+    "marketNames": [
+      "龍蝦海"
+    ],
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-141.png",
+    "mappingNote": "來源圖鑑明列市場俗名，使用該交易類別的代表物種；不表示所有該名稱交易皆為同一物種。"
+  }
+]

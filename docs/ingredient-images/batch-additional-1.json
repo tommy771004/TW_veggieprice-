@@ -1,0 +1,115 @@
+[
+  {
+    "name": "冬瓜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=137",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/52/option1_1.jpg",
+    "key": "FE2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-FE2.jpg"
+  },
+  {
+    "name": "仙桃",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=56",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/120/option1_1.jpg",
+    "key": "G1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-G1.jpg"
+  },
+  {
+    "name": "奇異果",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=254",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/62/option2_1.jpg",
+    "key": "G49",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-G49.jpg"
+  },
+  {
+    "name": "李子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=147",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/147/option1_1.jpg",
+    "key": "N9",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-N9.jpg"
+  },
+  {
+    "name": "椰子",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=64",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/137/option1_1.jpg",
+    "key": "11",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-11.jpg"
+  },
+  {
+    "name": "榴槤",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=142",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/19/option1_1.jpg",
+    "key": "859",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-859.jpg"
+  },
+  {
+    "name": "橄欖",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=122",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/36/option3_1.jpg",
+    "key": "G7",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-G7.jpg",
+    "skipReason": "European black olives do not establish the identity of Taiwan market G7 Chinese olive"
+  },
+  {
+    "name": "櫻桃",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=114",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/16/option3_1.jpg",
+    "key": "839",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-839.jpg"
+  },
+  {
+    "name": "波羅蜜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=142",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/19/option3_1.jpg",
+    "key": "G9",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-G9.jpg"
+  },
+  {
+    "name": "洋菇",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=156",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/26/option2_1.jpg",
+    "key": "MA1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-MA1.jpg"
+  },
+  {
+    "name": "洛神葵",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=254",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/62/option1_1.jpg",
+    "key": "FW2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-FW2.jpg"
+  },
+  {
+    "name": "海帶",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=236",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/51/option2_1.png",
+    "key": "LT2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-LT2.jpg"
+  },
+  {
+    "name": "甜菜",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=133",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/40/option3_1.jpg",
+    "key": "SA7",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-SA7.jpg"
+  },
+  {
+    "name": "紅蔥頭",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=408",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/153/option3_1.jpg",
+    "key": "SE5",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-SE5.jpg"
+  },
+  {
+    "name": "綠葡萄",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=356",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/123/option1_1.jpg",
+    "key": "S49",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-S49.jpg"
+  },
+  {
+    "name": "花生",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=121",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/23/option1_1.jpg",
+    "key": "FZ1",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-FZ1.jpg"
+  }
+]

@@ -1,0 +1,316 @@
+[
+  {
+    "name": "赤鰭笛鯛",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=467",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/467/thumbnail_1_m.png",
+    "commonNamesText": "紅雞仔、赤海雞、赤筆仔(臺東)、赤筆、赤海、紅魚、鐵汕婆(澎湖)",
+    "commonNames": [
+      "紅雞仔",
+      "赤海雞",
+      "赤筆仔(臺東)",
+      "赤筆",
+      "赤海",
+      "紅魚",
+      "鐵汕婆(澎湖)"
+    ],
+    "scientificName": "Lutjanus erythropterus",
+    "key": "kmweb-467",
+    "category": "seafood",
+    "marketCodes": [
+      "2031",
+      "2501"
+    ],
+    "marketNames": [
+      "赤海",
+      "赤筆"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-467.png"
+  },
+  {
+    "name": "黃鰭棘鯛",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=534",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/534/A01_1_m.png",
+    "commonNamesText": "黃鰭鯛、黃鰭、赤翅仔、赤翅、花身、鏡鯛",
+    "commonNames": [
+      "黃鰭鯛",
+      "黃鰭",
+      "赤翅仔",
+      "赤翅",
+      "花身",
+      "鏡鯛"
+    ],
+    "scientificName": "Acanthopagrus latus",
+    "key": "kmweb-534",
+    "category": "seafood",
+    "marketCodes": [
+      "1162",
+      "2014"
+    ],
+    "marketNames": [
+      "赤翅"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-534.png"
+  },
+  {
+    "name": "尖吻鱸",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=367",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/367/thumbnail_1_m.png",
+    "commonNamesText": "金目鱸、盲槽、扁紅目鱸",
+    "commonNames": [
+      "金目鱸",
+      "盲槽",
+      "扁紅目鱸"
+    ],
+    "scientificName": "Lates calcarifer",
+    "key": "kmweb-367",
+    "category": "seafood",
+    "marketCodes": [
+      "1071"
+    ],
+    "marketNames": [
+      "金目鱸"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-367.png"
+  },
+  {
+    "name": "金線魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=514",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/514/thumbnail_1_m.png",
+    "commonNamesText": "金線鰱、黃線、紅杉",
+    "commonNames": [
+      "金線鰱",
+      "黃線",
+      "紅杉"
+    ],
+    "scientificName": "Nemipterus virgatus",
+    "key": "kmweb-514",
+    "category": "seafood",
+    "marketCodes": [
+      "2021",
+      "3021"
+    ],
+    "marketNames": [
+      "金線",
+      "金線(凍)"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-514.png"
+  },
+  {
+    "name": "星雞魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=507",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/507/thumbnail_1_m.png",
+    "commonNamesText": "雞仔魚、石鱸、厚鱸、頭額(澎湖)、金龍(澎湖)、?額(澎湖)",
+    "commonNames": [
+      "雞仔魚",
+      "石鱸",
+      "厚鱸",
+      "頭額(澎湖)",
+      "金龍(澎湖)",
+      "?額(澎湖)"
+    ],
+    "scientificName": "Pomadasys kaakan",
+    "key": "kmweb-507",
+    "category": "seafood",
+    "marketCodes": [
+      "1511",
+      "2511"
+    ],
+    "marketNames": [
+      "金龍、石鱸"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-507.png"
+  },
+  {
+    "name": "條紋狼鱸",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=368",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/368/thumbnail_1_m.png",
+    "commonNamesText": "銀花鱸",
+    "commonNames": [
+      "銀花鱸"
+    ],
+    "scientificName": "Morone saxatilis",
+    "key": "kmweb-368",
+    "category": "seafood",
+    "marketCodes": [
+      "1074"
+    ],
+    "marketNames": [
+      "銀花鱸"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-368.png"
+  },
+  {
+    "name": "大甲鰺",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=430",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/430/thumbnail_1_m.png",
+    "commonNamesText": "鐵甲、扁甲、大目巴攏、大甲鰺",
+    "commonNames": [
+      "鐵甲",
+      "扁甲",
+      "大目巴攏",
+      "大甲鰺"
+    ],
+    "scientificName": "Megalaspis cordyla",
+    "key": "kmweb-430",
+    "category": "seafood",
+    "marketCodes": [
+      "2076"
+    ],
+    "marketNames": [
+      "鐵甲"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-430.png"
+  },
+  {
+    "name": "長鰭鮪",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=652",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/652/thumbnail_1_m.png",
+    "commonNamesText": "Pon-bo、串仔(臺東)、長鰭串、白肉串、長鬚甕串",
+    "commonNames": [
+      "Pon-bo",
+      "串仔(臺東)",
+      "長鰭串",
+      "白肉串",
+      "長鬚甕串"
+    ],
+    "scientificName": "Thunnus alalunga",
+    "key": "kmweb-652",
+    "category": "seafood",
+    "marketCodes": [
+      "2111",
+      "3111"
+    ],
+    "marketNames": [
+      "長鰭鮪",
+      "長鰭鮪凍"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-652.png"
+  },
+  {
+    "name": "高麗馬加鰆",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=650",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/650/thumbnail_1_m.png",
+    "commonNamesText": "破北、闊北、闊腹仔、高麗鰆、破腹",
+    "commonNames": [
+      "破北",
+      "闊北",
+      "闊腹仔",
+      "高麗鰆",
+      "破腹"
+    ],
+    "scientificName": "Scomberomorus koreanus",
+    "key": "kmweb-650",
+    "category": "seafood",
+    "marketCodes": [
+      "2146"
+    ],
+    "marketNames": [
+      "闊北"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-650.png"
+  },
+  {
+    "name": "鯉",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=309",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/309/A01_1_m.png",
+    "commonNamesText": "鮘仔、在來鯉、財神魚",
+    "commonNames": [
+      "鮘仔",
+      "在來鯉",
+      "財神魚"
+    ],
+    "scientificName": "Cyprinus carpio",
+    "key": "kmweb-309",
+    "category": "seafood",
+    "marketCodes": [
+      "1021"
+    ],
+    "marketNames": [
+      "鯉魚"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-309.png"
+  },
+  {
+    "name": "鯽",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=304",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/304/A01_1_m.png",
+    "commonNamesText": "鯽仔、土鯽、本島鯽、本島仔、細頭",
+    "commonNames": [
+      "鯽仔",
+      "土鯽",
+      "本島鯽",
+      "本島仔",
+      "細頭"
+    ],
+    "scientificName": "Carassius auratus auratus",
+    "key": "kmweb-304",
+    "category": "seafood",
+    "marketCodes": [
+      "1022"
+    ],
+    "marketNames": [
+      "鯽魚"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-304.png"
+  },
+  {
+    "name": "平鯛",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=541",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/541/thumbnail_1_m.png",
+    "commonNamesText": "黃錫鯛、枋頭、邦頭( 澎湖)、枋頭( 澎湖)、白嘉鱲( 澎湖)",
+    "commonNames": [
+      "黃錫鯛",
+      "枋頭",
+      "邦頭( 澎湖)",
+      "枋頭( 澎湖)",
+      "白嘉鱲( 澎湖)"
+    ],
+    "scientificName": "Rhabdosargus sarba",
+    "key": "kmweb-541",
+    "category": "seafood",
+    "marketCodes": [
+      "1165"
+    ],
+    "marketNames": [
+      "黃鍚鯛"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-541.png"
+  },
+  {
+    "name": "黃鰭鮪",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=653",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/653/thumbnail_1_m.png",
+    "commonNamesText": "串仔、黃奇串、黑肉、甕串、黃鰭金槍魚、黃鰭串(澎湖)",
+    "commonNames": [
+      "串仔",
+      "黃奇串",
+      "黑肉",
+      "甕串",
+      "黃鰭金槍魚",
+      "黃鰭串(澎湖)"
+    ],
+    "scientificName": "Thunnus albacares",
+    "key": "kmweb-653",
+    "category": "seafood",
+    "marketCodes": [
+      "3113"
+    ],
+    "marketNames": [
+      "黃鰭鮪凍"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-653.png"
+  }
+]

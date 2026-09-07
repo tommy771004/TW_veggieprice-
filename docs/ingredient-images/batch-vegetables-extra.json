@@ -1,0 +1,178 @@
+[
+  {
+    "key": "FE1",
+    "name": "白皮冬瓜",
+    "sourceUrl": "https://kkfintw.blogspot.com/2018/08/blog-post.html",
+    "referenceUrl": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEieUVQsDjiNnpv8us-2J-teAUtAygj2DDJQUpDFZsX7sUcXyCDT4yKneDm0IjYU7jA2sJ-qvgysuyV5rfD6vLC28khcKHFPm5zlWxM9wXnKAwRuvqqQ8p9JlsWdnIGHzlHTApVJbywAd9yQeOFujxZWPhv3ocRbUtLzD3utGu_ckRnMlLlMDZu1CGPZBUbk/w1200-h630-p-k-no-nu/2018-08-03.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FE1.jpg",
+    "referenceName": "白皮冬瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Farmer-labelled Taiwan white-skin winter melon. Long thick cylindrical pale green fruit with powdery whitish bloom. Draw one straight or gently curved fruit; no person or shed.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FT11",
+    "name": "阿成南瓜",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/85/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_24F13_s4jWdXmGMk.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FT11.jpg",
+    "referenceName": "阿成南瓜",
+    "mappingMethod": "labelled_seed_breeder_cultivar_photo",
+    "visualNotes": "Exact breeder cultivar A Cheng: papaya shape, grey green skin with tan speckling, deep yellow orange flesh.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FT12",
+    "name": "阿嬌南瓜",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/82/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_24F13_fhNt6uEGF0.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FT12.jpg",
+    "referenceName": "阿嬌南瓜",
+    "mappingMethod": "labelled_seed_breeder_cultivar_photo",
+    "visualNotes": "Exact breeder cultivar A Jiao: long oval, green skin with tan striping/speckles, orange yellow flesh.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FT72",
+    "name": "小黑南瓜",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/101/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_24F13_7mO0uI3xCq.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FT72.jpg",
+    "referenceName": "小黑南瓜",
+    "mappingMethod": "labelled_seed_breeder_cultivar_photo",
+    "visualNotes": "Exact breeder cultivar Xiao Hei: small squat dark green-black ribbed pumpkin with yellow flesh.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FH4",
+    "name": "梨子蒲",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=137&theme=production_map",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/production_map/137/8k7a8075_c_m.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FH4.jpg",
+    "referenceName": "梨子蒲",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Pear-shaped pale green bottle gourd; remove net basket and watermark.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FY41",
+    "name": "玉米筍-帶殼",
+    "sourceUrl": "https://puligood.waca.tw/product/detail/479455",
+    "referenceUrl": "https://img.cloudimg.in/uploads/shops/12064/products/7c/7c6bdda09019420b4f4067a5c5b1dabb.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FY41.jpg",
+    "referenceName": "玉米筍-帶殼",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Baby corn WITH husks, slender small green wrapped ears. Use husked subjects not only peeled baby corn from photo.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FY7",
+    "name": "玉美珍白糯玉米",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/280/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_24F19_lT9REojJ9l.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FY7.jpg",
+    "referenceName": "玉美珍白糯玉米",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Yumeizhen white waxy corn is a representative for white glutinous category; white plump kernels, not yellow or purple.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FY2",
+    "name": "玉米-甜硬殼",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/271/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_24F19_Coq9BtPm6R.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FY2.jpg",
+    "referenceName": "華珍甜玉米",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Hua Zhen representative for sweet hard-shell category; supported by Tainan DARES classification, https://book.tndais.gov.tw/Magazine/mag44-5.htm . Yellow kernels, not white or bicolour.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FK41",
+    "name": "紅甜椒",
+    "sourceUrl": "https://happy-farm.com.tw/",
+    "referenceUrl": "https://img1.wsimg.com/isteam/ip/9794d691-6939-4230-9cd6-71e6f2290db2/RedBellPepper.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FK41.jpg",
+    "referenceName": "紅甜椒",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Only red bell pepper, actual red source photo; whole or half.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FK42",
+    "name": "黃甜椒",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00062",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=1200&f=000C61",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FK42.jpg",
+    "referenceName": "甜椒(彩色種)",
+    "mappingMethod": "select_verified_colour_from_labelled_photo",
+    "visualNotes": "Only yellow bell pepper from actual yellow TAPMC photo.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FK3",
+    "name": "新香甜椒",
+    "sourceUrl": "https://hsoldbody.pixnet.net/blog/posts/8227628800",
+    "referenceUrl": "https://pimg.1px.tw/hsoldbody/1559120761-356287115.jpg?v=1559120791",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FK3.jpg",
+    "referenceName": "新香甜椒",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Author-labelled Xin Xiang horn pepper actual uncooked ingredients. Green broad elongated curved peppers, not round bell peppers. Omit sauce jar, garlic, cutting board and text.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FJ2",
+    "name": "番茄-粉柿",
+    "sourceUrl": "https://greenbox.tw/Products/ItemDetail/69885",
+    "referenceUrl": "https://greenboxcdn.azureedge.net/upload/Product_3033/202504280608201.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FJ2.jpg",
+    "referenceName": "桃太郎番茄",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Supplier-labelled Momotaro tomato represents pink tomato category, per Hualien DARES https://www.hdares.gov.tw/ws.php?id=1218 . Actual source shows pale salmon pink-orange fruit with slight point, not fully deep red. Match observed fruit colour, omit box.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FF4",
+    "name": "農友特長絲瓜",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/125/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_25D09_rC0IFQLEDc.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FF4.jpg",
+    "referenceName": "農友特長絲瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Known-You Extra Long loofah representative; exceptionally slender long smooth cylinder with subtle texture. Not sharply angled loofah. Omit white bags tied at ends and vine scenery.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FG3",
+    "name": "翠妃山苦瓜",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/139/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_25D10_mGQAhCs1KA.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FG3.jpg",
+    "referenceName": "翠妃山苦瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Cui Fei mountain bitter melon representative: small pointed dark green heavily knobbled fruits, no white bitter melon.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FI3",
+    "name": "日本茄子",
+    "sourceUrl": "https://www.yong-syu.com/products/info.php?id=61678",
+    "referenceUrl": "https://www.workband.com.tw/store_image/yong/P1176310760054.webp",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FI3.jpg",
+    "referenceName": "日本茄子600g",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Supplier-labelled Japanese eggplant representative, glossy deep purple short plump oval fruit. Not Taiwan long slender aubergine.",
+    "verifiedActualPhoto": true
+  },
+  {
+    "key": "FC2",
+    "name": "胡瓜-改良種",
+    "sourceUrl": "https://www.knownyou.com/tw/product-detail/75/",
+    "referenceUrl": "https://www.knownyou.com/upload/catalog_b/ALL_catalog_24F13_AIm3ja2O1Q.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-FC2.jpg",
+    "referenceName": "萬吉中大胡瓜",
+    "mappingMethod": "labelled_photo_visual_representative",
+    "visualNotes": "Known-You Wan Ji large cucumber represents improved large cucumber category; no exact market-code cultivar claim. Thick long dark green cylinder and pale white green cut flesh.",
+    "verifiedActualPhoto": true
+  }
+]

@@ -1,0 +1,167 @@
+[
+  {
+    "key": "OL1",
+    "name": "朴菜",
+    "sourceUrl": "https://mall.iopenmall.tw/003484/index.php?action=product_detail&prod_no=P0348400129421",
+    "referenceUrl": "https://mall.iopenmall.tw/website/uploads_product/website_3484/P0348400129421_1_1153708.jpg?hash=43550",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-OL1.jpg",
+    "referenceName": "鹿港阿政 大朴菜福菜",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "黃褐色厚梗與深橄欖色皺葉為福菜實物；整束呈現，去掉背景與水印。"
+  },
+  {
+    "key": "OH1",
+    "name": "桶筍-麻竹",
+    "sourceUrl": "",
+    "referenceUrl": "",
+    "referencePath": "",
+    "referenceName": "",
+    "mappingMethod": "unresolved",
+    "qaNote": "不得由一般桶筍、罐筍照片推定竹種。",
+    "skipReason": "找到市場品項名稱，未找到同時明確標示此竹種及桶筍加工型態、且可辨內容物的實拍來源。"
+  },
+  {
+    "key": "OH2",
+    "name": "桶筍-綠竹",
+    "sourceUrl": "",
+    "referenceUrl": "",
+    "referencePath": "",
+    "referenceName": "",
+    "mappingMethod": "unresolved",
+    "qaNote": "不得由一般桶筍、罐筍照片推定竹種。",
+    "skipReason": "找到市場品項名稱，未找到同時明確標示此竹種及桶筍加工型態、且可辨內容物的實拍來源。"
+  },
+  {
+    "key": "OH3",
+    "name": "桶筍-桂竹",
+    "sourceUrl": "",
+    "referenceUrl": "",
+    "referencePath": "",
+    "referenceName": "",
+    "mappingMethod": "unresolved",
+    "qaNote": "不得由一般桶筍、罐筍照片推定竹種。",
+    "skipReason": "找到市場品項名稱，未找到同時明確標示此竹種及桶筍加工型態、且可辨內容物的實拍來源。"
+  },
+  {
+    "key": "OH4",
+    "name": "桶筍-箭竹",
+    "sourceUrl": "",
+    "referenceUrl": "",
+    "referencePath": "",
+    "referenceName": "",
+    "mappingMethod": "unresolved",
+    "qaNote": "不得由一般桶筍、罐筍照片推定竹種。",
+    "skipReason": "找到市場品項名稱，未找到同時明確標示此竹種及桶筍加工型態、且可辨內容物的實拍來源。"
+  },
+  {
+    "key": "OG1",
+    "name": "熟筍-桂竹筍",
+    "sourceUrl": "https://www.7-11-seafood.com.tw/products/2263",
+    "referenceUrl": "https://www.7-11-seafood.com.tw/img/Product/old/桂竹筍.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-OG1.jpg",
+    "referenceName": "桂竹筍(熟)600g",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "供應商明確標示桂竹筍(熟)；淺黃煮熟去殼筍尖與剖片，移除辣椒與盤子。"
+  },
+  {
+    "key": "OG2",
+    "name": "熟筍-箭竹筍",
+    "sourceUrl": "https://www.ruten.com.tw/item/22017484901446/",
+    "referenceUrl": "https://gcs.rimg.com.tw/g4/2c5/c11/playboy2019/2/88/46/22017484901446_808.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-OG2.jpg",
+    "referenceName": "福氣程然 新鮮煮熟箭筍",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "小農賣場明確標示新鮮煮熟箭筍，照片亦註明實物拍照；細長乳白黃色剝殼熟箭筍有節紋及尖端，不畫粗大桂竹筍。"
+  },
+  {
+    "key": "OI4",
+    "name": "筍茸",
+    "sourceUrl": "https://cayamafarm.myorganic.org.tw/product/product%26product_id%3D10",
+    "referenceUrl": "https://image-cdn-flare.qdm.cloud/q6cd2595f1ee92/image/data/2025/10/01/7bf13e41295cf79f29e12d74224641e7.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-OI4.jpg",
+    "referenceName": "茶山良食 有機筍茸",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "生產者說明麻竹筍尖煮熟、發酵、切絲曬半乾；透明袋中可見黃褐色薄片碎絲筍茸，僅畫內容物不畫包裝。"
+  },
+  {
+    "key": "SK2",
+    "name": "荸薺-加工",
+    "sourceUrl": "https://www.hucc-coop.tw/product/content/15030513071",
+    "referenceUrl": "https://www.hucc-coop.tw/uploads/01產品與生產者/產品圖檔/蔬菜類/根莖類/荸薺/冷凍荸薺_主圖_360x360.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-SK2.jpg",
+    "referenceName": "主婦聯盟 去皮冷凍荸薺",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "合作社去皮冷凍荸薺實拍；乳白扁圓形、削去皮且頂底平面，去盤子與桌面。"
+  },
+  {
+    "key": "OE1",
+    "name": "醃瓜-乾",
+    "sourceUrl": "https://mall.iopenmall.tw/003484/index.php?action=product_detail&prod_no=P0348400129426",
+    "referenceUrl": "https://mall.iopenmall.tw/website/uploads_product/website_3484/P0348400129426_1_115422836.jpg?hash=76750",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-OE1.jpg",
+    "referenceName": "鹿港阿政 客家醃瓜脯",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "實拍大片黃褐色瓜脯，表面皺縮、縱向纖維及籽瓤痕；不畫鮮綠小黃瓜或切片醬瓜，去水印。"
+  },
+  {
+    "key": "OE2",
+    "name": "醃瓜-漬",
+    "sourceUrl": "https://www.olong.com.tw/tw/product/show.aspx?kind=4&num=94",
+    "referenceUrl": "https://www.olong.com.tw/upload/product/201708041219010.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-OE2.jpg",
+    "referenceName": "三鷹蔭瓜",
+    "mappingMethod": "unresolved",
+    "qaNote": "只找到封罐產品照片，內容物被深色玻璃與標籤遮擋，無法確認漬瓜實際切形。",
+    "skipReason": "來源僅展示封罐，無清楚可辨的漬瓜內容物照片；不從標籤推測外觀。"
+  },
+  {
+    "key": "6052",
+    "name": "烏魚子",
+    "sourceUrl": "https://shop.tcfish.org.tw/web/_pages/product/son.php?num=9",
+    "referenceUrl": "https://shop.tcfish.org.tw/upload/product/20250410_03003864.JPG",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-6052.jpg",
+    "referenceName": "臺中區漁會 本港野生烏魚子(1兩)",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "漁會實拍橘棕色雙葉扁長橢圓烏魚子，中央分隔且兩端略尖，去透明真空袋與標籤。"
+  },
+  {
+    "key": "4016",
+    "name": "蝦仁",
+    "sourceUrl": "https://tcfa.com.tw/product/%e8%9d%a6%e4%bb%81150g/",
+    "referenceUrl": "https://tcfa.com.tw/wp-content/uploads/2025/10/pdPix24_1-1-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-4016.jpg",
+    "referenceName": "南市區漁會 蝦仁(150g)",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "透明袋中可見去頭去殼灰白微粉生蝦仁、細褐色斑點與分節弧形；只畫內容物，不畫橘紅熟蝦、咖哩、袋子或標籤。"
+  },
+  {
+    "key": "1042",
+    "name": "虱目魚肚",
+    "sourceUrl": "https://tcfa.com.tw/product/%e8%99%b1%e7%9b%ae%e9%ad%9a%e8%82%9a170g-190g/",
+    "referenceUrl": "https://tcfa.com.tw/wp-content/uploads/2024/05/01.虱目魚肚-scaled.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-1042.jpg",
+    "referenceName": "南市區漁會 去刺虱目魚肚170–190g",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "生鮮蝴蝶形魚肚，淡粉白肉與中央黑色腹膜明確可見；只畫生魚肚，不畫煎熟金黃魚肉、整尾魚、包裝或標籤。"
+  },
+  {
+    "key": "1043",
+    "name": "虱目魚頭",
+    "sourceUrl": "https://www.zong-fish.com.tw/prod.php?prod=435",
+    "referenceUrl": "https://www.zong-fish.com.tw/img/product/15541847291ef1e8cf10205f7d37bce6d7601325d092e6192a784c6ed3e679615639e54d8979144131990a13d649777ad5a.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-1043.jpg",
+    "referenceName": "戎的魚店 虱目魚頭",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "明確標示虱目魚頭；實拍銀灰短尖吻、大圓眼、鰓蓋與截面，只畫一至兩顆生魚頭，去砧板、布、盆栽、品牌。"
+  },
+  {
+    "key": "6031",
+    "name": "魚丸",
+    "sourceUrl": "https://nanxianfa.com/product/milkfish-meatball/",
+    "referenceUrl": "https://nanxianfa.com/wp-content/uploads/2021/02/虱目魚丸06-scaled.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/final-6031.jpg",
+    "referenceName": "南縣區漁會 虱目魚丸",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "漁會實拍透明袋中的米白微灰魚丸，表面略粗糙不規則；畫數顆無餡魚丸，不畫包裝、蔬果與木板。"
+  }
+]
