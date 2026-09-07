@@ -37,6 +37,7 @@ import type {
 import Link from 'next/link'
 import { ALL_MARKET_SENTINEL } from '@/lib/constants'
 import { summarizeHistory } from '@/lib/historySummary'
+import { getPriceUnit } from '@/lib/priceUnit'
 
 const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
 /** Empty string = national view (scheme C: mean of markets' U/A/L). */
@@ -537,7 +538,7 @@ export function ProduceClient({
 
   const { observed: validHistory, latest, previous, change: priceChange } = summarizeHistory(history)
   const latestPrice = historyLoading ? 0 : latest?.avgPrice ?? 0
-  const priceUnit = resolvedCategory === 'meat' && !cropName.includes('豬') ? '元 / 台斤' : '元 / 公斤'
+  const priceUnit = getPriceUnit(cropName, resolvedCategory)
   const avgCost = costInsight?.avgCostPerKg ?? null
   const costGap = avgCost !== null && latestPrice > 0 ? latestPrice - avgCost : null
   const compareMax = Math.max(latestPrice, avgCost ?? 0, 1)
@@ -914,6 +915,7 @@ export function ProduceClient({
             ) : (
               <PriceLineChart
                 data={history}
+                priceUnit={priceUnit}
                 closedDays={closedDays}
                 height={220}
                 showPriceRange={showPriceRange}
