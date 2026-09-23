@@ -1262,7 +1262,7 @@
       min-height: 0;
     }
     .quote-product { grid-area: product; flex-direction: column; align-items: flex-start; gap: 5px; min-height: 46px; }
-    .ingredient-image { width: 45px; height: 45px; }
+    .ingredient-image { width: 52px; height: 52px; }
     .quote-name { font-size: 1.125rem; line-height: 1.5; }
     .quote-subtitle { font-size: 0.875rem; }
     .quote-details { display: none; }
@@ -1283,9 +1283,9 @@
       grid-template-areas: 'product' 'price' 'change' 'meta';
     }
     .quote-price { justify-content: flex-start; text-align: left; }
-    .quote-change { justify-content: flex-start; column-gap: 6px; text-align: left; }
+    .quote-change { justify-content: space-between; column-gap: 6px; text-align: left; }
     .quote-change-label { font-size: 0.75rem; }
-    .quote-change-value { gap: 2px; font-size: 1rem; }
+    .quote-change-value { gap: 2px; margin-left: auto; font-size: 1rem; }
     .quote-change-value .material-symbols-outlined { font-size: 17px; }
     .quote-product { flex-direction: row; align-items: center; gap: 8px; }
     .quote-row, .quote-row:has(.quote-meta) { padding: 12px 10px; }
