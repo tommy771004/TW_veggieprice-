@@ -1283,8 +1283,7 @@
       grid-template-areas: 'product' 'price' 'change' 'meta';
     }
     .quote-price { justify-content: flex-start; text-align: left; }
-    .quote-change { justify-content: flex-start; text-align: left; }
-    .quote-change { column-gap: 6px; }
+    .quote-change { justify-content: flex-start; column-gap: 6px; text-align: left; }
     .quote-change-label { font-size: 0.75rem; }
     .quote-change-value { gap: 2px; font-size: 1rem; }
     .quote-change-value .material-symbols-outlined { font-size: 17px; }
