@@ -1,0 +1,115 @@
+[
+  {
+    "name": "旗魚（雨傘旗魚）",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=273",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/88/option2_2.jpg",
+    "key": "seafood-2135",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2135.jpg"
+  },
+  {
+    "name": "泰國蝦（羅氏沼蝦），體長最長34公分；常以火烤料理",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=366",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/129/option1_1.jpg",
+    "key": "seafood-4032",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-4032.jpg"
+  },
+  {
+    "name": "海瓜子簾蛤，斧足為橘紅色",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=208",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/127/option1_1.jpg",
+    "key": "seafood-5888",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-5888.jpg"
+  },
+  {
+    "name": "海鱺",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=329",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/105/option1_1.jpg",
+    "key": "seafood-2491",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2491.jpg"
+  },
+  {
+    "name": "火燒蝦（鬚赤蝦），體長最長11.6公分；常見於臺南小吃，例如蝦捲及蝦仁飯",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=366",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/129/option2_1.jpg",
+    "key": "seafood-4091",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-4101.jpg"
+  },
+  {
+    "name": "灰鯖鮫",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=329",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/105/option2_1.jpg",
+    "key": "seafood-2158",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2157.jpg"
+  },
+  {
+    "name": "烏魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=201",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/104/option2_1.jpg",
+    "key": "seafood-1051",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-1051.jpg"
+  },
+  {
+    "name": "牡蠣",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=323",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/102/option3_1.jpg",
+    "key": "seafood-5012",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-5012.jpg"
+  },
+  {
+    "name": "白帶魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=370",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/131/option1_1.png",
+    "key": "seafood-2341",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2341.jpg"
+  },
+  {
+    "name": "白蝦",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=303",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/96/option2_1.jpg",
+    "key": "seafood-4015",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-4015.jpg"
+  },
+  {
+    "name": "石斑魚(點帶石斑魚)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=318",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/101/option3_1.jpg",
+    "key": "seafood-1171",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2201.jpg"
+  },
+  {
+    "name": "秋刀魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=203",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/149/option1_1.jpg",
+    "key": "seafood-3521",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-3521.jpg"
+  },
+  {
+    "name": "章魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=183",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/31/option3_1.jpg",
+    "key": "seafood-2169",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2169.jpg"
+  },
+  {
+    "name": "竹筴魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=212",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/95/option2_1.png",
+    "key": "seafood-2071",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2071.jpg",
+    "skipReason": "竹筴魚 and 四破 are not reliably the same species; replace reference"
+  },
+  {
+    "name": "花枝(烏賊)",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=183",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/31/option2_1.jpg",
+    "key": "seafood-2163",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-2163.jpg"
+  },
+  {
+    "name": "虱目魚",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=2",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/2/option3_2.jpg",
+    "key": "seafood-1041",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fae-seafood-1041.jpg"
+  }
+]

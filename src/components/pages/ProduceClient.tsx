@@ -21,6 +21,7 @@ const VolumeBarChart = dynamic(
 )
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { CropIcon } from '@/components/ui/CropIcon'
+import { QuoteRow } from '@/components/ui/QuoteRow'
 import { formatPrice, getCropEmoji, subtractDays, todayISO } from '@/lib/utils'
 import { toggleWatchlist, isInWatchlist } from '@/lib/watchlist'
 import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
@@ -36,6 +37,8 @@ import type {
 } from '@/lib/types'
 import Link from 'next/link'
 import { ALL_MARKET_SENTINEL } from '@/lib/constants'
+import { summarizeHistory } from '@/lib/historySummary'
+import { getPriceUnit } from '@/lib/priceUnit'
 
 const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
 /** Empty string = national view (scheme C: mean of markets' U/A/L). */
@@ -44,7 +47,6 @@ const NATIONAL_HISTORY_MARKET = ''
 export function ProduceClient({
   cropName,
   category: categoryProp,
-  initialPrice = 0,
   initialMarkets,
   initialTraceability,
   initialCostInsight,
@@ -95,6 +97,7 @@ export function ProduceClient({
 
   const [updatedAt, setUpdatedAt] = useState<string>('')
   const [inWatchlist, setInWatchlist] = useState(false)
+  const [watchlistMessage, setWatchlistMessage] = useState('')
   const [historyError, setHistoryError] = useState('')
   const [marketsError, setMarketsError] = useState('')
   const [traceability, setTraceability] = useState<TraceabilitySummaryItem[]>(initialTraceability ?? [])
@@ -129,6 +132,8 @@ export function ProduceClient({
 
     async function loadHistory() {
       setHistoryLoading(true)
+      setHistory([])
+      setUpdatedAt('')
       setHistoryError('')
       setStreamingStatus('idle')
       setStreamingProgress(0)
@@ -266,6 +271,7 @@ export function ProduceClient({
             const [, pM, pD] = prevDate.split('-')
             validPoints.unshift({
               ...single,
+              isClosed: true,
               date: prevDate,
               label: `${parseInt(pM)}/${parseInt(pD)}`,
             })
@@ -531,10 +537,9 @@ export function ProduceClient({
     return () => { active = false }
   }, [cropInfo?.origin, enhancementsReady, reloadKey])
 
-  const validHistory = history.filter((point): point is PriceHistoryPoint & { avgPrice: number } => point.avgPrice !== null)
-  const latestPrice = validHistory[validHistory.length - 1]?.avgPrice ?? initialPrice
-  const prevPrice = validHistory[validHistory.length - 2]?.avgPrice ?? latestPrice
-  const priceChange = prevPrice ? ((latestPrice - prevPrice) / prevPrice) * 100 : 0
+  const { observed: validHistory, latest, previous, change: priceChange } = summarizeHistory(history)
+  const latestPrice = historyLoading ? 0 : latest?.avgPrice ?? 0
+  const priceUnit = getPriceUnit(cropName, resolvedCategory)
   const avgCost = costInsight?.avgCostPerKg ?? null
   const costGap = avgCost !== null && latestPrice > 0 ? latestPrice - avgCost : null
   const compareMax = Math.max(latestPrice, avgCost ?? 0, 1)
@@ -604,12 +609,13 @@ export function ProduceClient({
 
   function handleToggleWatchlist() {
     // emoji retained only for WatchlistItem data shape; UI renders via <CropIcon>.
-    const added = toggleWatchlist({ cropCode, cropName, emoji: getCropEmoji(cropName) })
-    setInWatchlist(added)
-    if (added) {
-      triggerHaptic(hapticPatterns.success)
-    } else {
-      triggerHaptic(hapticPatterns.toggle)
+    try {
+      const added = toggleWatchlist({ cropCode, cropName, emoji: getCropEmoji(cropName) })
+      setInWatchlist(added)
+      setWatchlistMessage(added ? `已關注「${cropName}」，可至關注清單查看。` : `已取消關注「${cropName}」。`)
+      triggerHaptic(added ? hapticPatterns.success : hapticPatterns.toggle)
+    } catch {
+      setWatchlistMessage('無法儲存關注設定，請確認瀏覽器允許本機儲存後重試。')
     }
   }
 
@@ -666,6 +672,7 @@ export function ProduceClient({
         </div>
       </div>
 
+      <p role="status" aria-live="polite" className="px-section-margin text-body-sm text-on-surface-variant">{watchlistMessage}</p>
       <div className="px-section-margin space-y-section-margin">
         <section className="home-market-stage -mx-section-margin px-section-margin py-2 md:py-3">
           <div className="market-signal-tape mb-4" aria-hidden="true">
@@ -703,8 +710,8 @@ export function ProduceClient({
               {updatedAt && (
                 <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-1.5">
                   <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '14px' }}>update</span>
-                  最後更新：<span suppressHydrationWarning>{new Date(updatedAt).toLocaleString('zh-TW', {
-                    month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                  資料擷取時間：<span suppressHydrationWarning>{new Date(updatedAt).toLocaleString('zh-TW', {
+                    timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
                   })}</span>
                 </p>
               )}
@@ -727,8 +734,8 @@ export function ProduceClient({
                   <span className="text-2xl leading-none font-black tabular-nums tracking-tight text-[#fcd34d]">
                     {latestPrice > 0 ? `$${formatPrice(latestPrice)}` : '--'}
                   </span>
-                  <span className="text-label-sm text-white/60">元 / 公斤</span>
-                  {latestPrice > 0 ? <TrendChip change={priceChange} /> : null}
+                  <span className="text-label-sm text-white/60">{priceUnit} · {latest?.date ?? '尚無報價'}</span>
+                  {priceChange !== null && latestPrice > 0 ? <TrendChip change={priceChange} /> : null}
                 </div>
               </div>
             ) : (
@@ -744,20 +751,20 @@ export function ProduceClient({
                       <span className="market-status-chip market-status-chip--hero">{displayAlias}</span>
                     </div>
                     <p className="text-label-sm tracking-[0.16em] uppercase font-semibold mb-2 text-white/65">
-                      今日批發均價 · 元 / 公斤
+                      最近有效報價 · {priceUnit}
                     </p>
                     <div className="flex items-end gap-3 flex-wrap">
                       <span className="text-5xl sm:text-6xl leading-none font-black tabular-nums tracking-tight text-[#fcd34d]">
                         {latestPrice > 0 ? `$${formatPrice(latestPrice)}` : '--'}
                       </span>
-                      {latestPrice > 0 ? (
+                      {priceChange !== null && latestPrice > 0 ? (
                         <div className="pb-1.5">
                           <TrendChip change={priceChange} />
                         </div>
                       ) : null}
                     </div>
                     <p className="mt-3 text-body-sm text-white/70 max-w-xl">
-                      單品頁把近 {historyWindowLabel.replace('近 ', '')} 的走勢、比價與產地背景壓在同一個視角，方便快速判斷進貨節奏。
+                      {historyLoading ? '正在取得報價…' : latest ? `${historyScopeLabel} · 報價日期 ${latest.date}${previous ? ` · 漲跌相較 ${previous.date}` : ' · 尚無前次報價可比較'}` : '此區間尚無有效報價，請重試或查看較長區間。'}
                     </p>
                   </div>
                 </div>
@@ -896,7 +903,7 @@ export function ProduceClient({
                 className="flex flex-col items-center justify-center h-56 text-on-surface-variant gap-3"
               >
                 <span className="text-5xl" aria-hidden="true">🧺</span>
-                <p className="text-body-md font-semibold">{historyError || '近期無成交資料（可能逢休市），請改看較長區間'}</p>
+                <p className="text-body-md font-semibold">{historyError || '此區間無有效報價，無法判定是否休市；請重試或改看較長區間'}</p>
                 <button
                   type="button"
                   onClick={() => setReloadKey((value) => value + 1)}
@@ -904,10 +911,12 @@ export function ProduceClient({
                 >
                   重新載入
                 </button>
+                {period !== '3M' && <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => setPeriod('3M')}>查看近 90 日</button>}
               </div>
             ) : (
               <PriceLineChart
                 data={history}
+                priceUnit={priceUnit}
                 closedDays={closedDays}
                 height={220}
                 showPriceRange={showPriceRange}
@@ -1142,21 +1151,15 @@ export function ProduceClient({
                 目前沒有可用的跨市場比價資料。
               </div>
             ) : (
-              <ul className="space-y-2">
+              <ul className="quote-list">
                 {pricedMarkets.map((m) => (
                   <li key={m.marketName}>
                     <Link
                       href={`/search?q=${encodeURIComponent(cropName)}&market=${encodeURIComponent(m.marketName)}&type=${searchType}`}
-                      className="glass-card rounded-2xl px-4 py-3 flex justify-between items-center gap-3 hover:bg-white/75 transition-colors block"
+                      className="quote-link"
                     >
-                      <div>
-                        <p className="text-body-lg text-on-surface font-semibold">{m.marketName}</p>
-                        <p className="text-label-sm text-on-surface-variant mt-1">點進去看該市場完整清單</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-headline-md font-bold text-on-surface">${formatPrice(m.avgPrice)}</span>
-                        <TrendChip change={m.priceChange} size="sm" />
-                      </div>
+                      <QuoteRow name={cropName} title={m.marketName} category={resolvedCategory} subtitle={cropName}
+                        price={m.avgPrice} change={m.priceChange} unit={resolvedCategory === 'flower' ? '元' : priceUnit} />
                     </Link>
                   </li>
                 ))}

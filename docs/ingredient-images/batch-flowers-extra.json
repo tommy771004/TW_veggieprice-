@@ -1,0 +1,146 @@
+[
+  {
+    "key": "flower-48deb65382",
+    "name": "天堂鳥",
+    "sourceUrl": "https://www.twflower.org/detail/1627",
+    "referenceUrl": "https://www.twflower.org/storage/pics/0e6a4418-4554-4900-8aca-d3a47e6ad9ab.png",
+    "referenceName": "天堂鳥",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-1.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-7d1690d086",
+    "name": "小天堂鳥",
+    "sourceUrl": "https://www.twflower.org/detail/2244",
+    "referenceUrl": "https://www.twflower.org/storage/pics/a68dcd74-3898-44bc-a477-8f7952e3f77a.png",
+    "referenceName": "小天堂鳥 桔帶紅",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-2.jpg",
+    "qaNote": "Close-up photograph; lower stem partially outside frame, preserve flower shape from reference.",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-0e7202320a",
+    "name": "嘉蘭",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=218&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/218/plant_200_79_m.jpg",
+    "referenceName": "嘉蘭百合 Gloriosa rothschildiana",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-3.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-66d9020f32",
+    "name": "文珠蘭",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=14&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/14/plant_031_79_m.jpg",
+    "referenceName": "文殊蘭 Crinum asiaticum",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-4.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-f07e12252b",
+    "name": "波斯菊",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=7&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/7/plant_012_78_m.jpg",
+    "referenceName": "大波斯菊 Cosmos bipinnatus",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-5.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-23fd77ce17",
+    "name": "白日草",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=31&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/31/plant_058_78_m.jpg",
+    "referenceName": "百日草 Zinnia elegans",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-6.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-c4cc284f55",
+    "name": "茉莉花",
+    "sourceUrl": "https://www.nparks.gov.sg/florafaunaweb/flora/5/2/5208",
+    "referenceUrl": "https://www.nparks.gov.sg/-/media/ffw/migrated/round2/flora/5208/06eaebb70ffb491da1a96058ea3ec6fe.jpg",
+    "referenceName": "Jasminum sambac 'Arabian Nights'",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-7.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-9487408a57",
+    "name": "玉蘭花",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=172&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/172/plant_269_79_m.jpg",
+    "referenceName": "玉蘭花 Michelia alba",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-8.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-cf20529a6c",
+    "name": "金魚草",
+    "sourceUrl": "https://www.twflower.org/detail/1318",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFAM001-1.jpg",
+    "referenceName": "金魚草 白",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-9.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-c36e14d9b8",
+    "name": "小蒼蘭",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=227&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/227/plant_015_79_m.jpg",
+    "referenceName": "小蒼蘭 Freesia",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-10.jpg",
+    "qaNote": "Rejected twflower detail/3606 image because it is visibly a yellow daffodil; replaced with MOA Freesia photograph.",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-701f7d38ee",
+    "name": "鬱金香",
+    "sourceUrl": "https://www.twflower.org/detail/3605",
+    "referenceUrl": "https://www.twflower.org/storage/pics/P-TU01-001-1.jpg",
+    "referenceName": "鬱金香",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-11.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-f350693ae4",
+    "name": "帝王花",
+    "skipReason": "Identity confirmed by SANBI; photo download returned HTTP 403. Sierra Flower Finder alternatives returned no_image placeholders. No unverified substitute saved.",
+    "sourceUrl": "https://pza.sanbi.org/protea-cynaroides",
+    "referenceUrl": "https://pza.sanbi.org/sites/default/files/images/plants/10828/Protea%20cynaroides%20flowerhead%20bud.jpg",
+    "referenceName": "Protea cynaroides flowerhead bud"
+  },
+  {
+    "key": "flower-b529c0c28b",
+    "name": "針墊花",
+    "skipReason": "Identity confirmed by SANBI; photo download returned HTTP 403. Sierra Flower Finder alternatives returned no_image placeholders. No unverified substitute saved.",
+    "sourceUrl": "https://pza.sanbi.org/leucospermum-cordifolium",
+    "referenceUrl": "https://pza.sanbi.org/sites/default/files/styles/pow_content_image/public/images/plants/10532/leucospermcordvlam.jpg?itok=nDMEyMbO",
+    "referenceName": "Leucospermum cordifolium 'Vlam'"
+  },
+  {
+    "key": "flower-9ee1b8672f",
+    "name": "棉花",
+    "sourceUrl": "https://www.drieddecor.com/products/dried-cotton-stalks",
+    "referenceUrl": "https://www.drieddecor.com/cdn/shop/products/COTTON-B-N10.03_800x.jpg?v=1741981809",
+    "referenceName": "Single dried natural cotton stalk",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-14.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-a7386925ab",
+    "name": "龍膽",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=212&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/212/plant_231_79_m.jpg",
+    "referenceName": "龍膽 Gentiana scabra",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-15.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-e7d21bb733",
+    "name": "風鈴花",
+    "sourceUrl": "https://cutflowers.ces.ncsu.edu/campanula-champion-lavender-improved/",
+    "referenceUrl": "https://eit-wagpress-prod.s3.amazonaws.com/media/images/a_campanula-champion-lavender-improved.max-700x1200.jpg",
+    "referenceName": "Campanula 'Champion Lavender Improved'",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-extra-16.jpg",
+    "photoInspected": true
+  }
+]

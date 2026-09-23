@@ -1,5 +1,7 @@
 # 休市日行事曆 7 日天氣預報圖示 Implementation Plan
 
+> **狀態說明：歷史實作計畫，不是目前待辦清單。** 預報型別、解析器、API、`InsightsClient` 串接與 `cwaForecast.test.ts` 已存在。下方未勾選項目保留原始規劃紀錄，不代表功能尚未實作；也不代表已重新驗證正式 CWA API、部署設定或每個手動步驟。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Show a per-day weather icon (+ high/low temp) for the next 7 days inside the 休市日 calendar grid in `InsightsClient.tsx`, sourced from CWA's `F-C0032-005` weekly county forecast, mapped by the selected market's county.

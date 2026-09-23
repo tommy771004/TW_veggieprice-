@@ -104,28 +104,59 @@ export function normalizeAffiliateOffer(value: unknown): AffiliateOffer | null {
   }
 }
 
-/** 從同網域 API 取得由外部系統維護的啟用中聯盟版位。 */
-let affiliateOffersPromise: Promise<AffiliateOffer[]> | null = null
+/** Shared across mounted placements; background tabs do not poll. */
+export const AFFILIATE_REFRESH_CHECK_MS = 30_000
 
-export function fetchAffiliateOffers(): Promise<AffiliateOffer[]> {
-  if (!affiliateOffersPromise) {
-    affiliateOffersPromise = fetch('/api/affiliates', { cache: 'no-store' })
-      .then(async (response) => {
-        if (!response.ok) return []
+/** Bounded cache with in-flight deduplication and shorter failure backoff. */
+export function createAffiliateOffersFetcher(options: {
+  fetch?: typeof fetch
+  now?: () => number
+  ttlMs?: number
+  retryMs?: number
+  timeoutMs?: number
+} = {}): () => Promise<AffiliateOffer[]> {
+  const fetcher = options.fetch ?? ((...args: Parameters<typeof fetch>) => fetch(...args))
+  const now = options.now ?? Date.now
+  let inFlight: Promise<AffiliateOffer[]> | null = null
+  let cached: AffiliateOffer[] = []
+  let expiresAt = 0
+
+  return function load() {
+    if (inFlight) return inFlight
+    if (now() < expiresAt) return Promise.resolve(cached)
+
+    inFlight = (async () => {
+      const controller = new AbortController()
+      const timer = setTimeout(() => controller.abort(), options.timeoutMs ?? 8000)
+      try {
+        const response = await fetcher('/api/affiliates', { cache: 'no-store', signal: controller.signal })
+        if (!response.ok) throw new Error('Affiliate offers unavailable')
         const body: unknown = await response.json()
-        const rows =
-          body && typeof body === 'object' && Array.isArray((body as { offers?: unknown }).offers)
-            ? (body as { offers: unknown[] }).offers
-            : []
-        return rows.flatMap((row) => {
+        if (!body || typeof body !== 'object' || !Array.isArray((body as { offers?: unknown }).offers)) {
+          throw new Error('Invalid affiliate response')
+        }
+        const offers = (body as { offers: unknown[] }).offers.flatMap((row) => {
           const offer = normalizeAffiliateOffer(row)
           return offer ? [offer] : []
         })
-      })
-      .catch(() => [])
+        // Keep identity when content is unchanged, so carousels do not reset.
+        if (JSON.stringify(offers) !== JSON.stringify(cached)) cached = offers
+        expiresAt = now() + (options.ttlMs ?? 5 * 60_000)
+      } catch {
+        // Hide unverifiable offers rather than retaining possibly disabled links.
+        if (cached.length) cached = []
+        expiresAt = now() + (options.retryMs ?? AFFILIATE_REFRESH_CHECK_MS)
+      } finally {
+        clearTimeout(timer)
+      }
+      return cached
+    })().finally(() => { inFlight = null })
+    return inFlight
   }
-  return affiliateOffersPromise
 }
+
+/** 從同網域 API 取得由外部系統維護的啟用中聯盟版位。 */
+export const fetchAffiliateOffers = createAffiliateOffersFetcher()
 
 export interface ResolvedOffer extends AffiliateOffer {
   /** 已套入作物名稱、可直接使用的最終連結。 */

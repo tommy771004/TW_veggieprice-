@@ -1,0 +1,146 @@
+[
+  {
+    "name": "蘋果-五爪進口",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3681/05-%E5%85%83%E5%B8%A5.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=132",
+    "key": "X19",
+    "referenceName": "元帥（五爪、五瓜）",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-X19.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "蘋果-富士",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3681/06-%E7%A6%8F%E5%90%89.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=132",
+    "key": "X6",
+    "referenceName": "富士（富吉、福吉）",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-X6.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "桑椹",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/4376/1-%E5%9C%93%E6%9E%9C%E6%A1%91.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=425",
+    "key": "43",
+    "referenceName": "圓果桑",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-43.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "鳳梨-蘋果鳳梨",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/807/11.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=160",
+    "key": "B5",
+    "referenceName": "蘋果鳳梨（台農6號）",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-B5.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "李-沙蓮李",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3982/04-D%E6%B2%99%E9%80%A3%E6%9D%8E.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=52",
+    "key": "N1",
+    "referenceName": "沙連李",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-N1.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "李-桃接李",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3982/04-B%E6%A1%83%E6%8E%A5%E6%9D%8E.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=52",
+    "key": "N2",
+    "referenceName": "桃接李",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-N2.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "李-黃肉李",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3982/04-F%E9%BB%83%E8%82%89%E6%9D%8E.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=52",
+    "key": "N4",
+    "referenceName": "黃肉李",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-N4.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "李-泰安李",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/fae/images/food_subject_part/3982/04-C%E6%B3%B0%E5%AE%89%E6%9D%8E.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=52",
+    "key": "N6",
+    "referenceName": "泰安李",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-N6.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "梨-豐水梨",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1780/1.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=61",
+    "key": "O5",
+    "referenceName": "豐水梨",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-O5.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "龍眼-十月眼",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1885/%E5%8D%81%E6%9C%88%E9%BE%8D%E7%9C%BC.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=162",
+    "key": "K2",
+    "referenceName": "十月龍眼",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-K2.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "雜柑-金棗",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=143",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/89/option3_1.jpg",
+    "key": "F2",
+    "referenceName": "金棗（長實金柑），果重約10~30公克，果皮甜、果肉酸，常做成蜜餞",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-F2.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "梅",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=147",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/147/option3_1.jpg",
+    "key": "41",
+    "referenceName": "梅子",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-41.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "楊梅",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=162",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/76/option1_1.jpg",
+    "key": "42",
+    "referenceName": "楊梅",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-42.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "石榴-進口",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=87",
+    "referenceUrl": "https://fae.moa.gov.tw/map/files/food_element_QA/45/option1_1.jpg",
+    "key": "849",
+    "referenceName": "石榴",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-849.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "西瓜-紅肉",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/1205/%E5%9C%96%E7%89%879-%E8%A5%BF%E7%93%9C%E5%8F%B0%E8%BE%B26%E8%99%9F.JPG",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=137",
+    "key": "T6",
+    "referenceName": "普通紅肉小西瓜",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-T6.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  },
+  {
+    "name": "洋香瓜-光面綠肉",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/3159/%E6%B4%8B%E9%A6%99%E7%93%9C%E5%AE%B6%E6%97%8F3.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=74",
+    "key": "W6",
+    "referenceName": "光皮洋香瓜",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/fruit-history-W6.jpg",
+    "mappingMethod": "labelled_photo_cultivar_or_trade_representative"
+  }
+]

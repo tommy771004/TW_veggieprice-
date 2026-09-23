@@ -137,7 +137,7 @@ test("homepage uses National Overview without a market selector", async ({
   expect(restDayRequests).toHaveLength(0);
   expect(weatherRiskRequests).toHaveLength(0);
 
-  await page.getByRole("button", { name: /肉品/ }).click();
+  await page.getByRole("button", { name: "🐖 肉品家禽", exact: true }).click();
   await expect
     .poll(() => overviewRequests.some((url) => url.searchParams.get("category") === "meat"))
     .toBe(true);

@@ -19,6 +19,7 @@ interface PriceLineChartProps {
   height?:          number
   showPriceRange?:  boolean
   ariaLabel?:       string
+  priceUnit?:       string
 }
 
 interface TooltipPayload {
@@ -110,6 +111,7 @@ export function PriceLineChart({
   height = 180,
   showPriceRange = false,
   ariaLabel = '價格趨勢圖',
+  priceUnit = '元 / 公斤',
 }: PriceLineChartProps) {
   const chartId = useId().replace(/:/g, '')
   const titleId = `${chartId}-title`
@@ -283,7 +285,7 @@ export function PriceLineChart({
             <thead>
               <tr className="border-b border-outline-variant/40 text-on-surface-variant">
                 <th scope="col" className="py-2 pr-3 font-semibold">日期</th>
-                <th scope="col" className="py-2 pr-3 font-semibold">均價（元/公斤）</th>
+                <th scope="col" className="py-2 pr-3 font-semibold">均價（{priceUnit}）</th>
                 <th scope="col" className="py-2 pr-3 font-semibold">成交量</th>
                 {showPriceRange && hasRangeData && (
                   <>

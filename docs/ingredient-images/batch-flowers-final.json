@@ -1,0 +1,167 @@
+[
+  {
+    "key": "flower-f350693ae4",
+    "name": "進口帝王花",
+    "referenceName": "Protea cynaroides Pink",
+    "sourceUrl": "https://www.theflowercompany.co.za/proteas.html",
+    "referenceUrl": "https://theflowercompany.co.za/_back-office/catalog/253/680e0babeb1b8_p.-cynaroides---pink.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-1.jpg",
+    "mappingNote": "以明確標示的物種或品種作該交易類別代表，保留原名。",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-b529c0c28b",
+    "name": "進口針墊花",
+    "referenceName": "Leucospermum Soleil",
+    "sourceUrl": "https://www.theflowercompany.co.za/leucospermums.html",
+    "referenceUrl": "https://theflowercompany.co.za/_back-office/catalog/427/68988a7ca4c7b_lsp.-soleil.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-2.jpg",
+    "mappingNote": "以明確標示的物種或品種作該交易類別代表，保留原名。",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-cf407007bf",
+    "name": "貝殼花",
+    "referenceName": "貝殼花 Moluccella laevis",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?id=128&theme=plant_illustration",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/plant_illustration/128/plant_073_99_m.jpg",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-3.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-342f56dfe6",
+    "name": "石蒜",
+    "referenceName": "紅花石蒜 Lycoris radiata",
+    "sourceUrl": "https://plants.ces.ncsu.edu/plants/lycoris-radiata/",
+    "referenceUrl": "https://eit-planttoolbox-prod.s3.amazonaws.com/media/images/Lycoris-radiata-spid_EmIxCfn8jqUZ.jpeg?AWSAccessKeyId=AKIAILRBSC3CQKL5NNSQ&Signature=EGR3qZVKjSuHRgLHsciu4hPigVc%3D&Expires=1788790713",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-4.jpg",
+    "mappingNote": "以已標示物種作該花材類別代表。",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-59926551f8",
+    "name": "秀線",
+    "referenceName": "麒麟菊／繡線 Liatris spicata",
+    "sourceUrl": "https://www.loennursery.com/products/ltr-sp-xxx",
+    "referenceUrl": "https://www.loennursery.com/cdn/shop/files/HIRES-Liatris-spicata_1024x1024.jpg?v=1773086281",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-5.jpg",
+    "identitySourceUrl": "https://kmweb.moa.gov.tw/knowledgebase.php?func=2&id=326029&type=13330",
+    "mappingNote": "臺灣交易名秀線為麒麟菊／繡線 Liatris spicata；農業知識入口網已有明確對照，不是Spiraea繡線菊。",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-cccd8e8381",
+    "name": "粉孔雀",
+    "referenceName": "孔雀(單瓣粉)",
+    "sourceUrl": "https://www.twflower.org/detail/2876",
+    "referenceUrl": "https://www.twflower.org/storage/pics/e00cbcc9-0e78-45b6-8576-bc631a48aee8.png",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-6.jpg",
+    "photoInspected": true,
+    "qaNote": "來源標示單瓣粉，實拍偏紫粉色；保持來源色調不擅自改成淡粉。"
+  },
+  {
+    "key": "flower-9674b47b94",
+    "name": "紫孔雀",
+    "referenceName": "孔雀 '紫霧'",
+    "sourceUrl": "https://www.twflower.org/detail/1553",
+    "referenceUrl": "https://www.twflower.org/storage/pics/6c4fd171-8602-4d27-8cd8-ba80a689030c.png",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-7.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-319a32bd40",
+    "name": "山蘇葉",
+    "referenceName": "山蘇",
+    "sourceUrl": "https://www.twflower.org/detail/1632",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLAN001-2.jpg",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-8.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-562ba5b043",
+    "name": "紐西蘭麻",
+    "referenceName": "Phormium tenax",
+    "sourceUrl": "https://www.provendernurseries.co.uk/product/phormium-tenax-f4",
+    "referenceUrl": "https://www.provendernurseries.co.uk/files/images/webshop/1811030308993-jpg-275x400-61fbc33d82869_n.webp",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-9.jpg",
+    "mappingNote": "以已標示物種作該花材類別代表。",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-c95a1a7c09",
+    "name": "百合竹",
+    "referenceName": "Dracaena reflexa",
+    "sourceUrl": "https://www.nparks.gov.sg/florafaunaweb/flora/1/9/1962",
+    "referenceUrl": "https://www.nparks.gov.sg/-/media/ffw/migrated/round2/flora/1962/506b5febb6e043eb85d276fd1026dcaf.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-10.jpg",
+    "mappingNote": "以明確標示的物種或品種作該交易類別代表，保留原名。",
+    "photoInspected": true,
+    "qaNote": "參考葉簇照片含果實，最終切葉僅保留枝葉，不畫果實。"
+  },
+  {
+    "key": "flower-6055028833",
+    "name": "鋸齒蔓綠絨葉",
+    "referenceName": "鋸齒葉蔓綠絨葉",
+    "sourceUrl": "https://www.twflower.org/detail/1315",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLPS001-3.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-11.jpg",
+    "mappingNote": "臺灣花卉商品平台精確標示切葉品名，依其深裂葉形取材。",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-39a1d5a98f",
+    "name": "壽松",
+    "referenceName": "松葉武竹",
+    "sourceUrl": "https://www.twflower.org/detail/1609",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLAD001-2.jpg",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-12.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-d9fd517ffb",
+    "name": "水晶花",
+    "referenceName": "水晶花 '臺南3號'",
+    "sourceUrl": "https://www.twflower.org/detail/1532",
+    "referenceUrl": "https://www.twflower.org/storage/pics/SLS101-1.JPG",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-13.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-86c78c76ea",
+    "name": "黃梔花",
+    "referenceName": "重瓣梔子花 Gardenia jasminoides",
+    "sourceUrl": "https://www.tbrs.gov.tw/ws.php?id=4849",
+    "referenceUrl": "https://www.tbrs.gov.tw/upload/tres/images/web_structure/3971/1101103-11.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-14.jpg",
+    "mappingNote": "以明確標示的物種或品種作該交易類別代表，保留原名。",
+    "photoInspected": true
+  },
+  {
+    "key": "flower-f23a0aa02d",
+    "name": "香水百合",
+    "referenceName": "百合 '水晶香水'",
+    "sourceUrl": "https://www.twflower.org/detail/1597",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFLB001-2.jpg",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-15.jpg",
+    "photoInspected": true,
+    "qaNote": "來源為水晶香水百合切花花苞；大部分未開，不應猜畫為完全盛開。"
+  },
+  {
+    "key": "flower-b8ca77fc62",
+    "name": "高梁",
+    "referenceName": "傘高梁",
+    "sourceUrl": "https://www.twflower.org/detail/2887",
+    "referenceUrl": "https://www.twflower.org/storage/pics/7ee6e4f3-ad8c-4186-b816-9b19a5017c53.png",
+    "mappingNote": "保留來源品種名稱，作為該交易類別代表；不宣稱全部商品均為同一品種。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flowers-final-16.jpg",
+    "photoInspected": true,
+    "qaNote": "來源為傘高梁疏散分枝穗型，作高梁花材代表；不可改成密實紅高粱穗。"
+  }
+]

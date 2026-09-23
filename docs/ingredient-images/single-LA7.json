@@ -1,0 +1,18 @@
+{
+  "key": "LA7",
+  "name": "甘藍-改良尖",
+  "sourceLabel": "一代交配尖美甘藍",
+  "sourceUrl": "https://www.poyuseed.com.tw/product-detail-3937309.html",
+  "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-3030075-vbhqb.jpg",
+  "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/supplement-LA7.jpg",
+  "imagePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/public/images/ingredients/supplement-LA7.png",
+  "columns": 1,
+  "rows": 1,
+  "column": 0,
+  "row": 0,
+  "kind": "ai_watercolor_from_photo",
+  "mappingMethod": "representative_verified_appearance",
+  "note": "以豐田種苗行標示為尖頭球型的尖美甘藍實拍作為改良尖市場外觀類別的代表；市場類別映射依尖頭外觀推定，來源未宣稱該品種與 LA7 代碼完全相同。",
+  "generationTool": "built_in_imagegen",
+  "prompt": "Single photo-faithful pointed-head Jian Mei cabbage watercolor matching leafy-atlas painting style; pale green elongated tapered head with darker wrapper leaves; isolated centered on white, no text or logos."
+}

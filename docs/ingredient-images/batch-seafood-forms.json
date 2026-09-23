@@ -1,0 +1,300 @@
+[
+  {
+    "key": "6010",
+    "name": "鮭魚片",
+    "category": "seafood",
+    "marketCodes": [
+      "6010"
+    ],
+    "marketNames": [
+      "鮭魚片"
+    ],
+    "sourceUrl": "https://www.zong-fish.com.tw/prod.php?prod=259",
+    "referenceUrl": "https://www.zong-fish.com.tw/img/product/162520586591dbe3b62cc77d208f69e58353dab1a16561d1dbb99a249b4f9e7da0bb873bf02084163593a46ff7bd8f6181ae.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-6010.jpg",
+    "referenceName": "戎的魚店 鮭魚片",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "橘紅色輪切生鮭魚片，白色肌隔條紋、中央椎骨與腹洞；僅畫魚片，移除盤子、葉片、檸檬、木桌及水印。"
+  },
+  {
+    "key": "2782",
+    "name": "鮭魚頭/尾",
+    "category": "seafood",
+    "marketCodes": [
+      "2782",
+      "3782"
+    ],
+    "marketNames": [
+      "鮭魚頭/尾",
+      "鮭魚頭/尾凍"
+    ],
+    "sourceUrl": "https://www.zong-fish.com.tw/prod.php?prod=111",
+    "referenceUrl": "https://www.zong-fish.com.tw/img/product/15312109667ba678d3be2329c4cae0dfe3ff36274a8ed14ccd9755603de1504ce7312dfcd4845464921dfecf43029ef0e3b.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-2782.jpg",
+    "referenceName": "戎的魚店 鮭魚頭(剖半)",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "以此交易類別中的鮭魚頭作為部位代表；銀灰帶黑斑鮭魚頭與下巴，保留魚頭截面；不畫全魚、不虛構魚尾，去蔬菜、冰塊、竹盤及水印。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "3632",
+    "name": "柳葉魚(凍)",
+    "category": "seafood",
+    "marketCodes": [
+      "3632"
+    ],
+    "marketNames": [
+      "柳葉魚(凍)"
+    ],
+    "sourceUrl": "https://www.fishermart.com.tw/zh-TW/products/鮮凍帶卵柳葉魚",
+    "referenceUrl": "https://cdn-general.cybassets.com/media/W1siZiIsIjI1MDk5L3Byb2R1Y3RzLzQwNzQwMzAzLzE2ODMxODA4MThfNTRjZTZmOTUzZmU1ZDdhNzRkMzcuanBlZyJdLFsicCIsInRodW1iIiwiNDgweDQ4MCJdXQ.jpeg?sha=26511a8710173d70",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-3632.jpg",
+    "referenceName": "梓官區漁會 鮮凍帶卵柳葉魚",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "銀白細長魚身、背部深灰、尖嘴大眼與鼓起含卵腹部；供應商明示挪威現撈急速冷凍；以此商品作交易代表，不推定學名；移除砧板、檸檬、花材。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "3642",
+    "name": "圓鱈、智利海鱸",
+    "category": "seafood",
+    "marketCodes": [
+      "3642"
+    ],
+    "marketNames": [
+      "圓鱈、智利海鱸"
+    ],
+    "sourceUrl": "https://www.7-11-seafood.com.tw/product/7896",
+    "referenceUrl": "https://www.7-11-seafood.com.tw/img/Product/old/190021(1).jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-3642.jpg",
+    "referenceName": "海鮮7-11 智利海鱸(圓鱈)整尾10–15K",
+    "mappingMethod": "representative_documented_trade_name",
+    "identitySourceUrl": "https://www.fda.gov.tw/eng/lawContent.aspx?cid=16&id=3414",
+    "scientificName": "Dissostichus spp.",
+    "mappingNote": "供應商標示智利海鱸(圓鱈)整尾；食藥署魚種命名文件第3點將圓鱈／智利海鱸明確對應Dissostichus屬犬牙南極魚。僅確認交易名稱的屬級魚種群，不推定該批的單一物種。實拍為去頭去尾完整商業原料魚身（HGT型外觀；去內臟程序未由商品頁另行文字確認），不是輪切片；不能補畫頭、眼睛或尾鰭。",
+    "qaNote": "單件深灰褐帶細鱗的厚實長魚身，前端白色肉質平切面、後端較窄且已切除尾鰭；依實拍保留去頭去尾商業原料形態，不畫活體完整魚、不畫魚排或切片；去紙板、桌面及背景。"
+  },
+  {
+    "key": "3641",
+    "name": "比目魚、扁鱈",
+    "category": "seafood",
+    "marketCodes": [
+      "3641"
+    ],
+    "marketNames": [
+      "比目魚、扁鱈"
+    ],
+    "sourceUrl": "https://www.yens.com.tw/product-%E5%A4%A7%E6%AF%94%E7%9B%AE%E9%AD%9A-p-Greenland-Halibut-yens-001-01-03.html",
+    "referenceUrl": "https://www.yens.com.tw/proimages/pb/products/1-Fish/1-1Halibut/03.JPG",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-3641.jpg",
+    "referenceName": "元家 整尾大比目魚(扁鱈) Greenland Halibut (HOG)",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "供應商明列整尾大比目魚與扁鱈英文Greenland Halibut；整條扁平褐灰魚體、上下長鰭緣及小尾，來源照片尾末端略貼左界；移除裝飾葉、檸檬及浮水印。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "6008",
+    "name": "圓鱈片",
+    "category": "seafood",
+    "marketCodes": [
+      "6008"
+    ],
+    "marketNames": [
+      "圓鱈片"
+    ],
+    "sourceUrl": "https://www.yens.com.tw/product-%E7%8A%AC%E7%89%99%E5%8D%97%E6%A5%B5%E9%AD%9A%28%E7%BE%8E%E9%9C%B2%E9%B1%88%29%E5%88%87%E7%89%87-p-Frozen-Toothfish-Steak-yens-001-35-01.html",
+    "referenceUrl": "https://www.yens.com.tw/proimages/pb/products/1-Fish/1-3Toothfish/01.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-6008.jpg",
+    "referenceName": "元家 犬牙南極魚切片(美露鱈/圓鱈)",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "供應商直接標示圓鱈交易名稱及Toothfish Steak；白肉厚輪切橢圓片，中間小骨孔，外圈深灰皮；不畫整魚，不混作扁鱈，去盤子、葉片、水印。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "6009",
+    "name": "比目魚片",
+    "category": "seafood",
+    "marketCodes": [
+      "6009"
+    ],
+    "marketNames": [
+      "比目魚片"
+    ],
+    "sourceUrl": "https://www.freshhi.com.tw/fish/halibut-slices",
+    "referenceUrl": "https://www.freshhi.com.tw/upload-files/product/Flounder_cubes/Flounder_cubes1-01.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-6009.jpg",
+    "referenceName": "鮮潮 大比目魚切片(扁鱈)",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "白色橢長扁魚切片，側緣深灰皮、中央可見小骨；生鮮肉質，不畫全魚或熟料理，去木盘。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "2106",
+    "name": "勿仔",
+    "category": "seafood",
+    "marketCodes": [
+      "2106",
+      "3106"
+    ],
+    "marketNames": [
+      "勿仔",
+      "勿仔(凍)"
+    ],
+    "sourceUrl": "https://www.forestplanet.com.tw/products/babay-fresh-food-whitebait",
+    "referenceUrl": "https://img.shoplineapp.com/media/image_clips/66d53ea5b168730016094c71/original.jpg?1725251237",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-2106.jpg",
+    "referenceName": "森森星球 生凍魩仔魚",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "頁面明示生凍魩仔魚，透明真空袋可見細小半透明白色仔魚和黑點眼；畫一小堆仔魚，不畫成帶清晰成魚鱗片的大丁香魚，移除包裝、盤子、匙、布。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "3172",
+    "name": "阿根廷魷魚頭",
+    "category": "seafood",
+    "marketCodes": [
+      "3172"
+    ],
+    "marketNames": [
+      "阿根廷魷魚頭"
+    ],
+    "sourceUrl": "https://www.freshngo.com.tw/products/帶皮魷魚頭小",
+    "referenceUrl": "https://cdn1-next.cybassets.com/media/W1siZiIsIjM0NTk2L3Byb2R1Y3RzLzYyMDI5ODc1LzE3NjU5NDk2NzZfYzA3YzdhZGFhOTEyZTU4ZTUwNGQuanBlZyJdLFsicCIsInRodW1iIiwiNDgweDQ4MCJdXQ.jpeg?sha=a7bc88bbd5076ade",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-3172.jpg",
+    "referenceName": "鮮易GO 帶皮魷魚頭(小)",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "來源明列品種阿根廷魷魚、已去眼去嘴；實拍為頭足鬚部，褐色細點皮與多條細長白褐觸腕、吸盤；不畫胴體或整隻魷魚，去竹盤與生菜。"
+  },
+  {
+    "key": "2153",
+    "name": "鯊煙",
+    "category": "seafood",
+    "marketCodes": [
+      "2153"
+    ],
+    "marketNames": [
+      "鯊煙"
+    ],
+    "sourceUrl": "https://www.bo-cheng.com.tw/product-detail-3246996.html",
+    "referenceUrl": "https://static.iyp.tw/3867/products/photooriginal-2456173-N4Azy.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-2153.jpg",
+    "referenceName": "博盛冷凍食品 鯊魚煙",
+    "mappingMethod": "verified_product_label_and_appearance",
+    "qaNote": "透明包裝可見棕橘煙燻鯊魚肉塊、肌理與白色軟骨；保留加工肉塊外觀，不畫整尾鯊魚，移除塑膠袋、盤子與芥末包。"
+  },
+  {
+    "key": "6071",
+    "name": "熟丁香",
+    "category": "seafood",
+    "marketCodes": [
+      "6071"
+    ],
+    "marketNames": [
+      "熟丁香"
+    ],
+    "sourceUrl": "https://market.owlting.com/items/10371",
+    "referenceUrl": "https://static.owlting.com/market/public/items/thumbs/640x480/item_10371_65c84e7c00e674a67f1c2deef2328b89",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-6071.jpg",
+    "referenceName": "天和鮮物 澎湖新鮮丁香（川燙熟）",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "頁面明確表示川燙熟成；小魚堆灰褐背部、銀白側線、黑眼及完整細尾，與生魩仔魚分開；不畫生幼魚，去盤子和布。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "6081",
+    "name": "熟鯖魚",
+    "category": "seafood",
+    "marketCodes": [
+      "6081"
+    ],
+    "marketNames": [
+      "熟鯖魚"
+    ],
+    "sourceUrl": "",
+    "referenceUrl": "",
+    "referencePath": "",
+    "referenceName": "",
+    "mappingMethod": "unresolved",
+    "qaNote": "未找到能明確對應市場6081型態的熟鯖魚實拍；搜尋到的是蒲燒魚片或需自行加熱的生魚。",
+    "skipReason": "未找到能明確對應市場6081型態的熟鯖魚實拍；搜尋到的是蒲燒魚片或需自行加熱的生魚。"
+  },
+  {
+    "key": "6050",
+    "name": "熟卷",
+    "category": "seafood",
+    "marketCodes": [
+      "6050"
+    ],
+    "marketNames": [
+      "熟卷"
+    ],
+    "sourceUrl": "https://shop.rocnfa.org.tw/products/澎湖脫皮熟小卷",
+    "referenceUrl": "https://cdn1-next.cybassets.com/media/W1siZiIsIjI3Njg0L3Byb2R1Y3RzLzU2NDMxMTY1LzE3NTAxNDYyMzdfMDI2NjkwYmI3MTM5ODcwMmEyNzguanBlZyJdLFsicCIsInRodW1iIiwiNDgweDQ4MCJdXQ.jpeg?sha=44ba46005ba745d9",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-6050.jpg",
+    "referenceName": "全國漁會 澎湖脫皮熟小卷",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "漁會明示熟小卷；實拍短小粉白筒身帶紅褐細點、眼部較深色、短彎曲觸腕；保留完整熟小卷，不畫魷魚頭或切圈，去盤子、冰、葉子、花材。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "6101",
+    "name": "海菜",
+    "category": "seafood",
+    "marketCodes": [
+      "6101"
+    ],
+    "marketNames": [
+      "海菜"
+    ],
+    "sourceUrl": "https://www.ph-seaweed.com/03product.htm",
+    "referenceUrl": "https://www.ph-seaweed.com/images/goods03s.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-6101.jpg",
+    "referenceName": "澎湖海菜推廣中心 澎湖海菜(小)",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "生產業者明確海草類製品澎湖海菜；透明盒可見明綠色細絲、薄皺碎葉狀海菜，作海菜交易類代表，不推定學名；僅画海菜內容物，去盒與標籤。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。"
+  },
+  {
+    "key": "1141",
+    "name": "田蛙",
+    "category": "seafood",
+    "marketCodes": [
+      "1141"
+    ],
+    "marketNames": [
+      "田蛙"
+    ],
+    "sourceUrl": "",
+    "referenceUrl": "",
+    "referencePath": "",
+    "referenceName": "",
+    "mappingMethod": "unresolved",
+    "qaNote": "本土田蛙與外來牛蛙有區別；無已確認市場名稱與實拍一致的田蛙來源，不以牛蛙或單獨蛙腿替代。",
+    "skipReason": "本土田蛙與外來牛蛙有區別；無已確認市場名稱與實拍一致的田蛙來源，不以牛蛙或單獨蛙腿替代。"
+  },
+  {
+    "key": "4141",
+    "name": "蝦姑海",
+    "category": "seafood",
+    "marketCodes": [
+      "4141"
+    ],
+    "marketNames": [
+      "蝦姑海"
+    ],
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=153",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/153/A01_1_m.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/forms-4141.jpg",
+    "referenceName": "農業知識入口網 斷脊小蝦蛄",
+    "mappingMethod": "representative_documented_trade_name",
+    "qaNote": "官方图鑑俗名蝦蛄；官方甲殼類簡介明確蝦姑=螳螂蝦，故以斷脊小蝦蛄作廣泛交易類別代表，不主張所有蝦姑海皆同種。淡綠灰細長扁身、分節甲殼、捕捉前足和寬尾扇，去黑背景、箭頭及文字。",
+    "mappingNote": "以來源明確標示且外觀已檢視的商品或物種作此市場交易類別之代表；不主張所有交易皆同種。部位與熟製狀態按来源保留。",
+    "scientificName": "Oratosquillina interrupta",
+    "identitySourceUrl": "https://kmweb.moa.gov.tw/subject/subject.php?id=38595",
+    "commonNames": [
+      "蝦蛄",
+      "蝦姑",
+      "螳螂蝦"
+    ]
+  }
+]

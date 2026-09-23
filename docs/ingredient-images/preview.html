@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>行情品項插圖核對</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f5ef;color:#243529;font:15px/1.6 system-ui,sans-serif}main{max-width:1260px;margin:auto;padding:40px 24px}h1{font-family:serif;font-size:32px;margin:0 0 8px}p{margin:0 0 20px;color:#617066}.controls{display:flex;gap:12px;flex-wrap:wrap;position:sticky;top:0;background:#f7f5eff5;padding:16px 0;z-index:1}input,select{padding:12px;border:1px solid #c9d2c8;border-radius:6px;background:white;color:inherit;font:inherit}input{flex:1;min-width:200px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}.card{background:white;border:1px solid #e0e5dc;border-radius:8px;padding:16px}.pair{display:flex;align-items:center;justify-content:center;gap:12px;min-height:128px}.art{width:112px;height:112px;flex-shrink:0;background-repeat:no-repeat}.photo{width:100px;height:100px;object-fit:contain}.label{font-weight:650;margin:10px 0 0}.meta{font-size:12px;color:#677469;overflow-wrap:anywhere}a{color:#176124}.missing{height:112px;display:flex;align-items:center;justify-content:center;border:1px dashed #cdd4c9;color:#788275;font-size:13px}#count{margin:10px 0 20px}.tag{display:inline-block;background:#eef4e9;border-radius:3px;padding:1px 6px;margin:3px 4px 3px 0;font-size:11px}.error{color:#9b3428}
+</style>
+<main><h1>行情品項插圖核對</h1><p>以實物照片為參考製作的水彩插圖。左側為插圖，右側為來源照片；保留行情原名與品項代碼。</p>
+<div class="controls"><input id="search" type="search" aria-label="搜尋品名或代碼" placeholder="搜尋品名或代碼"><select id="category" aria-label="分類"><option value="">全部分類</option><option value="N04">蔬菜</option><option value="N05">水果</option><option value="N06">花卉</option><option value="seafood">水產</option><option value="livestock">畜產</option></select><select id="status" aria-label="製作狀態"><option value="illustrated">已製作</option><option value="missing">尚未完成</option><option value="all">全部品項</option></select><select id="scope" aria-label="資料範圍"><option value="latest">目前行情</option><option value="all">含歷史名稱</option></select></div>
+<p id="count" role="status">載入中…</p><div class="grid" id="grid"></div></main>
+<script>
+const labels={N04:'蔬菜',N05:'水果',N06:'花卉',seafood:'水產',livestock:'畜產'};
+const statusLabels={needs_reference:'待補實物照片',needs_identity_review:'待確認品種',reference_found:'已找到參考，待製作',not_a_product:'非品項名稱'};
+const el=id=>document.getElementById(id);
+const node=(tag,text,className)=>{const e=document.createElement(tag);e.textContent=text;if(className)e.className=className;return e};
+Promise.all([fetch('inventory.json').then(r=>r.json()),fetch('asset-manifest.json').then(r=>r.json())]).then(([inventory,manifest])=>{
+ function render(){
+  const query=el('search').value.trim().toLowerCase(),category=el('category').value,status=el('status').value;
+  const items=inventory.items.filter(x=>(el('scope').value==='all'||x.inLatest)&&(!category||x.category===category)&&(!query||(x.name+' '+x.codes.join(' ')).toLowerCase().includes(query))&&(status==='all'||(status==='illustrated'?Boolean(manifest.nameMapping[x.category+':'+x.name]):!manifest.nameMapping[x.category+':'+x.name])));
+  el('count').textContent=`符合條件 ${items.length} 項 · 目前行情已對應 ${manifest.coverage.latestMappedNames} / ${manifest.coverage.latestTotalNames} 項 · 已製作 ${manifest.coverage.illustrations} 張插圖`;
+  el('grid').replaceChildren();
+  for(const item of items){
+   const asset=manifest.assets[manifest.nameMapping[item.category+':'+item.name]],card=node('article','','card');
+   if(asset){const pair=node('div','','pair'),art=node('div','','art');art.setAttribute('role','img');art.setAttribute('aria-label',item.name+'水彩插圖');art.style.backgroundImage=`url(http://127.0.0.1:8767${asset.imagePath})`;const [x,y,w,h]=asset.crop||[asset.column/asset.columns,asset.row/asset.rows,1/asset.columns,1/asset.rows];if(asset.clip)art.style.clipPath=`inset(${asset.clip.map(v=>v+'%').join(' ')})`;art.style.backgroundSize=`${100/w}% ${100/h}%`;art.style.backgroundPosition=`${w===1?0:x/(1-w)*100}% ${h===1?0:y/(1-h)*100}%`;const photo=node('img','','photo');photo.src='references/'+asset.referencePath.split('/').pop();photo.alt=asset.name+'來源實物照片';photo.loading='lazy';pair.append(art,photo);card.append(pair)}else card.append(node('div',statusLabels[item.status]||'待補圖','missing'));
+   card.append(node('div',item.name,'label'),node('div',(labels[item.category]||item.category)+' · '+item.codes.join(', '),'meta'));
+   if(asset){const link=node('a','查看照片來源','meta');link.href=asset.sourceUrl;link.target='_blank';link.rel='noreferrer';card.append(link);if(asset.name!==item.name)card.append(node('div','參考品名：'+asset.name,'meta'))}
+   el('grid').append(card);
+  }
+ }
+ for(const id of ['search','category','status','scope'])el(id).addEventListener(id==='search'?'input':'change',render);
+ render();
+}).catch(error=>{el('count').className='error';el('count').textContent='無法載入清單：'+error.message});
+</script>
+</html>

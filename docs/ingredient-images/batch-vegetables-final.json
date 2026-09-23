@@ -1,0 +1,143 @@
+[
+  {
+    "key": "LA6",
+    "name": "甘藍芽",
+    "referenceName": "切口四周長出的甘藍芽",
+    "sourceUrl": "https://ws.tfri.gov.tw/001/Upload/OldFile/files/林業叢刊第241號-民生植物篇.pdf",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-LA6.png",
+    "referencePage": 64,
+    "printedPage": 63,
+    "mappingNote": "僅參考整頁右上方甘藍切口再生腋芽照片；不是抱子甘藍，不使用下方成熟高麗菜或左上葉牡丹。",
+    "photoInspected": true,
+    "referenceUrl": "https://ws.tfri.gov.tw/001/Upload/OldFile/files/林業叢刊第241號-民生植物篇.pdf#page=64",
+    "referenceMediaType": "application/pdf",
+    "mappingMethod": "official_labelled_photo"
+  },
+  {
+    "key": "LG1",
+    "name": "青梗芹菜",
+    "referenceName": "王田青骨有管芹菜",
+    "sourceUrl": "https://www.hnseeds.com/seed/fs0603.html",
+    "referenceUrl": "https://www.hnseeds.com/images/fs0603.png",
+    "mappingNote": "以已標示物種／品種的實物照片代表交易類別，保留來源名稱。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-LG1.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "LC2",
+    "name": "成功白",
+    "skipReason": "尚未取得可明確對應此交易品種的實拍照片，保留空白。"
+  },
+  {
+    "key": "LC6",
+    "name": "冬白芽",
+    "skipReason": "尚未取得可明確對應此交易品種的實拍照片，保留空白。"
+  },
+  {
+    "key": "LF3",
+    "name": "水蕹菜",
+    "referenceName": "蕹菜-水蕹菜(LF3)",
+    "sourceUrl": "https://www.farmer.org.tw/Attach/upload/20230830蔬菜分級-葉菜類菜類_133022400232745181.pdf",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-LF3.png",
+    "referencePage": 4,
+    "mappingNote": "官方交易分級頁明確標示LF3，參考下半部開箱水蕹菜實物，忽略包裝。",
+    "photoInspected": true,
+    "referenceUrl": "https://www.farmer.org.tw/Attach/upload/20230830蔬菜分級-葉菜類菜類_133022400232745181.pdf#page=4",
+    "referenceMediaType": "application/pdf",
+    "mappingMethod": "official_labelled_photo"
+  },
+  {
+    "key": "FB2",
+    "name": "白梗花椰菜",
+    "referenceName": "花椰菜白梗",
+    "sourceUrl": "https://flyfish.cyberbiz.co/products/花椰菜-白梗",
+    "referenceUrl": "https://cdn1-next.cybassets.com/media/W1siZiIsIjMxNTUvcHJvZHVjdHMvMzQzNzgzMTcvMTYzMDc2NjU3NV84MDNiYjIwOTMxOTliODYxZWY3ZC5qcGVnIl0sWyJwIiwidGh1bWIiLCI2MDB4NjAwIl1d.jpeg?sha=bc00865b15051412",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-FB2.jpg",
+    "mappingNote": "以已標示物種／品種的實物照片代表交易類別，保留來源名稱。",
+    "photoInspected": true
+  },
+  {
+    "key": "FM2",
+    "name": "青色菜豆",
+    "referenceName": "東方黑仁青格紅蒂尾長菜豆",
+    "sourceUrl": "https://www.poyuseed.com.tw/product-detail-3678600.html",
+    "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-2811372-XqhA5.jpg?narrow",
+    "mappingNote": "以已標示物種／品種的實物照片代表交易類別，保留來源名稱。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-FM2.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "FM3",
+    "name": "紅色菜豆",
+    "referenceName": "東山紅皮長菜豆",
+    "sourceUrl": "https://www.poyuseed.com.tw/product-detail-4016738.html",
+    "referenceUrl": "https://static.iyp.tw/4849/products/photooriginal-3094969-Kfib5.jpg?large",
+    "mappingNote": "以已標示物種／品種的實物照片代表交易類別，保留來源名稱。",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-FM3.jpg",
+    "photoInspected": true
+  },
+  {
+    "key": "FL1",
+    "name": "白花豌豆",
+    "referenceName": "台中16號與在來白花豆莢比較",
+    "sourceUrl": "https://www.moa.gov.tw/ws.php?id=2503964&print=Y",
+    "referenceUrl": "https://www.moa.gov.tw/upload/images/web_structure/2503964/2503964_2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-FL1.jpg",
+    "mappingNote": "僅參考上方標示在來白花的兩條豆莢，忽略下方台中16號；原照片呈病徵，不臆造不存在的品種外觀。",
+    "photoInspected": true
+  },
+  {
+    "key": "FV2",
+    "name": "青小辣椒",
+    "skipReason": "尚未取得可明確對應此交易品種的實拍照片，保留空白。"
+  },
+  {
+    "key": "FV3",
+    "name": "雞心辣椒",
+    "referenceName": "朝天椒（雞心辣椒）",
+    "sourceUrl": "https://fci.nkuht.edu.tw/p/405-1027-41251%2Cc7171.php?Lang=zh-tw",
+    "referenceUrl": "https://fci.nkuht.edu.tw/var/file/27/1027/pictures/953/m/mczh-tw1600x1600_large21972_644219079258.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-FV3.jpg",
+    "mappingNote": "以已標示物種／品種的實物照片代表交易類別，保留來源名稱。",
+    "photoInspected": true
+  },
+  {
+    "key": "FV5",
+    "name": "青龍辣椒",
+    "referenceName": "有機青龍辣椒",
+    "sourceUrl": "https://www.sun-fresh.com.tw/product/有機青龍辣椒/",
+    "referenceUrl": "https://www.sun-fresh.com.tw/wp-content/uploads/2025/08/有機青龍辣椒100g-產品照-1.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-FV5.png",
+    "mappingNote": "生鮮供應商明確標示青龍辣椒，實拍為皺褶綠色長果。",
+    "photoInspected": true
+  },
+  {
+    "key": "FS1",
+    "name": "青越瓜",
+    "skipReason": "尚未取得可明確對應此交易品種的實拍照片，保留空白。"
+  },
+  {
+    "key": "FS2",
+    "name": "白越瓜",
+    "referenceName": "白皮越瓜（圖3）",
+    "sourceUrl": "https://kmweb.moa.gov.tw/files/document/308726/80f49f953ab032feef2151908508480e_v1.pdf",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/vegetables-final-FS2.png",
+    "referencePage": 3,
+    "printedPage": 467,
+    "mappingNote": "參考整頁左上兩條瓜實拍；原始PDF圖3文字明確標示白皮越瓜。頁面轉圖中文字缺字，但原始照片完整。",
+    "photoInspected": true,
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/document/308726/80f49f953ab032feef2151908508480e_v1.pdf#page=3",
+    "referenceMediaType": "application/pdf",
+    "mappingMethod": "official_labelled_photo"
+  },
+  {
+    "key": "SE6",
+    "name": "粉蔥",
+    "skipReason": "商品頁實拍與粉蔥不符；官方分級頁合併日蔥、北蔥與粉蔥，照片未指明品種，暫不代用。"
+  },
+  {
+    "key": "LM8",
+    "name": "莧菜水耕",
+    "skipReason": "尚未確認專屬水耕莧菜實拍，不以露地莧菜任意代用。"
+  }
+]

@@ -1,0 +1,384 @@
+[
+  {
+    "name": "紅星梭子蟹",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=167",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/167/thumbnail_1_m.png",
+    "commonNamesText": "三點仔、市仔",
+    "commonNames": [
+      "三點仔",
+      "市仔"
+    ],
+    "scientificName": "Portunus sanguinolentus",
+    "key": "kmweb-167",
+    "category": "seafood",
+    "marketCodes": [
+      "4513"
+    ],
+    "marketNames": [
+      "三點仔"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-167.png"
+  },
+  {
+    "name": "劍旗魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=667",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/667/thumbnail_1_m.png",
+    "commonNamesText": "旗魚舅、丁挽舅、劍魚、大目旗魚、丁挽舅旗魚",
+    "commonNames": [
+      "旗魚舅",
+      "丁挽舅",
+      "劍魚",
+      "大目旗魚",
+      "丁挽舅旗魚"
+    ],
+    "scientificName": "Xiphias gladius",
+    "key": "kmweb-667",
+    "category": "seafood",
+    "marketCodes": [
+      "2131",
+      "3131"
+    ],
+    "marketNames": [
+      "劍旗魚",
+      "劍旗魚凍"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-667.png"
+  },
+  {
+    "name": "哈氏彷對蝦",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=119",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/119/thumbnail_1_m.png",
+    "commonNamesText": "劍蝦",
+    "commonNames": [
+      "劍蝦"
+    ],
+    "scientificName": "Parapenaeopsis hardwickii",
+    "key": "kmweb-119",
+    "category": "seafood",
+    "marketCodes": [
+      "4071"
+    ],
+    "marketNames": [
+      "劍蝦"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-119.png"
+  },
+  {
+    "name": "大目鮪",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=655",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/655/thumbnail_1_m.png",
+    "commonNamesText": "大目仔、大眼鮪、大目串、短墩、串仔(澎湖)、短鮪",
+    "commonNames": [
+      "大目仔",
+      "大眼鮪",
+      "大目串",
+      "短墩",
+      "串仔(澎湖)",
+      "短鮪"
+    ],
+    "scientificName": "Thunnus obesus",
+    "key": "kmweb-655",
+    "category": "seafood",
+    "marketCodes": [
+      "2112",
+      "3112"
+    ],
+    "marketNames": [
+      "大眼鮪",
+      "大眼鮪凍"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-655.png"
+  },
+  {
+    "name": "鱅",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=310",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/310/A01_1_m.png",
+    "commonNamesText": "黑鰱、大頭鰱、花鰱、胖頭鰱",
+    "commonNames": [
+      "黑鰱",
+      "大頭鰱",
+      "花鰱",
+      "胖頭鰱"
+    ],
+    "scientificName": "Hypophthalmichthys nobilis",
+    "key": "kmweb-310",
+    "category": "seafood",
+    "marketCodes": [
+      "1024"
+    ],
+    "marketNames": [
+      "大頭鰱"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-310.png"
+  },
+  {
+    "name": "圓眼燕魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=680",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/680/thumbnail_1_m.png",
+    "commonNamesText": "蝙蝠魚、鯧仔、圓海燕、飛翼、黑巴鯧、富貴魚",
+    "commonNames": [
+      "蝙蝠魚",
+      "鯧仔",
+      "圓海燕",
+      "飛翼",
+      "黑巴鯧",
+      "富貴魚"
+    ],
+    "scientificName": "Platax orbicularis",
+    "key": "kmweb-680",
+    "category": "seafood",
+    "marketCodes": [
+      "1201"
+    ],
+    "marketNames": [
+      "富貴魚、燕鯧"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-680.png"
+  },
+  {
+    "name": "紅色吳郭魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=601",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/601/thumbnail_1_m.png",
+    "commonNamesText": "紅尼羅魚、紅吳郭、埃及紅魚",
+    "commonNames": [
+      "紅尼羅魚",
+      "紅吳郭",
+      "埃及紅魚"
+    ],
+    "scientificName": "Oreochromis sp.",
+    "key": "kmweb-601",
+    "category": "seafood",
+    "marketCodes": [
+      "1012"
+    ],
+    "marketNames": [
+      "尼羅紅魚"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-601.png"
+  },
+  {
+    "name": "日本竹筴魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=444",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/444/thumbnail_1_m.png",
+    "commonNamesText": "巴攏、竹莢魚、瓜仔魚、真鰺、 巴弄 ( 澎湖 )、硬尾 ( 澎湖 )、黑尾",
+    "commonNames": [
+      "巴攏",
+      "竹莢魚",
+      "瓜仔魚",
+      "真鰺",
+      " 巴弄 ( 澎湖 )",
+      "硬尾 ( 澎湖 )",
+      "黑尾"
+    ],
+    "scientificName": "Trachurus japonicus",
+    "key": "kmweb-444",
+    "category": "seafood",
+    "marketCodes": [
+      "2074",
+      "3074"
+    ],
+    "marketNames": [
+      "巴闌",
+      "巴闌(凍)"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-444.png"
+  },
+  {
+    "name": "巴鰹",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=643",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/643/thumbnail_1_m.png",
+    "commonNamesText": "三點仔、煙仔、倒串、鯤、花煙、大憨煙、花鰋(澎湖)",
+    "commonNames": [
+      "三點仔",
+      "煙仔",
+      "倒串",
+      "鯤",
+      "花煙",
+      "大憨煙",
+      "花鰋(澎湖)"
+    ],
+    "scientificName": "Euthynnus affinis",
+    "key": "kmweb-643",
+    "category": "seafood",
+    "marketCodes": [
+      "2125"
+    ],
+    "marketNames": [
+      "巴鰹、三點仔"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-643.png"
+  },
+  {
+    "name": "文蛤",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=73",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/73/thumbnail_1_m.png",
+    "commonNamesText": "蚶仔、麗文蛤、粉蟯",
+    "commonNames": [
+      "蚶仔",
+      "麗文蛤",
+      "粉蟯"
+    ],
+    "scientificName": "Meretrix lusoria",
+    "key": "kmweb-73",
+    "category": "seafood",
+    "marketCodes": [
+      "5021"
+    ],
+    "marketNames": [
+      "文蛤(海)"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-73.png"
+  },
+  {
+    "name": "日本對蝦",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=122",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/122/thumbnail_1_m.png",
+    "commonNamesText": "斑節蝦、雷公蝦、明蝦、九節蝦",
+    "commonNames": [
+      "斑節蝦",
+      "雷公蝦",
+      "明蝦",
+      "九節蝦"
+    ],
+    "scientificName": "Penaeus japonicus",
+    "key": "kmweb-122",
+    "category": "seafood",
+    "marketCodes": [
+      "4051"
+    ],
+    "marketNames": [
+      "斑節蝦海"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-122.png"
+  },
+  {
+    "name": "刀額新對蝦",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=118",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/118/thumbnail_1_m.png",
+    "commonNamesText": "沙蝦、蘆蝦、中蝦",
+    "commonNames": [
+      "沙蝦",
+      "蘆蝦",
+      "中蝦"
+    ],
+    "scientificName": "Metapenaeus ensis",
+    "key": "kmweb-118",
+    "category": "seafood",
+    "marketCodes": [
+      "4021"
+    ],
+    "marketNames": [
+      "沙蝦海"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-118.png"
+  },
+  {
+    "name": "泥鰍",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=313",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/313/thumbnail_1_m.png",
+    "commonNamesText": "土鰍、胡溜、魚溜、雨溜、河鰡、 旋鰡、旋鰡鼓鰱",
+    "commonNames": [
+      "土鰍",
+      "胡溜",
+      "魚溜",
+      "雨溜",
+      "河鰡",
+      " 旋鰡",
+      "旋鰡鼓鰱"
+    ],
+    "scientificName": "Misgurnus anguillicaudatus",
+    "key": "kmweb-313",
+    "category": "seafood",
+    "marketCodes": [
+      "1102"
+    ],
+    "marketNames": [
+      "泥鰍"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-313.png"
+  },
+  {
+    "name": "海鱺",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=409",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/409/thumbnail_1_m.png",
+    "commonNamesText": "海麗仔、軍曹魚、海龍魚、黑魽、 鱺魚 ( 澎湖 )、紅目鱺 ( 澎湖 )",
+    "commonNames": [
+      "海麗仔",
+      "軍曹魚",
+      "海龍魚",
+      "黑魽",
+      " 鱺魚 ( 澎湖 )",
+      "紅目鱺 ( 澎湖 )"
+    ],
+    "scientificName": "Rachycentron canadum",
+    "key": "kmweb-409",
+    "category": "seafood",
+    "marketCodes": [
+      "1166"
+    ],
+    "marketNames": [
+      "海鱺"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-409.png"
+  },
+  {
+    "name": "花身副麗魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=602",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/602/A01_1_m.png",
+    "commonNamesText": "珍珠石斑、淡水石斑",
+    "commonNames": [
+      "珍珠石斑",
+      "淡水石斑"
+    ],
+    "scientificName": "Parachromis managuensis",
+    "key": "kmweb-602",
+    "category": "seafood",
+    "marketCodes": [
+      "1172"
+    ],
+    "marketNames": [
+      "淡水珍珠石斑"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-602.png"
+  },
+  {
+    "name": "大黃魚",
+    "sourceUrl": "https://kmweb.moa.gov.tw/theme_data.php?theme=fisheasy&id=554",
+    "referenceUrl": "https://kmweb.moa.gov.tw/files/fisheasy/554/thumbnail_1_m.png",
+    "commonNamesText": "黃魚、黃瓜、黃花魚、黃口、火口、大黃花",
+    "commonNames": [
+      "黃魚",
+      "黃瓜",
+      "黃花魚",
+      "黃口",
+      "火口",
+      "大黃花"
+    ],
+    "scientificName": "Larimichthys crocea",
+    "key": "kmweb-554",
+    "category": "seafood",
+    "marketCodes": [
+      "2065"
+    ],
+    "marketNames": [
+      "火口"
+    ],
+    "identitySourceUrl": "https://efish.fa.gov.tw/efish/common/atlaslist.htm",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/kmweb-554.png"
+  }
+]

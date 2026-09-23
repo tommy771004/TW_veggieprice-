@@ -73,6 +73,13 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
+  // Offers can be disabled by their owner. Never resurrect old promotions from
+  // offline storage; the client has a short retry backoff for network failures.
+  if (url.pathname === '/api/affiliates') {
+    event.respondWith(fetch(request))
+    return
+  }
+
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(networkFirst(request))
     return

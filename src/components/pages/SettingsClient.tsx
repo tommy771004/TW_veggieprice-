@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { fetchMarketOptions } from '@/lib/api'
 import { resolveCountyFromMarketName } from '@/lib/server/marketCountyMap'
@@ -840,6 +842,9 @@ export function SettingsClient() {
           <div className="section-shell">
             <p className="section-kicker">About</p>
             <h2 className="text-headline-md font-semibold text-on-surface mt-1">關於系統</h2>
+            <Link href="/privacy" className="mt-3 inline-flex min-h-11 items-center text-primary underline underline-offset-4">
+              隱私與合作揭露
+            </Link>
             <div className="mt-4 space-y-3 text-body-md text-on-surface-variant">
               <div className="rounded-3xl border border-outline-variant/35 bg-surface-container-low px-4 py-3 flex justify-between gap-4">
                 <span>版本</span>

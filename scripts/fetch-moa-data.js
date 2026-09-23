@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { readRecentMoaData } = require('./recent-moa-data');
 
 // Helper to fetch with retries using exponential backoff + full jitter.
 // Jitter formula: random delay in [0, min(CAP, base * 2^attempt)] — avoids
@@ -449,20 +450,7 @@ async function main() {
 
   // Combine the last 7 days into `latest-opendata.json` for backwards compatibility with front-end
   console.log('\n⏳ Combining latest 7 days for latest-opendata.json...');
-  const latest7Dates = datesToSync.slice(-7);
-  let latestRecords = [];
-  
-  for (const isoDate of latest7Dates) {
-    const dailyPath = path.join(dailyDataDir, `${isoDate}.json`);
-    if (fs.existsSync(dailyPath)) {
-      try {
-        const records = JSON.parse(fs.readFileSync(dailyPath, 'utf-8'));
-        latestRecords.push(...records);
-      } catch (err) {
-        console.warn(`Could not read ${isoDate}.json`, err.message);
-      }
-    }
-  }
+  const latestRecords = readRecentMoaData(dailyDataDir, todayStr);
   
   const filePath = path.join(publicDataDir, 'latest-opendata.json');
   const tempFilePath = filePath + '.tmp';

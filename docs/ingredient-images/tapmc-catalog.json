@@ -1,0 +1,1370 @@
+[
+  {
+    "code": "A0",
+    "name": "香蕉(美人蕉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00081",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00087A"
+  },
+  {
+    "code": "A1",
+    "name": "香蕉",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0007E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=001133"
+  },
+  {
+    "code": "A2",
+    "name": "香蕉(芭蕉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0007F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007FD3"
+  },
+  {
+    "code": "A3",
+    "name": "香蕉(旦蕉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00080",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000878"
+  },
+  {
+    "code": "A4",
+    "name": "越旦",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E0",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009760"
+  },
+  {
+    "code": "B1",
+    "name": "鳳梨(開英)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00082",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00087C"
+  },
+  {
+    "code": "B2",
+    "name": "鳳梨(金鑽)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00083",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007FD4"
+  },
+  {
+    "code": "B6",
+    "name": "鳳梨(甜蜜蜜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00084",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007FD6"
+  },
+  {
+    "code": "B7",
+    "name": "鳳梨(牛奶鳳梨)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000FE",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2B7"
+  },
+  {
+    "code": "C0",
+    "name": "帝王柑",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00089",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00088A"
+  },
+  {
+    "code": "C1",
+    "name": "椪柑",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00085",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009820"
+  },
+  {
+    "code": "C2",
+    "name": "茂谷柑",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00086",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DE5"
+  },
+  {
+    "code": "C6",
+    "name": "佛利檬",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00087",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000886"
+  },
+  {
+    "code": "C7",
+    "name": "豔陽柑",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00088",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000888"
+  },
+  {
+    "code": "C8",
+    "name": "珍珠柑(砂糖橘)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F2",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F79"
+  },
+  {
+    "code": "D1",
+    "name": "桶柑",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0008A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00114F"
+  },
+  {
+    "code": "E1",
+    "name": "柳橙",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0008B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DEC"
+  },
+  {
+    "code": "F1",
+    "name": "雜柑(檸檬)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000FC",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1BE"
+  },
+  {
+    "code": "F4",
+    "name": "雜柑(桔子)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0008D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2BE"
+  },
+  {
+    "code": "G2",
+    "name": "黃金果",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C9",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1C6"
+  },
+  {
+    "code": "G3",
+    "name": "酪梨(加林一號)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0008E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0019AD"
+  },
+  {
+    "code": "G3",
+    "name": "酪梨(紅心圓)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000CF",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0019B3"
+  },
+  {
+    "code": "H1",
+    "name": "文旦",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0008F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1CD"
+  },
+  {
+    "code": "H2",
+    "name": "白柚",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00090",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000898"
+  },
+  {
+    "code": "H3",
+    "name": "紅柚",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00091",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00089A"
+  },
+  {
+    "code": "H4",
+    "name": "葡萄柚(紅肉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E2",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00977E"
+  },
+  {
+    "code": "H5",
+    "name": "葡萄柚(白肉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E3",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009788"
+  },
+  {
+    "code": "H6",
+    "name": "西施柚",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00093",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F77"
+  },
+  {
+    "code": "I1",
+    "name": "木瓜(台農2號)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00094",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BD0"
+  },
+  {
+    "code": "I3",
+    "name": "木瓜(日陞種)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00095",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BC9"
+  },
+  {
+    "code": "I4",
+    "name": "青木瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00076",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000869"
+  },
+  {
+    "code": "J1",
+    "name": "荔枝(玉荷苞)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00096",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007FD8"
+  },
+  {
+    "code": "J2",
+    "name": "荔枝(黑葉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00097",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=001991"
+  },
+  {
+    "code": "J3",
+    "name": "荔枝(糯米種)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00098",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=001998"
+  },
+  {
+    "code": "K3",
+    "name": "龍眼",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00099",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BD2"
+  },
+  {
+    "code": "L1",
+    "name": "枇杷",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0009A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0018B7"
+  },
+  {
+    "code": "M3",
+    "name": "楊桃",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0009B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0019A6"
+  },
+  {
+    "code": "N3",
+    "name": "李",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0009C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0018A9"
+  },
+  {
+    "code": "O1",
+    "name": "梨(橫山梨)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0009D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008B4"
+  },
+  {
+    "code": "O10",
+    "name": "梨(寶島甘露梨)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000CC",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007FDF"
+  },
+  {
+    "code": "O3",
+    "name": "梨(蜜梨、世紀梨)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0009F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008B8"
+  },
+  {
+    "code": "O4",
+    "name": "梨(新興梨)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0009E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DFC"
+  },
+  {
+    "code": "O8",
+    "name": "梨(蜜雪梨)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A1",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008BC"
+  },
+  {
+    "code": "OW",
+    "name": "梨(雪梨)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A0",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008BA"
+  },
+  {
+    "code": "P1",
+    "name": "番石榴(珍珠芭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A2",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BD9"
+  },
+  {
+    "code": "P2",
+    "name": "番石榴(紅肉芭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A3",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BE0"
+  },
+  {
+    "code": "P3",
+    "name": "番石榴(帝王芭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A4",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BE7"
+  },
+  {
+    "code": "P5",
+    "name": "番石榴(水晶無子)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A5",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008C4"
+  },
+  {
+    "code": "Q1",
+    "name": "蓮霧(紅蓮霧)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A6",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1D7"
+  },
+  {
+    "code": "Q2",
+    "name": "蓮霧(子彈型)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A7",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009712"
+  },
+  {
+    "code": "Q4",
+    "name": "蓮霧(巴掌型)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A8",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008CA"
+  },
+  {
+    "code": "Q5",
+    "name": "蓮霧(黑糖芭比)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000FD",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1DE"
+  },
+  {
+    "code": "R0",
+    "name": "芒果(四季芒果)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000AF",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008D9"
+  },
+  {
+    "code": "R1",
+    "name": "芒果(愛文)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000A9",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BF0"
+  },
+  {
+    "code": "R10",
+    "name": "芒果(西施)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000CD",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0018B0"
+  },
+  {
+    "code": "R2",
+    "name": "芒果(玉文)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000AA",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BF7"
+  },
+  {
+    "code": "R3",
+    "name": "芒果(土芒果)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000AB",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000E1D"
+  },
+  {
+    "code": "R31",
+    "name": "芒果(夏雪)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000AE",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C05"
+  },
+  {
+    "code": "R5",
+    "name": "芒果(黑香)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000AC",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008D3"
+  },
+  {
+    "code": "R6",
+    "name": "芒果(金煌)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000AD",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BFE"
+  },
+  {
+    "code": "S1",
+    "name": "巨峰葡萄",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B0",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C0C"
+  },
+  {
+    "code": "T1",
+    "name": "大西瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B1",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008DE"
+  },
+  {
+    "code": "T5",
+    "name": "大西瓜(黃肉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B2",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=001855"
+  },
+  {
+    "code": "T8",
+    "name": "大西瓜(甜美人)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B3",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00185B"
+  },
+  {
+    "code": "V1",
+    "name": "甜瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B4",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BAD"
+  },
+  {
+    "code": "V2",
+    "name": "甜瓜(溫室吊瓜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B5",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BB4"
+  },
+  {
+    "code": "W3",
+    "name": "網紋洋香瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B6",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000E2D"
+  },
+  {
+    "code": "W7",
+    "name": "洋香瓜(光面)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B7",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F61"
+  },
+  {
+    "code": "Y1",
+    "name": "桃子(水蜜桃)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000CE",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00197C"
+  },
+  {
+    "code": "Y3",
+    "name": "桃子(甜桃)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B8",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008ED"
+  },
+  {
+    "code": "Y5",
+    "name": "桃子(福壽桃)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000FF",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2C5"
+  },
+  {
+    "code": "Z1",
+    "name": "柿子(紅柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000BC",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F80"
+  },
+  {
+    "code": "Z2",
+    "name": "柿子(水柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000B9",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008EF"
+  },
+  {
+    "code": "Z4",
+    "name": "柿子(甜柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000BA",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1E5"
+  },
+  {
+    "code": "Z5",
+    "name": "柿子(筆柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000BB",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008F3"
+  },
+  {
+    "code": "SA3",
+    "name": "蘿蔔",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00004",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DAE"
+  },
+  {
+    "code": "SB2",
+    "name": "胡蘿蔔",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00028",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009828"
+  },
+  {
+    "code": "SC1",
+    "name": "馬鈴薯",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00029",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F08"
+  },
+  {
+    "code": "SD1",
+    "name": "洋蔥",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007D2"
+  },
+  {
+    "code": "SE1",
+    "name": "青蔥",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DB5"
+  },
+  {
+    "code": "SF1",
+    "name": "韭菜(白頭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000FD6"
+  },
+  {
+    "code": "SF2",
+    "name": "韭菜黃",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007D8"
+  },
+  {
+    "code": "SF3",
+    "name": "韭菜(韭菜花)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00979A"
+  },
+  {
+    "code": "SF4",
+    "name": "韭菜(青頭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E4",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009791"
+  },
+  {
+    "code": "SG2",
+    "name": "大蒜(青蒜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DBC"
+  },
+  {
+    "code": "SG5",
+    "name": "蒜頭",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E1",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00976F"
+  },
+  {
+    "code": "SH1",
+    "name": "麻竹筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00030",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007EC8"
+  },
+  {
+    "code": "SH2",
+    "name": "綠竹筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00031",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DC3"
+  },
+  {
+    "code": "SH5",
+    "name": "烏殼綠竹筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00032",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DCA"
+  },
+  {
+    "code": "SJ2",
+    "name": "芋(檳榔心芋)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00033",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DD2"
+  },
+  {
+    "code": "SL1",
+    "name": "豆薯",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00034",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007E6"
+  },
+  {
+    "code": "SM1",
+    "name": "牛蒡",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00035",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007E8"
+  },
+  {
+    "code": "SO1",
+    "name": "甘藷(台農57號)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00036",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F68"
+  },
+  {
+    "code": "SO3",
+    "name": "甘藷(台農66號)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00037",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00200B"
+  },
+  {
+    "code": "SP1",
+    "name": "薑(老薑、粉薑)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00038",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F5D"
+  },
+  {
+    "code": "SP2",
+    "name": "薑(嫩薑)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00039",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00929D"
+  },
+  {
+    "code": "SQ3",
+    "name": "茭白筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0003A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DD8"
+  },
+  {
+    "code": "SS1",
+    "name": "大心菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0003B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007F4"
+  },
+  {
+    "code": "SV1",
+    "name": "白蘆筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0003C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007F6"
+  },
+  {
+    "code": "SV2",
+    "name": "綠蘆筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0003D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=002012"
+  },
+  {
+    "code": "SW1",
+    "name": "球莖甘藍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0003E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007FA"
+  },
+  {
+    "code": "LA1",
+    "name": "甘藍(高麗菜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0003F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C13"
+  },
+  {
+    "code": "LB2",
+    "name": "小白菜(蚵仔白)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00042",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C29"
+  },
+  {
+    "code": "LB3",
+    "name": "小白菜(奶油白)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E5",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009793"
+  },
+  {
+    "code": "LC1",
+    "name": "包心白菜(包白)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00040",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C45"
+  },
+  {
+    "code": "LC3",
+    "name": "包心白菜(包頭蓮)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00041",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000800"
+  },
+  {
+    "code": "LE1",
+    "name": "皇宮菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00044",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000806"
+  },
+  {
+    "code": "LF2",
+    "name": "蕹菜(空心菜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00045",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C30"
+  },
+  {
+    "code": "LG2",
+    "name": "芹菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00046",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F01"
+  },
+  {
+    "code": "LG3",
+    "name": "西洋芹菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00047",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00080C"
+  },
+  {
+    "code": "LH1",
+    "name": "菠菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00048",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C4C"
+  },
+  {
+    "code": "LI2",
+    "name": "結球萵苣",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00049",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000810"
+  },
+  {
+    "code": "LI3",
+    "name": "本島萵苣",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0004A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000812"
+  },
+  {
+    "code": "LI5",
+    "name": "油麥菜(大陸妹)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0004B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C53"
+  },
+  {
+    "code": "LJ4",
+    "name": "芥菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0004C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000816"
+  },
+  {
+    "code": "LK2",
+    "name": "芥藍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0004D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000818"
+  },
+  {
+    "code": "LK3",
+    "name": "芥藍芽",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0004E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009767"
+  },
+  {
+    "code": "LL1",
+    "name": "茼蒿",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000FB",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1B8"
+  },
+  {
+    "code": "LM2",
+    "name": "莧菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0004F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00607D"
+  },
+  {
+    "code": "LN1",
+    "name": "油菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00050",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00081E"
+  },
+  {
+    "code": "LO1",
+    "name": "甘藷葉",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00051",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000FC8"
+  },
+  {
+    "code": "LS1",
+    "name": "茴香",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E6",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097A1"
+  },
+  {
+    "code": "LT3",
+    "name": "海菜(水蓮)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F0",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F10"
+  },
+  {
+    "code": "LX1",
+    "name": "蕨菜(過貓)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00052",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000822"
+  },
+  {
+    "code": "LX2",
+    "name": "蕨菜(山蘇)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00053",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=002027"
+  },
+  {
+    "code": "FA1",
+    "name": "黃秋葵",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00054",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=006084"
+  },
+  {
+    "code": "FB1",
+    "name": "花椰菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00055",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000D4A"
+  },
+  {
+    "code": "FC1",
+    "name": "胡瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00056",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C22"
+  },
+  {
+    "code": "FD1",
+    "name": "花胡瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00057",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C1B"
+  },
+  {
+    "code": "FF1",
+    "name": "絲瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000CA",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000D65"
+  },
+  {
+    "code": "FF2",
+    "name": "稜角絲瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00059",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000830"
+  },
+  {
+    "code": "FG1",
+    "name": "苦瓜(白大米)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0005A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C3E"
+  },
+  {
+    "code": "FG4",
+    "name": "苦瓜(翠綠、翠妃)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0005B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000834"
+  },
+  {
+    "code": "FH3",
+    "name": "扁蒲",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0005C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007F0E"
+  },
+  {
+    "code": "FI1",
+    "name": "茄子(胭脂茄)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0005E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00083A"
+  },
+  {
+    "code": "FI2",
+    "name": "茄子(麻荸茄)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0005D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C37"
+  },
+  {
+    "code": "FJ1",
+    "name": "番茄(黑柿、粉柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0005F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009EF3"
+  },
+  {
+    "code": "FJ3",
+    "name": "番茄(牛番茄)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00060",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C5A"
+  },
+  {
+    "code": "FK4",
+    "name": "甜椒(彩色種)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00062",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C61"
+  },
+  {
+    "code": "FK5",
+    "name": "甜椒(青椒)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00061",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000C68"
+  },
+  {
+    "code": "FK6",
+    "name": "甜椒(水果彩椒)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D0",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=002004"
+  },
+  {
+    "code": "FL2",
+    "name": "豌豆莢",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00063",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000D7C"
+  },
+  {
+    "code": "FL6",
+    "name": "甜豌豆",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00064",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000D84"
+  },
+  {
+    "code": "FM1",
+    "name": "菜豆",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00065",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009EFA"
+  },
+  {
+    "code": "FN1",
+    "name": "敏豆(四季豆)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00066",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000D91"
+  },
+  {
+    "code": "FN3",
+    "name": "敏豆(粉豆、醜豆)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00067",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000D98"
+  },
+  {
+    "code": "FQ1",
+    "name": "毛豆",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000DA",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007EBB"
+  },
+  {
+    "code": "FR1",
+    "name": "青花苔",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00068",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DA0"
+  },
+  {
+    "code": "FR2",
+    "name": "青花筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00069",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00084F"
+  },
+  {
+    "code": "FT1",
+    "name": "南瓜(木瓜形)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0006A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0098BD"
+  },
+  {
+    "code": "FT2",
+    "name": "南瓜(圓形)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0006B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=001175"
+  },
+  {
+    "code": "FT3",
+    "name": "南瓜(黃如意)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0006C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000855"
+  },
+  {
+    "code": "FT5",
+    "name": "南瓜(青如意)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0006D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0098C2"
+  },
+  {
+    "code": "FT6",
+    "name": "南瓜(東昇型)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0006E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000859"
+  },
+  {
+    "code": "FT7",
+    "name": "南瓜(栗子南瓜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0006F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00085B"
+  },
+  {
+    "code": "FU1",
+    "name": "隼人瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000DF",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009759"
+  },
+  {
+    "code": "FU2",
+    "name": "隼人瓜苗(龍鬚菜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000CB",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DA7"
+  },
+  {
+    "code": "FV1",
+    "name": "辣椒(紅小、青小)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00070",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=002019"
+  },
+  {
+    "code": "FV4",
+    "name": "辣椒(朝天椒)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00072",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=006088"
+  },
+  {
+    "code": "FV6",
+    "name": "辣椒(糯米椒)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00073",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000863"
+  },
+  {
+    "code": "FY4",
+    "name": "玉米(玉米筍)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00075",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=006086"
+  },
+  {
+    "code": "FY6",
+    "name": "玉米(甜軟殼、甜玉米)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00074",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000FBC"
+  },
+  {
+    "code": "MC1",
+    "name": "濕木耳",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000DE",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009750"
+  },
+  {
+    "code": "MD1",
+    "name": "濕香菇",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00077",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009381"
+  },
+  {
+    "code": "MJ1",
+    "name": "杏鮑菇",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00078",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009296"
+  },
+  {
+    "code": " ",
+    "name": "絲瓜(蘋果絲瓜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E8",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097AD"
+  },
+  {
+    "code": "FG2",
+    "name": "苦瓜(青大米)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E7",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097A8"
+  },
+  {
+    "code": "FI2",
+    "name": "茄子(麻荸茄)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D2",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00600F"
+  },
+  {
+    "code": "FP1",
+    "name": "萊豆(皇帝豆莢)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000DB",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0092EF"
+  },
+  {
+    "code": "FT1",
+    "name": "南瓜(木瓜型)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000EC",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097C8"
+  },
+  {
+    "code": "FY4",
+    "name": "玉米(玉米筍)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D3",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009FC8"
+  },
+  {
+    "code": "LA1 ",
+    "name": "甘藍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D1",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0056C5"
+  },
+  {
+    "code": "LB2",
+    "name": "小白菜(蚵仔白)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D4",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00601B"
+  },
+  {
+    "code": "LB3",
+    "name": "小白菜(奶油白)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000EB",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097C2"
+  },
+  {
+    "code": "LD2",
+    "name": "青江白菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D8",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=006033"
+  },
+  {
+    "code": "LF2",
+    "name": "蕹菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D5",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=006021"
+  },
+  {
+    "code": "LH1",
+    "name": "菠菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000FA",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009FB9"
+  },
+  {
+    "code": "LI4",
+    "name": "萵苣菜(本島尖葉)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F4",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F8F"
+  },
+  {
+    "code": "LI5",
+    "name": "油麥菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F8",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009FAD"
+  },
+  {
+    "code": "LJ4",
+    "name": "芥菜(小芥菜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F5",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F96"
+  },
+  {
+    "code": "LK2",
+    "name": "芥藍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F6",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F9E"
+  },
+  {
+    "code": "LL1",
+    "name": "茼蒿",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D6",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=006027"
+  },
+  {
+    "code": "LM2",
+    "name": "莧菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F9",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009FB3"
+  },
+  {
+    "code": "LN1",
+    "name": "油菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000EF",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097DA"
+  },
+  {
+    "code": "LN2",
+    "name": "油菜(小松菜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F7",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009FA7"
+  },
+  {
+    "code": "LO1",
+    "name": "甘藷葉",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D7",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00602D"
+  },
+  {
+    "code": "LP1",
+    "name": "芫荽",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000EA",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097BC"
+  },
+  {
+    "code": "LS1",
+    "name": "茴香",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000ED",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097CF"
+  },
+  {
+    "code": "MJ1",
+    "name": "杏鮑菇",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000DD",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0092FB"
+  },
+  {
+    "code": "SF1",
+    "name": "韭菜(白頭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000DC",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0092F4"
+  },
+  {
+    "code": "SF4",
+    "name": "韭菜(青頭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000EE",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097D5"
+  },
+  {
+    "code": "A1",
+    "name": "香蕉",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F3",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F87"
+  },
+  {
+    "code": "Z1",
+    "name": "柿子(紅柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E9",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0097B6"
+  },
+  {
+    "code": "22",
+    "name": "棗子",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000BD",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00199F"
+  },
+  {
+    "code": "31",
+    "name": "釋迦(大目)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000BF",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2A2"
+  },
+  {
+    "code": "32",
+    "name": "釋迦(鳳梨釋迦)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C0",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2A9"
+  },
+  {
+    "code": "45",
+    "name": "草莓",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C1",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2CC"
+  },
+  {
+    "code": "45",
+    "name": "草莓(精緻包裝)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00100",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2CE"
+  },
+  {
+    "code": "50",
+    "name": "百香果(蜜糖、滿天星)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C3",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000903"
+  },
+  {
+    "code": "51",
+    "name": "百香果(改良種)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C2",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A2B0"
+  },
+  {
+    "code": "70",
+    "name": "小番茄(黃色)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C5",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000907"
+  },
+  {
+    "code": "72",
+    "name": "小番茄(聖女)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C4",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0018A2"
+  },
+  {
+    "code": "74",
+    "name": "小番茄(玉女)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C6",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000E33"
+  },
+  {
+    "code": "811",
+    "name": "紅龍果(白肉種)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C7",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000B9F"
+  },
+  {
+    "code": "812",
+    "name": "紅龍果(紅肉種)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000C8",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000BA6"
+  },
+  {
+    "code": "813",
+    "name": "紅龍果(雙色種)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000F1",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F69"
+  },
+  {
+    "code": "91",
+    "name": "星蘋果(牛奶果)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000D9",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007EB7"
+  },
+  {
+    "code": "",
+    "name": "小白菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00001",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000784"
+  },
+  {
+    "code": "",
+    "name": "青江白菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00002",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000786"
+  },
+  {
+    "code": "",
+    "name": "蕃茄",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00003",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000788"
+  },
+  {
+    "code": "",
+    "name": "甜椒",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0001B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007AD"
+  },
+  {
+    "code": "",
+    "name": "本島萵苣",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0001C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007B3"
+  },
+  {
+    "code": "",
+    "name": "芥藍菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0001D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007BB"
+  },
+  {
+    "code": "",
+    "name": "苦瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0001E",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007BD"
+  },
+  {
+    "code": "",
+    "name": "花胡瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0001F",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007BF"
+  },
+  {
+    "code": "",
+    "name": "隼人瓜苗",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00020",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C1"
+  },
+  {
+    "code": "",
+    "name": "蕹菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00021",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C2"
+  },
+  {
+    "code": "",
+    "name": "芹菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00022",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C3"
+  },
+  {
+    "code": "",
+    "name": "菠菜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00023",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C4"
+  },
+  {
+    "code": "",
+    "name": "胡瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00024",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C5"
+  },
+  {
+    "code": "",
+    "name": "絲瓜",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00025",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C7"
+  },
+  {
+    "code": "",
+    "name": "茄子",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00026",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C8"
+  },
+  {
+    "code": "",
+    "name": "青花苔",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00027",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007C9"
+  },
+  {
+    "code": "",
+    "name": "巨峰葡萄",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00079",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00086F"
+  },
+  {
+    "code": "",
+    "name": "葡萄柚",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0007A",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000870"
+  },
+  {
+    "code": "",
+    "name": "梨",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0007B",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000871"
+  },
+  {
+    "code": "",
+    "name": "桶柑",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0007C",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000872"
+  },
+  {
+    "code": "",
+    "name": "番石榴",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0007D",
+    "imageUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000873"
+  }
+]

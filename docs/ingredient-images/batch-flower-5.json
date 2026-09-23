@@ -1,0 +1,91 @@
+[
+  {
+    "key": "flower-1ae4e5ebe7",
+    "name": "雞冠花",
+    "referenceName": "雞冠花",
+    "sourceUrl": "https://www.twflower.org/detail/3621",
+    "referenceUrl": "https://www.twflower.org/storage/pics/P-CE01-002-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-1ae4e5ebe7.jpg"
+  },
+  {
+    "key": "flower-9ebf987706",
+    "name": "雪松",
+    "referenceName": "雪松",
+    "sourceUrl": "https://www.twflower.org/detail/1578",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLCD001-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-9ebf987706.jpg"
+  },
+  {
+    "key": "flower-d3fe690f4a",
+    "name": "雲龍柳",
+    "referenceName": "雲龍柳",
+    "sourceUrl": "https://www.twflower.org/detail/1649",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLSM101-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-d3fe690f4a.jpg"
+  },
+  {
+    "key": "flower-e58e9e0d36",
+    "name": "電信蘭葉",
+    "referenceName": "蓬萊焦(電信蘭葉)",
+    "sourceUrl": "https://www.twflower.org/detail/1314",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLMD001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-e58e9e0d36.jpg"
+  },
+  {
+    "key": "flower-7518a3f7ed",
+    "name": "青竹",
+    "referenceName": "青竹",
+    "sourceUrl": "https://www.twflower.org/detail/2824",
+    "referenceUrl": "https://www.twflower.org/storage/pics/ab207ddc-dbd6-4132-a4bc-e3878af59ca8.png",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-7518a3f7ed.jpg"
+  },
+  {
+    "key": "flower-e82219ef01",
+    "name": "非洲菊",
+    "referenceName": "非洲菊 '太陽神'",
+    "sourceUrl": "https://www.twflower.org/detail/1453",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFGJ018-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-e82219ef01.jpg"
+  },
+  {
+    "key": "flower-e7d21bb733",
+    "name": "風鈴花",
+    "referenceName": "風鈴花",
+    "sourceUrl": "https://www.twflower.org/detail/3883",
+    "referenceUrl": "https://www.twflower.org/storage/pics/P-AB01-001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-e7d21bb733.jpg",
+    "skipReason": "Reference is Abutilon; cut-flower Campanula identity must be resolved"
+  },
+  {
+    "key": "flower-106daf3453",
+    "name": "高山羊齒",
+    "referenceName": "高山羊齒(革葉蕨)",
+    "sourceUrl": "https://www.twflower.org/detail/1581",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLRA001-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-106daf3453.jpg"
+  },
+  {
+    "key": "flower-b987847d14",
+    "name": "麒麟草",
+    "referenceName": "麒麟草",
+    "sourceUrl": "https://www.twflower.org/detail/1464",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFSA001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-b987847d14.jpg"
+  },
+  {
+    "key": "flower-0dc4021e79",
+    "name": "黃椰心葉",
+    "referenceName": "黃椰子(黃椰心葉)",
+    "sourceUrl": "https://www.twflower.org/detail/1607",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FLCL001-1.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-0dc4021e79.jpg"
+  },
+  {
+    "key": "flower-7856ce65a3",
+    "name": "黃金鳥",
+    "referenceName": "黃金鳥",
+    "sourceUrl": "https://www.twflower.org/detail/1639",
+    "referenceUrl": "https://www.twflower.org/storage/pics/FFHP002-2.jpg",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/flower-7856ce65a3.jpg"
+  }
+]

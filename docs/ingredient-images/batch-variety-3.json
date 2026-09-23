@@ -1,0 +1,44 @@
+[
+  {
+    "name": "鎖管",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_knowledge/258/%E9%8E%96%E7%AE%A12.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=183",
+    "key": "seafood-2166",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-seafood-2166.jpg"
+  },
+  {
+    "name": "鬼頭刀",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/3101/%E6%8A%95%E5%BD%B1%E7%89%871.JPG",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=214",
+    "key": "seafood-2291",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-seafood-2291.jpg"
+  },
+  {
+    "name": "龍虎斑",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2683/%E6%8A%95%E5%BD%B1%E7%89%871.JPG",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=318",
+    "key": "seafood-1174",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-seafood-1174.jpg"
+  },
+  {
+    "name": "鎖管",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_knowledge/258/%E9%8E%96%E7%AE%A12.jpg",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=183",
+    "key": "seafood-2164",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-seafood-2164.jpg"
+  },
+  {
+    "name": "黑皮旗魚",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/2530/02_%E9%BB%91%E7%9A%AE%E6%97%97%E9%AD%9A.png",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=306",
+    "key": "seafood-2133",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-seafood-2133.jpg"
+  },
+  {
+    "name": "烏鯧",
+    "referenceUrl": "https://fae.moa.gov.tw/upload/images/food_subject_part/3243/%E6%8A%95%E5%BD%B1%E7%89%873.JPG",
+    "sourceUrl": "https://fae.moa.gov.tw/map/food_item.php?type=AS01&id=357",
+    "key": "seafood-2092",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/variety-seafood-2092.jpg"
+  }
+]

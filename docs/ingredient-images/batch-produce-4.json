@@ -1,0 +1,170 @@
+[
+  {
+    "key": "Z4",
+    "name": "柿子(甜柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000BA",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00A1E5",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/Z4.jpg"
+  },
+  {
+    "key": "Z5",
+    "name": "柿子(筆柿)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000BB",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0008F3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/Z5.jpg"
+  },
+  {
+    "key": "SA3",
+    "name": "蘿蔔",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00004",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DAE",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SA3.jpg"
+  },
+  {
+    "key": "SB2",
+    "name": "胡蘿蔔",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00028",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009828",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SB2.jpg"
+  },
+  {
+    "key": "SC1",
+    "name": "馬鈴薯",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00029",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F08",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SC1.jpg"
+  },
+  {
+    "key": "SD1",
+    "name": "洋蔥",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002A",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007D2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SD1.jpg"
+  },
+  {
+    "key": "SE1",
+    "name": "青蔥",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002B",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DB5",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SE1.jpg"
+  },
+  {
+    "key": "SF1",
+    "name": "韭菜(白頭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002C",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000FD6",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SF1.jpg"
+  },
+  {
+    "key": "SF2",
+    "name": "韭菜黃",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002D",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007D8",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SF2.jpg"
+  },
+  {
+    "key": "SF3",
+    "name": "韭菜(韭菜花)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002E",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00979A",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SF3.jpg"
+  },
+  {
+    "key": "SF4",
+    "name": "韭菜(青頭)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E4",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009791",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SF4.jpg"
+  },
+  {
+    "key": "SG2",
+    "name": "大蒜(青蒜)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0002F",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DBC",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SG2.jpg"
+  },
+  {
+    "key": "SG5",
+    "name": "蒜頭",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G000E1",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00976F",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SG5.jpg"
+  },
+  {
+    "key": "SH1",
+    "name": "麻竹筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00030",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=007EC8",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SH1.jpg"
+  },
+  {
+    "key": "SH2",
+    "name": "綠竹筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00031",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DC3",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SH2.jpg"
+  },
+  {
+    "key": "SH5",
+    "name": "烏殼綠竹筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00032",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DCA",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SH5.jpg"
+  },
+  {
+    "key": "SJ2",
+    "name": "芋(檳榔心芋)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00033",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DD2",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SJ2.jpg"
+  },
+  {
+    "key": "SL1",
+    "name": "豆薯",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00034",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007E6",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SL1.jpg"
+  },
+  {
+    "key": "SM1",
+    "name": "牛蒡",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00035",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=0007E8",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SM1.jpg"
+  },
+  {
+    "key": "SO1",
+    "name": "甘藷(台農57號)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00036",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F68",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SO1.jpg"
+  },
+  {
+    "key": "SO3",
+    "name": "甘藷(台農66號)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00037",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00200B",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SO3.jpg"
+  },
+  {
+    "key": "SP1",
+    "name": "薑(老薑、粉薑)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00038",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=009F5D",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SP1.jpg"
+  },
+  {
+    "key": "SP2",
+    "name": "薑(嫩薑)",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G00039",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=00929D",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SP2.jpg"
+  },
+  {
+    "key": "SQ3",
+    "name": "茭白筍",
+    "sourceUrl": "https://www.tapmc.com.tw/Pages/Market/Packing/G0003A",
+    "referenceUrl": "https://www.tapmc.com.tw/Img.ashx?w=180&f=000DD8",
+    "referencePath": "/Users/tommy/Documents/Proj/TW_veggieprice-/docs/ingredient-images/references/SQ3.jpg"
+  }
+]

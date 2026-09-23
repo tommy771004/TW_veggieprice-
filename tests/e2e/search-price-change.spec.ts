@@ -90,6 +90,18 @@ test.describe("search results price change", () => {
     await expect(changeOf(page, "蘿蔔")).toHaveText(/\+3\.1%/);
   });
 
+  test("recovers from a price-filter empty state without clearing the query", async ({ page }) => {
+    await expect(page.getByTestId("produce-row")).toHaveCount(3);
+    await page.getByRole('combobox', { name: '搜尋作物', exact: true }).fill('甘藍');
+    await page.getByRole('combobox', { name: '搜尋作物', exact: true }).press('Enter');
+    await page.getByRole('button', { name: '價格區間篩選' }).click();
+    await page.getByLabel('最低價格').fill('999');
+    await expect(page.getByText('此價格區間無資料')).toBeVisible();
+    await page.getByRole('button', { name: '移除價格限制' }).click();
+    await expect(page.getByTestId('produce-row').first()).toBeVisible();
+    await expect(page.getByRole('combobox', { name: '搜尋作物', exact: true })).toHaveValue('甘藍');
+  });
+
   test("sorts by price change", async ({ page }) => {
     await expect(page.getByTestId("produce-row")).toHaveCount(3);
 

@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSql } from '@/lib/server/db'
 import { makeLogger } from '@/lib/server/logger'
 import { sendTelemetry } from '@/lib/server/telemetry'
+import { createWriteRequestGuard } from '@/lib/server/writeRequest'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 const log = makeLogger('api/feedback')
+const readWriteRequest = createWriteRequestGuard({ maxBytes: 32 * 1024, limit: 10 })
 
 const MAX_MESSAGE = 2000
 const MAX_CONTACT = 200
@@ -28,12 +30,9 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  let body: Record<string, unknown>
-  try {
-    body = (await req.json()) as Record<string, unknown>
-  } catch {
-    return NextResponse.json({ error: '無效的請求內容。' }, { status: 400 })
-  }
+  const result = await readWriteRequest(req)
+  if (result.response) return result.response
+  const body = result.body
 
   const message = str(body.message, MAX_MESSAGE)
   if (!message) {
