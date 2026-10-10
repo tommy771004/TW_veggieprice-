@@ -10,7 +10,7 @@ function normalizeSiteUrl(url: string): string {
 const resolvedSiteUrl = _env.NEXT_PUBLIC_SITE_URL
 	?? _env.VERCEL_PROJECT_PRODUCTION_URL
 	?? _env.VERCEL_URL
-	?? 'https://veggieprice.tw'
+	?? 'https://tw-veggieprice.vercel.app'
 
 export const SITE_URL: string = normalizeSiteUrl(resolvedSiteUrl)
 

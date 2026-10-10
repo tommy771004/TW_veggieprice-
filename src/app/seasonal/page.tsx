@@ -34,7 +34,7 @@ const SEASONAL_FAQ_ITEMS: FaqItem[] = [
 ]
 
 export const metadata: Metadata = {
-  title: '當季盛產指南 | 農時價',
+  title: '當季盛產指南',
   description: '依月份推薦台灣當季盛產蔬果，快速找到目前 CP 值較高、供應穩定的採買選項。',
   alternates: { canonical: `${SITE_URL}/seasonal` },
   openGraph: {

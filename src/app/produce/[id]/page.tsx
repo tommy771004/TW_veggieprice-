@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { cache } from 'react'
 import { ProduceClient } from '@/components/pages/ProduceClient'
-import { ProduceFAQJsonLd, ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
+import { ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
 import { ProduceFaqSection } from '@/components/seo/ProduceFaq'
 import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
 import { FoodGuideSection } from '@/components/produce/FoodGuideSection'
 import { GovernmentDataSection } from '@/components/produce/GovernmentDataSection'
 import { SITE_URL } from '@/lib/env'
 import { getCropBaseInfo } from '@/lib/cropInfo'
+import { COMMON_CROPS } from '@/lib/crops'
 import { fetchLocalMarketDataByDates, resolveCropCategory, type HistoryPoint } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
@@ -24,12 +26,23 @@ type Props = { params: Promise<{ id: string }> }
 
 export const dynamic = 'force-dynamic'
 
+// Any string is a valid [id], so an unknown name with no trades would otherwise
+// render an indexable, fill-in-the-blank page. Only index crops we know or that
+// actually traded in the last 30 days; the rest stay reachable but noindex.
+function isIndexableCrop(cropName: string, history: HistoryPoint[]): boolean {
+  if ((COMMON_CROPS as readonly string[]).includes(cropName)) return true
+  if (getCropBaseInfo(cropName)) return true
+  return history.some((p) => p.avgPrice !== null && p.avgPrice > 0)
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const cropName = decodeURIComponent(id)
   const pageUrl = `${SITE_URL}/produce/${id}`
+  const history = await fetchRecentHistory(cropName)
   return {
-    title: `${cropName} 今日批發價與歷史走勢 | 農時價`,
+    ...(!isIndexableCrop(cropName, history) && { robots: { index: false, follow: true } }),
+    title: `${cropName} 今日批發價與歷史走勢`,
     description: `即時查詢${cropName}全台超過20個批發市場均價、漲跌幅與近30日歷史價格走勢，每日更新農業部官方數據，助您掌握最佳採購時機。`,
     alternates: { canonical: pageUrl },
     openGraph: {
@@ -41,7 +54,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-async function fetchRecentHistory(cropName: string): Promise<HistoryPoint[]> {
+// cache(): generateMetadata and the page share one read per request.
+const fetchRecentHistory = cache(async (cropName: string): Promise<HistoryPoint[]> => {
   try {
     const today = todayISO()
     const start = subtractDays(today, 30)
@@ -51,7 +65,7 @@ async function fetchRecentHistory(cropName: string): Promise<HistoryPoint[]> {
   } catch {
     return []
   }
-}
+})
 
 export default async function ProducePage({ params }: Props) {
   const { id } = await params
@@ -68,7 +82,6 @@ export default async function ProducePage({ params }: Props) {
 
   return (
     <>
-      <ProduceFAQJsonLd cropName={cropName} />
       <ProduceBreadcrumbJsonLd cropName={cropName} cropId={id} />
       <ProduceDatasetJsonLd cropName={cropName} url={pageUrl} />
       <ProduceClient

@@ -1,7 +1,7 @@
 # GEO Citation Monitoring Weekly Report
 
 Week of: YYYY-MM-DD
-Site: https://veggieprice.tw
+Site: https://tw-veggieprice.vercel.app
 Tester:
 
 ## Summary
@@ -18,7 +18,7 @@ Use `docs/geo-monitoring/prompts.json` as the source of truth. Run each prompt o
 
 ## Detailed Results
 
-| Prompt ID | Query | Platform | Cited veggieprice.tw? | Cited URL | Position | Description accuracy | Screenshot / Raw response |
+| Prompt ID | Query | Platform | Cited tw-veggieprice.vercel.app? | Cited URL | Position | Description accuracy | Screenshot / Raw response |
 | --- | --- | --- | --- | --- | ---: | --- | --- |
 | cabbage_today | 今日高麗菜批發價是多少？ | ChatGPT | No |  |  |  |  |
 | cabbage_today | 今日高麗菜批發價是多少？ | Perplexity | No |  |  |  |  |

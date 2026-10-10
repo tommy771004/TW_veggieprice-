@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import './globals.css'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { TopAppBar } from '@/components/layout/TopAppBar'
+import { SiteFooter } from '@/components/layout/SiteFooter'
 import { WebAppJsonLd, OrganizationJsonLd, WebSiteJsonLd } from '@/components/seo/JsonLd'
 import { ServiceWorkerRegistrar } from '@/components/pwa/ServiceWorkerRegistrar'
 import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
@@ -47,10 +48,9 @@ export const metadata: Metadata = {
     apple: '/icons/icon-192.svg',
   },
   manifest: '/manifest.json',
-  alternates: {
-    canonical: SITE_URL,
-    languages: { 'zh-TW': SITE_URL },
-  },
+  // No site-wide canonical: child segments inherit `alternates`, so a root
+  // canonical would mark every page without its own (e.g. /search) as a
+  // duplicate of the homepage. Each indexable page declares its own.
   robots: { index: true, follow: true },
   ...(GOOGLE_SITE_VERIFICATION && {
     verification: { google: GOOGLE_SITE_VERIFICATION },
@@ -83,6 +83,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="md:flex">
             <main id="main-content" tabIndex={-1} className="flex-1 max-w-7xl mx-auto w-full">{children}</main>
           </div>
+          <SiteFooter />
           <BottomNav />
         </FramerMotionProvider>
         <OnboardingModal />

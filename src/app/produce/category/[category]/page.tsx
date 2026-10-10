@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!meta) return {}
   const pageUrl = `${SITE_URL}/produce/category/${category}`
   return {
-    title: `${meta.label}批發行情總覽 | 農時價`,
+    title: `${meta.label}批發行情總覽`,
     description: meta.description,
     keywords: meta.keywords,
     alternates: { canonical: pageUrl },

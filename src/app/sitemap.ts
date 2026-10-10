@@ -14,6 +14,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/seasonal`, lastModified: now },
     { url: `${base}/healthy-basket`, lastModified: now },
     { url: `${base}/insights`, lastModified: now },
+    { url: `${base}/about`,    lastModified: now },
+    { url: `${base}/privacy`,  lastModified: now },
   ]
 
   const categoryRoutes: MetadataRoute.Sitemap = CATEGORY_SLUGS.map((slug) => ({

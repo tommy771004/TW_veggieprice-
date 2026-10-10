@@ -4,7 +4,7 @@ import { InsightsSeoSummary } from '@/components/seo/InsightsSeoSummary'
 import { SITE_URL } from '@/lib/env'
 
 export const metadata: Metadata = {
-  title: '市場洞察與休市日查詢 | 農時價',
+  title: '市場洞察與休市日查詢',
   description: '掌握台灣各大批發市場休市日與市場動態，提前規劃採買，避開無交易日落空查價。',
   alternates: { canonical: `${SITE_URL}/insights` },
   openGraph: {

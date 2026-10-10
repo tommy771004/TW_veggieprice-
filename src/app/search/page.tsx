@@ -3,16 +3,19 @@ import { Suspense } from 'react'
 import { SearchContent } from '@/components/pages/SearchContent'
 import { SearchSeoSummary } from '@/components/seo/SearchSeoSummary'
 import { SkeletonList } from '@/components/ui/SkeletonCard'
+import { SITE_URL } from '@/lib/env'
 
 export const revalidate = 300
 
 
 export const metadata: Metadata = {
-  title: '搜尋農產品批發價格 | 農時價',
+  title: '搜尋農產品批發價格',
   description: '搜尋並篩選全台各大批發市場蔬果行情，支援市場、日期區間、價格區間多維度篩選，快速比對今日菜價。',
+  alternates: { canonical: `${SITE_URL}/search` },
   openGraph: {
     title: '農產品批發價格搜尋 | 農時價',
     description: '搜尋全台批發市場今日蔬果行情，多維度篩選與排序。',
+    url: `${SITE_URL}/search`,
     images: ['/api/og'],
   },
 }
