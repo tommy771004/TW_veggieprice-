@@ -324,14 +324,20 @@ async function main() {
   const existingFileNames = new Set(existingFiles.map(f => f.replace('.json', '')));
   const datesToSync = [];
 
+  // Smaller markets (西螺鎮…) report days late, so a file synced the next
+  // morning is often incomplete. Re-fetch a rolling window every run; set
+  // MOA_REFRESH_DAYS=90 once to repair older files.
+  const refreshDays = Math.max(1, Number(process.env.MOA_REFRESH_DAYS) || 7);
+  const refreshCutoff = new Date(today);
+  refreshCutoff.setDate(refreshCutoff.getDate() - refreshDays);
+  const refreshCutoffISO = refreshCutoff.toISOString().split('T')[0];
+
   for (let i = 0; i <= 90; i++) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
     const iso = d.toISOString().split('T')[0];
     
-    // Check if it's recent (last 3 days should always be checked for late updates)
-    // or if it's missing entirely
-    if (i <= 3 || !existingFileNames.has(iso)) {
+    if (iso >= refreshCutoffISO || !existingFileNames.has(iso)) {
        datesToSync.push(iso);
     }
   }
@@ -350,10 +356,9 @@ async function main() {
   for (const isoDate of datesToSync) {
     const dailyPath = path.join(dailyDataDir, `${isoDate}.json`);
     
-    // 如果當前已有這個日期的檔案，我們只需要「最近一兩天」進行重新抓取(以防晚到的資料)
-    const isRecent = todayStr === isoDate || 
-      new Date(today.getTime() - 24*3600*1000).toISOString().split('T')[0] === isoDate;
-      
+    // 重抓視窗內的日期（晚到的市場資料）；視窗外且檔案已存在就跳過
+    const isRecent = isoDate >= refreshCutoffISO;
+
     // 若不是最近的日期，且檔案已存在，就跳過
     if (fs.existsSync(dailyPath) && !isRecent && existingFiles.length > 0) {
       if (datesToSync.length < 10) {
@@ -406,9 +411,27 @@ async function main() {
     
     console.log(`   ✅ [${isoDate}] 完成處理. 總計: ${dailyRecords.length} 筆`);
     
+    // Keep the flower (N06) rows merged in by Phase 1.5, and never replace a
+    // file with a smaller pull: a partial API response must not erase rows.
+    let existingRows = [];
+    try {
+      const parsed = JSON.parse(fs.readFileSync(dailyPath, 'utf-8'));
+      if (Array.isArray(parsed)) existingRows = parsed;
+    } catch {
+      existingRows = [];
+    }
+    const existingProduce = existingRows.filter((r) => r && r.TcType !== 'N06');
+    if (dailyRecords.length > 0 && dailyRecords.length < existingProduce.length) {
+      console.log(`   ⏭️  [${isoDate}] 新資料 ${dailyRecords.length} 筆少於既有 ${existingProduce.length} 筆，保留原檔。`);
+      continue;
+    }
+
     if (dailyRecords.length > 0) {
+      const merged = [...dailyRecords, ...existingRows.filter((r) => r && r.TcType === 'N06')];
+      const nextStr = JSON.stringify(merged);
+      if (existingRows.length > 0 && nextStr === JSON.stringify(existingRows)) continue;
       const tempDailyPath = dailyPath + '.tmp';
-      fs.writeFileSync(tempDailyPath, JSON.stringify(dailyRecords), 'utf-8');
+      fs.writeFileSync(tempDailyPath, nextStr, 'utf-8');
       fs.renameSync(tempDailyPath, dailyPath);
       fetchedAny = true;
       dailyRecords.forEach(r => {

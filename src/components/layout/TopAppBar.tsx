@@ -39,6 +39,9 @@ function getRouteMeta(pathname: string | null) {
   if (pathname.startsWith('/watchlist')) {
     return { kicker: 'Watchlist', label: '追蹤清單' }
   }
+  if (pathname.startsWith('/market')) {
+    return { kicker: 'Wholesale markets', label: '市場行情' }
+  }
   if (pathname.startsWith('/insights')) {
     return { kicker: 'Analytics', label: '洞察與分析' }
   }

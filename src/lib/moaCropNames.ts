@@ -76,3 +76,15 @@ export function selectMoaCropRows<T>(cropName: string, rows: T[], nameOf: (row: 
   const exact = matched.filter((r) => nameOf(r).trim() === name)
   return exact.length > 0 ? exact : matched
 }
+
+/**
+ * Reverse lookup for linking a MOA base 品名 to the site's crop page:
+ * 甘藍 → 高麗菜, 番石榴 → 芭樂. Names without an alias map to themselves.
+ */
+export function siteCropForMoaName(moaBaseName: string): string {
+  const base = moaBaseName.trim()
+  for (const [site, rule] of Object.entries(RULES)) {
+    if (rule.include.length === 1 && rule.include[0] === base) return site
+  }
+  return base
+}

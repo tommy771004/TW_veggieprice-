@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/env'
 import { COMMON_CROPS } from '@/lib/crops'
+import { MARKETS } from '@/lib/marketDirectory'
 import { todayISO } from '@/lib/server/dateUtils'
 
 const CATEGORY_SLUGS = ['vegetable', 'fruit', 'mushroom', 'flower']
@@ -22,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/seasonal`, lastModified: monthStart },
     { url: `${base}/healthy-basket`, lastModified: today },
     { url: `${base}/insights`, lastModified: today },
+    { url: `${base}/market`,   lastModified: today },
     { url: `${base}/about` },
     { url: `${base}/privacy` },
   ]
@@ -36,5 +38,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: today,
   }))
 
-  return [...staticRoutes, ...categoryRoutes, ...cropRoutes]
+  const marketRoutes: MetadataRoute.Sitemap = MARKETS.map((m) => ({
+    url:          `${base}/market/${encodeURIComponent(m.name)}`,
+    lastModified: today,
+  }))
+
+  return [...staticRoutes, ...categoryRoutes, ...marketRoutes, ...cropRoutes]
 }

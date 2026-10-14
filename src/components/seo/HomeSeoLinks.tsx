@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { COMMON_CROPS } from '@/lib/crops'
+import { findMarket } from '@/lib/marketDirectory'
 
 // Server-rendered link hub for the homepage.
 //
@@ -22,6 +23,11 @@ const FEATURED_CROPS: string[] = [
   '香蕉', '鳳梨', '木瓜', '葡萄', '蘋果', '芒果', '芭樂', '西瓜',
   '香菇', '金針菇', '杏鮑菇',
 ].filter((crop) => (COMMON_CROPS as readonly string[]).includes(crop))
+
+// Markets people search by name (GSC: 西螺今日菜價查詢, 台中果菜市場價格).
+const FEATURED_MARKETS = ['台北一', '台北二', '三重區', '台中市', '西螺鎮', '溪湖鎮', '高雄市']
+  .map((name) => findMarket(name))
+  .filter((m) => m !== undefined)
 
 export function HomeSeoLinks() {
   return (
@@ -62,6 +68,27 @@ export function HomeSeoLinks() {
                 </Link>
               </li>
             ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="批發市場行情">
+          <h3 className="text-title-md font-semibold text-on-surface mb-2">各批發市場今日菜價</h3>
+          <ul className="flex flex-wrap gap-2">
+            {FEATURED_MARKETS.map((m) => (
+              <li key={m.name}>
+                <Link
+                  href={`/market/${encodeURIComponent(m.name)}`}
+                  className="market-status-chip hover:bg-surface-container-high transition-colors"
+                >
+                  {m.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/market" className="market-status-chip hover:bg-surface-container-high transition-colors">
+                全台批發市場
+              </Link>
+            </li>
           </ul>
         </nav>
       </article>

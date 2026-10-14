@@ -464,7 +464,9 @@ async function fetchMOAEndpointRecords<T extends object>(
           `MOA ${endpoint} returned HTML instead of JSON (HTTP ${response.status}): ${text.substring(0, 120).replace(/\s+/g, " ")}`,
         );
       }
-      const json = JSON.parse(text) as { Data?: T[]; Next?: boolean };
+      const json = JSON.parse(text) as T[] | { Data?: T[]; Next?: boolean };
+      // Some endpoints (ProductCost) return a bare array with no paging envelope.
+      if (Array.isArray(json)) return { records: json, hasNext: false };
       const records = json.Data ?? [];
       return { records, hasNext: !!(json.Next && records.length > 0) };
     } finally {
@@ -1104,10 +1106,12 @@ export async function fetchProductCostInsight(
 ): Promise<{ insight: ProductCostInsight | null; error?: string }> {
   const cachedFn = unstable_cache(
     async (): Promise<ProductCostInsight | null> => {
-      const variants = [
-        { CropName: cropName },
-        { ProductName: cropName },
-        { Keyword: cropName },
+      // ProductName is the only param ProductCost actually filters on (CropName /
+      // Keyword are ignored and return the unfiltered first page, which used to
+      // win the loop). Try the site name, then its MOA 品名 (高麗菜 → 甘藍).
+      const costKeywords = [...new Set([cropName, moaQueryName(cropName)])];
+      const variants: Record<string, string>[] = [
+        ...costKeywords.map((k) => ({ ProductName: k })),
         {},
       ];
 
@@ -1135,7 +1139,13 @@ export async function fetchProductCostInsight(
           "品名",
           "作物名稱",
         ]);
-        if (productName && !textContainsKeyword(productName, cropName))
+        // 文旦 → 文旦柚 / 高麗菜 → 二期作甘藍: accept the site name or its MOA 品名;
+        // skip blank forms and filled-in samples, which aren't cost reports.
+        if (
+          productName &&
+          (!costKeywords.some((k) => textContainsKeyword(productName, k)) ||
+            /範例|空白表/.test(productName))
+        )
           continue;
 
         const cost = pickCostPerKg(row);
@@ -1150,8 +1160,8 @@ export async function fetchProductCostInsight(
           "FileUrl",
           "Url",
         ]);
-        const yearStr = readStringField(row, ["年度", "Year"]);
-        const year = yearStr ? parseInt(yearStr, 10) : 0;
+        // 年度 arrives as a number (2022); a string-only read dropped every file.
+        const year = Math.trunc(readNumberField(row, ["年度", "Year"]) ?? 0);
         const group =
           readStringField(row, ["群組", "Group", "GroupName"]) || "";
         if (pdfUrl && year > 0) {
@@ -1185,7 +1195,7 @@ export async function fetchProductCostInsight(
         costFiles: costFiles.length > 0 ? costFiles : undefined,
       };
     },
-    ["moa-product-cost-insight-v2", cropName],
+    ["moa-product-cost-insight-v4", cropName],
     { revalidate: 21600 },
   );
 

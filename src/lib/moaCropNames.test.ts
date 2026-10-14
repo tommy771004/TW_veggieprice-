@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { hasMoaCropRule, matchesMoaCrop, moaQueryName, selectMoaCropRows } from "./moaCropNames.ts";
+import { hasMoaCropRule, matchesMoaCrop, moaQueryName, selectMoaCropRows, siteCropForMoaName } from "./moaCropNames.ts";
 
 describe("matchesMoaCrop", () => {
   it("maps colloquial names to MOA 品名 varieties", () => {
@@ -49,5 +49,14 @@ describe("selectMoaCropRows", () => {
   it("falls back to variety / alias rows otherwise", () => {
     assert.deepEqual(names("高麗菜"), ["甘藍-初秋", "甘藍-改良種"]);
     assert.deepEqual(names("甘藍"), ["甘藍-初秋", "甘藍-改良種"]);
+  });
+});
+
+describe("siteCropForMoaName", () => {
+  it("maps whole-crop MOA names back to the colloquial page name", () => {
+    assert.equal(siteCropForMoaName("甘藍"), "高麗菜");
+    assert.equal(siteCropForMoaName("番石榴"), "芭樂");
+    assert.equal(siteCropForMoaName("薑"), "薑");
+    assert.equal(siteCropForMoaName("番茄"), "番茄");
   });
 });

@@ -231,6 +231,29 @@ export function ProduceDatasetJsonLd({ cropName, url }: { cropName: string; url:
   )
 }
 
+export function MarketDatasetJsonLd({ marketLabel, url }: { marketLabel: string; url: string }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: `${marketLabel}每日交易行情`,
+    // ≥50 characters, same Google requirement as ProduceDatasetJsonLd.
+    description: `${marketLabel}每個交易日的蔬菜與水果批發行情，依農業部農產品交易行情開放資料彙整，包含各作物平均價、與前一交易日的漲跌幅及交易量，並標示市場公告休市日。`,
+    url,
+    keywords: [marketLabel, '今日菜價', '批發市場行情', '蔬菜批發價', '水果批發價'],
+    creator: { '@type': 'Organization', name: '農業部農產品產銷資訊整合查詢' },
+    isBasedOn: MOA_OPEN_DATA_URL,
+    license: OPEN_GOV_DATA_LICENSE_URL,
+    inLanguage: 'zh-TW',
+    variableMeasured: ['平均價', '漲跌幅', '交易量'],
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+    />
+  )
+}
+
 export function ProduceBreadcrumbJsonLd({ cropName, cropId }: { cropName: string; cropId: string }) {
   const schema = {
     '@context': 'https://schema.org',

@@ -24,6 +24,7 @@ const BODY = `# 農時價 VeggiePrice TW
 - [Search / 搜尋菜價](${SITE_URL}/search): search by crop, market, date range, and price range.
 - [Seasonal Guide / 當季盛產](${SITE_URL}/seasonal): monthly produce recommendations.
 - [Market Insights / 休市日](${SITE_URL}/insights): wholesale-market rest-day lookup.
+- [Wholesale Markets / 批發市場行情](${SITE_URL}/market): per-market daily prices, e.g. [西螺果菜市場](${SITE_URL}/market/%E8%A5%BF%E8%9E%BA%E9%8E%AE).
 - [About & Method / 關於與資料方法](${SITE_URL}/about): who maintains the site, data sources, price calculation, update schedule.
 - [Vegetables / 蔬菜類](${SITE_URL}/produce/category/vegetable): vegetable price hub.
 - [Fruits / 水果類](${SITE_URL}/produce/category/fruit): fruit price hub.
