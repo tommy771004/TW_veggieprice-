@@ -8,8 +8,9 @@ import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
 import { FoodGuideSection } from '@/components/produce/FoodGuideSection'
 import { GovernmentDataSection } from '@/components/produce/GovernmentDataSection'
 import { SITE_URL } from '@/lib/env'
-import { getCropBaseInfo } from '@/lib/cropInfo'
+import { getCropAliases, getCropBaseInfo, isCatalogPrimaryName } from '@/lib/cropInfo'
 import { COMMON_CROPS } from '@/lib/crops'
+import { buildProduceMeta } from '@/lib/produceSeo'
 import { fetchLocalMarketDataByDates, resolveCropCategory, type HistoryPoint } from '@/lib/server/moa'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
 
@@ -40,10 +41,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cropName = decodeURIComponent(id)
   const pageUrl = `${SITE_URL}/produce/${id}`
   const history = await fetchRecentHistory(cropName)
+  const { title, description } = buildProduceMeta({
+    cropName,
+    history,
+    aliases: getCropAliases(cropName),
+    aliasInTitle: isCatalogPrimaryName(cropName),
+    today: todayISO(),
+  })
   return {
     ...(!isIndexableCrop(cropName, history) && { robots: { index: false, follow: true } }),
-    title: `${cropName} 今日批發價與歷史走勢`,
-    description: `即時查詢${cropName}全台超過20個批發市場均價、漲跌幅與近30日歷史價格走勢，每日更新農業部官方數據，助您掌握最佳採購時機。`,
+    title,
+    description,
     alternates: { canonical: pageUrl },
     openGraph: {
       title: `${cropName} 批發行情 | 農時價`,

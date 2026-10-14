@@ -93,6 +93,23 @@ export function getCropBaseInfo(cropName: string): CropBaseEntry | null {
   return best
 }
 
+/**
+ * Other names for the exact crop: catalog name first, then aliases, minus the
+ * name passed in. 扁蒲 → [蒲瓜, 瓠瓜]; 高麗菜 → [甘藍, 捲心菜].
+ */
+export function getCropAliases(cropName: string): string[] {
+  const cleaned = cropName.trim()
+  const item = ITEMS.find((i) => i.name === cleaned || (i.aliases ?? []).includes(cleaned))
+  if (!item) return []
+  return [item.name, ...(item.aliases ?? [])].filter((n) => n && n !== cleaned)
+}
+
+/** True when the name is the catalog's primary (MOA) name, not a colloquial alias. */
+export function isCatalogPrimaryName(cropName: string): boolean {
+  const cleaned = cropName.trim()
+  return ITEMS.some((i) => i.name === cleaned)
+}
+
 export function hasCropBaseInfo(cropName: string): boolean {
   return getCropBaseInfo(cropName) !== null
 }

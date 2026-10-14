@@ -46,14 +46,9 @@ export function WebSiteJsonLd() {
     alternateName: '農時價',
     url: SITE_URL,
     inLanguage: 'zh-TW',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
+    // No SearchAction: Google retired the sitelinks search box (Nov 2024) and
+    // the literal `/search?q={search_term_string}` template was being indexed
+    // as a junk URL.
   }
   return (
     <script
@@ -212,7 +207,9 @@ export function ProduceDatasetJsonLd({ cropName, url }: { cropName: string; url:
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: `${cropName} 台灣批發市場價格資料`,
-    description: `${cropName}在台灣各大批發市場的歷史批發價格資料，包含均價、上價、下價及交易量`,
+    // Google requires Dataset.description to be 50–5000 characters; the CJK
+    // string must clear 50 even for one-character crop names (薑).
+    description: `${cropName}在台灣各大果菜批發市場的每日交易行情資料，依農業部農產品交易行情開放資料彙整，包含各市場平均價、上價、下價與交易量，涵蓋2020年迄今的歷史紀錄並於每個交易日更新。`,
     url,
     keywords: [`${cropName}`, '台灣批發市場', '農產品價格', '菜價', '批發行情'],
     creator: { '@type': 'Organization', name: '農業部農產品產銷資訊整合查詢' },
