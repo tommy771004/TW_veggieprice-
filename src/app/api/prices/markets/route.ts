@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchSearchRecords } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
+import { moaQueryName, selectMoaCropRows } from '@/lib/moaCropNames'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
@@ -12,11 +13,16 @@ export async function GET(req: NextRequest) {
   // find the previous trading day (holiday-aware) and computes priceChange per
   // crop+market. Passing an explicit wide startDate would put every recent day in
   // the "current" partition and leave no baseline, forcing priceChange to 0.
-  const { records: allRecords, error } = await fetchSearchRecords({
-    cropName,
+  // A produce page's crop is a fixed name, not free-text search: query by the
+  // MOA base 品名 (高麗菜 → 甘藍) and keep only that crop's varieties.
+  const { records: searchRecords, error } = await fetchSearchRecords({
+    cropName: cropName ? moaQueryName(cropName) : cropName,
     date,
     marketType,
   })
+  const allRecords = cropName
+    ? selectMoaCropRows(cropName, searchRecords, (r) => r.cropName)
+    : searchRecords
 
   if (error) {
     return NextResponse.json({ error }, { status: 502 })

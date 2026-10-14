@@ -7,6 +7,8 @@
 export interface PricePoint {
   date: string // ISO yyyy-mm-dd
   avgPrice: number | null
+  /** 休市 points carry an interpolated price — never quote it as that day's 行情. */
+  isClosed?: boolean
 }
 
 /** Older than this, a "今日行情" price would mislead — fall back to generic copy. */
@@ -51,7 +53,7 @@ export function buildProduceMeta({
   const descName = aliases.length > 0 ? `${cropName}（又稱${aliases.join('、')}）` : cropName
 
   const priced = history.filter((p): p is { date: string; avgPrice: number } =>
-    p.avgPrice !== null && p.avgPrice > 0,
+    !p.isClosed && p.avgPrice !== null && p.avgPrice > 0,
   )
   const latest = priced[priced.length - 1]
   const prev = priced[priced.length - 2]

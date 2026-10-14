@@ -13,6 +13,7 @@ describe("buildProduceMeta", () => {
         { date: "2026-10-10", avgPrice: 25 },
         { date: "2026-10-11", avgPrice: null },
         { date: "2026-10-12", avgPrice: 27.5 },
+        { date: "2026-10-13", avgPrice: 27.5, isClosed: true },
       ],
       aliases: [],
       aliasInTitle: false,

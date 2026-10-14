@@ -25,6 +25,7 @@ import { resolveCountyFromMarketName as resolveCountyFromMarketDataset } from "@
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from "@/lib/constants";
 import { marketsMatch } from "@/lib/markets";
 import { buildInterpolatedHistory } from "@/lib/server/historyAggregation";
+import { matchesMoaCrop, moaQueryName, selectMoaCropRows } from "@/lib/moaCropNames";
 import { makeLogger } from "@/lib/server/logger";
 import {
   buildMarketOverviewTrendPoints,
@@ -1638,7 +1639,7 @@ async function historyFromLocalDaily(
           const parsed = JSON.parse(content) as LocalDailyRecord[];
           if (iso > newestFile) newestFile = iso;
           for (const d of parsed) {
-            if (d.CropName !== cropName) continue;
+            if (!matchesMoaCrop(cropName, d.CropName ?? "")) continue;
             if (market && market !== "全部市場" && d.MarketName !== market)
               continue;
             records.push({
@@ -1662,10 +1663,11 @@ async function historyFromLocalDaily(
 
     // Trust local only when sync looks alive and the crop actually has local rows.
     const syncAlive = newestFile !== "" && newestFile >= subtractDays(endDate, 5);
-    if (!syncAlive || records.length === 0) return null;
+    const cropRecords = selectMoaCropRows(cropName, records, (r) => r.cropName);
+    if (!syncAlive || cropRecords.length === 0) return null;
 
     return buildInterpolatedHistory({
-      records,
+      records: cropRecords,
       dates,
       labelForDate: dateLabel,
     });
@@ -1711,7 +1713,7 @@ export async function fetchMarketData(
       const params = new URLSearchParams({
         Start_time: isoToROC(startDate),
         End_time: isoToROC(endDate),
-        CropName: cropName,
+        CropName: moaQueryName(cropName),
       });
 
       if (market && market !== "全部市場") {
@@ -1731,7 +1733,12 @@ export async function fetchMarketData(
         };
       }
 
-      return processRawRecordsToResult(rawRecords, startDate, endDate);
+      // MOA's CropName is a substring match (薑 → 紅薑花); keep only this crop's 品名.
+      return processRawRecordsToResult(
+        selectMoaCropRows(cropName, rawRecords, (r) => r.CropName ?? ""),
+        startDate,
+        endDate,
+      );
     },
     ["moa-market-data-v1", cropName, market, period, endDate],
     { revalidate: 120, tags: [`history-${cropName}`] },
@@ -1759,7 +1766,7 @@ export async function fetchMarketDataByDates(
       const params = new URLSearchParams({
         Start_time: isoToROC(startDate),
         End_time: isoToROC(endDate),
-        CropName: cropName,
+        CropName: moaQueryName(cropName),
       });
 
       if (market && market !== "全部市場") {
@@ -1779,7 +1786,12 @@ export async function fetchMarketDataByDates(
         };
       }
 
-      return processRawRecordsToResult(rawRecords, startDate, endDate);
+      // MOA's CropName is a substring match (薑 → 紅薑花); keep only this crop's 品名.
+      return processRawRecordsToResult(
+        selectMoaCropRows(cropName, rawRecords, (r) => r.CropName ?? ""),
+        startDate,
+        endDate,
+      );
     },
     ["moa-market-data-range-v1", cropName, market, startDate, endDate],
     { revalidate: 120, tags: [`history-${cropName}`] },
