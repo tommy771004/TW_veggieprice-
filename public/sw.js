@@ -1,10 +1,10 @@
-const CACHE_NAME = 'veggieprice-static-v5'
-const RUNTIME_CACHE = 'veggieprice-runtime-v5'
+const CACHE_NAME = 'veggieprice-static-v6'
+const RUNTIME_CACHE = 'veggieprice-runtime-v6'
 const APP_SHELL = [
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  '/og-image.svg',
+  '/og-image.png',
 ]
 
 self.addEventListener('install', (event) => {

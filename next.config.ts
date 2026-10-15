@@ -3,6 +3,10 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
+  // /api/og reads its watercolor background from disk at runtime.
+  outputFileTracingIncludes: {
+    '/api/og': ['./src/app/api/og/background.jpg'],
+  },
 
   async headers() {
     return [
@@ -15,7 +19,7 @@ const nextConfig: NextConfig = {
         headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=3600' }],
       },
       {
-        source: '/og-image.svg',
+        source: '/og-image.png',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=86400' }],
       },
       {
