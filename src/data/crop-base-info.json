@@ -130,7 +130,9 @@
     },
     {
       "name": "奇異果",
-      "aliases": [],
+      "aliases": [
+        "獼猴桃"
+      ],
       "feature": "獼猴桃，綠肉或金肉，進口為主，酸甜維 C 高",
       "season": "全年進口輪替",
       "staticOrigin": "紐西蘭、義大利等"
@@ -819,14 +821,18 @@
     },
     {
       "name": "胡瓜",
-      "aliases": [],
+      "aliases": [
+        "大黃瓜"
+      ],
       "feature": "黃瓜，果型粗長有刺，清脆多汁，適涼拌與炒",
       "season": "春夏 4–9 月",
       "staticOrigin": "雲林、嘉義、屏東"
     },
     {
       "name": "胡蘿蔔",
-      "aliases": [],
+      "aliases": [
+        "紅蘿蔔"
+      ],
       "feature": "橙紅肉質根，β-胡蘿蔔素豐富，甜度高",
       "season": "冬 11–2 月",
       "staticOrigin": "彰化、雲林"
@@ -1190,7 +1196,9 @@
     },
     {
       "name": "豌豆",
-      "aliases": [],
+      "aliases": [
+        "荷蘭豆"
+      ],
       "feature": "可採嫩莢或籽粒，甜脆，適快炒與湯品",
       "season": "冬春",
       "staticOrigin": "彰化、雲林"
@@ -1408,7 +1416,9 @@
     },
     {
       "name": "馬鈴薯",
-      "aliases": [],
+      "aliases": [
+        "洋芋"
+      ],
       "feature": "塊莖富澱粉，口感粉或綿，全球主糧之一，台式燉滷常用",
       "season": "冬春採收為主",
       "staticOrigin": "雲林、台中、彰化"

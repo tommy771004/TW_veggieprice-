@@ -363,7 +363,7 @@ export function HomeClient({
                 className="flex items-center gap-2 group text-left"
               >
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">
-                  今日市場概況
+                  今日菜價・市場概況
                 </h1>
                 <span
                   className="material-symbols-outlined text-on-surface-variant transition-transform duration-300 group-hover:text-on-surface"
