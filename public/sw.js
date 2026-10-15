@@ -1,9 +1,9 @@
-const CACHE_NAME = 'veggieprice-static-v4'
-const RUNTIME_CACHE = 'veggieprice-runtime-v4'
+const CACHE_NAME = 'veggieprice-static-v5'
+const RUNTIME_CACHE = 'veggieprice-runtime-v5'
 const APP_SHELL = [
   '/manifest.json',
-  '/icons/icon-192.svg',
-  '/icons/icon-512.svg',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
   '/og-image.svg',
 ]
 

@@ -17,7 +17,7 @@ export function OrganizationJsonLd() {
     name: '農時價 VeggiePrice TW',
     alternateName: '農時價',
     url: SITE_URL,
-    logo: `${SITE_URL}/icons/icon-512.svg`,
+    logo: `${SITE_URL}/icons/icon-512.png`,
     description: '台灣農產品批發市場即時價格查詢平台，每日更新全台超過20個批發市場交易數據',
     inLanguage: 'zh-TW',
     knowsAbout: ['台灣農產品價格', '批發市場行情', '蔬菜價格', '水果價格', '農業數據'],

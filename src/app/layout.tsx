@@ -43,9 +43,13 @@ export const metadata: Metadata = {
     images: ['/api/og'],
   },
   icons: {
-    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-    shortcut: '/icon.svg',
-    apple: '/icons/icon-192.svg',
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+      { url: '/icons/icon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: { url: '/icons/apple-touch-icon.png', sizes: '180x180' },
   },
   manifest: '/manifest.json',
   // No site-wide canonical: child segments inherit `alternates`, so a root
