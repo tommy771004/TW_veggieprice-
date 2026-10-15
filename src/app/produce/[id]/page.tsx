@@ -5,6 +5,7 @@ import { ProduceClient } from '@/components/pages/ProduceClient'
 import { ProduceBreadcrumbJsonLd, ProduceDatasetJsonLd } from '@/components/seo/JsonLd'
 import { ProduceFaqSection } from '@/components/seo/ProduceFaq'
 import { ProduceMarketSummary } from '@/components/seo/ProduceMarketSummary'
+import { RelatedProduceLinks } from '@/components/seo/RelatedProduceLinks'
 import { FoodGuideSection } from '@/components/produce/FoodGuideSection'
 import { GovernmentDataSection } from '@/components/produce/GovernmentDataSection'
 import { SITE_URL } from '@/lib/env'
@@ -110,6 +111,7 @@ export default async function ProducePage({ params }: Props) {
       <GovernmentDataSection cropName={cropName} wholesalePrice={initialPrice} />
       <ProduceMarketSummary cropName={cropName} history={history} />
       <ProduceFaqSection cropName={cropName} />
+      <RelatedProduceLinks cropName={cropName} categoryLabel={categoryLabel} />
       {hasCategoryHub && (
         <div className="px-section-margin pb-8">
           <Link

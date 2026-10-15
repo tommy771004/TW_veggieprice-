@@ -692,7 +692,7 @@ export function ProduceClient({
                 aria-controls="produce-hero-card"
                 className="flex items-center gap-2 group text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 rounded"
               >
-                <h1 className="text-headline-lg font-black text-on-surface">{cropName} 批發行情</h1>
+                <h1 className="text-headline-lg font-black text-on-surface">{cropName}價格今日行情</h1>
                 <span
                   className="material-symbols-outlined text-on-surface-variant transition-transform duration-300 group-hover:text-on-surface"
                   style={{

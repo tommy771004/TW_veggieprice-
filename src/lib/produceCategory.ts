@@ -6,9 +6,11 @@ export type ProduceCategory = 'vegetable' | 'fruit' | 'flower' | 'mushroom' | 'm
 
 export const CATEGORY_KEYWORDS: Record<ProduceCategory, string[]> = {
   vegetable: ['菜', '高麗', '蘿蔔', '番茄', '洋蔥', '胡蘿蔔', '青椒', '花椰菜', '地瓜', '玉米', '南瓜', '茄子', '小黃瓜', '黃瓜', '蔥', '韭', '芹', '空心', '茼蒿', '生菜', '萵苣'],
-  fruit: ['果', '蘋果', '香蕉', '芭樂', '鳳梨', '芒果', '葡萄', '西瓜', '柳橙', '橘', '檸檬', '草莓', '桃', '梨', '木瓜'],
-  flower: ['花', '菊', '玫瑰', '百合', '蘭'],
-  mushroom: ['菇', '香菇', '金針', '杏鮑'],
+  // Fruits whose names carry no fruit keyword (哈密瓜, 荔枝…) used to fall through to
+  // the vegetable default, dropping them from the fruit hub and its internal links.
+  fruit: ['果', '蘋果', '香蕉', '芭樂', '鳳梨', '芒果', '葡萄', '西瓜', '柳橙', '橘', '檸檬', '草莓', '桃', '梨', '木瓜', '哈密瓜', '文旦', '柚', '荔枝', '龍眼', '蓮霧', '釋迦'],
+  flower: ['花', '菊', '玫瑰', '百合', '蘭', '康乃馨'],
+  mushroom: ['菇', '香菇', '金針', '杏鮑', '木耳'],
   meat: ['豬', '雞', '鵝', '鴨', '羊', '白肉雞', '毛豬', '蛋'],
   seafood: ['魚', '蝦', '蟹', '蛤', '貝', '魷', '卷', '鯧', '鮭', '鯛', '鱸', '鰱', '鯖', '鰻', '鮪', '鱈', '蚵', '牡蠣', '秋刀', '虱目', '旗', '魩', '鱙', '透抽', '花枝', '軟絲', '干貝', '海帶', '紫菜', '魴', '鱺', '鯉', '鯽', '鰆', '鰺', '鱵', '鮟鱇']
 }

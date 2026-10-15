@@ -27,8 +27,16 @@ describe("getProduceCategory with MOA type code", () => {
   });
 
   it("falls back to keyword matching when the type code is empty or unknown", () => {
-    assert.equal(getProduceCategory("蓮霧", ""), "vegetable"); // no signal → name-only default
-    assert.equal(getProduceCategory("蓮霧", "N99"), "vegetable"); // unknown code → name-only
+    assert.equal(getProduceCategory("隼人瓜", ""), "vegetable"); // no signal → name-only default
+    assert.equal(getProduceCategory("蓮霧", "N99"), "fruit"); // unknown code → name-only
+  });
+
+  it("classifies curated fruits that carry no generic fruit keyword", () => {
+    for (const fruit of ["哈密瓜", "文旦", "柚子", "荔枝", "龍眼", "蓮霧", "釋迦"]) {
+      assert.equal(getProduceCategory(fruit), "fruit", fruit);
+    }
+    assert.equal(getProduceCategory("木耳"), "mushroom");
+    assert.equal(getProduceCategory("康乃馨"), "flower");
   });
 });
 

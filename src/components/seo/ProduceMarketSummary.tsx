@@ -13,6 +13,9 @@ import type { MarketComparison } from '@/lib/types'
 // Every fetch is best-effort: a failed/empty source degrades to a smaller block,
 // never an error, so the page always renders.
 
+// GSC: "高麗菜一斤多少" / "現在一斤多少錢" — shoppers think in 台斤, MOA quotes per kg.
+const KG_PER_TAIJIN = 0.6
+
 function fmt(n: number): string {
   return n % 1 === 0 ? n.toString() : n.toFixed(1)
 }
@@ -73,6 +76,7 @@ export function ProduceMarketSummary({
           <p className="text-body-md text-on-surface-variant leading-relaxed">
             根據農業部農產品交易資料，{cropName}最近一個交易日的全台批發均價約為每公斤
             <strong className="text-on-surface"> {fmt(latestPrice)} 元</strong>
+            （換算每台斤約 <strong className="text-on-surface">{fmt(latestPrice * KG_PER_TAIJIN)} 元</strong>）
             {latest && <>，較前一交易日{changeLabel(changePct)}</>}。
             {windowDays > 0 && (
               <>

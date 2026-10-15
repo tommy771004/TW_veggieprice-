@@ -28,6 +28,8 @@ const RULES: Record<string, MoaCropRule> = {
   結球萵苣: { include: ['萵苣菜-結球萵', '萵苣菜-進口 結球萵'] },
   青椒: { include: ['甜椒-青椒'] },
   佛手瓜: { include: ['隼人瓜'], exclude: ['隼人瓜-瓜苗'] },
+  // MOA 胡瓜 is 大黃瓜; what people search as 小黃瓜 trades as 花胡瓜.
+  小黃瓜: { include: ['花胡瓜'] },
   四季豆: { include: ['敏豆'], exclude: ['敏豆-翼豆'] },
   香菇: { include: ['濕香菇'] },
   金針菇: { include: ['金絲菇'] },
