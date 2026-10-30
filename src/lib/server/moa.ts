@@ -1272,6 +1272,12 @@ async function fetchRecentOpenDataUncached(): Promise<
     }
   }
 
+  return fetchRecentOpenDataLive();
+}
+
+async function fetchRecentOpenDataLiveUncached(): Promise<
+  (NormalizedPriceRecord & { _typeCode?: string })[]
+> {
   const url =
     "https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx";
   const timeoutMs = process.env.MOA_FETCH_TIMEOUT_MS
@@ -1319,16 +1325,52 @@ async function fetchRecentOpenDataUncached(): Promise<
 // (~15-19s), so memoize it across requests — without this, every one of those
 // endpoints re-pays the full fetch on each call. Data refreshes daily, so a 30-min
 // TTL is safe and cuts warm latency from ~18s to sub-second.
-const cachedRecentOpenData = unstable_cache(
-  fetchRecentOpenDataUncached,
+//
+// The live fallback stays inside unstable_cache: its no-store fetch must not run
+// directly in an ISR/static page render, which would fail the render.
+const fetchRecentOpenDataLive = unstable_cache(
+  fetchRecentOpenDataLiveUncached,
   ["moa-recent-opendata"],
   { revalidate: 1800, tags: ["moa-recent-opendata"] },
 );
 
-export async function fetchRecentOpenData(): Promise<
-  (NormalizedPriceRecord & { _typeCode?: string })[]
-> {
-  return cachedRecentOpenData();
+// The result as a whole is memoized in-process rather than with unstable_cache:
+// it is ~2.5MB, over the Next.js data cache's 2MB item limit, so unstable_cache
+// never stored it and every call recomputed. Like unstable_cache, an expired entry keeps
+// being served while one background refresh runs, and a failed refresh keeps the
+// previous value. A new deployment (the daily data sync) starts with empty memory.
+// Callers must treat the returned records as read-only.
+type RecentOpenDataRecord = NormalizedPriceRecord & { _typeCode?: string };
+
+const RECENT_OPENDATA_TTL_MS = 30 * 60 * 1000;
+let recentOpenData: { at: number; records: RecentOpenDataRecord[] } | null = null;
+let recentOpenDataInflight: Promise<RecentOpenDataRecord[]> | null = null;
+
+function refreshRecentOpenData(): Promise<RecentOpenDataRecord[]> {
+  recentOpenDataInflight ??= fetchRecentOpenDataUncached()
+    .then((records) => {
+      recentOpenData = { at: Date.now(), records };
+      return records;
+    })
+    .finally(() => {
+      recentOpenDataInflight = null;
+    });
+  return recentOpenDataInflight;
+}
+
+export async function fetchRecentOpenData(): Promise<RecentOpenDataRecord[]> {
+  if (!recentOpenData) return refreshRecentOpenData();
+  if (Date.now() - recentOpenData.at > RECENT_OPENDATA_TTL_MS) {
+    refreshRecentOpenData().catch(() => {
+      // Keep serving the previous value; the next request retries.
+    });
+  }
+  return recentOpenData.records;
+}
+
+/** Drop the memoized recent OpenData so the next read re-fetches (browser reload). */
+export function invalidateRecentOpenData(): void {
+  recentOpenData = null;
 }
 
 /**

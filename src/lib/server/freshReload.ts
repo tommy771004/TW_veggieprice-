@@ -6,7 +6,11 @@ import { revalidateTag } from "next/cache";
 // upstream instead of serving the up-to-1h unstable_cache entry.
 const FRESH_RELOAD_HEADER = "x-fresh-reload";
 
+export function isFreshReload(req: Request): boolean {
+  return req.headers.get(FRESH_RELOAD_HEADER) === "1";
+}
+
 export function bustCacheOnReload(req: Request, tags: string[]): void {
-  if (req.headers.get(FRESH_RELOAD_HEADER) !== "1") return;
+  if (!isFreshReload(req)) return;
   for (const tag of tags) revalidateTag(tag);
 }

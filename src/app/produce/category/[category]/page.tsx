@@ -37,6 +37,10 @@ const CATEGORY_META: Record<string, { label: string; description: string; keywor
 
 const VALID_CATEGORIES = Object.keys(CATEGORY_META) as ProduceCategory[]
 
+// The flower hub lists crops from fetchFlowerCropNames; keep refreshing it so an
+// empty list from a failed live fallback recovers without waiting for a deploy.
+export const revalidate = 1800
+
 export async function generateStaticParams() {
   return VALID_CATEGORIES.map((category) => ({ category }))
 }
