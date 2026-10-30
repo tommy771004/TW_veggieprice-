@@ -6,7 +6,7 @@ import { HomeSeoLinks } from '@/components/seo/HomeSeoLinks'
 import { prefetchDefaultHomeData } from '@/lib/server/home-prefetch'
 import { SITE_URL } from '@/lib/env'
 
-export const revalidate = 60 // ISR: HTML + embedded default shell refresh every 60s
+export const revalidate = 3600 // ISR: data only changes with the daily sync deploy
 
 export const metadata: Metadata = {
   // Lead with 今日菜價查詢 (best-CTR query); 菜價 / 蔬果行情 / 蔬菜批發價格 rank
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 /**
  * ADR-0001 option D (F6 phase): prefetch National Overview + week trend
  * into the RSC payload so first paint can show real numbers.
- * CDN still serves STALE HTML quickly (revalidate=60); regeneration may wait on MOA.
+ * CDN still serves STALE HTML quickly (revalidate=3600); regeneration may wait on MOA.
  * F5 request fan-out is deferred until post-deploy re-measure.
  */
 export default async function DashboardPage() {

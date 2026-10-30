@@ -26,13 +26,13 @@ const nextConfig: NextConfig = {
         // Default for price APIs (route handlers may set longer TTLs on the response).
         // Note: more specific rules below override this for hot seafood paths.
         source: '/api/prices/:path*',
-        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=120, stale-while-revalidate=300' }],
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' }],
       },
       {
         // Align config-level headers with route handlers so CDN/s-maxage is not
         // accidentally shortened by the catch-all above.
         source: '/api/prices/overview',
-        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=120, stale-while-revalidate=300' }],
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' }],
       },
       {
         // Seafood data is backed by a daily local snapshot and is parsed once

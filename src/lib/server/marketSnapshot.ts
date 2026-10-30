@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { buildMarketSnapshot, type DailyRow, type MarketSnapshot } from '@/lib/marketSnapshot'
 import { subtractDays, todayISO } from '@/lib/server/dateUtils'
+import { readLocalDataJson } from '@/lib/server/localData'
 
 const DATA_DIR = path.join(process.cwd(), 'public', 'data')
 
@@ -10,7 +11,7 @@ const LOOKBACK_DAYS = 14
 
 async function readDaily(iso: string): Promise<DailyRow[]> {
   try {
-    const parsed = JSON.parse(await fs.promises.readFile(path.join(DATA_DIR, 'daily', `${iso}.json`), 'utf-8'))
+    const parsed = await readLocalDataJson<unknown>(`daily/${iso}.json`)
     return Array.isArray(parsed) ? (parsed as DailyRow[]) : []
   } catch {
     return [] // 休市 / not yet synced
