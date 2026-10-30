@@ -26,7 +26,13 @@ const CATEGORY_LABEL: Record<string, string> = {
 
 type Props = { params: Promise<{ id: string }> }
 
-export const dynamic = 'force-dynamic'
+// Data only changes when the daily sync commit redeploys (which also purges
+// this cache), so render each crop on first visit and serve it from the CDN.
+export const revalidate = 3600
+
+export function generateStaticParams() {
+  return []
+}
 
 // Any string is a valid [id], so an unknown name with no trades would otherwise
 // render an indexable, fill-in-the-blank page. Only index crops we know or that

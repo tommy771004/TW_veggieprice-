@@ -27,6 +27,7 @@ import { marketsMatch } from "@/lib/markets";
 import { buildInterpolatedHistory } from "@/lib/server/historyAggregation";
 import { matchesMoaCrop, moaQueryName, selectMoaCropRows } from "@/lib/moaCropNames";
 import { makeLogger } from "@/lib/server/logger";
+import { readLocalDataJson } from "@/lib/server/localData";
 import {
   buildMarketOverviewTrendPoints,
   type MarketOverviewTrendValue,
@@ -1232,14 +1233,10 @@ async function fetchRecentOpenDataUncached(): Promise<
   (NormalizedPriceRecord & { _typeCode?: string })[]
 > {
   try {
-    const filePath = path.join(
-      process.cwd(),
-      "public",
-      "data",
-      "latest-opendata.json",
-    );
-    const content = await fs.promises.readFile(filePath, "utf-8");
-    const parsed = JSON.parse(content);
+    const parsed = await readLocalDataJson<{
+      metadata?: { lastUpdated?: string };
+      data: LocalDailyRecord[];
+    }>("latest-opendata.json");
 
     if (parsed.metadata && parsed.metadata.lastUpdated) {
       const lastUpdatedDate = parsed.metadata.lastUpdated.split("T")[0];
@@ -1505,8 +1502,6 @@ async function fetchLocalDailyData(
   market?: string,
   marketType?: string,
 ): Promise<NormalizedPriceRecord[] | null> {
-  const dailyDir = path.join(process.cwd(), "public", "data", "daily");
-
   // We don't check for directory existence to avoid synchronous blocking. If missing, subsequent reads will throw ENOENT.
 
   const datesToFetch: string[] = [];
@@ -1524,10 +1519,10 @@ async function fetchLocalDailyData(
 
   const results = await Promise.all(
     datesToFetch.map(async (isoDate) => {
-      const filePath = path.join(dailyDir, `${isoDate}.json`);
       try {
-        const content = await fs.promises.readFile(filePath, "utf-8");
-        const parsed = JSON.parse(content) as LocalDailyRecord[];
+        const parsed = await readLocalDataJson<LocalDailyRecord[]>(
+          `daily/${isoDate}.json`,
+        );
         const records: NormalizedPriceRecord[] = [];
 
         for (const d of parsed) {
@@ -1634,7 +1629,6 @@ async function historyFromLocalDaily(
   endDate: string,
 ): Promise<FetchMarketDataResult | null> {
   try {
-    const dailyDir = path.join(process.cwd(), "public", "data", "daily");
     const dates = dateRange(startDate, endDate);
     const records: NormalizedPriceRecord[] = [];
     let newestFile = "";
@@ -1642,11 +1636,9 @@ async function historyFromLocalDaily(
     await Promise.all(
       dates.map(async (iso) => {
         try {
-          const content = await fs.promises.readFile(
-            path.join(dailyDir, `${iso}.json`),
-            "utf-8",
+          const parsed = await readLocalDataJson<LocalDailyRecord[]>(
+            `daily/${iso}.json`,
           );
-          const parsed = JSON.parse(content) as LocalDailyRecord[];
           if (iso > newestFile) newestFile = iso;
           for (const d of parsed) {
             if (!matchesMoaCrop(cropName, d.CropName ?? "")) continue;
