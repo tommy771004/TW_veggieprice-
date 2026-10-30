@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTopMovers } from "@/lib/server/marketTopMovers";
-import { bustCacheOnReload } from "@/lib/server/freshReload";
+import { bustCacheOnReload, isFreshReload } from "@/lib/server/freshReload";
+import { invalidateRecentOpenData } from "@/lib/server/moa";
 
 export const maxDuration = 60;
 
@@ -14,6 +15,7 @@ export async function GET(req: Request) {
     bustCacheOnReload(req, ["moa-latest-seafood-data"]);
   } else {
     bustCacheOnReload(req, ["moa-recent-opendata"]);
+    if (isFreshReload(req)) invalidateRecentOpenData();
   }
 
   const result = await getTopMovers({ category });
