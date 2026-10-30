@@ -12,7 +12,7 @@ function cacheHeadersForCategory(category: string): Record<string, string> {
     }
   }
   return {
-    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+    'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
   }
 }
 

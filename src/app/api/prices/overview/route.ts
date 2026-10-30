@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { DEFAULT_MARKET } from '@/lib/constants'
 import { todayISO } from '@/lib/server/dateUtils'
+import { bustCacheOnReload } from '@/lib/server/freshReload'
 import { getMarketOverview } from '@/lib/server/marketOverview'
 
 export const maxDuration = 60;
@@ -11,7 +12,7 @@ const SEAFOOD_CACHE_HEADERS = {
 };
 
 const VEG_FRUIT_CACHE_HEADERS = {
-  'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+  'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
 };
 
 function overviewErrorResponse(message: string, status: number) {
@@ -28,6 +29,12 @@ export async function GET(req: NextRequest) {
   const market = searchParams.get('market') || DEFAULT_MARKET
   const date = searchParams.get('date') || todayISO()
   const category = searchParams.get('category') || 'vegetable'
+
+  if (category === 'meat') {
+    bustCacheOnReload(req, ['moa-livestock-prices'])
+  } else if (category === 'seafood') {
+    bustCacheOnReload(req, ['moa-latest-seafood-data'])
+  }
 
   const result = await getMarketOverview({
     market,

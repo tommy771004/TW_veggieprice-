@@ -1743,7 +1743,7 @@ export async function fetchMarketData(
       );
     },
     ["moa-market-data-v1", cropName, market, period, endDate],
-    { revalidate: 3600, tags: [`history-${cropName}`] },
+    { revalidate: 120, tags: [`history-${cropName}`] },
   );
 
   return cachedFn();
@@ -1796,7 +1796,7 @@ export async function fetchMarketDataByDates(
       );
     },
     ["moa-market-data-range-v1", cropName, market, startDate, endDate],
-    { revalidate: 3600, tags: [`history-${cropName}`] },
+    { revalidate: 120, tags: [`history-${cropName}`] },
   );
 
   return cachedFn();
@@ -2023,7 +2023,7 @@ export async function fetchMarketOverviewTrend(
       endDate,
       typeKey,
     ],
-    { revalidate: 3600 },
+    { revalidate: 120 },
   );
 
   try {

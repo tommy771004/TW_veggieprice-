@@ -374,7 +374,7 @@ const fetchLivestockPricesCached = unstable_cache(
     };
   },
   ["moa-livestock-prices-v3"],
-  { revalidate: 3600, tags: ["moa-livestock-prices"] },
+  { revalidate: 300, tags: ["moa-livestock-prices"] },
 );
 
 export async function fetchLivestockPrices(): Promise<LivestockPrices> {

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { fetchSearchRecords, fetchMarketData } from '@/lib/server/moa'
 import type { ProducePrice } from '@/lib/types'
 
-export const revalidate = 3600
+export const revalidate = 120
 
 // Batch snapshot endpoint for the watchlist. Replaces the client-side N+1 pattern
 // (2 requests per watched crop) with a single request. Prices for every crop come
@@ -78,6 +78,6 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json(
     { snapshots },
-    { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' } },
+    { headers: { 'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300' } },
   )
 }
