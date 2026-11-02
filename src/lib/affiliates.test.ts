@@ -2,13 +2,27 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { describe, it } from 'node:test'
 import { runInNewContext } from 'node:vm'
-import { createAffiliateOffersFetcher, normalizeAffiliateOffer, selectAffiliateOffers } from './affiliates.ts'
+import {
+  AFFILIATE_SESSION_TTL_MS,
+  AFFILIATE_STORAGE_KEY,
+  createAffiliateOffersFetcher,
+  normalizeAffiliateOffer,
+  selectAffiliateOffers,
+} from './affiliates.ts'
 
 const offer = {
   id: 'test', enabled: true, sponsored: true, title: '{crop} 合作', description: '測試',
   ctaLabel: '查看', url: 'https://example.test/?crop={crop}', categories: ['vegetable'], priority: 1,
 }
 const response = (offers: unknown[] = [offer]) => Response.json({ offers })
+const memoryStorage = (initial: Record<string, string> = {}) => {
+  const items = new Map(Object.entries(initial))
+  return {
+    items,
+    getItem: (key: string) => items.get(key) ?? null,
+    setItem: (key: string, value: string) => { items.set(key, value) },
+  }
+}
 
 describe('affiliate refresh', () => {
   it('deduplicates concurrent requests, caches successes and refreshes disabled offers', async () => {
@@ -87,6 +101,72 @@ describe('affiliate refresh', () => {
     fail = true
     now = 2
     assert.deepEqual(await load(), [])
+  })
+
+  it('reuses one successful load for the whole session, across page reloads', async () => {
+    const storage = memoryStorage()
+    let calls = 0
+    let now = 1_000
+    const fetch = async () => { calls++; return response() }
+    const firstPage = createAffiliateOffersFetcher({ now: () => now, storage, fetch })
+    assert.equal((await firstPage()).length, 1)
+    assert.equal(calls, 1)
+    assert.ok(storage.items.has(AFFILIATE_STORAGE_KEY))
+
+    // A reload creates a fresh fetcher; it must answer from sessionStorage.
+    now += AFFILIATE_SESSION_TTL_MS - 1
+    const reloaded = createAffiliateOffersFetcher({ now: () => now, storage, fetch })
+    assert.equal((await reloaded()).length, 1)
+    assert.equal((await reloaded()).length, 1)
+    assert.equal(calls, 1)
+
+    now += 1
+    const expired = createAffiliateOffersFetcher({ now: () => now, storage, fetch })
+    assert.equal((await expired()).length, 1)
+    assert.equal(calls, 2)
+  })
+
+  it('never persists failures and ignores unusable stored entries', async () => {
+    for (const stored of [
+      '{',
+      JSON.stringify({ offers: [offer] }),
+      JSON.stringify({ savedAt: 'yesterday', offers: [offer] }),
+      JSON.stringify({ savedAt: 10, offers: 'nope' }),
+      JSON.stringify({ savedAt: 10_000, offers: [offer] }),
+    ]) {
+      const storage = memoryStorage({ [AFFILIATE_STORAGE_KEY]: stored })
+      let calls = 0
+      const load = createAffiliateOffersFetcher({
+        now: () => 5_000, storage,
+        fetch: async () => { calls++; return new Response('', { status: 503 }) },
+      })
+      assert.deepEqual(await load(), [])
+      assert.equal(calls, 1, stored)
+      assert.equal(storage.items.get(AFFILIATE_STORAGE_KEY), stored)
+    }
+  })
+
+  it('drops invalid stored rows and survives storage that throws', async () => {
+    const storage = memoryStorage({
+      [AFFILIATE_STORAGE_KEY]: JSON.stringify({ savedAt: 0, offers: [offer, { ...offer, url: 'javascript:x' }] }),
+    })
+    const load = createAffiliateOffersFetcher({
+      now: () => 1, storage, fetch: async () => { throw new Error('must not fetch') },
+    })
+    assert.deepEqual((await load()).map((o) => o.id), ['test'])
+
+    let calls = 0
+    const broken = createAffiliateOffersFetcher({
+      now: () => 0,
+      storage: {
+        getItem: () => { throw new Error('denied') },
+        setItem: () => { throw new Error('quota') },
+      },
+      fetch: async () => { calls++; return response() },
+    })
+    assert.equal((await broken()).length, 1)
+    assert.equal((await broken()).length, 1)
+    assert.equal(calls, 1)
   })
 
   it('retains filtering, safe URLs, crop matching and template encoding', () => {

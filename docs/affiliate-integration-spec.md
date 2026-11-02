@@ -325,6 +325,16 @@ ORDER BY priority DESC, id ASC;
 
 API 回應不可包含資料庫連線字串、維護端 token 或其他秘密欄位。
 
+### 6.5 快取與下架生效時間
+
+| 層級 | 策略 | 說明 |
+| --- | --- | --- |
+| Vercel CDN | 成功回應 `Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600` | 同一 region 每 5 分鐘最多查一次資料庫，查詢量不隨流量成長；`503`/`500` 一律 `no-store` |
+| 瀏覽器 session | `sessionStorage['veggieprice:affiliate-offers:v1']`，存活 24 小時 | 每個分頁首次開啟查一次，之後換頁、重新整理都不再發 request；只寫入成功結果，失敗 30 秒後於下次掛載／回到分頁時重試 |
+| Service Worker | 不快取 `/api/affiliates` | 離線時不會顯示已停用的推廣 |
+
+因此 `enabled = FALSE` 對**新 session** 約 5–15 分鐘內生效；**已開啟的分頁**最長 24 小時（或關閉分頁）後才會消失。需要立即下架的情況（例如違法或錯誤連結），應同時讓合作方停用目標網址。
+
 ## 7. 點擊與曝光追蹤
 
 ### 7.1 事件

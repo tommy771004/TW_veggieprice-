@@ -49,7 +49,7 @@ npm run dev
 ## PWA 與快取
 
 - `public/manifest.json` 提供安裝資訊與捷徑。
-- `public/sw.js` 會快取品牌資產與部分執行期資源；導覽 HTML 不落盤。同網域 API 採 network-first，`/api/affiliates` 除外，僅走網路以免離線時顯示已停用的推廣。
+- `public/sw.js` 會快取品牌資產與部分執行期資源；導覽 HTML 不落盤。同網域 API 採 network-first，`/api/affiliates` 除外，僅走網路以免離線時顯示已停用的推廣；推廣清單改由前端 sessionStorage 暫存 24 小時、API 由 CDN 共用 5 分鐘（見 `docs/affiliate-integration-spec.md` §6.5）。
 - 合作版位共用 5 分鐘記憶體快取；失敗後退避 30 秒，可見頁面會重新檢查。回到分頁或恢復連線也會檢查；同時請求會合併，讀取逾時為 8 秒。
 - `src/components/pwa/ServiceWorkerRegistrar.tsx` 會在瀏覽器端自動註冊 service worker。
 

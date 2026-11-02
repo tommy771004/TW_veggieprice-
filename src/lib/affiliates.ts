@@ -104,26 +104,101 @@ export function normalizeAffiliateOffer(value: unknown): AffiliateOffer | null {
   }
 }
 
-/** Shared across mounted placements; background tabs do not poll. */
-export const AFFILIATE_REFRESH_CHECK_MS = 30_000
+/** Failed loads wait this long before the next mount/visibility event may retry. */
+export const AFFILIATE_RETRY_MS = 30_000
 
-/** Bounded cache with in-flight deduplication and shorter failure backoff. */
+/**
+ * 成功取得的清單在本分頁 session 內沿用 24 小時：首次開啟查一次，之後
+ * 換頁、重新整理都直接讀 sessionStorage，不再打 /api/affiliates。
+ * 上限避免安裝成 PWA 後長時間不關的分頁永遠看不到下架結果。
+ */
+export const AFFILIATE_SESSION_TTL_MS = 24 * 60 * 60_000
+
+/** 版本號寫在 key 上；改變資料格式時調升即可讓舊暫存自動失效。 */
+export const AFFILIATE_STORAGE_KEY = 'veggieprice:affiliate-offers:v1'
+
+type OfferStorage = Pick<Storage, 'getItem' | 'setItem'>
+
+function browserSessionStorage(): OfferStorage | null {
+  try {
+    return typeof window === 'undefined' ? null : window.sessionStorage
+  } catch {
+    // Some privacy modes throw on access instead of exposing the property.
+    return null
+  }
+}
+
+function readStoredOffers(
+  storage: OfferStorage,
+  nowMs: number,
+  ttlMs: number,
+): { offers: AffiliateOffer[]; expiresAt: number } | null {
+  try {
+    const raw = storage.getItem(AFFILIATE_STORAGE_KEY)
+    if (!raw) return null
+    const entry: unknown = JSON.parse(raw)
+    if (!entry || typeof entry !== 'object') return null
+    const { savedAt, offers } = entry as { savedAt?: unknown; offers?: unknown }
+    if (typeof savedAt !== 'number' || !Number.isFinite(savedAt) || !Array.isArray(offers)) return null
+    // A clock moved backwards cannot prove the entry is still fresh.
+    if (savedAt > nowMs || nowMs >= savedAt + ttlMs) return null
+    return {
+      offers: offers.flatMap((row) => {
+        const offer = normalizeAffiliateOffer(row)
+        return offer ? [offer] : []
+      }),
+      expiresAt: savedAt + ttlMs,
+    }
+  } catch {
+    return null
+  }
+}
+
+function writeStoredOffers(storage: OfferStorage, offers: AffiliateOffer[], savedAt: number) {
+  try {
+    storage.setItem(AFFILIATE_STORAGE_KEY, JSON.stringify({ savedAt, offers }))
+  } catch {
+    // Quota or privacy mode: the in-memory cache still covers this page.
+  }
+}
+
+/**
+ * Session-scoped cache with in-flight deduplication and failure backoff.
+ * Only successful responses are persisted, so an outage never pins an
+ * empty list for the rest of the session.
+ */
 export function createAffiliateOffersFetcher(options: {
   fetch?: typeof fetch
   now?: () => number
   ttlMs?: number
   retryMs?: number
   timeoutMs?: number
+  /** Defaults to window.sessionStorage in the browser; pass null to disable. */
+  storage?: OfferStorage | null
 } = {}): () => Promise<AffiliateOffer[]> {
   const fetcher = options.fetch ?? ((...args: Parameters<typeof fetch>) => fetch(...args))
   const now = options.now ?? Date.now
+  const ttlMs = options.ttlMs ?? AFFILIATE_SESSION_TTL_MS
   let inFlight: Promise<AffiliateOffer[]> | null = null
   let cached: AffiliateOffer[] = []
   let expiresAt = 0
 
+  // Keep identity when content is unchanged, so carousels do not reset.
+  const remember = (offers: AffiliateOffer[]) => {
+    if (JSON.stringify(offers) !== JSON.stringify(cached)) cached = offers
+  }
+
   return function load() {
     if (inFlight) return inFlight
     if (now() < expiresAt) return Promise.resolve(cached)
+
+    const storage = options.storage !== undefined ? options.storage : browserSessionStorage()
+    const stored = storage ? readStoredOffers(storage, now(), ttlMs) : null
+    if (stored) {
+      remember(stored.offers)
+      expiresAt = stored.expiresAt
+      return Promise.resolve(cached)
+    }
 
     inFlight = (async () => {
       const controller = new AbortController()
@@ -139,13 +214,14 @@ export function createAffiliateOffersFetcher(options: {
           const offer = normalizeAffiliateOffer(row)
           return offer ? [offer] : []
         })
-        // Keep identity when content is unchanged, so carousels do not reset.
-        if (JSON.stringify(offers) !== JSON.stringify(cached)) cached = offers
-        expiresAt = now() + (options.ttlMs ?? 5 * 60_000)
+        remember(offers)
+        const savedAt = now()
+        expiresAt = savedAt + ttlMs
+        if (storage) writeStoredOffers(storage, offers, savedAt)
       } catch {
         // Hide unverifiable offers rather than retaining possibly disabled links.
         if (cached.length) cached = []
-        expiresAt = now() + (options.retryMs ?? AFFILIATE_REFRESH_CHECK_MS)
+        expiresAt = now() + (options.retryMs ?? AFFILIATE_RETRY_MS)
       } finally {
         clearTimeout(timer)
       }
