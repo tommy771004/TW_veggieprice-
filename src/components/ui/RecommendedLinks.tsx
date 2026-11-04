@@ -19,10 +19,10 @@ const PROJECTS = [
     color: 'border-purple-200/50 text-purple-700',
   },
   {
-    title: 'AI 股票分析平台',
-    url: 'https://stock-analyze-ai-connect.vercel.app/',
-    description: '精準的 AI 股市數據分析，助您判別市場走勢。結合視覺化圖表與智能預測，優化您的投資決策。',
-    icon: '📈',
+    title: '皮克敏 輔助工具',
+    url: 'https://pikmin-tool-two.vercel.app/',
+    description: '為《皮克敏》系列遊戲提供實用的輔助工具，包括物品管理追蹤等功能。',
+    icon: '🎮',
     color: 'border-emerald-200/50 text-emerald-700',
   },
 ]
