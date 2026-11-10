@@ -6,6 +6,11 @@ import { fetchMarketRestDays, fetchMarketWeatherRisk, fetchMarketWeatherForecast
 import { isAggregateMarket } from '@/lib/constants'
 import type { MarketRestDay, MarketWeatherRiskSummary, MarketWeatherForecast } from '@/lib/types'
 
+/** YYYY-MM-DD in Asia/Taipei, independent of the runtime's time zone. */
+function taipeiDateKey(now: number = Date.now()): string {
+  return new Date(now + 8 * 60 * 60 * 1000).toISOString().slice(0, 10)
+}
+
 export function InsightsClient() {
   const [market, setMarket] = useState('台北一')
   const [restDays, setRestDays] = useState<MarketRestDay[]>([])
@@ -14,10 +19,17 @@ export function InsightsClient() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   
+  // Taipei calendar on both sides: the server runs in UTC, so a local-clock
+  // month/day differed from the browser's for 8 hours a day (hydration mismatch).
   const [currentDate, setCurrentDate] = useState(() => {
-    const now = new Date()
-    return new Date(now.getFullYear(), now.getMonth(), 1)
+    const [y, m] = taipeiDateKey().split('-').map(Number)
+    return new Date(y, m - 1, 1)
   })
+  // Today's highlight is client-only: the HTML may be cached from another day.
+  const [todayString, setTodayString] = useState('')
+  useEffect(() => {
+    setTodayString(taipeiDateKey())
+  }, [])
 
   useEffect(() => {
     async function loadRestDays() {
@@ -117,12 +129,9 @@ export function InsightsClient() {
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1))
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1))
   const goToToday = () => {
-    const now = new Date()
-    setCurrentDate(new Date(now.getFullYear(), now.getMonth(), 1))
+    const [y, m] = taipeiDateKey().split('-').map(Number)
+    setCurrentDate(new Date(y, m - 1, 1))
   }
-
-  const today = new Date()
-  const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
 
   let weatherIcon = ''
   if (weatherRisk) {

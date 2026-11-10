@@ -154,12 +154,15 @@ interface HomeClientProps {
   initialTrend?: PriceHistoryPoint[];
   initialLivestock?: LivestockPrices | null;
   initialOverview?: MarketOverview | null;
+  /** Taipei date the HTML was rendered for; keeps the daily recipe picks hydration-safe. */
+  recipeDateKey?: string;
 }
 
 export function HomeClient({
   initialTrend = [],
   initialLivestock = null,
   initialOverview = null,
+  recipeDateKey,
 }: HomeClientProps) {
   const session = useHomeMarketSession({ initialTrend, initialOverview });
   const {
@@ -901,7 +904,7 @@ export function HomeClient({
           <SeasonalGuideSection />
         </section>
 
-        <FeaturedRecipesSection />
+        <FeaturedRecipesSection initialDateKey={recipeDateKey} />
         <AffiliateMarquee placement="home" title="合作推廣" />
 
         {/* ── Explore Features ──────────────────────────── */}

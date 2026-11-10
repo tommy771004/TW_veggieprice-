@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { m, AnimatePresence } from 'framer-motion'
 import { CropIcon } from '@/components/ui/CropIcon'
@@ -36,10 +36,16 @@ const fadeUp = {
  * 5 recipes with a 換一批 reshuffle and incremental 查看更多. Tapping a card opens
  * the RecipeDetailSheet. Data is statically bundled — no network request.
  */
-export function FeaturedRecipesSection() {
-  // Stable per render; identical on server and client for the same calendar day,
-  // which keeps the daily selection hydration-safe.
-  const dateKey = useMemo(() => getTaipeiDateKey(), [])
+export function FeaturedRecipesSection({ initialDateKey }: { initialDateKey?: string }) {
+  // Hydrate with the day the HTML was rendered for, not the client's clock: the
+  // homepage is ISR-cached, and HTML generated before Taipei midnight picked a
+  // different daily set, which threw React #418 and re-rendered the whole tree.
+  // After hydration, roll forward to today's picks if the day has changed.
+  const [dateKey, setDateKey] = useState(() => initialDateKey ?? getTaipeiDateKey())
+  useEffect(() => {
+    const today = getTaipeiDateKey()
+    setDateKey((key) => (key === today ? key : today))
+  }, [])
 
   const [activeCategory, setActiveCategory] = useState<RecipeCategory>('vegetable')
   const [manualSeed, setManualSeed] = useState<number | null>(null)

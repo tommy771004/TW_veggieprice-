@@ -5,6 +5,7 @@ import { HomeFaqSection } from '@/components/seo/HomeFaq'
 import { HomeSeoLinks } from '@/components/seo/HomeSeoLinks'
 import { prefetchDefaultHomeData } from '@/lib/server/home-prefetch'
 import { SITE_URL } from '@/lib/env'
+import { getTaipeiDateKey } from '@/lib/recipes'
 
 export const revalidate = 60 // ISR: HTML + embedded default shell refresh every 60s
 
@@ -37,6 +38,7 @@ export default async function DashboardPage() {
         initialTrend={trend}
         initialLivestock={livestock}
         initialOverview={overview}
+        recipeDateKey={getTaipeiDateKey()}
       />
       <HomeSeoLinks />
       <HomeGeoCitationSection />

@@ -3,6 +3,10 @@ import { InsightsClient } from '@/components/pages/InsightsClient'
 import { InsightsSeoSummary } from '@/components/seo/InsightsSeoSummary'
 import { SITE_URL } from '@/lib/env'
 
+// Re-render hourly so the server-rendered calendar month never lags the
+// browser's by more than an hour after a month change (hydration-safe).
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: '市場洞察與休市日查詢',
   description: '掌握台灣各大批發市場休市日與市場動態，提前規劃採買，避開無交易日落空查價。',
