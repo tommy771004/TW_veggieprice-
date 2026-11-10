@@ -628,8 +628,8 @@ export function ProduceClient({
   }
 
   return (
-    <div className="home-dashboard-shell pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-8">
-      <div className="px-section-margin py-4">
+    <div className="home-dashboard-shell pb-section-gap">
+      <div className="px-section-margin py-section-gap">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 min-w-0">
             <button
@@ -673,7 +673,7 @@ export function ProduceClient({
       </div>
 
       <p role="status" aria-live="polite" className="px-section-margin text-body-sm text-on-surface-variant">{watchlistMessage}</p>
-      <div className="px-section-margin space-y-section-margin">
+      <div className="px-section-margin space-y-section-gap">
         <section className="home-market-stage -mx-section-margin px-section-margin py-2 md:py-3">
           <div className="market-signal-tape mb-4" aria-hidden="true">
             <span>PRODUCE DETAIL</span>

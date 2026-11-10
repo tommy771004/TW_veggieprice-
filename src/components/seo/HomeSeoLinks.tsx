@@ -31,7 +31,7 @@ const FEATURED_MARKETS = ['台北一', '台北二', '三重區', '台中市', '�
 
 export function HomeSeoLinks() {
   return (
-    <section className="px-section-margin max-w-4xl mx-auto py-6" aria-label="批發行情快速入口">
+    <section className="px-section-margin max-w-4xl mx-auto pb-section-gap" aria-label="批發行情快速入口">
       <article className="section-shell space-y-5">
         <div>
           <p className="section-kicker">Quick links</p>

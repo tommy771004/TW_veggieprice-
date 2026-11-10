@@ -31,7 +31,7 @@ export function FaqSection({
   }
 
   return (
-    <section className="px-section-margin max-w-3xl mx-auto pt-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-6">
+    <section className="px-section-margin max-w-3xl mx-auto pb-section-gap">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}

@@ -2,7 +2,7 @@ import { SkeletonCard } from '@/components/ui/SkeletonCard'
 
 export default function ProduceLoading() {
   return (
-    <div className="px-section-margin py-6 max-w-3xl mx-auto space-y-4">
+    <div className="px-section-margin py-section-gap space-y-section-gap max-w-3xl mx-auto">
       {/* Title skeleton */}
       <div className="space-y-2">
         <div className="skeleton h-8 w-48 rounded-xl" />

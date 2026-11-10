@@ -37,7 +37,7 @@ export function GovernmentDataSection({ cropName, wholesalePrice }: { cropName: 
     : []
 
   return (
-    <section className="px-section-margin max-w-7xl mx-auto pb-8" aria-labelledby="government-reference-heading">
+    <section className="px-section-margin max-w-7xl mx-auto pb-section-gap" aria-labelledby="government-reference-heading">
       <div className="section-shell">
         <div className="section-heading-row gap-3 mb-5">
           <div>

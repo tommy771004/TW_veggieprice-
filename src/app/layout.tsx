@@ -75,7 +75,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <WebSiteJsonLd />
         <WebAppJsonLd />
       </head>
-      <body className="font-sans min-h-dvh bg-background pb-32 md:pb-0" suppressHydrationWarning>
+      <body className="font-sans min-h-dvh bg-background pb-[calc(6rem+env(safe-area-inset-bottom))]" suppressHydrationWarning>
         <a href="#main-content" className="skip-link">跳至主要內容</a>
         <PreferencesHydrator />
         <ClientSettingsProviders />

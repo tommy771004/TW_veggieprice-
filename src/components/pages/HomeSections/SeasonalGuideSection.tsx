@@ -40,7 +40,7 @@ export function SeasonalGuideSection() {
           <span className="material-symbols-outlined text-primary">local_florist</span>
           <h3 className="text-headline-md font-semibold text-on-surface">當季盛產指南</h3>
         </div>
-        <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-4 snap-x snap-mandatory hide-scrollbar gap-3 pb-4 -mx-4 px-4 md:mx-0 md:px-0">
+        <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-4 snap-x snap-mandatory hide-scrollbar gap-3 pb-4 -mx-section-margin px-section-margin md:mx-0 md:px-0">
           {loadingSeasonal ? (
             Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="shrink-0 w-44 rounded-3xl bg-white/50 animate-pulse h-32 snap-start border border-white/20" />

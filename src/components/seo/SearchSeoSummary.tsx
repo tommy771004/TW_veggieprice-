@@ -48,7 +48,7 @@ export function SearchSeoSummary() {
         steps={HOW_TO_STEPS}
       />
 
-      <section className="px-section-margin max-w-4xl mx-auto py-6">
+      <section className="px-section-margin max-w-4xl mx-auto pb-section-gap">
         <article className="section-shell space-y-5">
           <div>
             <p className="section-kicker">Search guide</p>

@@ -91,7 +91,7 @@ export default async function MarketPage({ params }: Props) {
       />
       <MarketDatasetJsonLd marketLabel={market.label} url={pageUrl} />
       <div className="home-dashboard-shell pb-8">
-        <div className="px-section-margin py-6 space-y-6 max-w-4xl mx-auto">
+        <div className="px-section-margin py-section-gap space-y-section-gap max-w-4xl mx-auto">
           <header>
             <h1 className="text-headline-lg font-black text-on-surface">{market.label}今日行情</h1>
             {snapshot ? (

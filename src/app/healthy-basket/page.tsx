@@ -73,7 +73,7 @@ export default async function HealthyBasketPage() {
           '依我的餐盤檢查全穀雜糧、蛋白質、乳品與堅果種子是否有搭配。',
         ]}
       />
-      <main className="px-section-margin py-6 max-w-4xl mx-auto">
+      <main className="px-section-margin py-section-gap max-w-4xl mx-auto">
         <HealthyBasketPlanner items={items} />
       </main>
       <FaqSection heading="一餐好菜籃常見問題" items={FAQ_ITEMS} url={`${SITE_URL}/healthy-basket`} />

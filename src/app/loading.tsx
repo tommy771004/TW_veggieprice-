@@ -2,7 +2,7 @@ import { SkeletonCard, SkeletonList } from '@/components/ui/SkeletonCard'
 
 export default function HomeLoading() {
   return (
-    <div className="px-section-margin py-6 space-y-section-margin">
+    <div className="px-section-margin py-section-gap space-y-section-gap">
       {/* Hero skeleton */}
       <section>
         <div className="flex items-start justify-between mb-3">

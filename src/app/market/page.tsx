@@ -36,7 +36,7 @@ export default async function MarketIndexPage() {
         ]}
       />
       <div className="home-dashboard-shell pb-8">
-        <div className="px-section-margin py-6 space-y-6 max-w-4xl mx-auto">
+        <div className="px-section-margin py-section-gap space-y-section-gap max-w-4xl mx-auto">
           <header>
             <h1 className="text-headline-lg font-black text-on-surface">全台果菜批發市場今日行情</h1>
             <p className="text-body-md text-on-surface-variant mt-2 max-w-2xl">{description}</p>

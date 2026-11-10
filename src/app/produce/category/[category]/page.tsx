@@ -98,7 +98,7 @@ export default async function CategoryPage({ params }: Props) {
         ]}
       />
       <div className="home-dashboard-shell pb-8">
-        <div className="px-section-margin py-6 space-y-6">
+        <div className="px-section-margin py-section-gap space-y-section-gap">
           <div>
             <p className="section-kicker">Category hub</p>
             <h1 className="text-headline-lg font-black text-on-surface">{meta.label}批發行情總覽</h1>

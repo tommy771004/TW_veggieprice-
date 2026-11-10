@@ -1,6 +1,6 @@
 export default function SeasonalLoading() {
   return (
-    <div className="px-section-margin py-6 max-w-3xl mx-auto space-y-4">
+    <div className="px-section-margin py-section-gap space-y-section-gap max-w-3xl mx-auto">
       <div className="space-y-2">
         <div className="skeleton h-8 w-40 rounded-xl" />
         <div className="skeleton h-4 w-56 rounded-md" />

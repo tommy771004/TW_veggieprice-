@@ -115,6 +115,15 @@ export function SettingsClient() {
 
   }, [])
 
+  // 側邊選單也能改字級與主題；停在設定頁時要跟著更新選取狀態。
+  useEffect(() => {
+    function syncPreferences(event: Event) {
+      setPreferences((event as CustomEvent<UserPreferences>).detail ?? getUserPreferences())
+    }
+    window.addEventListener('veggieprice:preferences-updated', syncPreferences)
+    return () => window.removeEventListener('veggieprice:preferences-updated', syncPreferences)
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     setMarketOptionsState('loading')
@@ -365,8 +374,8 @@ export function SettingsClient() {
   }, [resetConfirmationOpen])
 
   return (
-    <div className="home-dashboard-shell pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-8">
-      <div className="px-section-margin py-4 md:py-6 space-y-section-margin">
+    <div className="home-dashboard-shell">
+      <div className="px-section-margin py-section-gap space-y-section-gap">
         <h1 className="sr-only">使用設定</h1>
 
         <section className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">

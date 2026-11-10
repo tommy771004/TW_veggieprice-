@@ -67,7 +67,7 @@ export default async function SeasonalPage() {
           description: `${item.reason} ${item.note}`,
         }))}
       />
-      <div className="px-section-margin py-6 max-w-3xl mx-auto space-y-4">
+      <div className="px-section-margin py-section-gap space-y-section-gap max-w-3xl mx-auto">
         <div>
           <h1 className="text-headline-lg font-bold text-on-surface">當季盛產指南</h1>
           <p className="text-body-md text-on-surface-variant mt-1">

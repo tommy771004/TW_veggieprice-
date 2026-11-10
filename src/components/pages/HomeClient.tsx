@@ -345,15 +345,16 @@ export function HomeClient({
   return (
     <LazyMotion features={domAnimation} strict>
       <HomeLoadingBar active={primaryDataLoading} />
-      <div className="home-dashboard-shell px-section-margin py-6 pb-[calc(6.5rem+env(safe-area-inset-bottom))] space-y-section-margin md:pb-8">
+      <div className="home-dashboard-shell px-section-margin py-section-gap space-y-section-gap">
         {/* ── Market Overview Hero ───────────────────────── */}
         <m.section
           variants={fadeUp}
           initial={false}
           animate="show"
-          className="home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 py-2 md:py-4"
+          // 收合時標題列下面沒有內容：不留內距與下邊距，和跑馬燈之間就只剩統一的區塊間距。
+          className={`home-market-stage -mx-3 md:-mx-6 px-3 md:px-6 ${heroCollapsed ? "" : "pb-2 md:pb-4"}`}
         >
-          <div className="section-heading-row mb-6">
+          <div className={`section-heading-row ${heroCollapsed ? "" : "mb-6"}`}>
             <div>
               <button
                 type="button"
@@ -392,7 +393,7 @@ export function HomeClient({
                 </p>
               )}
             </div>
-            <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
+            <div className="flex flex-wrap gap-2">
               {heroStatusChips.map((chip) => (
                 <span
                   key={chip.label}
@@ -677,7 +678,7 @@ export function HomeClient({
 
         {/* Pulse Marquee — outside collapsible market overview, always below it */}
         {marketPulseCards.length > 0 && (
-          <div className="-mt-2 -mb-1 md:-mt-4 md:-mb-2 overflow-hidden bg-surface/60 backdrop-blur-md border border-outline/20 rounded-xl flex items-center shadow-glass-sm py-1.5 group/marquee cursor-default relative">
+          <div className="overflow-hidden bg-surface/60 backdrop-blur-md border border-outline/20 rounded-xl flex items-center shadow-glass-sm py-1.5 group/marquee cursor-default relative">
             <m.div
               className="flex whitespace-nowrap"
               animate={{ x: ["0%", "-50%"] }}

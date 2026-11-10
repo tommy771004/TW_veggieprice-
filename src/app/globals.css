@@ -11,7 +11,8 @@
     --font-scale: 1;
     font-size: calc(16px * var(--font-scale));
     color-scheme: light;
-    --section-margin: 10px;
+    --section-margin: 12px;
+    --section-gap: 12px;
     --chart-price: #1b5e20;
     --chart-range-high: #43a047;
     --chart-range-low: #f57c00;
@@ -24,7 +25,8 @@
 
   @media (min-width: 768px) {
     html {
-      --section-margin: 32px;
+      --section-margin: 24px;
+      --section-gap: 16px;
     }
   }
 

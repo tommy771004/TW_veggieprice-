@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <article className="mx-auto max-w-3xl px-section-margin py-8 md:py-12">
+    <article className="mx-auto max-w-3xl px-section-margin py-section-gap">
       <header className="mb-8">
         <p className="section-kicker">農時價・使用說明</p>
         <h1 className="mt-2 text-headline-lg font-semibold text-on-surface">隱私與合作揭露</h1>

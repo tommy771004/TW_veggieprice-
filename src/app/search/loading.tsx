@@ -2,7 +2,7 @@ import { SkeletonList } from '@/components/ui/SkeletonCard'
 
 export default function SearchLoading() {
   return (
-    <div className="px-section-margin py-6 max-w-3xl mx-auto space-y-4">
+    <div className="px-section-margin py-section-gap space-y-section-gap max-w-3xl mx-auto">
       {/* Search bar skeleton */}
       <div className="skeleton h-12 w-full rounded-full" />
       {/* Filter chips skeleton */}

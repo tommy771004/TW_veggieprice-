@@ -45,7 +45,7 @@ export function InsightsSeoSummary() {
         steps={REST_DAY_STEPS}
       />
 
-      <section className="px-section-margin max-w-4xl mx-auto py-6">
+      <section className="px-section-margin max-w-4xl mx-auto pb-section-gap">
         <article className="section-shell space-y-5">
           <div>
             <p className="section-kicker">Market insight</p>

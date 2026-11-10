@@ -1,55 +1,20 @@
 'use client'
 
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import type { KeyboardEvent } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { CropIcon } from '@/components/ui/CropIcon'
-import { FeedbackButton } from '@/components/feedback/FeedbackButton'
+import { FeedbackDialog } from '@/components/feedback/FeedbackDialog'
 import { trackEvent } from '@/lib/analytics'
 import { COMMON_CROPS } from '@/lib/crops'
 import { getCropBaseInfo, CROP_BASE_INFO } from '@/lib/cropInfo'
+import { AppDrawer } from './AppDrawer'
+import { getRouteLabel } from './navigation'
 
-const NAV_LINKS = [
-  { href: '/', label: '首頁', icon: 'dashboard' },
-  { href: '/search', label: '作物搜尋', icon: 'search' },
-  { href: '/seasonal', label: '盛產指南', icon: 'local_florist' },
-  { href: '/watchlist', label: '我的最愛作物', icon: 'monitoring' },
-  { href: '/insights', label: '休市日曆', icon: 'event' },
-]
-
-function isNavActive(pathname: string | null, href: string) {
-  if (!pathname) return false
-  if (href === '/') return pathname === '/'
-  if (href === '/search') return pathname === '/search' || pathname.startsWith('/produce/')
-  return pathname === href || pathname.startsWith(`${href}/`)
-}
-
-function getRouteMeta(pathname: string | null) {
-  if (!pathname) return { kicker: 'Market pulse', label: '首頁總覽' }
-  if (pathname.startsWith('/produce/')) {
-    return { kicker: 'Produce detail', label: '單品行情' }
-  }
-  if (pathname.startsWith('/search')) {
-    return { kicker: 'Search desk', label: '作物搜尋' }
-  }
-  if (pathname.startsWith('/seasonal')) {
-    return { kicker: 'Seasonal guide', label: '當季盛產' }
-  }
-  if (pathname.startsWith('/watchlist')) {
-    return { kicker: 'Watchlist', label: '追蹤清單' }
-  }
-  if (pathname.startsWith('/market')) {
-    return { kicker: 'Wholesale markets', label: '市場行情' }
-  }
-  if (pathname.startsWith('/insights')) {
-    return { kicker: 'Analytics', label: '洞察與分析' }
-  }
-  if (pathname.startsWith('/settings')) {
-    return { kicker: 'Preferences', label: '使用設定' }
-  }
-  return { kicker: 'Market pulse', label: '首頁總覽' }
-}
+// Header 只放三顆按鈕：左側選單，右側搜尋與通知。品牌、設定、意見回饋都在側邊選單。
+const HEADER_ICON_BUTTON =
+  'touch-target flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 dark:text-primary-fixed-dim dark:hover:bg-white/10'
 
 const ALL_CROPS = Array.from(new Set([
   ...COMMON_CROPS,
@@ -72,6 +37,31 @@ export function TopAppBar() {
   const [showNotifications, setShowNotifications] = useState(false)
   const notificationRef = useRef<HTMLDivElement>(null)
   const spotlightInputRef = useRef<HTMLInputElement>(null)
+
+  // Side menu + feedback dialog. Closing either hands focus back to the menu button.
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+
+  const openMenu = useCallback(() => setIsMenuOpen(true), [])
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false)
+    menuButtonRef.current?.focus()
+  }, [])
+  const openFeedback = useCallback(() => {
+    setIsMenuOpen(false)
+    setIsFeedbackOpen(true)
+  }, [])
+  const closeFeedback = useCallback(() => {
+    setIsFeedbackOpen(false)
+    menuButtonRef.current?.focus()
+  }, [])
+
+  // The header lives in the root layout, so it survives navigation: close the menu
+  // whenever the route changes (a menu link, the browser's back button).
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [pathname])
 
   // Load search history from localStorage
   useEffect(() => {
@@ -230,118 +220,70 @@ export function TopAppBar() {
     }
   }
 
-  const routeMeta = getRouteMeta(pathname)
+  const routeLabel = getRouteLabel(pathname)
 
   return (
     <>
-      <header className="glass-header app-shell-header sticky top-0 z-50 flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3">
-        <div className="flex items-center gap-3 md:gap-4">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 min-w-0">
-            <span className="app-shell-brand-mark material-symbols-outlined text-primary" style={{ fontSize: '1.4rem' }} aria-hidden="true">eco</span>
-            <span className="min-w-0">
-              <span className="block text-body-md sm:text-body-lg font-black text-primary-container tracking-tight whitespace-nowrap">
-                農時價
-              </span>
-            </span>
-          </Link>
-
-          <div className="hidden lg:flex flex-col min-w-0">
-            <span className="section-kicker">{routeMeta.kicker}</span>
-            <span className="text-body-sm font-semibold text-on-surface whitespace-nowrap">{routeMeta.label}</span>
-          </div>
-        </div>
-
-        {/* Desktop Nav (Centered) */}
-        <div className="hidden md:flex flex-1 justify-center items-center px-2 md:px-5">
-          <nav aria-label="主要導覽" className="app-shell-nav-rail flex items-center gap-1">
-            {NAV_LINKS.map((link) => {
-              const active = isNavActive(pathname, link.href)
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => trackEvent('nav_click', link.href, { source: 'topbar', label: link.label })}
-                  aria-label={link.label}
-                  title={link.label}
-                  aria-current={active ? 'page' : undefined}
-                  className={`app-shell-nav-link justify-center px-3 py-2 rounded-full transition-colors ${
-                    active
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-on-surface-variant hover:bg-surface-container'
-                  }`}
-                >
-                  <span
-                    className="material-symbols-outlined"
-                    aria-hidden="true"
-                    style={{ fontSize: '1.5rem', fontVariationSettings: active ? "'FILL' 1" : "'FILL' 0" }}
-                  >
-                    {link.icon}
-                  </span>
-                  <span className="text-label-sm font-semibold whitespace-nowrap">
-                    {link.label}
-                  </span>
-                </Link>
-              )
-            })}
-          </nav>
-        </div>
-
-        {/* Right Actions: Search Icon/Box + Feedback + Notifications */}
-        <div className="flex flex-1 md:flex-none items-center justify-end gap-1 md:gap-3">
-          
-          {/* Mobile search: ONLY displays a clean 🔍 icon button */}
+      <header className="glass-header app-shell-header sticky top-0 z-50 flex h-12 items-center justify-between gap-2 px-1 md:h-14 md:px-3">
+        {/* Left: menu button + the page the visitor is on (the bottom bar shrinks while scrolling) */}
+        <div className="flex min-w-0 items-center gap-0.5">
           <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={openMenu}
+            aria-label="開啟選單"
+            aria-haspopup="dialog"
+            aria-expanded={isMenuOpen}
+            aria-controls="app-drawer"
+            className={HEADER_ICON_BUTTON}
+          >
+            <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.5rem' }}>menu</span>
+          </button>
+          <span className="truncate text-body-lg font-extrabold tracking-tight text-primary dark:text-primary-fixed-dim">
+            {routeLabel}
+          </span>
+        </div>
+
+        {/* Right: only search and notifications; settings and feedback live in the side menu */}
+        <div className="flex flex-shrink-0 items-center">
+          <button
+            type="button"
             onClick={() => setIsSpotlightOpen(true)}
             aria-label="搜尋作物"
-            className="md:hidden app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
+            aria-keyshortcuts="/ Control+K Meta+K"
+            className={HEADER_ICON_BUTTON}
           >
             <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.5rem' }}>search</span>
           </button>
 
-          {/* Desktop search: Sleek input-styled capsule trigger button */}
-          <button
-            onClick={() => setIsSpotlightOpen(true)}
-            className="hidden md:flex items-center gap-2.5 w-[180px] lg:w-[240px] bg-surface-container/60 hover:bg-surface-container hover:scale-[1.02] active:scale-[0.98] border border-black/5 dark:border-white/5 rounded-full px-4 py-2.5 text-outline hover:text-on-surface text-body-sm text-left transition-all duration-300"
-          >
-            <span className="material-symbols-outlined text-outline" style={{ fontSize: '1.2rem' }} aria-hidden="true">search</span>
-            <span className="flex-1 text-on-surface-variant truncate">搜尋作物…</span>
-            <kbd className="hidden lg:inline-flex h-5 select-none items-center gap-0.5 rounded border border-white/25 px-1.5 font-mono text-[10px] font-medium text-outline">
-              /
-            </kbd>
-          </button>
-
-          {/* Feedback */}
-          <FeedbackButton />
-
-          {/* Notifications */}
           <div className="relative" ref={notificationRef}>
             <button
+              type="button"
               onClick={() => {
                 if (!showNotifications) trackEvent('notifications_open')
                 setShowNotifications(!showNotifications)
               }}
               aria-label="通知"
               aria-expanded={showNotifications}
-              className="app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
+              className={HEADER_ICON_BUTTON}
             >
               <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '1.5rem' }}>notifications</span>
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 top-full mt-2 w-72 glass-card-solid rounded-2xl overflow-hidden shadow-glass z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute right-0 top-full mt-2 w-72 max-w-[calc(100vw-1rem)] glass-card-solid rounded-2xl overflow-hidden shadow-glass z-50">
                 <div className="p-4 border-b border-white/20">
-                  <h3 className="text-label-bold font-semibold text-primary">通知</h3>
+                  <h3 className="text-label-bold font-semibold text-primary dark:text-primary-fixed-dim">通知</h3>
                 </div>
                 <div className="p-4 text-center text-body-md text-on-surface-variant">
                   <p>目前沒有可在網站內查看的通知。</p>
                   <p className="mt-2 text-body-sm">價格異動會由瀏覽器顯示，每日摘要會出現在首頁。</p>
                 </div>
-                <div className="p-3 border-t border-white/20 bg-white/30 text-center">
+                <div className="p-3 border-t border-white/20 bg-white/30 text-center dark:bg-white/5">
                   <Link
                     href="/settings#notifications"
                     onClick={() => setShowNotifications(false)}
-                    className="text-primary hover:underline text-body-sm font-medium"
+                    className="text-primary hover:underline text-body-sm font-medium dark:text-primary-fixed-dim"
                   >
                     前往通知設定
                   </Link>
@@ -349,26 +291,11 @@ export function TopAppBar() {
               </div>
             )}
           </div>
-
-          {/* Settings (moved out of the nav, sits to the right of notifications) */}
-          <Link
-            href="/settings"
-            onClick={() => trackEvent('nav_click', '/settings', { source: 'topbar', label: '設定' })}
-            aria-label="設定"
-            title="設定"
-            aria-current={isNavActive(pathname, '/settings') ? 'page' : undefined}
-            className="app-shell-icon-button touch-target flex-shrink-0 flex items-center justify-center rounded-full transition-colors text-primary"
-          >
-            <span
-              className="material-symbols-outlined"
-              aria-hidden="true"
-              style={{ fontSize: '1.5rem', fontVariationSettings: isNavActive(pathname, '/settings') ? "'FILL' 1" : "'FILL' 0" }}
-            >
-              settings
-            </span>
-          </Link>
         </div>
       </header>
+
+      <AppDrawer open={isMenuOpen} onClose={closeMenu} onOpenFeedback={openFeedback} />
+      <FeedbackDialog open={isFeedbackOpen} onClose={closeFeedback} />
 
       {/* Spotlight Search Modal Overlay */}
       {isSpotlightOpen && (

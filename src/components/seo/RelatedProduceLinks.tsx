@@ -24,7 +24,7 @@ export function RelatedProduceLinks({ cropName, categoryLabel }: { cropName: str
   if (crops.length === 0) return null
 
   return (
-    <section className="px-section-margin max-w-4xl mx-auto py-6" aria-label={`其他${categoryLabel}價格`}>
+    <section className="px-section-margin max-w-4xl mx-auto pb-section-gap" aria-label={`其他${categoryLabel}價格`}>
       <article className="section-shell space-y-3">
         <h2 className="text-headline-md font-bold text-on-surface">其他{categoryLabel}今日價格</h2>
         <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">

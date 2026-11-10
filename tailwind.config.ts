@@ -76,6 +76,7 @@ const config: Config = {
         "container-padding": "24px",
         base: "12px",
         "section-margin": "var(--section-margin)",
+        "section-gap": "var(--section-gap)",
         "glass-blur": "24px",
       },
       fontFamily: {

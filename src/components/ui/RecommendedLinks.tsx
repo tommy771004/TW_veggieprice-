@@ -2,30 +2,7 @@
 
 import { m } from 'framer-motion'
 import { GlassCard } from './GlassCard'
-
-const PROJECTS = [
-  {
-    title: '台灣台鐵/高鐵時刻查詢',
-    url: 'https://taiwanrail.vercel.app/',
-    description: '整合台鐵與高鐵即時時刻表，提供最直覺的路網查詢體驗。支援 RWD 介面，讓您的通勤行程一手掌握。',
-    icon: '🚅',
-    color: 'border-blue-200/50 text-blue-700',
-  },
-  {
-    title: 'AI 行程規劃助手',
-    url: 'https://roam-jelly-web.vercel.app/',
-    description: '運用人工智慧為您量身打造旅遊行程。只需輸入目的地與偏好，即可生成完整的景點與路線建議。',
-    icon: '✈️',
-    color: 'border-purple-200/50 text-purple-700',
-  },
-  {
-    title: '皮克敏 輔助工具',
-    url: 'https://pikmin-tool-two.vercel.app/',
-    description: '為《皮克敏》系列遊戲提供實用的輔助工具，包括物品管理追蹤等功能。',
-    icon: '🎮',
-    color: 'border-emerald-200/50 text-emerald-700',
-  },
-]
+import { RECOMMENDED_PROJECTS } from '@/lib/recommendedProjects'
 
 const containerVariant = {
   hidden: { opacity: 0 },
@@ -42,7 +19,7 @@ const itemVariant = {
 
 export function RecommendedLinks() {
   return (
-    <section className="mt-8 mb-12">
+    <section>
       <div className="flex items-center gap-2 mb-6 px-2">
         <span className="material-symbols-outlined text-primary">apps</span>
         <h2 className="text-headline-md font-bold text-on-surface">更多實用工具推薦</h2>
@@ -55,7 +32,7 @@ export function RecommendedLinks() {
         viewport={{ once: true, margin: '-50px' }}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        {PROJECTS.map((project) => (
+        {RECOMMENDED_PROJECTS.map((project) => (
           <m.div key={project.url} variants={itemVariant}>
             <a 
               href={project.url} 

@@ -64,7 +64,7 @@ function AboutPageJsonLd() {
 
 export default function AboutPage() {
   return (
-    <article className="mx-auto max-w-3xl px-section-margin py-8 md:py-12">
+    <article className="mx-auto max-w-3xl px-section-margin py-section-gap">
       <AboutPageJsonLd />
       <header className="mb-8">
         <h1 className="text-headline-lg font-semibold text-on-surface">關於農時價</h1>
@@ -130,7 +130,7 @@ export default function AboutPage() {
         <section id="contact" className="section-shell scroll-mt-24" aria-labelledby="contact-heading">
           <h2 id="contact-heading" className="mb-3 text-headline-md font-semibold text-on-surface">回報錯誤與聯絡</h2>
           <p>
-            看到價格和市場現場差很多、作物分類錯誤，或頁面壞掉，請用頁面右上角的「意見回饋」按鈕告訴我們，也可以到{' '}
+            看到價格和市場現場差很多、作物分類錯誤，或頁面壞掉，請從左上角選單裡的「意見回饋」告訴我們，也可以到{' '}
             <a href={`${SOURCE_REPO_URL}/issues`} className="text-primary underline underline-offset-4" rel="noopener">
               GitHub Issues
             </a>{' '}

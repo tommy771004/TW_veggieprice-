@@ -119,7 +119,7 @@ export default async function ProducePage({ params }: Props) {
       <ProduceFaqSection cropName={cropName} />
       <RelatedProduceLinks cropName={cropName} categoryLabel={categoryLabel} />
       {hasCategoryHub && (
-        <div className="px-section-margin pb-8">
+        <div className="px-section-margin pb-section-gap">
           <Link
             href={`/produce/category/${category}`}
             className="inline-flex items-center gap-1.5 text-label-bold text-primary hover:underline"

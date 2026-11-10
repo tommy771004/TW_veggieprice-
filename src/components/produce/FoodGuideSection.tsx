@@ -12,7 +12,7 @@ export function FoodGuideSection({ cropName }: { cropName: string }) {
   if (!guide.isSpecific) return null
 
   return (
-    <section className="px-section-margin max-w-7xl mx-auto pb-8" aria-labelledby="food-guide-heading">
+    <section className="px-section-margin max-w-7xl mx-auto pb-section-gap" aria-labelledby="food-guide-heading">
       <div className="section-shell">
         <div className="section-heading-row gap-3 mb-5">
           <div>
