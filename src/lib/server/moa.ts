@@ -25,7 +25,13 @@ import { resolveCountyFromMarketName as resolveCountyFromMarketDataset } from "@
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from "@/lib/constants";
 import { marketsMatch } from "@/lib/markets";
 import { buildInterpolatedHistory } from "@/lib/server/historyAggregation";
-import { matchesMoaCrop, moaQueryName, selectMoaCropRows } from "@/lib/moaCropNames";
+import {
+  matchesMoaCrop,
+  matchesSearchKeyword,
+  moaQueryName,
+  moaSearchTerms,
+  selectMoaCropRows,
+} from "@/lib/moaCropNames";
 import { makeLogger } from "@/lib/server/logger";
 import { readLocalDataJson } from "@/lib/server/localData";
 import {
@@ -1886,10 +1892,9 @@ async function fetchSearchBulkRecords(
         filtered = filtered.filter((r) => r.marketName === options.market);
       }
       if (options.cropName) {
-        filtered = filtered.filter(
-          (r) =>
-            r.cropName === options.cropName ||
-            r.cropName.includes(options.cropName!),
+        const keyword = options.cropName;
+        filtered = filtered.filter((r) =>
+          matchesSearchKeyword(keyword, r.cropName),
         );
       }
       // Need at least two distinct trading days for a real baseline; otherwise
@@ -1903,7 +1908,29 @@ async function fetchSearchBulkRecords(
     }
   }
 
-  return fetchPriceRecords(options);
+  if (!options.cropName) return fetchPriceRecords(options);
+
+  // A colloquial keyword (高麗菜) has no rows under its own name, so also
+  // request each alias base (甘藍) and keep the union, deduped.
+  const keyword = options.cropName;
+  const results = await Promise.all(
+    moaSearchTerms(keyword).map((cropName) =>
+      fetchPriceRecords({ ...options, cropName }),
+    ),
+  );
+  const seen = new Set<string>();
+  const records = results
+    .flatMap((r) => r.records)
+    .filter((r) => {
+      if (!matchesSearchKeyword(keyword, r.cropName)) return false;
+      const key = `${r.cropCode}|${r.cropName}|${r.marketName}|${r.grade}|${r.date}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  const error =
+    records.length === 0 ? results.find((r) => r.error)?.error : undefined;
+  return error ? { records, error } : { records };
 }
 
 /**
