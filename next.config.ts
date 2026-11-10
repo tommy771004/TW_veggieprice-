@@ -11,6 +11,21 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Site-wide hardening (PageSpeed best-practices). Nothing embeds this
+        // site in a frame, and every external link opens with noopener, so
+        // frame-ancestors / XFO and a same-origin COOP don't break anything.
+        // A full script-src CSP is deliberately left out: GA and affiliate
+        // trackers would need a nonce pipeline for little gain here.
+        source: '/:path*',
+        headers: [
+          { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+        ],
+      },
+      {
         source: '/icons/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },

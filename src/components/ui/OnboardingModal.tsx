@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { triggerHaptic, hapticPatterns } from '@/lib/haptics'
 
-const STORAGE_KEY = 'veggieprice_onboarding_seen'
+import { ONBOARDING_STORAGE_KEY as STORAGE_KEY } from '@/lib/onboarding'
 
 const STEPS = [
   {
@@ -26,27 +26,33 @@ const STEPS = [
 
 export function OnboardingModal() {
   const pathname = usePathname()
-  const [visible, setVisible] = useState(false)
+  // null until localStorage has been read on the client. Until then the sheet
+  // renders on `/` (server HTML + hydration agree), and returning visitors are
+  // already hidden by the <head> script + CSS in lib/onboarding.ts.
+  const [seen, setSeen] = useState<boolean | null>(null)
   const [step, setStep] = useState(0)
   const [exiting, setExiting] = useState(false)
   const dialogRef = useRef<HTMLDivElement>(null)
   const previouslyFocused = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
-    const isHomePage = pathname === '/'
-    if (!isHomePage) {
-      setVisible(false)
-      return
+    let stored = false
+    try {
+      stored = Boolean(localStorage.getItem(STORAGE_KEY))
+    } catch {
+      // Storage blocked: show onboarding, as before.
     }
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      setVisible(true)
-    }
-  }, [pathname])
+    setSeen(stored)
+  }, [])
+
+  const visible = pathname === '/' && seen !== true
+  // Focus handling only once we know the sheet is really shown.
+  const active = visible && seen === false
 
   // Move focus into the dialog on open and restore it on close. Trap Tab and
   // close on Escape so keyboard users aren't stranded behind the backdrop.
   useEffect(() => {
-    if (!visible) return
+    if (!active) return
     previouslyFocused.current = document.activeElement as HTMLElement | null
 
     const node = dialogRef.current
@@ -85,14 +91,18 @@ export function OnboardingModal() {
       previouslyFocused.current?.focus?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible])
+  }, [active])
 
   function dismiss() {
     triggerHaptic(hapticPatterns.success)
     setExiting(true)
     setTimeout(() => {
-      localStorage.setItem(STORAGE_KEY, '1')
-      setVisible(false)
+      try {
+        localStorage.setItem(STORAGE_KEY, '1')
+      } catch {
+        // Storage blocked: still close for this session.
+      }
+      setSeen(true)
     }, 300)
   }
 
@@ -111,7 +121,7 @@ export function OnboardingModal() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center transition-opacity duration-300 ${exiting ? 'opacity-0' : 'opacity-100'}`}
+      className={`onboarding-root fixed inset-0 z-50 flex items-end sm:items-center justify-center transition-opacity duration-300 ${exiting ? 'opacity-0' : 'opacity-100'}`}
     >
       {/* Backdrop */}
       <div

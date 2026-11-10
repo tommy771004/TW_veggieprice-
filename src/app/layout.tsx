@@ -16,6 +16,7 @@ import { FramerMotionProvider } from '@/components/providers/FramerMotionProvide
 const OnboardingModal = dynamic(() => import('@/components/ui/OnboardingModal').then(mod => mod.OnboardingModal))
 
 import { SITE_URL, GOOGLE_SITE_VERIFICATION } from '@/lib/env'
+import { ONBOARDING_HEAD_SCRIPT, ONBOARDING_HIDE_CSS } from '@/lib/onboarding'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -73,6 +74,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         {/* Icons render on the first screen (top bar, bottom nav); fetch the font with the CSS, not after it. */}
         <link rel="preload" href="/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        {/* Server-rendered onboarding sheet: hide it before first paint for returning (or no-JS) visitors. */}
+        <script dangerouslySetInnerHTML={{ __html: ONBOARDING_HEAD_SCRIPT }} />
+        <style dangerouslySetInnerHTML={{ __html: ONBOARDING_HIDE_CSS }} />
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: '.onboarding-root{display:none}' }} />
+        </noscript>
         <OrganizationJsonLd />
         <WebSiteJsonLd />
         <WebAppJsonLd />
