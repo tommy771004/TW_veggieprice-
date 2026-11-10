@@ -50,6 +50,7 @@ flowchart LR
 
 - 新增 API 端點時，優先擴充 `src/lib/server/moa.ts`，避免在 Route Handler 內重複寫 fetch 與日期轉換。
 - PWA 快取策略如需調整，請優先修改 `public/sw.js`，避免把快取邏輯散落到 React 元件內。
+- Material Symbols 圖示字型是自架的子集（`public/fonts/material-symbols-outlined.woff2`）。新增圖示名稱後執行 `npm run icons:sync` 重建，否則圖示會顯示成英文字；`scripts/icon-font.test.js` 會擋下漏掉的名稱。
 - 使用者偏好若要新增欄位，請同步更新 `src/lib/preferences.ts` 與 `src/app/globals.css` 的套用規則。
 
 ## Agent skills

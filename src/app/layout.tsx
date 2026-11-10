@@ -71,6 +71,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="zh-TW" suppressHydrationWarning>
       <head>
+        {/* Icons render on the first screen (top bar, bottom nav); fetch the font with the CSS, not after it. */}
+        <link rel="preload" href="/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <OrganizationJsonLd />
         <WebSiteJsonLd />
         <WebAppJsonLd />

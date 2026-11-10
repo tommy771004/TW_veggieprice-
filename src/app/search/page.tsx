@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { SearchContent } from '@/components/pages/SearchContent'
 import { SearchSeoSummary } from '@/components/seo/SearchSeoSummary'
-import { SkeletonList } from '@/components/ui/SkeletonCard'
+import SearchLoading from './loading'
 import { SITE_URL } from '@/lib/env'
 
 export const revalidate = 300
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function SearchPage() {
   return (
     <>
-      <Suspense fallback={<SkeletonList count={6} />}>
+      <Suspense fallback={<SearchLoading />}>
         <SearchContent />
       </Suspense>
       <SearchSeoSummary />

@@ -439,7 +439,7 @@ export function SearchContent() {
 
 
   return (
-    <div className="px-section-margin py-section-gap space-y-section-gap">
+    <div className="search-page-shell px-section-margin py-section-gap space-y-section-gap">
 
       <section className="section-shell space-y-4">
         <div className="section-heading-row gap-3">

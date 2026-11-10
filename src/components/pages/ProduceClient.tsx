@@ -752,14 +752,16 @@ export function ProduceClient({
               <p className="text-body-sm text-on-surface-variant mt-1 max-w-2xl">
                 從單品均價、量能、產地與成本一起看，判斷今天這個作物是在穩定區、熱區，還是波動區。
               </p>
-              {updatedAt && (
-                <p className="text-label-sm text-on-surface-variant flex items-center gap-1 mt-1.5">
-                  <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '14px' }}>update</span>
-                  資料擷取時間：<span suppressHydrationWarning>{new Date(updatedAt).toLocaleString('zh-TW', {
-                    timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                  })}</span>
-                </p>
-              )}
+              {/* Always rendered (hidden until the history fetch returns) so its line doesn't push the hero card down (CLS). */}
+              <p
+                className={`text-label-sm text-on-surface-variant flex items-center gap-1 mt-1.5 ${updatedAt ? '' : 'invisible'}`}
+                aria-hidden={updatedAt ? undefined : true}
+              >
+                <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: '14px' }}>update</span>
+                資料擷取時間：<span suppressHydrationWarning>{updatedAt ? new Date(updatedAt).toLocaleString('zh-TW', {
+                  timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                }) : '--'}</span>
+              </p>
             </div>
             <div className="flex flex-wrap gap-2">
               <span className="market-status-chip">{displayAlias}</span>
@@ -806,9 +808,16 @@ export function ProduceClient({
                         <div className="pb-1.5">
                           <TrendChip change={priceChange} />
                         </div>
+                      ) : historyLoading ? (
+                        // Same-size stand-in while history loads: on phones the chip wraps
+                        // to its own line, and appearing late would grow the card (CLS).
+                        <div className="pb-1.5 invisible" aria-hidden="true">
+                          <TrendChip change={0} />
+                        </div>
                       ) : null}
                     </div>
-                    <p className="mt-3 text-body-sm text-white/70 max-w-xl">
+                    {/* Two lines reserved: the loading text is one line, the loaded summary wraps to two. */}
+                    <p className="mt-3 text-body-sm text-white/70 max-w-xl min-h-[2lh]">
                       {historyLoading ? '正在取得報價…' : latest ? `${historyScopeLabel} · 報價日期 ${latest.date}${previous ? ` · 漲跌相較 ${previous.date}` : ' · 尚無前次報價可比較'}` : '此區間尚無有效報價，請重試或查看較長區間。'}
                     </p>
                   </div>

@@ -1,4 +1,33 @@
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
+/*
+ * Material Symbols, self-hosted as a subset (scripts/sync-icon-font.mjs).
+ * The full Google Fonts variable font was 3.9 MB behind a chained @import;
+ * this file is ~75 KB and preloaded from the root layout. `block` keeps the
+ * ligature names ("arrow_back") from flashing as text and shifting layout.
+ */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: block;
+  src: url('/fonts/material-symbols-outlined.woff2') format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -1292,4 +1321,15 @@
     .quote-product { flex-direction: row; align-items: center; gap: 8px; }
     .quote-row, .quote-row:has(.quote-meta) { padding: 12px 10px; }
   }
+}
+
+/*
+ * Search results load on the client and grow from a skeleton to 20+ rows.
+ * Reserving a full screen keeps the SEO guide and affiliate block below the
+ * fold, so their being pushed down never counts toward CLS. Shared by the
+ * route loading UI, the Suspense fallback and SearchContent itself.
+ */
+.search-page-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
