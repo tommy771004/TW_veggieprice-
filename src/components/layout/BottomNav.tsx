@@ -33,12 +33,13 @@ export function BottomNav() {
   useEffect(() => {
     if (reduceMotion) return // Respect users who opt out of non-essential motion.
 
-    let lastY = window.scrollY
+    // 不在掛載時讀 scrollY（剛 hydrate 時讀會強制同步排版），第一次捲動才取基準。
+    let lastY: number | null = null
     let ticking = false
 
     const update = () => {
       const y = window.scrollY
-      const delta = y - lastY
+      const delta = lastY === null ? 0 : y - lastY
       if (y < 40) {
         setShrunk(false)
       } else if (Math.abs(delta) > 6) {
@@ -76,10 +77,14 @@ export function BottomNav() {
       setPill((prev) => (prev && prev.x === next.x && prev.width === next.width ? prev : next))
     }
 
-    measure()
-    if (typeof ResizeObserver === 'undefined') return
+    if (typeof ResizeObserver === 'undefined') {
+      measure()
+      return
+    }
 
-    // 視窗寬度或字級偏好改變時，分頁位置會跟著變
+    // 不在這裡同步量：剛 hydrate 時讀 offsetLeft 會強制整頁同步排版（PageSpeed「強制重排」）。
+    // ResizeObserver 開始觀察後，第一次回呼在瀏覽器排版完、繪製前觸發，此時讀位置不需重排；
+    // 之後視窗寬度或字級偏好改變時，分頁位置也會跟著更新。
     const observer = new ResizeObserver(measure)
     observer.observe(active)
     if (active.parentElement) observer.observe(active.parentElement)
