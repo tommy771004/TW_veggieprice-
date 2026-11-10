@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { PriceHistoryPoint } from "@/lib/types";
 import { formatPrice, formatVolume } from "@/lib/utils";
 
@@ -12,10 +12,6 @@ const PLOT_LEFT = 48;
 const PLOT_RIGHT = 16;
 const PLOT_TOP = 18;
 const PLOT_BOTTOM = 42;
-
-// Measure before paint on the client; fall back to a plain effect on the server.
-const useIsoLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface HomeWeeklyTrendChartProps {
   points: PriceHistoryPoint[];
@@ -42,12 +38,18 @@ export function HomeWeeklyTrendChart({
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
 
-  useIsoLayoutEffect(() => {
+  // Width comes only from ResizeObserver, whose first callback runs after the
+  // browser's own layout. Reading clientWidth in a layout effect forced a
+  // synchronous reflow of the whole freshly-hydrated page (PageSpeed "forced
+  // reflow", ~140 ms on a mid-range phone). Until then the SVG scales its
+  // DEFAULT_WIDTH viewBox inside the fixed-height box, so nothing shifts.
+  useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const measure = () => setWidth(el.clientWidth);
-    measure();
-    const observer = new ResizeObserver(measure);
+    const observer = new ResizeObserver((entries) => {
+      const next = Math.round(entries[0]?.contentRect.width ?? 0);
+      if (next > 0) setWidth(next);
+    });
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
