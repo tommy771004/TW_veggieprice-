@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { fetchSearchRecords } from '@/lib/server/moa'
 import { todayISO } from '@/lib/server/dateUtils'
 import { toCompactPricePayload } from '@/lib/priceDto'
+import { isMarketRegion } from '@/lib/marketRegion'
 
 export const revalidate = 3600
 export async function GET(req: NextRequest) {
@@ -15,6 +16,11 @@ export async function GET(req: NextRequest) {
   const pageParam = searchParams.get('page')
   const limitParam = searchParams.get('limit') || '20'
   const format = searchParams.get('format') // 'array' for compact DTO
+  // region=北部 → only that region's markets (overrides market).
+  const regionParam = searchParams.get('region')
+  const region = isMarketRegion(regionParam) ? regionParam : undefined
+  // group=crop → one 全國／區域均價 row per 品種 instead of one row per market.
+  const groupByCrop = searchParams.get('group') === 'crop'
 
   const { records, error } = await fetchSearchRecords({
     cropName: crop,
@@ -23,6 +29,8 @@ export async function GET(req: NextRequest) {
     startDate,
     endDate,
     marketType: type,
+    region,
+    groupByCrop,
   })
 
   if (error) {

@@ -17,7 +17,7 @@ export const ProduceRow = memo(function ProduceRow({ item, category, showDetails
     <Link href={`/produce/${encodeURIComponent(item.cropName)}`} prefetch={false}
       className="quote-link" data-testid="produce-row" data-crop-name={item.cropName}>
       <QuoteRow name={item.cropName} code={item.cropCode} category={category}
-        subtitle={item.marketName} price={item.avgPrice} change={item.priceChange}
+        subtitle={item.marketCount ? `${item.marketName} · ${item.marketCount} 個市場` : item.marketName} price={item.avgPrice} change={item.priceChange}
         unit={category === 'flower' ? '元' : getPriceUnit(item.cropName, category)}
         details={showDetails ? <>上 {formatPrice(item.upperPrice)} · 中 {formatPrice(item.middlePrice)} · 下 {formatPrice(item.lowerPrice)}</> : undefined}
         meta={<><time dateTime={item.date}>{item.date.replaceAll('-', '/')}</time><span>交易量 {formatVolume(item.transWeight)}</span></>} />

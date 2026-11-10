@@ -42,8 +42,10 @@ import {
 } from "@/lib/server/livestockFeed";
 import {
   aggregateSearchRecords,
+  aggregateSearchRecordsByCrop,
   type SearchWindow,
 } from "@/lib/server/searchAggregation";
+import { resolveMarketRegion, type MarketRegion } from "@/lib/marketRegion";
 import {
   buildLivestockQuotes,
   buildSeafoodQuotes,
@@ -215,6 +217,16 @@ interface PriceQueryOptions {
   startDate?: string;
   endDate?: string;
   marketType?: string;
+}
+
+interface SearchQueryOptions extends PriceQueryOptions {
+  /** Keep only markets in this region (蔬果／花卉 feeds); overrides `market`. */
+  region?: MarketRegion;
+  /**
+   * Collapse every market into one 全國／區域均價 row per 品種 (蔬果／花卉 feeds,
+   * only when no single market is selected).
+   */
+  groupByCrop?: boolean;
 }
 
 function parseRecord(record: MOARawRecord): NormalizedPriceRecord {
@@ -1904,7 +1916,7 @@ async function fetchSearchBulkRecords(
  * window is closed) with a 漲跌幅 against its own previous priced day.
  */
 export async function fetchSearchRecords(
-  options: PriceQueryOptions,
+  options: SearchQueryOptions,
 ): Promise<SearchRecordsResult> {
   const endDate = options.endDate ?? options.date ?? todayISO();
   const startDate = options.startDate ?? endDate;
@@ -1956,10 +1968,15 @@ export async function fetchSearchRecords(
     }
   }
 
+  const singleMarket =
+    !options.region &&
+    Boolean(options.market) &&
+    options.market !== ALL_MARKET_SENTINEL;
+
   // Make a single bulk request instead of N+1 requests
   const bulkRes = await fetchSearchBulkRecords({
     cropName: options.cropName,
-    market: options.market,
+    market: options.region ? undefined : options.market,
     startDate: previousDate,
     endDate: endDate,
     marketType: options.marketType,
@@ -1969,11 +1986,22 @@ export async function fetchSearchRecords(
     return { records: [], error: bulkRes.error };
   }
 
-  if (bulkRes.records.length === 0) {
+  const quotes = options.region
+    ? bulkRes.records.filter(
+        (record) => resolveMarketRegion(record.marketName) === options.region,
+      )
+    : bulkRes.records;
+
+  if (quotes.length === 0) {
     return { records: [] };
   }
 
-  return { records: aggregateSearchRecords(bulkRes.records, window) };
+  if (options.groupByCrop && !singleMarket) {
+    const scopeLabel = options.region ? `${options.region}均價` : "全國均價";
+    return { records: aggregateSearchRecordsByCrop(quotes, window, scopeLabel) };
+  }
+
+  return { records: aggregateSearchRecords(quotes, window) };
 }
 
 function aggregateMarketByDate(

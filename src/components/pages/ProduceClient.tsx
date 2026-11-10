@@ -39,10 +39,27 @@ import Link from 'next/link'
 import { ALL_MARKET_SENTINEL } from '@/lib/constants'
 import { summarizeHistory } from '@/lib/historySummary'
 import { getPriceUnit } from '@/lib/priceUnit'
+import { getUserPreferences } from '@/lib/preferences'
+import {
+  groupMarketsByRegion,
+  hasMultipleRegions,
+  isMarketRegion,
+  resolveMarketRegion,
+  type MarketRegion,
+} from '@/lib/marketRegion'
 
 const PERIODS: PricePeriod[] = ['1W', '1M', '3M']
 /** Empty string = national view (scheme C: mean of markets' U/A/L). */
 const NATIONAL_HISTORY_MARKET = ''
+
+type CompareSort = 'asc' | 'desc' | 'change'
+const COMPARE_SORT_OPTIONS: ReadonlyArray<{ value: CompareSort; label: string }> = [
+  { value: 'asc', label: '均價 低 → 高' },
+  { value: 'desc', label: '均價 高 → 低' },
+  { value: 'change', label: '跌幅最大優先' },
+]
+/** 各區市場比價 shows this many markets before 「顯示全部」. */
+const COMPARE_COLLAPSED_COUNT = 6
 
 export function ProduceClient({
   cropName,
@@ -104,6 +121,15 @@ export function ProduceClient({
   const [costInsight, setCostInsight] = useState<ProductCostInsight | null>(initialCostInsight ?? null)
   const [costFiles, setCostFiles] = useState<CostSurveyFile[]>(initialCostInsight?.costFiles ?? [])
   const [reloadKey, setReloadKey] = useState(0)
+  const [compareRegion, setCompareRegion] = useState<MarketRegion | ''>('')
+  const [compareSort, setCompareSort] = useState<CompareSort>('asc')
+  const [compareExpanded, setCompareExpanded] = useState(false)
+  const [preferredMarket, setPreferredMarket] = useState('')
+
+  // Preferences live in localStorage, so read them after hydration.
+  useEffect(() => {
+    setPreferredMarket(getUserPreferences().preferredMarket)
+  }, [])
   const cropCode = `CROP_${cropName.split('').reduce((acc, c) => (acc * 31 + c.charCodeAt(0)) & 0xffff, 0).toString(16).toUpperCase().padStart(4, '0')}`
 
   useEffect(() => {
@@ -550,6 +576,25 @@ export function ProduceClient({
     NATIONAL_HISTORY_MARKET,
     ...pricedMarkets.map((m) => m.marketName),
   ]
+  const pricedMarketGroups = groupMarketsByRegion(pricedMarkets.map((m) => m.marketName))
+  const showMarketRegionGroups = hasMultipleRegions(pricedMarketGroups)
+  // Trend scope shortcuts: 全國 plus the user's preferred market when it traded.
+  const quickHistoryMarkets = [
+    NATIONAL_HISTORY_MARKET,
+    ...(preferredMarket && pricedMarkets.some((m) => m.marketName === preferredMarket) ? [preferredMarket] : []),
+  ]
+  const compareRegionOptions = pricedMarketGroups.flatMap((group) => (isMarketRegion(group.region) ? [group.region] : []))
+  const activeCompareRegion = compareRegion && compareRegionOptions.includes(compareRegion) ? compareRegion : ''
+  const comparedMarkets = pricedMarkets
+    .filter((m) => !activeCompareRegion || resolveMarketRegion(m.marketName) === activeCompareRegion)
+    .toSorted((a, b) => {
+      if (compareSort === 'desc') return b.avgPrice - a.avgPrice
+      if (compareSort === 'change') return a.priceChange - b.priceChange
+      return a.avgPrice - b.avgPrice
+    })
+  const visibleComparedMarkets = compareExpanded ? comparedMarkets : comparedMarkets.slice(0, COMPARE_COLLAPSED_COUNT)
+  const cheapestMarket = comparedMarkets.reduce<MarketComparison | null>((lo, m) => (!lo || m.avgPrice < lo.avgPrice ? m : lo), null)
+  const priciestMarket = comparedMarkets.reduce<MarketComparison | null>((hi, m) => (!hi || m.avgPrice > hi.avgPrice ? m : hi), null)
   const showCostCard = costLoading || (costInsight !== null && avgCost !== null) || costFiles.length > 0
   const showMarketCard = marketsLoading || marketsLoaded || Boolean(marketsError)
   const showTraceabilityCard = traceabilityLoading || traceability.length > 0
@@ -871,8 +916,8 @@ export function ProduceClient({
             </div>
 
             {historyMarketOptions.length > 1 && cropCategory !== 'meat' && cropCategory !== 'seafood' ? (
-              <div className="flex flex-wrap gap-1.5 mb-4" role="group" aria-label="歷史走勢市場範圍">
-                {historyMarketOptions.map((market) => {
+              <div className="flex flex-wrap items-center gap-1.5 mb-4" role="group" aria-label="歷史走勢市場範圍">
+                {quickHistoryMarkets.map((market) => {
                   const label = market || '全國'
                   const selected = historyMarket === market
                   return (
@@ -887,10 +932,32 @@ export function ProduceClient({
                           : 'bg-surface-container text-on-surface-variant border border-outline-variant/40 hover:bg-surface-container-high'
                       }`}
                     >
-                      {label}
+                      {market && market === preferredMarket ? `常用：${label}` : label}
                     </button>
                   )
                 })}
+                <label className="relative inline-flex items-center">
+                  <span className="sr-only">選擇走勢市場</span>
+                  <select
+                    value={quickHistoryMarkets.includes(historyMarket) ? '' : historyMarket}
+                    onChange={(e) => { if (e.target.value) setHistoryMarket(e.target.value) }}
+                    className={`appearance-none pl-2.5 pr-7 py-1 rounded-full text-label-sm font-medium border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70 focus-visible:ring-offset-2 ${
+                      quickHistoryMarkets.includes(historyMarket)
+                        ? 'bg-surface-container text-on-surface-variant border-outline-variant/40'
+                        : 'bg-primary text-white border-primary shadow-sm'
+                    }`}
+                  >
+                    <option value="" disabled>其他市場</option>
+                    {showMarketRegionGroups
+                      ? pricedMarketGroups.map((group) => (
+                          <optgroup key={group.region} label={group.region}>
+                            {group.markets.map((name) => <option key={name} value={name}>{name}</option>)}
+                          </optgroup>
+                        ))
+                      : historyMarketOptions.filter(Boolean).map((name) => <option key={name} value={name}>{name}</option>)}
+                  </select>
+                  <span aria-hidden="true" className="material-symbols-outlined pointer-events-none absolute right-1.5" style={{ fontSize: '16px' }}>expand_more</span>
+                </label>
               </div>
             ) : null}
 
@@ -1151,19 +1218,74 @@ export function ProduceClient({
                 目前沒有可用的跨市場比價資料。
               </div>
             ) : (
+              <>
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {compareRegionOptions.length >= 2 ? (
+                  <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+                    地區
+                    <span className="relative flex items-center">
+                      <select
+                        value={activeCompareRegion}
+                        onChange={(e) => {
+                          const next = e.target.value
+                          setCompareRegion(isMarketRegion(next) ? next : '')
+                          setCompareExpanded(false)
+                        }}
+                        className="appearance-none w-full pl-3 pr-8 py-2 rounded-xl text-label-bold bg-surface-container text-on-surface border border-outline-variant/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
+                      >
+                        <option value="">全部地區</option>
+                        {compareRegionOptions.map((region) => <option key={region} value={region}>{region}</option>)}
+                      </select>
+                      <span aria-hidden="true" className="material-symbols-outlined pointer-events-none absolute right-2" style={{ fontSize: '18px' }}>expand_more</span>
+                    </span>
+                  </label>
+                ) : null}
+                <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+                  排序
+                  <span className="relative flex items-center">
+                    <select
+                      value={compareSort}
+                      onChange={(e) => setCompareSort(e.target.value as CompareSort)}
+                      className="appearance-none w-full pl-3 pr-8 py-2 rounded-xl text-label-bold bg-surface-container text-on-surface border border-outline-variant/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
+                    >
+                      {COMPARE_SORT_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                    </select>
+                    <span aria-hidden="true" className="material-symbols-outlined pointer-events-none absolute right-2" style={{ fontSize: '18px' }}>expand_more</span>
+                  </span>
+                </label>
+              </div>
+              {cheapestMarket && priciestMarket && comparedMarkets.length > 1 ? (
+                <p className="text-body-sm text-on-surface-variant mb-3">
+                  最便宜 <strong className="text-on-surface">{cheapestMarket.marketName} {formatPrice(cheapestMarket.avgPrice)}</strong>
+                  {' · '}最貴 <strong className="text-on-surface">{priciestMarket.marketName} {formatPrice(priciestMarket.avgPrice)}</strong>
+                  {' · '}價差 {formatPrice(priciestMarket.avgPrice - cheapestMarket.avgPrice)} {resolvedCategory === 'flower' ? '元' : priceUnit}
+                </p>
+              ) : null}
               <ul className="quote-list">
-                {pricedMarkets.map((m) => (
+                {visibleComparedMarkets.map((m, index) => (
                   <li key={m.marketName}>
                     <Link
                       href={`/search?q=${encodeURIComponent(cropName)}&market=${encodeURIComponent(m.marketName)}&type=${searchType}`}
                       className="quote-link"
                     >
-                      <QuoteRow name={cropName} title={m.marketName} category={resolvedCategory} subtitle={cropName}
+                      <QuoteRow name={cropName} title={m.marketName} category={resolvedCategory} subtitle={cropName} rank={index + 1}
                         price={m.avgPrice} change={m.priceChange} unit={resolvedCategory === 'flower' ? '元' : priceUnit} />
                     </Link>
                   </li>
                 ))}
               </ul>
+              {comparedMarkets.length > COMPARE_COLLAPSED_COUNT ? (
+                <button
+                  type="button"
+                  onClick={() => setCompareExpanded((value) => !value)}
+                  aria-expanded={compareExpanded}
+                  className="mt-3 w-full min-h-11 inline-flex items-center justify-center gap-1 rounded-xl text-label-bold text-primary dark:text-primary-fixed hover:bg-surface-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-fixed/70"
+                >
+                  {compareExpanded ? '收合' : `顯示全部 ${comparedMarkets.length} 個市場`}
+                  <span aria-hidden="true" className="material-symbols-outlined" style={{ fontSize: '18px' }}>{compareExpanded ? 'expand_less' : 'expand_more'}</span>
+                </button>
+              ) : null}
+              </>
             )}
           </div>
           ) : null}

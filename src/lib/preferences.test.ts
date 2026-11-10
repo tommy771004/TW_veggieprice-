@@ -86,3 +86,17 @@ describe('notification mute state', () => {
     assert.equal(isNotificationsMuted(muted), true)
   })
 })
+
+describe('search page size preference', () => {
+  it('defaults to 20 and keeps a supported choice', () => {
+    assert.equal(normalizeUserPreferences({}).searchPageSize, 20)
+    assert.equal(normalizeUserPreferences({ searchPageSize: 50 }).searchPageSize, 50)
+  })
+
+  it('falls back to 20 for anything outside 10 / 20 / 50 / 100', () => {
+    const stored = [7, '50', null] as unknown as Array<20>
+    for (const value of stored) {
+      assert.equal(normalizeUserPreferences({ searchPageSize: value }).searchPageSize, 20)
+    }
+  })
+})

@@ -21,8 +21,22 @@ import {
   fetchMarketWeatherRisk,
 } from '@/lib/api'
 import { fromCompactPricePayload, isCompactPricePayload } from '@/lib/priceDto'
-import { getUserPreferences } from '@/lib/preferences'
+import {
+  DEFAULT_SEARCH_PAGE_SIZE,
+  SEARCH_PAGE_SIZES,
+  getUserPreferences,
+  isSearchPageSize,
+  updateUserPreferences,
+  type SearchPageSize,
+} from '@/lib/preferences'
 import { DEFAULT_MARKET, ALL_MARKET_SENTINEL } from '@/lib/constants'
+import {
+  groupMarketsByRegion,
+  hasMultipleRegions,
+  isMarketRegion,
+  parseRegionValue,
+  toRegionValue,
+} from '@/lib/marketRegion'
 
 const searchStaggerContainer = {
   hidden: {},
@@ -64,7 +78,17 @@ const FALLBACK_MARKET_TYPES: ReadonlyArray<MarketTypeOption> = [
 ]
 
 const FALLBACK_MARKETS = [ALL_MARKET_SENTINEL]
-const ITEMS_PER_PAGE = 20
+
+/** Feeds whose 全部市場 / region view collapses into one 均價 row per crop. */
+const CROP_AVERAGE_TYPES: ReadonlyArray<MarketTypeOption['value']> = ['Veg', 'Fruit', 'Flower']
+
+/** True when `value` (a market name or `region:…`) is selectable within `list`. */
+function isMarketValueAvailable(value: string, list: string[]): boolean {
+  if (list.includes(value)) return true
+  const region = parseRegionValue(value)
+  if (!region) return false
+  return groupMarketsByRegion(list).some((group) => group.region === region)
+}
 
 function getRangeDates(range: SearchFilters['dateRange']): RangeParams {
   const endDate = todayISO()
@@ -137,6 +161,7 @@ export function SearchContent() {
   const [isHydrating, setIsHydrating] = useState(false)
   const [hasMoreServerData, setHasMoreServerData] = useState(false)
   const [hydrationParams, setHydrationParams] = useState<string>('')
+  const [pageSize, setPageSize] = useState<SearchPageSize>(DEFAULT_SEARCH_PAGE_SIZE)
   
   const lastSearchId = useRef(0)
 
@@ -157,6 +182,7 @@ export function SearchContent() {
     const urlType = searchParams?.get('type')
     const preferredMarket = prefs.preferredMarket
     const preferredMarketType = prefs.preferredMarketType
+    setPageSize(prefs.searchPageSize)
 
     fetchMarketOptions().then((meta) => {
       if (cancelled) return
@@ -207,7 +233,7 @@ export function SearchContent() {
         // Flower has no meaningful default outside 台北市場; land there unless the
         // deep link explicitly asked for another (valid) flower market.
         setMarket(pickDefaultMarketForType('Flower', list, preferredMarket))
-      } else if (list.includes(initialMarket)) {
+      } else if (isMarketValueAvailable(initialMarket, list)) {
         setMarket(initialMarket)
       } else if (urlMarket && list.length) {
         // URL asked for a market not in this type (e.g. 全部市場 on meat) — prefer list default
@@ -234,14 +260,17 @@ export function SearchContent() {
   }, [searchParams])
 
 
+  // A whole-region selection has no single market calendar or weather station.
+  const contextMarket = parseRegionValue(market) ? ALL_MARKET_SENTINEL : market
+
   useEffect(() => {
     let cancelled = false
     const today = todayISO()
     const endDate = subtractDays(today, -45)
 
     Promise.allSettled([
-      fetchMarketRestDays({ market, startDate: today, endDate }),
-      fetchMarketWeatherRisk(market),
+      fetchMarketRestDays({ market: contextMarket, startDate: today, endDate }),
+      fetchMarketWeatherRisk(contextMarket),
     ]).then(([restResult, weatherResult]) => {
       if (cancelled) return
       if (restResult.status === 'fulfilled') {
@@ -260,18 +289,30 @@ export function SearchContent() {
       }
     })
     return () => { cancelled = true }
-  }, [market])
+  }, [contextMarket])
 
   const doSearch = useMemo(
-    () => debounce(async (q: string, mkt: string, mktType: string, range: SearchFilters['dateRange']) => {
+    () => debounce(async (
+      q: string,
+      mkt: string,
+      mktType: MarketTypeOption['value'],
+      range: SearchFilters['dateRange'],
+      limit: SearchPageSize,
+    ) => {
       setLoading(true)
       setError('')
       const searchId = ++lastSearchId.current
       try {
         const params = new URLSearchParams()
         if (q) params.set('crop', q)
-        if (mkt !== '全部市場') params.set('market', mkt)
+        const region = parseRegionValue(mkt)
+        if (region) params.set('region', region)
+        else if (mkt !== ALL_MARKET_SENTINEL) params.set('market', mkt)
         if (mktType) params.set('type', mktType)
+        // 全部市場／整個區域: one 均價 row per crop instead of one row per market.
+        if ((region || mkt === ALL_MARKET_SENTINEL) && CROP_AVERAGE_TYPES.includes(mktType)) {
+          params.set('group', 'crop')
+        }
         const dateParams = getRangeDates(range)
         if (dateParams.kind === 'single') {
           params.set('date', dateParams.date)
@@ -282,7 +323,7 @@ export function SearchContent() {
 
         const page1Params = new URLSearchParams(params)
         page1Params.set('page', '1')
-        page1Params.set('limit', '20')
+        page1Params.set('limit', String(limit))
         page1Params.set('format', 'array')
 
         const res = await fetch(`/api/prices?${page1Params}`)
@@ -353,10 +394,17 @@ export function SearchContent() {
     }
   }
 
-  useEffect(() => { doSearch(query, market, marketType, dateRange) }, [query, market, marketType, dateRange, doSearch])
+  useEffect(() => { doSearch(query, market, marketType, dateRange, pageSize) }, [query, market, marketType, dateRange, pageSize, doSearch])
+
+  // The first page paints fast; then pull the rest so the count, pager and the
+  // chosen page size reflect every match instead of only the first request.
+  useEffect(() => {
+    if (hasMoreServerData && hydrationParams) void loadRemainingData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasMoreServerData, hydrationParams])
 
   // Reset to page 1 whenever results or sort/filter options change
-  useEffect(() => { setCurrentPage(1) }, [results, minPrice, maxPrice, sortBy])
+  useEffect(() => { setCurrentPage(1) }, [results, minPrice, maxPrice, sortBy, pageSize])
 
   const priceFiltered = useMemo(() => results.filter((item) => {
     const min = parseFloat(minPrice)
@@ -374,8 +422,18 @@ export function SearchContent() {
   }), [priceFiltered, sortBy])
 
   const hasPriceFilter = minPrice !== '' || maxPrice !== ''
-  const pageCount = Math.ceil(sorted.length / ITEMS_PER_PAGE)
-  const paginated = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+  const pageCount = Math.ceil(sorted.length / pageSize)
+  const paginated = sorted.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+  const marketGroups = groupMarketsByRegion(marketsList, [ALL_MARKET_SENTINEL])
+  // Only the 蔬果／花卉 feeds can filter by region server-side.
+  const showRegionGroups = CROP_AVERAGE_TYPES.includes(marketType) && hasMultipleRegions(marketGroups)
+  const regionOptions = marketGroups.flatMap((group) => (isMarketRegion(group.region) ? [group.region] : []))
+  const handlePageSizeChange = (value: string) => {
+    const next = Number(value)
+    if (!isSearchPageSize(next)) return
+    setPageSize(next)
+    updateUserPreferences({ searchPageSize: next })
+  }
   const activeDateLabel = DATE_RANGES.find((item) => item.value === dateRange)?.label ?? '今日'
   const activeMarketTypeLabel = marketTypeOptions.find((item) => item.value === marketType)?.label ?? '蔬菜市場'
 
@@ -566,7 +624,7 @@ export function SearchContent() {
                   // always resets to 台北市場 (its only reliably-populated market);
                   // other types keep the current market when it's still valid.
                   const needsNewMarket =
-                    typeChanged && (!metaMarkets.includes(market) || nextType === 'Flower')
+                    typeChanged && (!isMarketValueAvailable(market, metaMarkets) || nextType === 'Flower')
                   if (needsNewMarket) {
                     const prefs = typeof window !== 'undefined' ? getUserPreferences() : null
                     setMarket(pickDefaultMarketForType(nextType, metaMarkets, prefs?.preferredMarket))
@@ -587,14 +645,31 @@ export function SearchContent() {
 
       {/* Results Count + inline market / date / sort controls */}
       <div className="result-meta-bar flex-wrap gap-x-3 gap-y-3">
-        <p className="text-body-sm text-on-surface-variant shrink-0">
-          {loading ? '搜尋中…' : error ? '目前無法載入搜尋結果' : `共 ${sorted.length} 筆結果${pageCount > 1 ? `，第 ${currentPage}/${pageCount} 頁` : ''}`}
-          {hasPriceFilter && !loading && (
-            <span className="ml-2 text-primary font-medium">
-              (${minPrice || '0'} – ${maxPrice || '∞'} 元)
+        <div className="flex items-center justify-between gap-3 w-full md:w-auto">
+          <p className="text-body-sm text-on-surface-variant shrink-0">
+            {loading ? '搜尋中…' : error ? '目前無法載入搜尋結果' : `共 ${sorted.length} 筆結果${pageCount > 1 ? `，第 ${currentPage}/${pageCount} 頁` : ''}`}
+            {hasPriceFilter && !loading && (
+              <span className="ml-2 text-primary font-medium">
+                (${minPrice || '0'} – ${maxPrice || '∞'} 元)
+              </span>
+            )}
+          </p>
+          <label className="flex items-center gap-1.5 text-body-sm text-on-surface-variant shrink-0">
+            每頁
+            <span className="flex items-center glass-chip rounded-full px-3 py-1 text-label-bold text-sm">
+              <select
+                suppressHydrationWarning
+                aria-label="每頁顯示筆數"
+                value={pageSize}
+                onChange={(e) => handlePageSizeChange(e.target.value)}
+                className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
+              >
+                {SEARCH_PAGE_SIZES.map((size) => <option key={size} value={size}>{size}</option>)}
+              </select>
             </span>
-          )}
-        </p>
+            筆
+          </label>
+        </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto min-w-0 overflow-x-auto no-scrollbar -my-1 py-1">
           <div className="flex items-center gap-1 glass-chip rounded-full px-3 py-1.5 text-label-bold text-sm whitespace-nowrap shrink-0">
@@ -606,7 +681,25 @@ export function SearchContent() {
               onChange={(e) => setMarket(e.target.value)}
               className="bg-transparent text-primary-container font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 cursor-pointer"
             >
-              {marketsList.map((m) => <option key={m}>{m}</option>)}
+              {showRegionGroups ? (
+                <>
+                  {marketsList.includes(ALL_MARKET_SENTINEL) && (
+                    <option value={ALL_MARKET_SENTINEL}>{ALL_MARKET_SENTINEL}</option>
+                  )}
+                  <optgroup label="整個區域">
+                    {regionOptions.map((region) => (
+                      <option key={region} value={toRegionValue(region)}>{region}全區</option>
+                    ))}
+                  </optgroup>
+                  {marketGroups.map((group) => (
+                    <optgroup key={group.region} label={group.region}>
+                      {group.markets.map((name) => <option key={name} value={name}>{name}</option>)}
+                    </optgroup>
+                  ))}
+                </>
+              ) : (
+                marketsList.map((m) => <option key={m}>{m}</option>)
+              )}
             </select>
           </div>
 
@@ -673,7 +766,7 @@ export function SearchContent() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                onClick={() => doSearch(query, market, marketType, dateRange)}
+                onClick={() => doSearch(query, market, marketType, dateRange, pageSize)}
                 className="mt-4 text-primary text-label-bold hover:underline"
               >
                 重新載入
@@ -796,8 +889,8 @@ export function SearchContent() {
               )}
               <div className="flex flex-wrap justify-center gap-3 mt-4">
                 {hasPriceFilter && <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => { setMinPrice(''); setMaxPrice(''); setCurrentPage(1) }}>移除價格限制</button>}
-                {query && <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => { setQuery(''); doSearch('', market, marketType, dateRange) }}>清除關鍵字</button>}
-                <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => doSearch(query, market, marketType, dateRange)}>重新查詢</button>
+                {query && <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => { setQuery(''); doSearch('', market, marketType, dateRange, pageSize) }}>清除關鍵字</button>}
+                <button type="button" className="min-h-11 px-4 rounded-xl border border-outline-variant text-primary" onClick={() => doSearch(query, market, marketType, dateRange, pageSize)}>重新查詢</button>
               </div>
             </div>
           )}

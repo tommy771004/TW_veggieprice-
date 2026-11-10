@@ -26,7 +26,7 @@ flowchart LR
 
 | Route | 用途 | 回傳策略 |
 | --- | --- | --- |
-| `/api/prices` | 搜尋與列表頁資料 | 回傳聚合後均價、交易量與真實 `priceChange` |
+| `/api/prices` | 搜尋與列表頁資料 | 回傳聚合後均價、交易量與真實 `priceChange`；`region=北部` 只取該區市場（`src/lib/marketRegion.ts`），`group=crop` 改為每個品名一列的全國／區域均價（附 `marketCount`） |
 | `/api/prices/overview` | 首頁市場總覽 | 以當日與前一日資料計算均價/量能變化 |
 | `/api/prices/overview/trend` | 首頁市場週趨勢 | 回傳最近數日的市場均價走勢 |
 | `/api/prices/movers` | 首頁波動榜 | 以今日/昨日資料比對最大波動作物 |

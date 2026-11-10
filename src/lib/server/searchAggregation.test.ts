@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   aggregateSearchRecords,
+  aggregateSearchRecordsByCrop,
   type DatedQuote,
   type SearchWindow,
 } from "./searchAggregation.ts";
@@ -244,5 +245,102 @@ describe("aggregateSearchRecords — hygiene", () => {
 
   it("returns nothing for an empty feed", () => {
     assert.deepEqual(aggregateSearchRecords([], sundayWindow), []);
+  });
+});
+
+describe("aggregateSearchRecordsByCrop — one 全國均價 row per 品種", () => {
+  const veg = (overrides: Partial<DatedQuote>) =>
+    quote({ cropCode: "LB2", cropName: "小白菜-蚵仔白", grade: undefined, ...overrides });
+
+  it("averages the markets that traded on the representative day and compares day means", () => {
+    const records = aggregateSearchRecordsByCrop(
+      [
+        veg({ marketName: "台北一", date: "2026-08-20", avgPrice: 50, upperPrice: 70, lowerPrice: 30, transWeight: 1000 }),
+        veg({ marketName: "台北一", date: "2026-08-21", avgPrice: 60, upperPrice: 80, lowerPrice: 40, transWeight: 1200 }),
+        veg({ marketName: "西螺鎮", date: "2026-08-20", avgPrice: 44, upperPrice: 60, lowerPrice: 20, transWeight: 800 }),
+        veg({ marketName: "西螺鎮", date: "2026-08-21", avgPrice: 40, upperPrice: 50, lowerPrice: 20, transWeight: 900 }),
+      ],
+      sundayWindow,
+      "全國均價",
+    );
+
+    assert.equal(records.length, 1);
+    const [row] = records;
+    assert.equal(row.marketName, "全國均價");
+    assert.equal(row.date, "2026-08-21");
+    assert.equal(row.avgPrice, 50);
+    assert.equal(row.upperPrice, 65);
+    assert.equal(row.lowerPrice, 30);
+    assert.equal(row.transWeight, 2100);
+    assert.equal(row.marketCount, 2);
+    // (50 - 47) / 47
+    assert.equal(row.priceChange, 6.4);
+  });
+
+  it("never mixes a market's older day into a newer day's mean", () => {
+    const [row] = aggregateSearchRecordsByCrop(
+      [
+        veg({ marketName: "台北一", date: "2026-08-21", avgPrice: 60 }),
+        veg({ marketName: "西螺鎮", date: "2026-08-20", avgPrice: 40 }),
+      ],
+      sundayWindow,
+      "全國均價",
+    );
+    assert.equal(row.date, "2026-08-21");
+    assert.equal(row.avgPrice, 60);
+    assert.equal(row.marketCount, 1);
+    // previous priced day is 08-20 (西螺鎮 only, 40)
+    assert.equal(row.priceChange, 50);
+  });
+
+  it("collapses a market's repeated quotes before averaging across markets", () => {
+    const [row] = aggregateSearchRecordsByCrop(
+      [
+        veg({ marketName: "台北一", date: "2026-08-21", avgPrice: 50 }),
+        veg({ marketName: "台北一", date: "2026-08-21", avgPrice: 70 }),
+        veg({ marketName: "西螺鎮", date: "2026-08-21", avgPrice: 40 }),
+      ],
+      sundayWindow,
+      "北部均價",
+    );
+    assert.equal(row.avgPrice, 50);
+    assert.equal(row.marketCount, 2);
+    assert.equal(row.marketName, "北部均價");
+  });
+
+  it("merges one 品名 filed under two codes into a single row", () => {
+    const records = aggregateSearchRecordsByCrop(
+      [
+        veg({ cropCode: "LB9", marketName: "台北一", date: "2026-08-19", avgPrice: 30 }),
+        veg({ cropCode: "LB2", marketName: "台北一", date: "2026-08-21", avgPrice: 50 }),
+        veg({ cropCode: "LB2", marketName: "西螺鎮", date: "2026-08-21", avgPrice: 40 }),
+      ],
+      sundayWindow,
+      "全國均價",
+    );
+    assert.equal(records.length, 1);
+    assert.equal(records[0].cropCode, "LB2");
+    assert.equal(records[0].avgPrice, 45);
+    assert.equal(records[0].marketCount, 2);
+    assert.equal(records[0].priceChange, 50);
+  });
+
+  it("keeps different 品種 apart and sorts by name", () => {
+    const records = aggregateSearchRecordsByCrop(
+      [
+        veg({ cropCode: "LB3", cropName: "小白菜-奶油白", marketName: "台北一", date: "2026-08-21" }),
+        veg({ marketName: "台北一", date: "2026-08-21" }),
+        veg({ marketName: "台北二", date: "2026-08-21" }),
+      ],
+      sundayWindow,
+      "全國均價",
+    );
+    assert.deepEqual(
+      records.map((r) => [r.cropName, r.marketCount]),
+      [
+        ["小白菜-奶油白", 1],
+        ["小白菜-蚵仔白", 2],
+      ].sort((a, b) => String(a[0]).localeCompare(String(b[0]), "zh-TW")),
+    );
   });
 });

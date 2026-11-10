@@ -9,6 +9,8 @@ export interface ProducePrice {
   transWeight: number
   date: string // ISO: YYYY-MM-DD
   priceChange?: number
+  /** Set on cross-market rows (全國／區域均價): how many markets the average covers. */
+  marketCount?: number
 }
 
 export interface MarketOverview {

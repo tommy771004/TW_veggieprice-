@@ -23,6 +23,8 @@ export const COMPACT_PRICE_KEYS = [
   'transWeight',
   'date',
   'priceChange',
+  // 0 on per-market rows; > 0 on 全國／區域均價 rows (markets averaged).
+  'marketCount',
 ] as const
 
 export type CompactPriceKey = (typeof COMPACT_PRICE_KEYS)[number]
@@ -70,6 +72,7 @@ export function toCompactPricePayload(
       Math.round(toNumber(r.transWeight)),
       toText(r.date),
       round1(r.priceChange),
+      Math.round(toNumber(r.marketCount)),
     ]),
   }
 }

@@ -7,6 +7,15 @@ export type NotificationFrequency = 'onOpen' | 'daily' | 'weekly'
 export type NotificationMuteUntil = string | 'indefinite' | null
 export type NotificationCategory = 'priceActivity' | 'dailySummary'
 
+/** Results per page on the search page. */
+export const SEARCH_PAGE_SIZES = [10, 20, 50, 100] as const
+export type SearchPageSize = (typeof SEARCH_PAGE_SIZES)[number]
+export const DEFAULT_SEARCH_PAGE_SIZE: SearchPageSize = 20
+
+export function isSearchPageSize(value: unknown): value is SearchPageSize {
+  return (SEARCH_PAGE_SIZES as readonly unknown[]).includes(value)
+}
+
 export const SUPPORTED_NOTIFICATION_CHANNELS: Record<NotificationCategory, readonly NotificationChannel[]> = {
   priceActivity: ['browser'],
   dailySummary: ['inApp'],
@@ -29,6 +38,7 @@ export interface UserPreferences {
   theme: Theme
   preferredMarket: string
   preferredMarketType: 'Veg' | 'Fruit' // | 'Flower'
+  searchPageSize: SearchPageSize
   notifications: NotificationPreferences
   locale: 'zh-TW'
 }
@@ -67,6 +77,7 @@ export const DEFAULT_USER_PREFERENCES: UserPreferences = {
   theme: 'light',
   preferredMarket: DEFAULT_MARKET,
   preferredMarketType: 'Veg',
+  searchPageSize: DEFAULT_SEARCH_PAGE_SIZE,
   notifications: {
     priceActivity: {
       enabled: false,
@@ -122,6 +133,9 @@ export function normalizeUserPreferences(raw: StoredUserPreferences): UserPrefer
   return {
     ...DEFAULT_USER_PREFERENCES,
     ...rest,
+    searchPageSize: isSearchPageSize(rest.searchPageSize)
+      ? rest.searchPageSize
+      : DEFAULT_SEARCH_PAGE_SIZE,
     notifications: {
       ...DEFAULT_USER_PREFERENCES.notifications,
       ...rawNotifications,

@@ -43,8 +43,20 @@ describe("compact price DTO contract", () => {
         "transWeight",
         "date",
         "priceChange",
+        "marketCount",
       ],
     );
+  });
+
+  it("carries marketCount for cross-market rows and 0 for single-market rows", () => {
+    const payload = toCompactPricePayload([
+      record({ marketName: "全國均價", marketCount: 18 }),
+      record(),
+    ]);
+    const at = (row: number) => payload.data[row][payload.keys.indexOf("marketCount")];
+    assert.equal(at(0), 18);
+    assert.equal(at(1), 0);
+    assert.equal(fromCompactPricePayload(payload)[0].marketCount, 18);
   });
 
   it("includes priceChange in the payload keys", () => {
