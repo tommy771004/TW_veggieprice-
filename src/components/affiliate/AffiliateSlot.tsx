@@ -8,6 +8,7 @@ import {
 } from '@/lib/affiliates'
 import type { ProduceCategory } from '@/lib/produce'
 import { trackEvent } from '@/lib/analytics'
+import { iconOrFallback } from '@/lib/iconFont'
 import { useAffiliateOffers } from '@/lib/client/useAffiliateOffers'
 
 type Props = {
@@ -160,7 +161,7 @@ export function AffiliateSlot({ cropName, category, limit = 6, intervalMs = 5000
                       style={{ fontSize: '1.5rem' }}
                       aria-hidden="true"
                     >
-                      {offer.icon ?? 'storefront'}
+                      {iconOrFallback(offer.icon)}
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">

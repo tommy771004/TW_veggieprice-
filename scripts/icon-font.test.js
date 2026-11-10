@@ -46,9 +46,27 @@ export function iconNamesIn(source) {
   return found
 }
 
+async function loadSubset() {
+  const { names } = JSON.parse(await readFile(join(ROOT, 'src/lib/iconFontNames.generated.json'), 'utf8'))
+  return new Set(names)
+}
+
+test('data-driven icon choices and the affiliates seed are in the subset', async () => {
+  const subset = await loadSubset()
+  const lib = await readFile(join(ROOT, 'src/lib/iconFont.ts'), 'utf8')
+  const choices = [...lib.slice(lib.indexOf('DATA_ICON_CHOICES'), lib.indexOf('] as const')).matchAll(/'([a-z0-9_]+)'/g)].map((m) => m[1])
+  assert.ok(choices.length > 20, 'DATA_ICON_CHOICES should be parsed')
+  // `icon` values in the seed: every quoted snake_case token that is not a category.
+  const categories = new Set(['all', 'vegetable', 'fruit', 'mushroom', 'flower', 'meat', 'seafood'])
+  const seed = [...(await readFile(join(ROOT, 'db/affiliates.sql'), 'utf8')).matchAll(/'([a-z][a-z0-9_]*)'/g)]
+    .map((m) => m[1])
+    .filter((n) => !categories.has(n))
+  const missing = [...new Set([...choices, ...seed])].filter((n) => !subset.has(n))
+  assert.deepEqual(missing, [], 'Run `npm run icons:sync` (affiliate icons come from the database, not source)')
+})
+
 test('every icon used in src is in the self-hosted subset', async () => {
-  const { names } = JSON.parse(await readFile(join(ROOT, 'scripts/icon-font-names.json'), 'utf8'))
-  const subset = new Set(names)
+  const subset = await loadSubset()
   const missing = []
   for await (const file of walk(join(ROOT, 'src'))) {
     for (const name of iconNamesIn(await readFile(file, 'utf8'))) {

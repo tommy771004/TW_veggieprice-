@@ -7,6 +7,7 @@ import {
   type ResolvedOffer,
 } from '@/lib/affiliates'
 import { trackEvent } from '@/lib/analytics'
+import { iconOrFallback } from '@/lib/iconFont'
 import { useAffiliateOffers } from '@/lib/client/useAffiliateOffers'
 
 type Props = {
@@ -24,6 +25,18 @@ type Props = {
 const MASK = 'linear-gradient(to right, transparent, black 4%, black 96%, transparent)'
 
 type MarqueeDirection = 'right' | 'left'
+
+/**
+ * The chip shows only the partner (byFood), but one partner can run several
+ * offers with different URLs; identical link names for different targets fail
+ * WCAG 2.4.9 (PageSpeed "identical links have the same purpose"). The name
+ * starts with the visible text so voice control still matches it.
+ */
+function offerAccessibleName(offer: ResolvedOffer): string {
+  const visible = offer.partner ?? offer.title
+  const detail = offer.partner && offer.title && offer.title !== offer.partner ? `：${offer.title}` : ''
+  return `${visible}${detail}${offer.sponsored ? '（贊助）' : ''}（另開新視窗）`
+}
 
 type MarqueeRowProps = {
   offers: ResolvedOffer[]
@@ -69,6 +82,7 @@ function AffiliateMarqueeRow({
             target="_blank"
             rel="sponsored nofollow noopener noreferrer"
             onClick={() => onOfferClick(offer)}
+            aria-label={offerAccessibleName(offer)}
             aria-hidden={isClone}
             tabIndex={isClone ? -1 : 0}
             className={`${reduceMotion ? '' : 'mr-3'} shrink-0 inline-flex items-center gap-2 rounded-full bg-white/70 border border-white/50 px-4 py-2 whitespace-nowrap hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
@@ -78,7 +92,7 @@ function AffiliateMarqueeRow({
               style={{ fontSize: '1.1rem' }}
               aria-hidden="true"
             >
-              {offer.icon ?? 'storefront'}
+              {iconOrFallback(offer.icon)}
             </span>
             <span className="text-label-bold text-on-surface">{offer.partner ?? offer.title}</span>
             {offer.sponsored && (

@@ -17,7 +17,9 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const FONT_OUT = join(ROOT, 'public/fonts/material-symbols-outlined.woff2')
-const NAMES_OUT = join(ROOT, 'scripts/icon-font-names.json')
+// Read at runtime by src/lib/iconFont.ts (iconOrFallback). JSON is not scanned,
+// so the list never feeds itself.
+const NAMES_OUT = join(ROOT, 'src/lib/iconFontNames.generated.json')
 // Axes in use: FILL 0/1 and wght 300–600 (see fontVariationSettings in src).
 const AXES = 'opsz,wght,FILL,GRAD@24,300..600,0..1,0'
 const CODEPOINTS_URL =
@@ -31,7 +33,7 @@ async function* walk(dir) {
     if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue
     const path = join(dir, entry.name)
     if (entry.isDirectory()) yield* walk(path)
-    else if (['.ts', '.tsx', '.js', '.mjs', '.css'].includes(extname(entry.name))) yield path
+    else if (['.ts', '.tsx', '.js', '.mjs', '.css', '.sql'].includes(extname(entry.name))) yield path
   }
 }
 
@@ -45,10 +47,14 @@ const official = new Set(
   (await (await fetchOk(CODEPOINTS_URL)).text()).split('\n').map((line) => line.split(' ')[0]).filter(Boolean),
 )
 
+// db/ holds the affiliates seed, whose `icon` column is data, not source.
+// Offers added later must use a name from DATA_ICON_CHOICES (src/lib/iconFont.ts).
 const names = new Set()
-for await (const file of walk(join(ROOT, 'src'))) {
-  const text = await readFile(file, 'utf8')
-  for (const match of text.matchAll(TOKEN)) if (official.has(match[1])) names.add(match[1])
+for (const dir of ['src', 'db']) {
+  for await (const file of walk(join(ROOT, dir))) {
+    const text = await readFile(file, 'utf8')
+    for (const match of text.matchAll(TOKEN)) if (official.has(match[1])) names.add(match[1])
+  }
 }
 const sorted = [...names].sort()
 
