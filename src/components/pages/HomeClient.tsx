@@ -100,7 +100,18 @@ const HOME_SEARCH_TARGETS: Record<
   seafood: { market: ALL_MARKET_SENTINEL, type: "seafood" },
 };
 
+const DATE_ONLY_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+// The ISR-prefetched overview carries a trading date (YYYY-MM-DD) instead of a
+// render timestamp, so the shell stays byte-identical between regenerations.
+function isDateOnly(value: string): boolean {
+  return DATE_ONLY_PATTERN.test(value);
+}
+
 function formatTaipeiUpdatedAt(value: string): string {
+  const dateOnly = DATE_ONLY_PATTERN.exec(value);
+  if (dateOnly) return `${Number(dateOnly[2])}/${Number(dateOnly[3])}`;
+
   const timestamp = Date.parse(value);
   if (Number.isNaN(timestamp)) return "";
 
@@ -391,7 +402,7 @@ export function HomeClient({
                   >
                     update
                   </span>
-                  更新時間：
+                  {isDateOnly(overview.updatedAt) ? "資料日期：" : "更新時間："}
                   <span>{formatTaipeiUpdatedAt(overview.updatedAt)}</span>
                 </p>
               )}

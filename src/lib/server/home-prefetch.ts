@@ -42,7 +42,14 @@ export async function prefetchDefaultHomeData(): Promise<{
     const trend = trendAsHistoryPoints(trendRes.points)
     const overview = overviewFromSeries(trendRes.points, NATIONAL_OVERVIEW_LABEL)
 
-    return { overview, trend, livestock }
+    // Stamp the ISR shell with the trading date, not the render time. A render-time
+    // stamp made every regeneration differ, so Vercel billed an ISR write each time;
+    // a data-derived value keeps unchanged regenerations free.
+    return {
+      overview: overview && { ...overview, updatedAt: overview.date },
+      trend,
+      livestock,
+    }
   } catch {
     return { overview: null, trend: [], livestock }
   }

@@ -2120,7 +2120,10 @@ export async function fetchMarketOverviewTrend(
       endDate,
       typeKey,
     ],
-    { revalidate: 120 },
+    // 1h, not 2min: the homepage ISR shell reads this, and Next caps a page's
+    // revalidate at its shortest data-cache TTL, so 120 forced `/` to regenerate
+    // every 2 minutes for prices that change a few times a day.
+    { revalidate: 3600 },
   );
 
   try {

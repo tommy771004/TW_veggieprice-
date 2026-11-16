@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import dynamic from 'next/dynamic'
 import './globals.css'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { TopAppBar } from '@/components/layout/TopAppBar'
@@ -12,8 +11,10 @@ import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics'
 import { PreferencesHydrator } from '@/components/settings/PreferencesHydrator'
 import { ClientSettingsProviders } from '@/components/settings/ClientSettingsProviders'
 import { FramerMotionProvider } from '@/components/providers/FramerMotionProvider'
-
-const OnboardingModal = dynamic(() => import('@/components/ui/OnboardingModal').then(mod => mod.OnboardingModal))
+// Static import on purpose: next/dynamic here split nothing (the modal still ships in
+// the layout chunks), but its lazy reference made a cold render's RSC rows differ from
+// a warm render's (seen on /), so ISR could write an "updated" copy with unchanged data.
+import { OnboardingModal } from '@/components/ui/OnboardingModal'
 
 import { SITE_URL, GOOGLE_SITE_VERIFICATION } from '@/lib/env'
 import { ONBOARDING_HEAD_SCRIPT, ONBOARDING_HIDE_CSS } from '@/lib/onboarding'

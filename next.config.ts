@@ -3,6 +3,13 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
+  // Resolve metadata before the body for every user agent (Next 14 behaviour)
+  // instead of streaming it. Streamed metadata lands in the RSC payload wherever
+  // generateMetadata happens to finish, so an ISR regeneration with unchanged data
+  // could still emit different bytes (warm vs cold memo, bot vs browser request) and
+  // be billed as an ISR write. Pages here are ISR-cached, so the blocking cost is
+  // only paid during regeneration.
+  htmlLimitedBots: /.*/,
   // /api/og reads its watercolor background from disk at runtime.
   outputFileTracingIncludes: {
     '/api/og': ['./src/app/api/og/background.jpg'],

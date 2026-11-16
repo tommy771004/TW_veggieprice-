@@ -374,7 +374,10 @@ const fetchLivestockPricesCached = unstable_cache(
     };
   },
   ["moa-livestock-prices-v3"],
-  { revalidate: 300, tags: ["moa-livestock-prices"] },
+  // 1h: the homepage ISR shell embeds this, and Next caps a page's revalidate at
+  // its shortest data-cache TTL. The feed is a daily snapshot, and a hard reload
+  // still busts it early via the "moa-livestock-prices" tag (freshReload.ts).
+  { revalidate: 3600, tags: ["moa-livestock-prices"] },
 );
 
 export async function fetchLivestockPrices(): Promise<LivestockPrices> {

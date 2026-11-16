@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const cropName = decodeURIComponent(id)
   const pageUrl = `${SITE_URL}/produce/${id}`
-  const history = await fetchRecentHistory(cropName)
+  const { history } = await loadProducePageData(cropName)
   const { title, description } = buildProduceMeta({
     cropName,
     history,
@@ -82,16 +82,34 @@ const fetchRecentHistory = cache(async (cropName: string): Promise<HistoryPoint[
   }
 })
 
+// generateMetadata and the page share this one read per request.
+//
+// The setImmediate yield keeps the ISR output byte-identical between regenerations.
+// The RSC payload emits rows in completion order: when the in-process data memos
+// are cold the page waits on I/O and the viewport row is emitted first, but when
+// they are warm the whole page resolves within microtasks and lands ahead of it.
+// Same data, different bytes, so a regeneration on a cold instance and one on a warm
+// instance were billed as separate ISR writes. Always yielding one macrotask makes
+// the warm path match the cold one (verified: cold, warm and Data-Cache-wiped
+// regenerations now produce identical output).
+const loadProducePageData = cache(async (cropName: string) => {
+  const [history, category] = await Promise.all([
+    fetchRecentHistory(cropName),
+    // Resolve via MOA 種類代碼 so flower crops (康乃馨, 洋桔梗…) classify correctly.
+    resolveCropCategory(cropName),
+  ])
+  await new Promise<void>((resolve) => setImmediate(resolve))
+  return { history, category }
+})
+
 export default async function ProducePage({ params }: Props) {
   const { id } = await params
   const cropName = decodeURIComponent(id)
   const pageUrl = `${SITE_URL}/produce/${id}`
-  const history = await fetchRecentHistory(cropName)
+  const { history, category } = await loadProducePageData(cropName)
   const baseInfo = getCropBaseInfo(cropName)
   const initialPrice =
     history.filter((p) => p.avgPrice !== null && p.avgPrice > 0).slice(-1)[0]?.avgPrice ?? 0
-  // Resolve via MOA 種類代碼 so flower crops (康乃馨, 洋桔梗…) classify correctly.
-  const category = await resolveCropCategory(cropName)
   const categoryLabel = CATEGORY_LABEL[category] ?? '作物'
   const hasCategoryHub = ['vegetable', 'fruit', 'mushroom', 'flower'].includes(category)
 
