@@ -2,9 +2,11 @@
  * 輕量前端行為稽核（AuditLog）工具。
  *
  * 設計重點：
- * - 事件先進入佇列，批次（每 4 秒或滿 20 筆）以 sendBeacon 送往 /api/audit，
- *   避免每次點擊都打一支 request。
- * - 分頁隱藏 / 卸載時強制 flush，確保最後的事件不遺失。
+ * - 事件先進入佇列，只在分頁隱藏 / 卸載時，或累積滿 20 筆時，以 sendBeacon
+ *   送往 /api/audit。每次送出都是一次 Vercel Function 加一次 DB 寫入，
+ *   所以不用定時送出（原本每 4 秒一次，停留越久請求越多）。
+ * - 代價：瀏覽器被直接終止、沒觸發 pagehide / visibilitychange 時，
+ *   該批事件會遺失；後台資料是離開頁面後才寫入，不是即時的。
  * - 以匿名訪客識別碼（localStorage）串接同一使用者的行為，不蒐集個資。
  * - 完全靜默：任何失敗都不影響使用者操作。
  */
@@ -13,7 +15,7 @@ import { isAllowedAuditAction } from './auditEvents'
 
 const ENDPOINT = '/api/audit'
 const SESSION_KEY = 'vp_session_id'
-const FLUSH_INTERVAL_MS = 4000
+// 一次最多 20 筆，讓 payload 遠低於 sendBeacon 的 64KB 上限。
 const FLUSH_THRESHOLD = 20
 
 export type AuditEvent = {
@@ -25,7 +27,6 @@ export type AuditEvent = {
 }
 
 let queue: AuditEvent[] = []
-let flushTimer: ReturnType<typeof setTimeout> | null = null
 let listenersBound = false
 
 /** 取得（或建立）匿名訪客識別碼，存於 localStorage。 */
@@ -50,10 +51,6 @@ function flush() {
   if (typeof window === 'undefined' || queue.length === 0) return
   const events = queue
   queue = []
-  if (flushTimer) {
-    clearTimeout(flushTimer)
-    flushTimer = null
-  }
 
   const payload = JSON.stringify({ sessionId: getSessionId(), events })
   try {
@@ -71,14 +68,6 @@ function flush() {
   } catch {
     // 靜默忽略
   }
-}
-
-function scheduleFlush() {
-  if (flushTimer) return
-  flushTimer = setTimeout(() => {
-    flushTimer = null
-    flush()
-  }, FLUSH_INTERVAL_MS)
 }
 
 /** 綁定分頁隱藏 / 卸載時的 flush，只會綁一次。 */
@@ -100,6 +89,8 @@ export function trackEvent(
 ) {
   // 只記錄白名單內的重要事件，未列入者直接略過（不入列、不送網路）。
   if (typeof window === 'undefined' || !isAllowedAuditAction(action)) return
+  // 沒有定時送出，所以一定要綁好隱藏 / 卸載的 flush，否則事件會卡在佇列裡。
+  initAnalytics()
   queue.push({
     action,
     target,
@@ -107,9 +98,5 @@ export function trackEvent(
     metadata,
     ts: Date.now(),
   })
-  if (queue.length >= FLUSH_THRESHOLD) {
-    flush()
-  } else {
-    scheduleFlush()
-  }
+  if (queue.length >= FLUSH_THRESHOLD) flush()
 }

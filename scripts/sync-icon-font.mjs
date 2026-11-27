@@ -14,9 +14,10 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { extname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { FONT_URL_FILES, FONT_URL_PATH, FONT_URL_RE, fontVersion } from './icon-font-version.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
-const FONT_OUT = join(ROOT, 'public/fonts/material-symbols-outlined.woff2')
+const FONT_OUT = join(ROOT, 'public', FONT_URL_PATH)
 // Read at runtime by src/lib/iconFont.ts (iconOrFallback). JSON is not scanned,
 // so the list never feeds itself.
 const NAMES_OUT = join(ROOT, 'src/lib/iconFontNames.generated.json')
@@ -67,4 +68,16 @@ const font = Buffer.from(await (await fetchOk(fontUrl)).arrayBuffer())
 
 await writeFile(FONT_OUT, font)
 await writeFile(NAMES_OUT, `${JSON.stringify({ axes: AXES, names: sorted }, null, 2)}\n`)
-console.log(`${sorted.length} icons → ${relative(ROOT, FONT_OUT)} (${(font.length / 1024).toFixed(1)} KiB)`)
+
+// /fonts/* is served with a one-year immutable Cache-Control (next.config.ts),
+// so the URL must change with the bytes. The preload href and the @font-face
+// src must match exactly, or the browser downloads the font twice.
+const version = fontVersion(font)
+for (const file of FONT_URL_FILES) {
+  const path = join(ROOT, file)
+  const text = await readFile(path, 'utf8')
+  const next = text.replace(FONT_URL_RE, `${FONT_URL_PATH}?v=${version}`)
+  if (!next.includes(`${FONT_URL_PATH}?v=${version}`)) throw new Error(`No font URL in ${file}`)
+  await writeFile(path, next)
+}
+console.log(`${sorted.length} icons → ${relative(ROOT, FONT_OUT)} (${(font.length / 1024).toFixed(1)} KiB, v=${version})`)

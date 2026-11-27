@@ -6,6 +6,7 @@ import assert from 'node:assert/strict'
 import { readdir, readFile } from 'node:fs/promises'
 import { extname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { FONT_URL_FILES, FONT_URL_PATH, FONT_URL_RE, fontVersion } from './icon-font-version.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const SNAKE = /^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/
@@ -74,6 +75,19 @@ test('every icon used in src is in the self-hosted subset', async () => {
     }
   }
   assert.deepEqual(missing, [], 'Run `npm run icons:sync` to rebuild public/fonts/material-symbols-outlined.woff2')
+})
+
+test('font URLs carry the version of the font on disk', async () => {
+  // /fonts/* is cached as immutable for a year, so a stale ?v= would keep
+  // returning visitors on the old subset (new icons render as text).
+  const version = fontVersion(await readFile(join(ROOT, 'public', FONT_URL_PATH)))
+  for (const file of FONT_URL_FILES) {
+    const urls = (await readFile(join(ROOT, file), 'utf8')).match(FONT_URL_RE) ?? []
+    assert.ok(urls.length > 0, `${file} should reference ${FONT_URL_PATH}`)
+    for (const url of urls) {
+      assert.equal(url, `${FONT_URL_PATH}?v=${version}`, `${file}: run \`npm run icons:sync\` to refresh the font version`)
+    }
+  }
 })
 
 test('iconNamesIn reads span text, ternaries and icon fields', () => {

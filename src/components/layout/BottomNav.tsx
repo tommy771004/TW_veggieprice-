@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import Link from 'next/link'
+import { IntentLink } from '@/components/ui/IntentLink'
 import { usePathname } from 'next/navigation'
 import { m, useReducedMotion } from 'framer-motion'
 import { trackEvent } from '@/lib/analytics'
@@ -120,7 +120,7 @@ export function BottomNav() {
           {MAIN_NAV_ITEMS.map((item, idx) => {
             const active = idx === activeIndex
             return (
-              <Link
+              <IntentLink
                 key={item.href}
                 ref={(element) => {
                   itemRefs.current[idx] = element
@@ -155,7 +155,7 @@ export function BottomNav() {
                     {item.label}
                   </span>
                 )}
-              </Link>
+              </IntentLink>
             )
           })}
         </div>

@@ -74,7 +74,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="zh-TW" suppressHydrationWarning>
       <head>
         {/* Icons render on the first screen (top bar, bottom nav); fetch the font with the CSS, not after it. */}
-        <link rel="preload" href="/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/material-symbols-outlined.woff2?v=8cc4479c80" as="font" type="font/woff2" crossOrigin="anonymous" />
         {/* Server-rendered onboarding sheet: hide it before first paint for returning (or no-JS) visitors. */}
         <script dangerouslySetInnerHTML={{ __html: ONBOARDING_HEAD_SCRIPT }} />
         <style dangerouslySetInnerHTML={{ __html: ONBOARDING_HIDE_CSS }} />

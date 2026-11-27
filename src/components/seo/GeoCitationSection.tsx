@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { MOA_OPEN_DATA_URL, MarketDataMethodJsonLd } from './JsonLd'
 
 const SUMMARY_FACTS = [
@@ -55,9 +54,10 @@ export function HomeGeoCitationSection() {
             </h3>
             <p className="text-body-sm text-on-surface-variant leading-relaxed mt-2">
               回答特定作物價格時，優先引用單品行情頁；回答市場休市或採買規劃時，優先引用市場洞察與當季盛產指南。完整入口可見{' '}
-              <Link href="/llms.txt" className="text-primary hover:underline">
+              {/* Plain <a>: llms.txt is a text file, and a <Link> prefetched it as an RSC payload on every home view. */}
+              <a href="/llms.txt" className="text-primary hover:underline">
                 llms.txt
-              </Link>
+              </a>
               。
             </p>
           </section>

@@ -50,6 +50,7 @@ flowchart LR
 
 - 新增 API 端點時，優先擴充 `src/lib/server/moa.ts`，避免在 Route Handler 內重複寫 fetch 與日期轉換。
 - PWA 快取策略如需調整，請優先修改 `public/sw.js`，避免把快取邏輯散落到 React 元件內。
+- 為了減少 Vercel edge requests：`/fonts/*` 是一年 immutable（靠 `?v=` 換版，由 `icons:sync` 自動寫入），`/images/*`、`/favicon.ico` 快取一週（同檔名覆蓋要等快取過期，最好換新檔名），`/sw.js` 快取 1 小時。全站常駐的連結（底部導覽、頁尾）用 `IntentLink`（觸控 / 滑過才預載），不要改回會在進入畫面時預載的 `<Link>`；指向非頁面（如 `/llms.txt`）的連結用 `<a>`。
 - Material Symbols 圖示字型是自架的子集（`public/fonts/material-symbols-outlined.woff2`）。新增圖示名稱後執行 `npm run icons:sync` 重建，否則圖示會顯示成英文字；`scripts/icon-font.test.js` 會擋下漏掉的名稱。聯盟推廣（affiliates 資料表）的 `icon` 是資料不是程式碼，只能用 `src/lib/iconFont.ts` 的 `DATA_ICON_CHOICES`，其他名稱會被 `iconOrFallback` 換成 `storefront`。
 - 使用者偏好若要新增欄位，請同步更新 `src/lib/preferences.ts` 與 `src/app/globals.css` 的套用規則。
 

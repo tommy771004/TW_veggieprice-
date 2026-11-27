@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { IntentLink } from '@/components/ui/IntentLink'
 import { MOA_OPEN_DATA_URL, SOURCE_REPO_URL } from '@/components/seo/JsonLd'
 
 // Site-wide trust links: who runs the site, where the numbers come from, and
@@ -17,9 +17,9 @@ export function SiteFooter() {
         </p>
         <nav aria-label="網站資訊">
           <ul className="flex flex-wrap gap-x-5 gap-y-1">
-            <li><Link href="/about" className="inline-flex min-h-11 items-center hover:text-primary">關於農時價</Link></li>
-            <li><Link href="/about#method" className="inline-flex min-h-11 items-center hover:text-primary">資料方法</Link></li>
-            <li><Link href="/privacy" className="inline-flex min-h-11 items-center hover:text-primary">隱私與合作揭露</Link></li>
+            <li><IntentLink href="/about" className="inline-flex min-h-11 items-center hover:text-primary">關於農時價</IntentLink></li>
+            <li><IntentLink href="/about#method" className="inline-flex min-h-11 items-center hover:text-primary">資料方法</IntentLink></li>
+            <li><IntentLink href="/privacy" className="inline-flex min-h-11 items-center hover:text-primary">隱私與合作揭露</IntentLink></li>
             <li>
               <a href={SOURCE_REPO_URL} className="inline-flex min-h-11 items-center hover:text-primary" rel="noopener">
                 GitHub

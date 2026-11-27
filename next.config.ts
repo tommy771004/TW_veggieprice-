@@ -37,6 +37,28 @@ const nextConfig: NextConfig = {
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
+        // The filename is not hashed: the ?v= query (written by
+        // scripts/sync-icon-font.mjs) changes whenever the subset is rebuilt.
+        source: '/fonts/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        // Atlas files are replaced in place now and then, so cache for a week
+        // rather than forever.
+        source: '/images/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }],
+      },
+      {
+        // Short on purpose: a fixed worker reaches users within an hour.
+        // ServiceWorkerRegistrar registers with updateViaCache: 'all'.
+        source: '/sw.js',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=3600' }],
+      },
+      {
         source: '/manifest.json',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=3600' }],
       },

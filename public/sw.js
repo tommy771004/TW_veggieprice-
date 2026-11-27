@@ -46,6 +46,18 @@ async function networkFirst(request) {
   }
 }
 
+// For URLs whose content never changes (hashed chunks, versioned font). A
+// cache hit returns without touching the network, so repeat views cost no
+// Vercel edge request even after the browser's HTTP cache has evicted them.
+async function cacheFirst(request) {
+  const cache = await caches.open(RUNTIME_CACHE)
+  const cached = await cache.match(request)
+  if (cached) return cached
+  const response = await fetch(request)
+  if (response.ok) cache.put(request, response.clone())
+  return response
+}
+
 async function staleWhileRevalidate(request) {
   const cache = await caches.open(RUNTIME_CACHE)
   const cached = await cache.match(request)
@@ -82,6 +94,11 @@ self.addEventListener('fetch', (event) => {
 
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(networkFirst(request))
+    return
+  }
+
+  if (url.pathname.startsWith('/_next/static/') || (url.pathname.startsWith('/fonts/') && url.searchParams.has('v'))) {
+    event.respondWith(cacheFirst(request))
     return
   }
 

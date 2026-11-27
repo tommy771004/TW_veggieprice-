@@ -10,13 +10,15 @@ export function ServiceWorkerRegistrar() {
 
     const register = async () => {
       try {
-        const registration = await navigator.serviceWorker.register('/sw.js', {
+        // No explicit registration.update(): the browser already checks for a
+        // new worker on navigation. Calling it on every page load, with the
+        // HTTP cache bypassed, cost one /sw.js edge request per page view.
+        // 'all' lets the short max-age on /sw.js (next.config.ts) absorb
+        // repeat checks; browsers cap that cache at 24 hours regardless.
+        await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
-          updateViaCache: 'none',
+          updateViaCache: 'all',
         })
-        // Playwright and some privacy-focused browsers can expose the
-        // serviceWorker API while returning no registration object.
-        if (registration?.update) await registration.update()
       } catch (error) {
         console.error('Service worker registration failed', error)
       }
